@@ -30,12 +30,13 @@ install:
   - conda config --set show_channel_urls True
   - conda config --add channels lightsource2
   - conda config --add channels conda-forge
+  - conda install --yes --quiet obvious-ci
+  - conda remove conda-build
   - conda install pip --yes
   - git clone https://github.com/conda/conda-build
   - cd conda-build
   - python setup.py install
   - cd ..
-  - conda install --yes --quiet obvious-ci
   - obvci_install_conda_build_tools.py
 
 script:
