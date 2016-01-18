@@ -36,7 +36,8 @@ echo "$config" > ~/.condarc
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
 
-conda update --yes conda conda-build=1.18.1
+conda update --yes conda
+conda install --yes conda-build=1.18.1
 conda install --yes anaconda-client obvious-ci
 
 conda info
