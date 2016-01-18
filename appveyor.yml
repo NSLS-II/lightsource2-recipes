@@ -62,13 +62,13 @@ install:
     - cmd: conda config --add channels conda-forge
     - cmd: conda config --add channels lightsource2
     - cmd: conda install --yes --quiet obvious-ci conda-build=1.18.1
+    - cmd: obvci_install_conda_build_tools.py
     - cmd: conda remove conda-build
     - cmd: conda install pip --yes
     - cmd: git clone https://github.com/conda/conda-build
     - cmd: cd conda-build
     - cmd: python setup.py install
     - cmd: cd ..
-    - cmd: obvci_install_conda_build_tools.py
 
     - cmd: conda info
 

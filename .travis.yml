@@ -31,13 +31,13 @@ install:
   - conda config --add channels lightsource2
   - conda config --add channels conda-forge
   - conda install --yes --quiet obvious-ci
+  - obvci_install_conda_build_tools.py
   - conda remove conda-build
   - conda install pip --yes
   - git clone https://github.com/conda/conda-build
   - cd conda-build
   - python setup.py install
   - cd ..
-  - obvci_install_conda_build_tools.py
 
 script:
   - obvci_conda_build_dir ./recipes lightsource2 --channel main --build-condition "numpy >=1.8" "python >=2.7,<3|>=3.4"
