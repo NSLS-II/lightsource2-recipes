@@ -1,0 +1,22 @@
+package:
+  name: historydict
+  version: 1.0.0
+
+source:
+  git_url: https://github.com/Nikea/historydict.git
+  git_rev: v1.0.0
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+
+  run:
+    - python
+    - six
+
+test:
+  imports:
+    - historydict

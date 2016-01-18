@@ -1,0 +1,16 @@
+package:
+  name: args
+  version: !!str 0.1.0
+
+requirements:
+  build:
+    - python
+    - pip
+
+  run:
+    - python
+
+about:
+  home: https://github.com/kennethreitz/args
+  license: BSD License
+  summary: Command Arguments for Humans.
