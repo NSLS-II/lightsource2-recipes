@@ -32,7 +32,7 @@ install:
   - conda config --add channels conda-forge
   - conda install --yes --quiet obvious-ci
   - obvci_install_conda_build_tools.py
-  - conda remove conda-build
+  - conda remove conda-build --yes
   - conda install pip --yes
   - git clone https://github.com/conda/conda-build
   - cd conda-build
