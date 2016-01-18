@@ -9,12 +9,11 @@ environment:
   PYTHONIOENCODING: "UTF-8"
 
   BINSTAR_TOKEN:
-    # Generated with "binstar auth --create --name ScitoolsRecipesAppVeyor -o conda-forge" and encrypted on ci.appveyor.com/tools/encrypt. 
-    secure: wtylLGtp/ID3G3DFT2uxuLFXuijFqmxI6phj60izpNC3pxd585bR6k2oonf5iGGb
-
+    # Generated with "binstar auth --create --name ScitoolsRecipesAppVeyor -o conda-forge" and encrypted on ci.appveyor.com/tools/encrypt.
+    secure: /JXz7OMdViXysVdoyIlzLnGByRuCkyYssJCOkRNJZ6FPWrxC/tuh07TCrdmjWydP
   matrix:
     # Note: Because we have to separate the py2 and py3 components due to compiler version, we have a race condition for non-python packages.
-    # Not sure how to resolve this, but maybe we should be tracking the VS version in the build string anyway? 
+    # Not sure how to resolve this, but maybe we should be tracking the VS version in the build string anyway?
     - TARGET_ARCH: "x86"
       CONDA_PY: "27"
       PY_CONDITION: "python >=2.7,<3"
@@ -51,9 +50,9 @@ install:
     - cmd: rmdir C:\cygwin /s /q
 
     # Use the pre-installed Miniconda for the desired arch
-    - ps: if($env:TARGET_ARCH -eq 'x86') 
+    - ps: if($env:TARGET_ARCH -eq 'x86')
             {$root = "C:\Miniconda"}
-          else 
+          else
             {$root = "C:\Miniconda-x64"}
           $env:path="$root;$root\Scripts;$root\Library\bin;$($env:path)"
     - cmd: conda update --yes --quiet conda
@@ -61,6 +60,7 @@ install:
 
     - cmd: conda config --set show_channel_urls yes
     - cmd: conda config --add channels conda-forge
+    - cmd: conda config --add channels lightsource2
     - cmd: conda install --yes --quiet obvious-ci
     - cmd: obvci_install_conda_build_tools.py
 
@@ -70,7 +70,7 @@ install:
 build: off
 
 test_script:
-    - '%CMD_IN_ENV% obvci_conda_build_dir recipes conda-forge --channel main  --build-condition "numpy >=1.8" "%PY_CONDITION%"'
+    - '%CMD_IN_ENV% obvci_conda_build_dir recipes lightsource2 --channel main  --build-condition "numpy >=1.8" "%PY_CONDITION%"'
     # copy any newly created conda packages into the conda_packages dir
     - cmd: mkdir conda_packages
     # Uncomment the following two lines to make any conda packages created
