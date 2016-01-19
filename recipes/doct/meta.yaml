@@ -1,0 +1,32 @@
+package:
+  name: document
+  version: v1.0.0
+
+source:
+  git_url: ../
+
+build:
+  number: 0
+
+  # Note that this will override the default build string with the Python
+  # and NumPy versions
+  string: {{ environ.get('GIT_BUILD_STR', '') }}_py{{ py }}
+
+
+requirements:
+  build:
+    - python
+    - six
+
+  run:
+    - python
+    - six
+
+test:
+  imports:
+    # Import all the packages
+    - document
+
+about:
+  home: https://github.com/NSLS-II/document
+  license: BSD
