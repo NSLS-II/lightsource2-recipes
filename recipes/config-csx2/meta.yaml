@@ -1,0 +1,9 @@
+package:
+  name: csx2_configuration
+  version: '1'
+
+build:
+  number: 2
+
+about:
+  summary: 'CSX server configuration'
