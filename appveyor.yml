@@ -61,10 +61,8 @@ install:
     - cmd: conda config --set show_channel_urls yes
     - cmd: conda config --add channels conda-forge
     - cmd: conda config --add channels lightsource2
-    - cmd: conda install --yes --quiet obvious-ci conda-build=1.18.1
+    - cmd: conda install --yes --quiet obvious-ci conda-build
     - cmd: obvci_install_conda_build_tools.py
-    - cmd: conda remove conda-build --yes
-    - cmd: conda install conda-build=1.18.1 --yes
     - cmd: conda info
 
 # Skip .NET project specific build phase.
