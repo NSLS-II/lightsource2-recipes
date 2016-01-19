@@ -1,1 +1,2 @@
-pip install args==0.1.0
+#!/bin/bash
+${PYTHON} setup.py install
