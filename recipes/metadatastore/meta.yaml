@@ -33,7 +33,7 @@ test:
     - coverage # Code coverage measurement for Python (conda)
     - nose # nose extends unittest to make testing easier (conda)
     - numpy # array processing for numbers, strings, records, and objects. (conda)
-
+    - nslsii_dev_configuration
   imports:
     - metadatastore
     - metadatastore.api
