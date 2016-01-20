@@ -1,10 +1,11 @@
 package:
   name: channelarchiver
-  version: 0.0.5
+  version: 0.0.5.post6-6_gfac126f
 
 source:
   git_url: https://github.com/NSLS-II/channelarchiver.git
-  git_rev: v0.0.5
+  git_rev: v0.0.5-6-gfac126f
+
 
 build:
   number: 0

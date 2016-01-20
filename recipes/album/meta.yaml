@@ -1,6 +1,6 @@
 package:
   name: album
-  version: v0.0.2
+  version: 0.0.2
 
 source:
   git_url: https://github.com/NSLS-II/album
