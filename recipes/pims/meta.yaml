@@ -1,0 +1,37 @@
+package:
+  name: pims
+  version: "0.3.2"
+
+source:
+  git_url: https://github.com/soft-matter/pims
+  git_tag: v0.3.2
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - slicerator >=0.9.4
+    - six >=1.8
+    - numpy >=1.7
+
+  run:
+    - python
+    - slicerator >=0.9.4
+    - six >=1.8
+    - numpy >=1.7
+    - scikit-image  # one of { scikit-image | matplotlib | scipy }
+    - pillow <3 # optional, but necessary for ipython rich display
+
+test:
+  imports:
+    - pims
+    - pims.tests
+    - pims.utils
+
+about:
+  home: https://github.com/soft-matter/pims
+  license: BSD
+  summary: 'Python Image Sequence'
