@@ -1,0 +1,34 @@
+
+package:
+    name: pyolog
+    version: v4.0.0.post5+g1a24409
+
+source:
+    git_url: https://github.com/NSLS-II/pyOlog.git
+    git_tag: v4.0.0.post5+g1a24409
+
+build:
+    number: 0
+
+requirements:
+    build:
+        - python
+        - setuptools
+    run:
+        - python
+        - setuptools
+        - requests
+        - keyring
+        - six
+        - ipython
+
+#test:
+#   imports:
+        # - pyOlog
+        # this has a user input on import (?!?) so don't test
+        #- pyOlog.cli.ipy
+
+about:
+    home: http://olog.github.io/
+    license: MIT
+    summary: Python client for the OLog
