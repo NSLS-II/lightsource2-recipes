@@ -23,7 +23,6 @@ requirements:
 test:
   requires:
     - nslsii_dev_configuration
-    - databroker
   imports:
     - datamuxer
 
