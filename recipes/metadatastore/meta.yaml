@@ -2,11 +2,11 @@
 
 package:
   name: metadatastore
-  version: 0.3.0
+  version: 0.3.1
 
 source:
   git_url: https://github.com/NSLS-II/metadatastore
-  git_rev: v0.3.0
+  git_rev: v0.3.1
   patches:
     - config.patch
 build:
@@ -19,27 +19,32 @@ requirements:
     - python
   run:
     - python
-    - boltons # When they're not builtins, they're boltons. (pypi)
-    - mongoengine # MongoEngine is a Python Object-Document Mapper for working with MongoDB. (pypi)
-    - pymongo <3 # Python driver for MongoDB (conda)
-    - pytz # World timezone definitions, modern and historical (conda)
-    - pyyaml # YAML parser and emitter for Python (conda)
-    - six # Python 2 and 3 compatibility utilities (conda)
-
+    - mongoengine
+    - pymongo
+    - six
+    - pyyaml
+    - prettytable
+    - humanize
+    - numpy
+    - pytz
+    - jinja2
+    - boltons
+    - doct
 test:
   requires:
-    - coverage # Code coverage measurement for Python (conda)
-    - nose # nose extends unittest to make testing easier (conda)
-    - numpy # array processing for numbers, strings, records, and objects. (conda)
     - nslsii_dev_configuration
+
   imports:
     - metadatastore
     - metadatastore.api
     - metadatastore.commands
     - metadatastore.conf
-    - metadatastore.odm_templates
     - metadatastore.utils
-
+    - metadatastore.examples
+    - metadatastore.examples.sample_data
+    - metadatastore.examples.sample_data.common
+    - metadatastore.examples.sample_data.multisource_event
+    - metadatastore.examples.sample_data.temperature_ramp
 about:
   home: https://github.com/NSLS-II/metadatastore
   license: BSD (3-clause)
