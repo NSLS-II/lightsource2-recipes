@@ -9,14 +9,14 @@ source:
 build:
   # Note that this will override the default build string with the Python
   # and NumPy versions
-  number: 0
+  number: 1
 
 requirements:
   build:
-    - python >=3.4.3
+    - python >3
 
   run:
-    - python >=3.4.3
+    - python >3
     - jsonschema
     - super_state_machine
     - numpy
