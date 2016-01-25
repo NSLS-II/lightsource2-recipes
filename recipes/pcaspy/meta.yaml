@@ -1,16 +1,17 @@
 package:
   name: pcaspy
-  version: 0.5.1
+  version: 0.5.1.post17
 
 source:
-  fn: pcaspy-0.5.1.tar.gz
-  url: https://pypi.python.org/packages/source/p/pcaspy/pcaspy-0.5.1.tar.gz
-  md5: ba8c56ef136540cbaa463d35385b4c42
+  git_url: https://github.com/paulscherrerinstitute/pcaspy
+  git_rev: 0.5.1-17
 #  patches:
    # List any patch files here
    # - fix.patch
 
 build:
+  number: 0
+  string: {{ environ['CONDA_BUILD'] }}_g05ec8a9_py{{ py }}
   # preserve_egg_dir: True
   # entry_points:
     # Put any entry points (scripts to be generated automatically) here. The
