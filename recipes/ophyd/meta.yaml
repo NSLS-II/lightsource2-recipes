@@ -16,10 +16,10 @@ build:
 
 requirements:
   build:
-    - python
+    - python >=3.5
     - setuptools
   run:
-    - python
+    - python >=3.5
     - pyepics
     - pcaspy
     - metadatastore
