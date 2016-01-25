@@ -1,7 +1,8 @@
 
 package:
     name: pyepics
-    version: {{ environ.get('GIT_DESCRIBE_TAG','')}}.post{{ environ.get('GIT_DESCRIBE_NUMBER','') }}
+    version: {{ environ.get('GIT_DESCRIBE_TAG', '')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER','') }}
+    # version: 3.2.5rc3.post2+ge6c58d5
 #    version: "3.2.4"
 
 source:
