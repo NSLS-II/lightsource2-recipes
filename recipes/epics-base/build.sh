@@ -1,4 +1,6 @@
 #!/bin/bash
+LD_LIBRARY_PATH=$PREFIX/lib:$LD_LIBRARY_PATH
+
 install -d $PREFIX/bin
 install -d $PREFIX/lib
 install -d $PREFIX/epics
