@@ -1,0 +1,34 @@
+package:
+  name: album
+  version: {{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
+
+source:
+  git_url: https://github.com/NSLS-II/album
+  git_rev: master
+
+build:
+  number: 0
+
+  # Note that this will override the default build string with the Python
+  # and NumPy versions
+  string: {{ environ.get('GIT_BUILD_STR', '') }}_np{{ np }}py{{ py }}
+
+  entry_points:
+    - album = album.server:run
+
+requirements:
+  build:
+    - python
+    - numpy
+    - setuptools
+
+  run:
+    - python
+    - bokeh
+    - flask
+    - databroker >=v0.3.0
+    - numpy
+
+test:
+  imports:
+    - album

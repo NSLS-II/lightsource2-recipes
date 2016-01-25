@@ -1,0 +1,31 @@
+package:
+  name: xraylib
+  version: {{ environ['GIT_DESCRIBE_TAG'][8:] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
+
+
+build:
+  string: {{ environ.get('GIT_BUILD_STR', '') }}_np{{ np }}py{{ py }}
+
+source:
+  git_url: https://github.com/tschoonj/xraylib
+  git_rev: master
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy
+    - scipy >=0.7.0
+    - cython
+    - swig
+
+  run:
+    - python
+    - numpy
+    - scipy >=0.7.0
+
+
+about:
+  license: BSD
+  home: https://github.com/tschoonj/xraylib/wiki
+  summary: A library for X-ray matter interaction cross sections for X-ray fluorescence applications

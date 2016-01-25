@@ -1,0 +1,37 @@
+package:
+  name: channelarchiver
+  version: {{ environ.get('GIT_DESCRIBE_TAG', '')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER','') }}
+
+source:
+  git_url: https://github.com/NSLS-II/channelarchiver.git
+  git_rev: master
+
+build:
+  number: 0
+  string: {{ environ.get('GIT_BUILD_STR', '') }}_np{{ np }}py{{ py }}
+
+requirements:
+  build:
+    - setuptools
+    - python
+    - numpy
+    - matplotlib
+    - tzlocal
+
+  run:
+    - python
+    - numpy
+    - matplotlib
+    - tzlocal
+
+test:
+  imports:
+    - channelarchiver
+
+about:
+  home: https://github.com/NSLS-II/channelarchiver
+  license: MIT
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
