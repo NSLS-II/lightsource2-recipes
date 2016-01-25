@@ -1,0 +1,33 @@
+package:
+  name: pyxrf
+  version: 0.0.3
+
+source:
+  git_url: https://github.com/NSLS-II/pyxrf
+  git_rev: v0.0.3
+
+build:
+  number: 0
+  string: py{{ py }}_{{ environ['CONDA_BUILD'] }}
+  entry_points:
+    - pyxrf = pyxrf.gui:run
+
+requirements:
+  build:
+    - python
+    # adding enaml should pin this to python 2 only
+    - enaml
+    - setuptools
+
+  run:
+    - python
+    - enaml
+    - h5py
+    - matplotlib
+    - numpy
+    - pandas
+    - scikit-beam
+
+about:
+  home: http://github.com/NSLS-II/pyxrf
+  license: 3-Clause BSD
