@@ -38,9 +38,7 @@ echo "$config" > ~/.condarc
 conda clean --lock
 
 conda update conda
-conda install conda-build=1.18.1
-conda install anaconda-client
-conda install conda-build-all
+conda install conda-build=1.18.1 anaconda-client conda-build-all readline
 conda info
 unset LANG
 
