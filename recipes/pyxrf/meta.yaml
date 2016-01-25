@@ -14,14 +14,13 @@ build:
 
 requirements:
   build:
-    - python
+    - python <3
     - numpy
-    # adding enaml should pin this to python 2 only
     - enaml
     - setuptools
 
   run:
-    - python
+    - python <3
     - enaml
     - h5py
     - matplotlib
