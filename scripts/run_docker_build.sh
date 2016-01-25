@@ -12,6 +12,7 @@ channels:
  - conda-forge
  - defaults
 
+always_yes: true
 show_channel_urls: True
 
 CONDARC
@@ -36,10 +37,10 @@ echo "$config" > ~/.condarc
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
 
-conda update --yes conda
-conda install --yes conda-build=1.18.1
-conda install --yes anaconda-client
-conda install --yes conda-build-all
+conda update conda
+conda install conda-build=1.18.1
+conda install anaconda-client
+conda install conda-build-all
 conda info
 unset LANG
 
