@@ -12,7 +12,7 @@ source:
 
 build:
   number: 0
-  string: {{ environ['CONDA_BUILD'] }}_{{ py }}
+  string: {{ environ['CONDA_BUILD'] }}_py{{ py }}
 
 requirements:
   build:
