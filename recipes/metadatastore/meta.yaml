@@ -33,7 +33,6 @@ requirements:
 test:
   requires:
     - nslsii_dev_configuration
-
   # Python imports
   imports:
     - metadatastore
