@@ -50,22 +50,6 @@ unset LANG
 # is inevitable (without re-implementing a full OS), so I also really want to ensure we can annotate our recipes to
 # state the build dependencies at OS level, too.
 yum install -y libXext libXrender libSM tk libX11-devel
-mkdir -p ~/.config/metadatastore
-mkdir -p ~/.config/filestore
-
-# Install metadatastore/filestore config
-echo "# metadatastore configuration
-host: localhost
-database: datastore-dev
-port: 27017
-timezone: US/Eastern
-" > ~/.config/metadatastore/connection.yml
-
-echo "# filestore configuration
-host: localhost
-database: filestore-dev
-port: 27017
-" > ~/.config/filestore/connection.yml
 
 conda-build-all /conda-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.8" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2-dev
 

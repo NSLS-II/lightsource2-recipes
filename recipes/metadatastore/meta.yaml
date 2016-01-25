@@ -17,31 +17,18 @@ requirements:
   build:
     - python
     - six
-
   run:
     - python
-    - mongoengine ==0.8.7
+    - pymongo
     - six
     - pyyaml
-    - pandas
-    - boltons
     - prettytable
     - humanize
+    - numpy
     - pytz
     - jinja2
-
-test:
-  requires:
-    - nslsii_dev_configuration
-  # Python imports
-  imports:
-    - metadatastore
-    - metadatastore.commands
-    - metadatastore.api
-    - metadatastore.conf
-    - metadatastore.odm_templates
-    - metadatastore.doc
-    - metadatastore.utils
+    - boltons
+    - doct
 
 about:
   home: https://github.com/NSLS-II/metadatastore
