@@ -32,14 +32,29 @@ test:
   # Python imports
   imports:
     - ophyd
-    - ophyd.controls
-    - ophyd.controls.areadetector
-    - ophyd.controls.cas
-    - ophyd.runengine
-    - ophyd.session
-    - ophyd.userapi
+    - ophyd.callbacks
+    - ophyd.commands
+    - ophyd.device
+    - ophyd.epics_motor
+    - ophyd.ophydobj
+    - ophyd.positioner
+    - ophyd.pseudopos
+    - ophyd.pv_positioner
+    - ophyd.scaler
+    - ophyd.signal
+    - ophyd.areadetector
+    - ophyd.areadetector.base
+    - ophyd.areadetector.cam
+    - ophyd.areadetector.detectors
+    - ophyd.areadetector.docs
+    - ophyd.areadetector.filestore_mixins
+    - ophyd.areadetector.plugins
+    - ophyd.areadetector.trigger_mixins
+    - ophyd.areadetector.util
     - ophyd.utils
-    - ophyd.writers
+    - ophyd.utils.epics_pvs
+    - ophyd.utils.errors
+    - ophyd.utils.startup
 
   #commands:
     # You can put test commands to be run here.  Use this to test that the
