@@ -38,8 +38,8 @@ conda clean --lock
 
 conda update --yes conda
 conda install --yes conda-build=1.18.1
-conda install --yes anaconda-client obvious-ci
-
+conda install --yes anaconda-client
+conda install --yes conda-build-all
 conda info
 unset LANG
 
@@ -51,7 +51,7 @@ unset LANG
 # state the build dependencies at OS level, too.
 yum install -y libXext libXrender libSM tk libX11-devel
 
-obvci_conda_build_dir /conda-recipes lightsource2 --build-condition "numpy >=1.8" "python >=2.7,<3|>=3.4"
+conda-build-all recipes --upload-channels lightsource2 --build-condition "numpy >=1.8" "python >=2.7,<3|>=3.4"
 
 EOF
 
