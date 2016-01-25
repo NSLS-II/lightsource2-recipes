@@ -9,6 +9,7 @@ source:
 
 build:
     number: 0
+    string: py{{ py }}_{{ environ['CONDA_BUILD'] }}
 
 requirements:
     build:
