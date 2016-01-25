@@ -30,6 +30,9 @@ requirements:
 
 test:
   # Python imports
+  requires:
+    - filestore
+    - nslsii_dev_configuration
   imports:
     - ophyd
     - ophyd.callbacks
