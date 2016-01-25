@@ -4,7 +4,7 @@ package:
 
 source:
   git_url: https://github.com/paulscherrerinstitute/pcaspy
-  git_rev: 0.5.1-17
+  git_rev: 0.5.1-17-g05ec8a9
 #  patches:
    # List any patch files here
    # - fix.patch
