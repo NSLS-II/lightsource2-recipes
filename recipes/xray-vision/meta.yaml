@@ -13,10 +13,6 @@ build:
 requirements:
   build:
     - python
-    - distribute
-    - numpy
-    - six
-    - matplotlib
   run:
     - python
     - numpy
