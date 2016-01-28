@@ -1,0 +1,73 @@
+package:
+  name: scikit-beam
+  version: {{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
+
+source:
+  git_url: https://github.com/scikit-beam/scikit-beam
+  git_rev: master
+
+
+build:
+  number: 0
+  string: {{ environ.get('GIT_BUILD_STR', '') }}_np{{ np }}py{{ py }}
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy
+    - six
+    - cython
+  run:
+    - python
+    - numpy
+    - scipy
+    - six
+    - xraylib
+    - scikit-image
+    - lmfit ==0.8.3
+    - netcdf4  # optional, required for skbeam.io
+
+test:
+  requires:
+    - nose
+  imports:
+    # import all sub-packages and modules
+    - skbeam
+    - skbeam.diffraction
+    - skbeam.fluorescence
+    - skbeam._version
+    - skbeam.core
+    - skbeam.core.utils
+    - skbeam.core.dpc
+    - skbeam.core.feature
+    - skbeam.core.calibration
+    - skbeam.core.arithmetic
+    - skbeam.core.recip
+    - skbeam.core.image
+    - skbeam.core.cdi
+    - skbeam.core.roi
+    - skbeam.core.correlation
+    - skbeam.core.spectroscopy
+    - skbeam.core.fitting
+    - skbeam.core.fitting.xrf_model
+    - skbeam.core.fitting.background
+    - skbeam.core.fitting.lineshapes
+    - skbeam.core.fitting.funcs
+    - skbeam.core.fitting.models
+    - skbeam.core.fitting.base
+    - skbeam.core.fitting.base.parameter_data
+    - skbeam.core.constants
+    - skbeam.core.constants.basic
+    - skbeam.core.constants.xrs
+    - skbeam.core.constants.xrf
+    - skbeam.io
+    - skbeam.io.avizo_io
+    - skbeam.io.save_powder_output
+    - skbeam.io.binary
+    - skbeam.io.net_cdf_io
+    - skbeam.io.gsas_file_reader
+
+about:
+  home: http://scikit-xray.github.io/scikit-xray/
+  license: 3-Clause BSD
