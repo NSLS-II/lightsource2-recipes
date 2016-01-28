@@ -12,7 +12,6 @@ source:
 
 build:
   number: 0
-  string: {{ environ.get('GIT_BUILD_STR', '') }}_{{ py }}_np{{ np }}
 
 requirements:
   build:
@@ -21,25 +20,15 @@ requirements:
   run:
     - python
     - pyepics
-    - pcaspy
-    - metadatastore
     - six
     - ipython
-    - matplotlib
-    - pyolog
+    - filestore
+    - prettytable
 
 test:
   # Python imports
   imports:
     - ophyd
-    - ophyd.controls
-    - ophyd.controls.areadetector
-    - ophyd.controls.cas
-    - ophyd.runengine
-    - ophyd.session
-    - ophyd.userapi
-    - ophyd.utils
-    - ophyd.writers
 
   #commands:
     # You can put test commands to be run here.  Use this to test that the
