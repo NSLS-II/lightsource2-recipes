@@ -42,7 +42,7 @@ if [ ! -d "$CONDA_DIR" ]; then
 fi
 # add some setup/teardown scripts
 mkdir -p $CONDA_DIR/etc/conda/activate.d
-echo "source ~/$RAMDISK_DIR/.condabuildrc" > $CONDA_DIR/etc/conda/activate.d/setup.sh
+echo "source $RAMDISK_DIR/.condabuildrc" > $CONDA_DIR/etc/conda/activate.d/setup.sh
 mkdir -p $CONDA_DIR/etc/conda/deactivate.d
 echo "
 unset RAMDISK_DIR
