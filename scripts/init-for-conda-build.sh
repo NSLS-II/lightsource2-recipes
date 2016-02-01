@@ -2,14 +2,14 @@
 
 set -e
 
-BNL_URL=https://pergamon.cs.nsls2.local:8443/api
-PUBLIC_URL=https://api.anaconda.org
-
-if [ ! $BNL == '' ]; then
-  URL=$BNL_URL
-else
-  URL=$PUBLIC_URL
-fi
+# BNL_URL=https://pergamon.cs.nsls2.local:8443/api
+# PUBLIC_URL=https://api.anaconda.org
+#
+# if [ ! $BNL == '' ]; then
+#   URL=$BNL_URL
+# else
+#   URL=$PUBLIC_URL
+# fi
 # make sure that the ramdisk_dir env var exists
 # if not, default to ~/ramdisk
 if [ "$RAMDISK_DIR" == "" ]; then
