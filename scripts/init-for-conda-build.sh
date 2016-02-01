@@ -70,6 +70,8 @@ show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
 echo "
 #!/bin/bash
+LOG_DIR=/tmp/auto-dev-build.log
+rm $LOG_DIR
 rm -rf /tmp/staged-recipes-dev
 git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev
 for dir in /tmp/staged-recipes-dev/recipes/*
@@ -77,8 +79,10 @@ do
     echo \$dir
     CONDA_CMD=\"conda-build \$dir --python=3.5\"
     echo \"CONDA_CMD is --> \$CONDA_CMD\"
-    \$CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev \`\$CONDA_CMD --output\`
+    \$CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev \`\$CONDA_CMD --output\` >> $LOG_DIR
 done
+echo \"AUTO DEV BUILD RESULTS\"
+cat $LOG_DIR
 " > $RAMDISK_DIR/dev-build.sh
 
 echo "
