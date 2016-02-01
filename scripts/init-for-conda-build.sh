@@ -42,7 +42,10 @@ if [ ! -d "$CONDA_DIR" ]; then
 fi
 # add some setup/teardown scripts
 mkdir -p $CONDA_DIR/etc/conda/activate.d
-echo "source $RAMDISK_DIR/.condabuildrc" > $CONDA_DIR/etc/conda/activate.d/setup.sh
+echo "source $RAMDISK_DIR/.condabuildrc
+mkdir -p ~/.config/binstar
+echo 'url: https://pergamon.cs.nsls2.local:8443/api' > ~/.config/binstar/config.yaml
+" > $CONDA_DIR/etc/conda/activate.d/setup.sh
 mkdir -p $CONDA_DIR/etc/conda/deactivate.d
 echo "
 unset RAMDISK_DIR
@@ -65,5 +68,5 @@ always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
 # init the conda directory
-source "$RAMDISK_DIR/.condabuildrc"
+source activate $CONDA_DIR
 conda install anaconda-client conda-build
