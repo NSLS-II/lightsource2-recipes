@@ -75,9 +75,9 @@ git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev
 for dir in /tmp/staged-recipes-dev/recipes/*
 do
     echo \$dir
-    conda_cmd=\"conda-build \$dir --python=3.5\"
-    echo conda_cmd is --> \$conda_cmd
-    \$conda_cmd && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev \`\$conda_cmd --output\`
+    CONDA_CMD=\"conda-build \$dir --python=3.5\"
+    echo \"CONDA_CMD is --> \$CONDA_CMD\"
+    \$CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev \`\$CONDA_CMD --output\`
 done
 " > $RAMDISK_DIR/dev-build.sh
 
@@ -88,4 +88,4 @@ bash $RAMDISK_DIR/dev-build.sh" > ~/dev-build
 chmod +x dev-build
 # init the conda directory
 source activate $CONDA_DIR
-conda install anaconda-client conda-build
+conda install anaconda-client conda-build=1.18.1
