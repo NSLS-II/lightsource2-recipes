@@ -67,6 +67,20 @@ channels:
 always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
+echo "
+#!/bin/bash
+source activate $CONDA_DIR
+# export BINSTAR_TOKEN=--INSERT-TOKEN-HERE--
+rm -rf /tmp/staged-recipes-dev
+git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev
+for dir in /tmp/staged-recipes-dev/recipes/*
+do
+    # dir=${dir%*/}
+    echo ${dir}
+    conda_cmd='conda-build ${dir} --python=3.5'
+    $conda_cmd && anaconda upload -u nsls2-dev `$conda_cmd --output`
+done
+" > $RAMDISK_DIR/dev-build.sh
 # init the conda directory
 source activate $CONDA_DIR
 conda install anaconda-client conda-build
