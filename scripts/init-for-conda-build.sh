@@ -76,7 +76,7 @@ for dir in /tmp/staged-recipes-dev/recipes/*
 do
     echo \$dir
     conda_cmd="conda-build \$dir --python=3.5"
-    echo \$conda_cmd
+    echo conda_cmd is --> \$conda_cmd
     \$conda_cmd && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev \`\$conda_cmd --output\`
 done
 " > $RAMDISK_DIR/dev-build.sh
