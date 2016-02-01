@@ -74,9 +74,8 @@ rm -rf /tmp/staged-recipes-dev
 git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev
 for dir in /tmp/staged-recipes-dev/recipes/*
 do
-    # dir=\${dir%*/}
-    echo \${dir}
-    conda_cmd="conda-build \${dir} --python=3.5"
+    echo \$dir
+    conda_cmd="conda-build \$dir --python=3.5"
     echo $conda_cmd
     \$conda_cmd && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev \`\$conda_cmd --output\`
 done
