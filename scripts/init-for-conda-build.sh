@@ -71,7 +71,7 @@ show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 echo "
 #!/bin/bash
 LOG_DIR=/tmp/auto-dev-build.log
-rm \$LOG_DIR
+echo \`date\` > LOG_DIR
 rm -rf /tmp/staged-recipes-dev
 git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev
 for dir in /tmp/staged-recipes-dev/recipes/*
