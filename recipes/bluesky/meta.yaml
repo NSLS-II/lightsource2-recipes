@@ -30,7 +30,7 @@ requirements:
     - lmfit
     # this needs to be major version 3 because lmfit has a bug in it right now
     # (right now == 2015-09-22)
-    - IPython ==3
+    - ipython <4
 
 
 test:
