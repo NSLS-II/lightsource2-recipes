@@ -86,7 +86,7 @@ echo "
 #!/bin/bash
 source activate $CONDA_DIR
 # export BINSTAR_TOKEN=--INSERT-TOKEN-HERE--
-bash $CONDA_DIR/dev-build.sh" > ~/dev-build
+bash $RAMDISK_DIR/dev-build.sh" > ~/dev-build
 chmod +x dev-build
 # init the conda directory
 source activate $CONDA_DIR
