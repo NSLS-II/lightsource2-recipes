@@ -38,6 +38,8 @@ if [ ! -d "$CONDA_DIR" ]; then
     bash "$MC_PATH" -b -p "$CONDA_DIR"
   fi
 fi
+source activate $CONDA_DIR
+conda install anaconda-client conda-build
 # set up a condabuildrc file
 echo "
 RAMDISK_DIR=$RAMDISK_DIR
@@ -53,9 +55,9 @@ channels:
  - anaconda
 always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
-
-which conda
-
-source ~/.condabuildrc
-
-conda install conda-build anaconda-client --yes
+#
+# which conda
+#
+# source ~/.condabuildrc
+#
+# conda install conda-build anaconda-client --yes
