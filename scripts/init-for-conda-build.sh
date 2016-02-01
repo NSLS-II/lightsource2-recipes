@@ -38,15 +38,24 @@ if [ ! -d "$CONDA_DIR" ]; then
     bash "$MC_PATH" -b -p "$CONDA_DIR"
   fi
 fi
-source activate $CONDA_DIR
-mkdir -p ~/.config/binstar
-echo "url: $URL" > ~/.config/binstar/config.yaml
+# add some setup/teardown scripts
+mkdir -p $CONDA_DIR/etc/conda/activate.d
+echo "source ~/$RAMDISK_DIR/.condabuildrc" > $CONDA_DIR/etc/conda/activate.d/setup.sh
+mkdir -p $CONDA_DIR/etc/conda/deactivate.d
+echo "
+unset RAMDISK_DIR
+unset CONDA_DIR
+unset CONDARC
+source ~/.bashrc" > $CONDA_DIR/etc/conda/deactivate.d/teardown.sh
+# init the conda directory
+# source activate $CONDA_DIR
+source "$RAMDISK_DIR/.condabuildrc"
 conda install anaconda-client conda-build
 # set up a condabuildrc file
 echo "
-RAMDISK_DIR=$RAMDISK_DIR
-CONDA_DIR=$CONDA_DIR
-CONDARC=$RAMDISK_DIR/.condarc
+export RAMDISK_DIR=$RAMDISK_DIR
+export CONDA_DIR=$CONDA_DIR
+export CONDARC=$RAMDISK_DIR/.condarc
 source activate $CONDA_DIR
 # anaconda config --set url $URL
 " > ~/.condabuildrc
