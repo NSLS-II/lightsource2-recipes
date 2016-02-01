@@ -35,7 +35,7 @@ if [ ! -d "$CONDA_DIR" ]; then
   find ~/Downloads -iname *miniconda* -print | head -n 1 | xargs -I {} bash {} -b -p $CONDA_DIR
   # if conda dir still doesn't exist, download and install
   if [ ! -d "$CONDA_DIR" ]; then
-    MC_PATH=~/Downloads/miniconda.sh
+    MC_PATH=/tmp/miniconda.sh
     echo Dowloading miniconda to $MC_PATH
     wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $MC_PATH
     bash "$MC_PATH" -b -p "$CONDA_DIR"
