@@ -47,10 +47,6 @@ unset RAMDISK_DIR
 unset CONDA_DIR
 unset CONDARC
 source ~/.bashrc" > $CONDA_DIR/etc/conda/deactivate.d/teardown.sh
-# init the conda directory
-# source activate $CONDA_DIR
-source "$RAMDISK_DIR/.condabuildrc"
-conda install anaconda-client conda-build
 # set up a condabuildrc file
 echo "
 export RAMDISK_DIR=$RAMDISK_DIR
@@ -67,9 +63,7 @@ channels:
  - https://pergamon.cs.nsls2.local:8443/conda/anaconda
 always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
-#
-# which conda
-#
-# source ~/.condabuildrc
-#
-# conda install conda-build anaconda-client --yes
+
+# init the conda directory
+source "$RAMDISK_DIR/.condabuildrc"
+conda install anaconda-client conda-build
