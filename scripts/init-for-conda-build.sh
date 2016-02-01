@@ -2,16 +2,6 @@
 
 set -e
 
-# BNL_URL=https://pergamon.cs.nsls2.local:8443/api
-# PUBLIC_URL=https://api.anaconda.org
-#
-# if [ ! $BNL == '' ]; then
-#   URL=$BNL_URL
-# else
-#   URL=$PUBLIC_URL
-# fi
-# make sure that the ramdisk_dir env var exists
-# if not, default to /tmp/\$LOGNAME/ramdisk
 if [ "$RAMDISK_DIR" == "" ]; then
   RAMDISK_DIR="/tmp/$LOGNAME/ramdisk"
   mkdir -p $RAMDISK_DIR
@@ -22,7 +12,6 @@ fi
 
 # if the ramdisk dir does not already exist, then create a ramdisk!
 if [ ! -d "$RAMDISK_DIR" ]; then
-  mkdir "$RAMDISK_DIR"
   chmod 777 "$RAMDISK_DIR"
   sudo mount -t tmpfs -o size=10G tmpfs "$RAMDISK_DIR"
 fi
@@ -31,7 +20,7 @@ if [ "$CONDA_DIR" == "" ]; then
   CONDA_DIR="$RAMDISK_DIR/mc"
 fi
 if [ ! -d "$CONDA_DIR" ]; then
-  # check and see if we have a miniconda bash script available
+  # check and if we have a miniconda bash script available and run it if we do
   find /tmp -iname *miniconda* -print | head -n 1 | xargs -I {} bash {} -b -p $CONDA_DIR
   # if conda dir still doesn't exist, download and install
   if [ ! -d "$CONDA_DIR" ]; then
@@ -52,12 +41,18 @@ echo "
 unset RAMDISK_DIR
 unset CONDA_DIR
 unset CONDARC
+unset HTTPS_PROXY
+unset HTTP_PROXY
+unset REQUESTS_CA_BUNDLE
 source ~/.bashrc" > $CONDA_DIR/etc/conda/deactivate.d/teardown.sh
 # set up a condabuildrc file
 echo "
 export RAMDISK_DIR=$RAMDISK_DIR
 export CONDA_DIR=$CONDA_DIR
 export CONDARC=$RAMDISK_DIR/.condarc
+export REQUESTS_CA_BUNDLE=/etc/certificates/ca_cs_nsls2_local.crt
+export HTTP_PROXY=http://proxy:8888
+export HTTPS_PROXY=http://proxy:8888
 " > "$RAMDISK_DIR/.condabuildrc"
 # set up a custom condarc for the ramdisk env
 echo "
@@ -68,8 +63,11 @@ channels:
 always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
-echo "
-#!/bin/bash
+# init the conda directory
+source activate $CONDA_DIR
+conda install anaconda-client conda-build=1.18.1
+
+# run the dev build
 LOG_DIR=/tmp/auto-dev-build.log
 echo \`date\` > LOG_DIR
 rm -rf /tmp/staged-recipes-dev
@@ -83,13 +81,3 @@ do
 done
 echo \"AUTO DEV BUILD RESULTS\"
 cat \$LOG_DIR
-" > $RAMDISK_DIR/dev-build.sh
-
-echo "
-#!/bin/bash
-source activate $CONDA_DIR
-bash $RAMDISK_DIR/dev-build.sh" > /tmp/dev-build
-chmod +x /tmp/dev-build
-# init the conda directory
-source activate $CONDA_DIR
-conda install anaconda-client conda-build=1.18.1
