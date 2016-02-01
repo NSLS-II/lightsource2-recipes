@@ -54,7 +54,7 @@ export CONDA_DIR=$CONDA_DIR
 export CONDARC=$RAMDISK_DIR/.condarc
 source activate $CONDA_DIR
 # anaconda config --set url $URL
-" > ~/.condabuildrc
+" > "$RAMDISK_DIR/.condabuildrc"
 # set up a custom condarc for the ramdisk env
 echo "
 channels:
