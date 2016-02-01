@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 BNL_URL=https://pergamon.cs.nsls2.local:8443/api
 PUBLIC_URL=https://api.anaconda.org
 
