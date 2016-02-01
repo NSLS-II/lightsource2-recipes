@@ -62,9 +62,9 @@ export CONDARC=$RAMDISK_DIR/.condarc
 # set up a custom condarc for the ramdisk env
 echo "
 channels:
- - nsls2-dev
- - nsls2
- - anaconda
+- https://pergamon.cs.nsls2.local:8443/conda/nsls2-dev
+- https://pergamon.cs.nsls2.local:8443/conda/nsls2
+- https://pergamon.cs.nsls2.local:8443/conda/anaconda
 always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
