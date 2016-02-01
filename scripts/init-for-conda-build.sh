@@ -88,8 +88,8 @@ cat \$LOG_DIR
 echo "
 #!/bin/bash
 source activate $CONDA_DIR
-bash $RAMDISK_DIR/dev-build.sh" > ~/dev-build
-chmod +x dev-build
+bash $RAMDISK_DIR/dev-build.sh" > /tmp/dev-build
+chmod +x /tmp/dev-build
 # init the conda directory
 source activate $CONDA_DIR
 conda install anaconda-client conda-build=1.18.1
