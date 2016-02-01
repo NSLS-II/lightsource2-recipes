@@ -29,10 +29,22 @@ if [ ! -d "$CONDA_DIR" ]; then
     bash "$MC_PATH" -b -p "$CONDA_DIR"
   fi
   echo "
-  RAMDISK_DIR=$RAMDISK_DIR
-  CONDA_DIR=$CONDA_DIR
-  PATH="$CONDA_DIR/bin":\$PATH" > ~/.condabuildrc
+RAMDISK_DIR=$RAMDISK_DIR
+CONDA_DIR=$CONDA_DIR
+CONDARC=$RAMDISKDIR/.condarc
+PATH=$CONDA_DIR/bin:\$PATH
+anaconda config --set url https://pergamon.cs.nsls2.local:8443/api" > ~/.condabuildrc
+  echo "
+channels:
+ - nsls2-dev
+ - nsls2
+ - anaconda
+always_yes: true
+show_channel_urls: true" > "$RAMDISKDIR/.condarc"
 fi
+
 which conda
+
 source ~/.condabuildrc
+
 conda install conda-build anaconda-client --yes
