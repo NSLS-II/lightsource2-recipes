@@ -62,9 +62,9 @@ export CONDARC=$RAMDISK_DIR/.condarc
 # set up a custom condarc for the ramdisk env
 echo "
 channels:
- - https://pergamon.cs.nsls2.local:8443/conda/nsls2-dev/
- - https://pergamon.cs.nsls2.local:8443/conda/nsls2
- - https://pergamon.cs.nsls2.local:8443/conda/anaconda
+ - nsls2-dev
+ - nsls2
+ - anaconda
 always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
@@ -85,7 +85,6 @@ done
 echo "
 #!/bin/bash
 source activate $CONDA_DIR
-# export BINSTAR_TOKEN=--INSERT-TOKEN-HERE--
 bash $RAMDISK_DIR/dev-build.sh" > ~/dev-build
 chmod +x dev-build
 # init the conda directory
