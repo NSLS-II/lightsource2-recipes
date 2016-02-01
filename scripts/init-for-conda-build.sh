@@ -1,9 +1,18 @@
 #!/bin/bash
 
+BNL_URL=https://pergamon.cs.nsls2.local:8443/api
+PUBLIC_URL=https://api.anaconda.org
+
+if [ ! $BNL == '' ]; then
+  URL=$BNL_URL
+else
+  URL=$PUBLIC_URL
+fi
 # make sure that the ramdisk_dir env var exists
 # if not, default to ~/ramdisk
 if [ "$RAMDISK_DIR" == "" ]; then
   RAMDISK_DIR="$HOME/ramdisk"
+  echo "RAMDISK_DIR set to $RAMDISK_DIR"
 else
   echo "RAMDISK_DIR already exists at $RAMDISK_DIR"
 fi
@@ -28,20 +37,22 @@ if [ ! -d "$CONDA_DIR" ]; then
     wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $MC_PATH
     bash "$MC_PATH" -b -p "$CONDA_DIR"
   fi
-  echo "
+fi
+# set up a condabuildrc file
+echo "
 RAMDISK_DIR=$RAMDISK_DIR
 CONDA_DIR=$CONDA_DIR
-CONDARC=$RAMDISKDIR/.condarc
-PATH=$CONDA_DIR/bin:\$PATH
-anaconda config --set url https://pergamon.cs.nsls2.local:8443/api" > ~/.condabuildrc
-  echo "
+CONDARC=$RAMDISK_DIR/.condarc
+source activate $CONDA_DIR
+anaconda config --set url $URL" > ~/.condabuildrc
+# set up a custom condarc for the ramdisk env
+echo "
 channels:
  - nsls2-dev
  - nsls2
  - anaconda
 always_yes: true
-show_channel_urls: true" > "$RAMDISKDIR/.condarc"
-fi
+show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
 which conda
 
