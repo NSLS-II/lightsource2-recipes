@@ -39,6 +39,8 @@ if [ ! -d "$CONDA_DIR" ]; then
   fi
 fi
 source activate $CONDA_DIR
+mkdir -p ~/.config/binstar
+echo "url: $URL" > ~/.config/binstar/config.yaml
 conda install anaconda-client conda-build
 # set up a condabuildrc file
 echo "
