@@ -1,4 +1,6 @@
 #!/bin/bash
-wget https://raw.githubusercontent.com/ericdill/conda-build-utils/master/scripts/init-for-conda-build.sh -O /tmp/init-conda-build.sh
-bash /tmp/init-conda-build.sh
+SCRIPT_PATH=/tmp/init-conda-build.sh
+rm $SCRIPT_PATH
+wget https://raw.githubusercontent.com/ericdill/conda-build-utils/master/scripts/init-for-conda-build.sh -O $SCRIPT_PATH
+bash $SCRIPT_PATH
 bash ~/dev-build
