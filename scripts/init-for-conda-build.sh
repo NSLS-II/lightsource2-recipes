@@ -11,7 +11,7 @@ set -e
 #   URL=$PUBLIC_URL
 # fi
 # make sure that the ramdisk_dir env var exists
-# if not, default to ~/ramdisk
+# if not, default to /tmp/\$LOGNAME/ramdisk
 if [ "$RAMDISK_DIR" == "" ]; then
   RAMDISK_DIR="/tmp/$LOGNAME/ramdisk"
   mkdir -p $RAMDISK_DIR
@@ -32,7 +32,7 @@ if [ "$CONDA_DIR" == "" ]; then
 fi
 if [ ! -d "$CONDA_DIR" ]; then
   # check and see if we have a miniconda bash script available
-  find ~/Downloads -iname *miniconda* -print | head -n 1 | xargs -I {} bash {} -b -p $CONDA_DIR
+  find /tmp -iname *miniconda* -print | head -n 1 | xargs -I {} bash {} -b -p $CONDA_DIR
   # if conda dir still doesn't exist, download and install
   if [ ! -d "$CONDA_DIR" ]; then
     MC_PATH=/tmp/miniconda.sh
