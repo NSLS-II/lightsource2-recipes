@@ -13,7 +13,8 @@ fi
 # make sure that the ramdisk_dir env var exists
 # if not, default to ~/ramdisk
 if [ "$RAMDISK_DIR" == "" ]; then
-  RAMDISK_DIR="$HOME/ramdisk"
+  RAMDISK_DIR="/tmp/$LOGNAME/ramdisk"
+  mkdir -p $RAMDISK_DIR
   echo "RAMDISK_DIR set to $RAMDISK_DIR"
 else
   echo "RAMDISK_DIR already exists at $RAMDISK_DIR"
@@ -69,8 +70,6 @@ show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
 echo "
 #!/bin/bash
-source activate $CONDA_DIR
-# export BINSTAR_TOKEN=--INSERT-TOKEN-HERE--
 rm -rf /tmp/staged-recipes-dev
 git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev
 for dir in /tmp/staged-recipes-dev/recipes/*
@@ -78,9 +77,17 @@ do
     # dir=\${dir%*/}
     echo \${dir}
     conda_cmd='conda-build \${dir} --python=3.5'
-    \$conda_cmd && anaconda upload -u nsls2-dev `\$conda_cmd --output`
+    echo $conda_cmd
+    \$conda_cmd && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `\$conda_cmd --output`
 done
 " > $RAMDISK_DIR/dev-build.sh
+
+echo "
+#!/bin/bash
+source activate $CONDA_DIR
+# export BINSTAR_TOKEN=--INSERT-TOKEN-HERE--
+bash $CONDA_DIR/dev-build.sh" > ~/dev-build
+chmod +x dev-build
 # init the conda directory
 source activate $CONDA_DIR
 conda install anaconda-client conda-build
