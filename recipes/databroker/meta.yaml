@@ -1,17 +1,16 @@
 package:
   name: databroker
-  version: {{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
+  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_STUB') }}.post{{ environ.get('GIT_DESCRIBE_NUMBER', 'inf') }}
 
 source:
   git_url: https://github.com/NSLS-II/databroker
   git_rev: master
 
 build:
-  # Note that this will override the default build string with the Python
-  # and NumPy versions
+  # Note that this will override the default build string with the Python version
   string: {{ environ.get('GIT_BUILD_STR', '') }}_py{{ py }}
   number: 0
-  
+
 requirements:
   build:
     - python
@@ -30,6 +29,7 @@ requirements:
 test:
   requires:
     - nslsii_dev_configuration
+    - filestore
   imports:
     - databroker
     - databroker.testing
