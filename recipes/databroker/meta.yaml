@@ -1,10 +1,10 @@
 package:
   name: databroker
-  version: 0.3.0
+  version: 0.3.1
 
 source:
   git_url: https://github.com/NSLS-II/databroker
-  git_rev: v0.3.0
+  git_rev: v0.3.1
 
 build:
   number: 0
@@ -12,7 +12,6 @@ build:
 requirements:
   build:
     - python
-
   run:
     - python
     - pandas
@@ -22,6 +21,8 @@ requirements:
     - channelarchiver
     - six
     - tzlocal
+    - singledispatch [py27]
+    - doct
 
 test:
   requires:
