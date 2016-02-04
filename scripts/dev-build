@@ -55,7 +55,7 @@ export REQUESTS_CA_BUNDLE=/etc/certificates/ca_cs_nsls2_local.crt
 export no_proxy=cs.nsls2.local
 export HTTP_PROXY=http://proxy:8888
 export HTTPS_PROXY=http://proxy:8888
-export BINSTAR_TOKEN=YOUR_BINSTAR_TOKEN_HERE
+export BINSTAR_TOKEN=ed-a09a18b1-8bce-4582-b02b-d43c27db57bd
 " > "$RAMDISK_DIR/.condabuildrc"
 # set up a custom condarc for the ramdisk env
 echo "
@@ -82,3 +82,25 @@ do
     echo "CONDA_CMD is --> $CONDA_CMD"
     $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
 done
+
+# Install newest conda-build-all
+#rm -rf /tmp/conda-build-all
+#git clone https://github.com/ericdill/conda-build-all /tmp/conda-build-all
+#pip uninstall conda-build-all --yes
+#cd /tmp/conda-build-all
+#git checkout fix-if-logic
+#python setup.py develop
+
+# run the tagged builds
+rm -rf /tmp/staged-recipes
+git clone https://github.com/NSLS-II/staged-recipes /tmp/staged-recipes
+#cd ../staged-recipes
+#conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
+for dir in /tmp/staged-recipes/recipes/*
+do
+    echo $dir
+    CONDA_CMD="conda-build $dir --python=3.5"
+    echo "CONDA_CMD is --> $CONDA_CMD"
+    $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
+done
+
