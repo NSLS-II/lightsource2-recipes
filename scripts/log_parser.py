@@ -4,6 +4,7 @@ from __future__ import (unicode_literals, absolute_import, division,
 import six
 
 import os
+from collections import OrderedDict
 
 def read_log_from_script(path_to_log):
     """
@@ -72,8 +73,9 @@ def parse_conda_build(lines_iterable):
         # init
         if init:
             if line.startswith("BUILD START"):
+                line = bundle.pop()
                 ret.append((key, bundle))
-                bundle = []
+                bundle = [line]
                 init = False
                 build = True
                 key = 'build'
@@ -86,13 +88,19 @@ def parse_conda_build(lines_iterable):
         # determine if test or upload comes next
         if next_line_might_be_test:
             next_line_might_be_test = False
+            line = bundle.pop()
             ret.append((key, bundle))
-            bundle = []
             if line.startswith("TEST START"):
                 test = True
                 key = 'test'
+                bundle = [line]
+            elif line.startswith('Nothing to test for'):
+                ret.append(('test', [line]))
+                bundle = []
+                key = 'upload'
             else:
                 key = 'upload'
+                bundle = [line]
         # test
         if test:
             if line.startswith("TEST END"):
@@ -103,6 +111,53 @@ def parse_conda_build(lines_iterable):
 
     if bundle:
         ret.append((key, bundle))
+    return OrderedDict(ret)
+
+
+def parse_init(init_section):
+    ret = {}
+    for line in init_section:
+        if 'CONDA_CMD' in line:
+            ret['build_command'] = line.split('-->')[1].strip()
+    return ret
+
+
+def parse_build(build_section):
+    PACKAGE_NAME = 'Package: '
+    ERROR = "Error: "
+    TRACEBACK = 'Traceback (most recent call last):'
+    ret = {'error': []}
+    error = False
+    traceback = False
+    lines = []
+    for line in build_section:
+        if PACKAGE_NAME in line:
+            ret['built_name'] = line[len(PACKAGE_NAME):]
+        if line.startswith(ERROR) or error:
+            if line == '':
+                error = False
+                ret['error'].append(lines)
+                lines = []
+                ret['built_name'] = 'failed'
+            else:
+                error = True
+                lines.append(line)
+        if line == TRACEBACK or traceback:
+            traceback = True
+            lines.append(line)
+            ret['built_name'] = 'failed'
+
+        print(line)
+    # the error line might be the last one
+    if error:
+        ret['error'].append(lines)
+        lines = []
+        error = False
+    if traceback:
+        ret['error'].append(lines)
+        lines = []
+        error = False
+        traceback = False
     return ret
 
 
