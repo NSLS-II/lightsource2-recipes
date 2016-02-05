@@ -25,9 +25,10 @@ def test_parse_build(parsed_log):
     # make sure we are getting either an error or the build string out of the
     # build section
     for pkg_name, parsed in parsed_log.items():
-        # not all packages will successfully build
         if 'build' not in parsed:
+            # not all packages will successfully build
             continue
+        # if there is a build section, then parse it
         parsed_build = log_parser.parse_build(parsed['build'])
         if parsed_build['built_name'] == 'failed':
             assert parsed_build['error'] != []
