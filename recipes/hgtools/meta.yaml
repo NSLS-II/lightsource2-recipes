@@ -1,11 +1,10 @@
 package:
   name: hgtools
-  version: "6.3"
+  version: 6.3
 
 source:
-  fn: hgtools-6.3.zip
-  url: https://pypi.python.org/packages/source/h/hgtools/hgtools-6.3.zip
-  md5: 584d74b81b1efae3604c53086d1a3acb
+  git_rev: 6.3
+  url: https://github.com/jaraco/hgtools
 #  patches:
    # List any patch files here
    # - fix.patch
