@@ -1,10 +1,10 @@
-Information gathered from conda-build output
---------------------------------------------
-- PRE-BUILD
+# Information gathered from conda-build output
+
+## PRE-BUILD
 
   - `build_command` : The build command that the conda building script executes
   - `err` : Any errors that are found in the pre-build section. Specifically
-            looking for any line that starts with 'Error' or 'Traceback'
+    looking for any line that starts with 'Error' or 'Traceback'
 
     - Specific errors that are caught in the test suite:
 
@@ -13,7 +13,7 @@ Information gathered from conda-build output
         - Covered by `test_parse_bad_yaml()`
         - log: `test_data/bad-yaml.log`
 
-- BUILD
+## BUILD
 
   - `built_name` : name of built package. Will be 'failed' if the build fails
   - `err` : Any errors that are found in the build section
@@ -21,24 +21,33 @@ Information gathered from conda-build output
     - Specific errors that are caught in the test suite
 
       - Error: Connection error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate
-        verify failed (_ssl.c:645):
-        https://pypi.python.org/packages/source/t/tzlocal/tzlocal-1.1.2.zip'
+        verify failed (`_ssl.c:645`):
+        https://pypi.python.org/packages/source/t/tzlocal/tzlocal-1.1.2.zip
 
         - log: `test_data/build.log`
-        - packages that have this: tzlocal, readline, keyring, pymongo,
-                                   humanize, hgtools, super_state_machine
+        - packages that have this
 
-      -  "subprocess.CalledProcessError: Command '['/usr/bin/git', 'checkout', "
+          - tzlocal
+          - readline
+          - keyring
+          - pymongo
+          - humanize
+          - hgtools
+          - super_state_machine
+
+      -  Subprocess error
+
+        - "subprocess.CalledProcessError: Command '['/usr/bin/git', 'checkout',"
          "'0.9.7']' returned non-zero exit status 1"
 
          - log: `test_data/build.log`
          - raised by slicerator
 
-- TEST
+## TEST
 
   - `nothing_to_test` : If true, there was nothing in the test section of the
                         meta.yaml
-  - `err` : Any errors that are found in the build section
+  - `err` : Any errors that are found in the test section
 
     - Requirement listed in test requirements not found
 
@@ -50,4 +59,9 @@ Information gathered from conda-build output
       - Covered by `test_parse_bad_test_import()`
       - log: `test_data/bad_import.log`
 
-- UPLOAD
+## UPLOAD
+
+  - `auto_upload` : If true, the package was attempted to be automatically
+     uploaded
+  - `file_already_exists` : The file already exists at the target destination
+  - `err` : Any errors that are found in the upload section
