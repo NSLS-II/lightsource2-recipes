@@ -118,5 +118,5 @@ run_tag_build() {
   done
 }
 
-run_dev_build | tee $DEV_LOG 2>&1
-run_tag_build | tee $TAG_LOG 2>&1
+run_dev_build > $DEV_LOG 2>&1
+run_tag_build > $TAG_LOG 2>&1
