@@ -35,7 +35,7 @@ def test_parse_build(parsed_log):
         # if there is a build section, then parse it
         parsed_build = log_parser.parse_build(parsed['build'])
         if parsed_build['built_name'] == 'failed':
-            assert parsed_build['error'] != []
+            assert parsed_build['err'] != []
         else:
-            assert parsed_build['error'] == []
+            assert parsed_build['err'] == []
 

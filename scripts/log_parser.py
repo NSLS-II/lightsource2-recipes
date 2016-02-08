@@ -208,7 +208,7 @@ def parse_build(build_section):
     """
     gen = (line for line in build_section)
     PACKAGE_NAME = 'Package: '
-    ret = {'error': []}
+    ret = {'err': []}
     error = False
     traceback = False
     lines = []
@@ -218,7 +218,7 @@ def parse_build(build_section):
             ret['built_name'] = line[len(PACKAGE_NAME):]
         line, err = check_for_errors(line, gen)
         if err:
-            ret['error'].append(err)
+            ret['err'].append(err)
             ret['built_name'] = 'failed'
     return ret
 
