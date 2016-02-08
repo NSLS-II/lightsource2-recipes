@@ -2,6 +2,7 @@ from __future__ import (unicode_literals, absolute_import, division,
                         print_function)
 import six
 
+from prettytable import PrettyTable
 import os
 from collections import OrderedDict
 
@@ -291,20 +292,41 @@ def simple_parse(path_to_log):
     parsed = {}
     for name, built_name, lines in read_log_from_script(path_to_log):
         grouped = parse_conda_build(lines)
-        parsed[name] = {}
+        parsed[built_name] = {}
         for section, group in grouped.items():
             func = globals()['parse_%s' % section]
-            parsed[name][section] = func(group)
+            parsed[built_name][section] = func(group)
+            parsed[built_name]['package_name'] = name
 
     return parsed
 
 
+def summarize(parsed_log):
+    """Summarize the parsed log into a table
+
+    Parameters
+    ----------
+    parsed_log : output of simple_parse()
+    """
+    sections = ['init', 'build', 'test', 'upload']
+    table = PrettyTable(['library name', 'built package name'] + sections)
+    table.align['library name'] = 'l'
+    table.align['built package name'] = 'l'
+    for pkg_name, parsed_groups in sorted(parsed_log.items()):
+        lib_name = parsed_groups['package_name']
+        if len(table._rows) > 0 and table._rows[-1][0] == lib_name:
+            lib_name = ''
+        row = [lib_name, pkg_name]
+
+        for section in sections:
+            if section in parsed_groups and parsed_groups[section]['err'] == []:
+                msg = 'pass'
+            else:
+                msg = 'fail'
+            row.append(msg)
+        table.add_row(row)
+    print(table)
+
 if __name__ == "__main__":
-    log = 'build.log'
-    gen = list(read_log_from_script(log))
-    parsed = {built_name: parse_conda_build(lines)
-              for name, built_name, lines in gen}
-    width = max([len(name) for name in parsed.keys()])
-    for name, groups in parsed.items():
-        print(('{:%ds} -- {}' % width).format(
-            name, [key for key, bundle in groups]))
+    log = os.path.join('test_data', 'build.log')
+    summarize(simple_parse(log))
