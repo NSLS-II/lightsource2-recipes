@@ -157,7 +157,7 @@ def check_for_errors(line, gen):
                 # this is thrown when the error goes to the end of the
                 # log section
                 pass
-    return line, err
+    return line, '\n'.join(err)
 
 
 def parse_init(init_section):
