@@ -70,38 +70,50 @@ echo "CONDA_DIR=$CONDA_DIR"
 source $CONDA_DIR/bin/activate $CONDA_DIR
 conda install anaconda-client conda-build=1.18.1
 
-# run the dev build
-echo `date`
-rm -rf /tmp/staged-recipes-dev
-git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev
-set +e
-for dir in /tmp/staged-recipes-dev/recipes/*
-do
-    echo $dir
-    CONDA_CMD="conda-build $dir --python=3.5"
-    echo "CONDA_CMD is --> $CONDA_CMD"
-    $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
-done
+LOG_DIR=/home/edill/auto-build-logs
+mkdir -p $LOG_DIR
+
+DEV_LOG="$LOG_DIR/dev-build-`date +%m.%d-%H.%M`"
+TAG_LOG="$LOG_DIR/tag-build-`date +%m.%d-%H.%M`"
+
+run_dev_build () {
+  # run the dev build
+  echo `date`;
+  rm -rf /tmp/staged-recipes-dev;
+  git clone https://github.com/NSLS-II/staged-recipes-dev; /tmp/staged-recipes-dev;
+  set +e
+  for dir in /tmp/staged-recipes-dev/recipes/*;
+  do
+      echo $dir;
+      CONDA_CMD="conda-build $dir --python=3.5";
+      echo "CONDA_CMD is --> $CONDA_CMD";
+      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`;
+  done
+}
 
 # Install newest conda-build-all
 #rm -rf /tmp/conda-build-all
-#git clone https://github.com/ericdill/conda-build-all /tmp/conda-build-all
+#git clone https://githutableb.com/ericdill/conda-build-all /tmp/conda-build-all
 #pip uninstall conda-build-all --yes
 #cd /tmp/conda-build-all
 #git checkout fix-if-logic
 #python setup.py develop
 
-# run the tagged builds
-rm -rf /tmp/staged-recipes
-git clone https://github.com/NSLS-II/staged-recipes /tmp/staged-recipes
-#cd ../staged-recipes
-#conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
-for dir in /tmp/staged-recipes/recipes/*
-do
-    echo $dir
-    CONDA_CMD="conda-build $dir --python=3.5"
-    echo "CONDA_CMD is --> $CONDA_CMD"
-    $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-tag `$CONDA_CMD --output`
-done
+run_tag_build() {
+  # run the tagged builds
+  echo `date`;
+  rm -rf /tmp/staged-recipes;
+  git clone https://github.com/NSLS-II/staged-recipes /tmp/staged-recipes;
+  #cd ../staged-recipes
+  #conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
+  for dir in /tmp/staged-recipes/recipes/*;
+  do
+      echo $dir;
+      CONDA_CMD="conda-build $dir --python=3.5";
+      echo "CONDA_CMD is --> $CONDA_CMD";
+      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-tag `$CONDA_CMD --output`;
+  done
+}
 
-# Install newest conda-build-all
+run_dev_build > DEV_LOG
+run_tag_build > TAG_LOG
