@@ -62,3 +62,25 @@ def test_parse_bad_test_requires():
         err = parsed_test['err'][0]
         assert 'No packages found' in err
 
+def test_parse_bad_yaml():
+    parsed = parse_log(os.path.join('test_data', 'bad-yaml.log'))
+    assert len(parsed) == 1
+    name = list(parsed.keys())[0]
+    # this should be the tifffile package
+    assert 'tifffile' in name
+    parsed_init = log_parser.parse_init(parsed[name]['init'])
+    # there should only be the 'init' key
+    assert 'build_command' in parsed_init
+    assert 'Error' in parsed_init['err'][0]
+
+
+def test_parse_bad_import():
+    parsed = parse_log(os.path.join('test_data', 'bad_import.log'))
+    assert len(parsed) == 1
+    name = list(parsed.keys())[0]
+    # this should be the analysis metapackage package
+    assert 'analysis' in name
+    parsed_test = log_parser.parse_test(parsed[name]['test'])
+    # there should only be one error
+    assert len(parsed_test['err']) == 1
+    assert 'ImportError' in parsed_test['err'][0]
