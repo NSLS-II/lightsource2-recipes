@@ -1,10 +1,13 @@
 import pytest
 import log_parser
 
+import os
+
 
 @pytest.fixture
 def parsed_log():
-    logname = 'build.log'
+    logname = os.path.join(os.path.split(os.path.abspath(__file__))[0],
+                           'build.log')
     gen = list(log_parser.read_log_from_script(logname))
     parsed = {built_name: log_parser.parse_conda_build(lines)
               for name, built_name, lines in gen}
