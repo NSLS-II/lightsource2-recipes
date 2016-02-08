@@ -68,7 +68,7 @@ show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 echo "CONDA_DIR=$CONDA_DIR"
 # init the conda directory
 source $CONDA_DIR/bin/activate $CONDA_DIR
-conda install anaconda-client conda-build=1.18.1
+conda install anaconda-client conda-build=1.19.0
 
 LOG_DIR=/home/edill/auto-build-logs
 mkdir -p $LOG_DIR
