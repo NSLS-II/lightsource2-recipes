@@ -262,11 +262,49 @@ def parse_upload(upload_section):
     return ret
 
 
+def simple_parse(path_to_log):
+    """Do the whole parsing in a single function call
+
+    Parameters
+    ----------
+    path_to_log : str
+        The path to the log that you want to parse
+
+    Returns
+    -------
+    dict
+        Top level keys are the package name. For each top level key there will
+        be up to four keys, {'init', 'build', 'test', and 'upload'}
+        package_name:
+          init:
+            build_command: string
+            err: list of strings
+          build:
+            built_name: string
+            err: list of strings
+          test:
+            nothing_to_test: bool
+            err: list of strings
+          upload:
+
+    """
+    parsed = {}
+    for name, built_name, lines in read_log_from_script(path_to_log):
+        grouped = parse_conda_build(lines)
+        parsed[name] = {}
+        for section, group in grouped.items():
+            func = globals()['parse_%s' % section]
+            parsed[name][section] = func(group)
+
+    return parsed
+
 
 if __name__ == "__main__":
     log = 'build.log'
     gen = list(read_log_from_script(log))
-    parsed = {built_name: parse_conda_build(lines) for name, built_name, lines in gen}
+    parsed = {built_name: parse_conda_build(lines)
+              for name, built_name, lines in gen}
     width = max([len(name) for name in parsed.keys()])
     for name, groups in parsed.items():
-        print(('{:%ds} -- {}' % width).format(name, [key for key, bundle in groups]))
+        print(('{:%ds} -- {}' % width).format(
+            name, [key for key, bundle in groups]))

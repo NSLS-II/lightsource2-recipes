@@ -84,3 +84,11 @@ def test_parse_bad_import():
     # there should only be one error
     assert len(parsed_test['err']) == 1
     assert 'ImportError' in parsed_test['err'][0]
+
+all_log_files = [os.path.abspath(os.path.join('test_data', f))
+                 for f in os.listdir('test_data') if f.endswith('.log')]
+
+@pytest.mark.parametrize('log_path', all_log_files)
+def test_simple_parse_for_smoke(log_path):
+    # basically just make sure this code path runs without exception
+    simply_parsed = log_parser.simple_parse(log_path)
