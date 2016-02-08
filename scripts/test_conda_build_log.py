@@ -54,8 +54,11 @@ def test_parse_upload(default_log):
         assert 'err'
 
 
-# def test_parse_bad_test_requires():
-#     parsed = parse_log('bad_import_requires.log')
-#     for pkg_name, parsed in parsed.items():
-#         for lines in parsed['test_section']:
+def test_parse_bad_test_requires():
+    parsed = parse_log('bad_import_requires.log')
+    for pkg_name, grouped in parsed.items():
+        parsed_test = log_parser.parse_test(grouped['test'])
+        assert len(parsed_test['err']) > 0
+        err = '\n'.join(parsed_test['err'][0])
+        assert 'No packages found' in err
 

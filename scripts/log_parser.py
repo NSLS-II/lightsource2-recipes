@@ -140,6 +140,9 @@ def check_for_errors(line, gen):
     err : list
         The list of lines that make up the error message. If `err` is an empty
         list, that signifies that the input `line` is not an error message.
+
+    TODO: Join the error on a new line. Need to verify that tests still pass
+          after I do this
     """
     ERROR = "Error: "
     TRACEBACK = 'Traceback (most recent call last):'
@@ -224,6 +227,21 @@ def parse_build(build_section):
         if err:
             ret['err'].append(err)
             ret['built_name'] = 'failed'
+    return ret
+
+
+def parse_test(test_section):
+    gen = (line for line in test_section)
+    ret = {'err': [], 'nothing_to_test': False}
+    NOTHING_TO_TEST = 'Nothing to test for: '
+    NO_PKGS_FOUND = 'Error: No packages found in'
+    for line in gen:
+        if line.startswith(NOTHING_TO_TEST):
+            ret['nothing_to_test'] = True
+        line, err = check_for_errors(line, gen)
+        if err:
+            ret['err'].append(err)
+
     return ret
 
 
