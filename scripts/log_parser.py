@@ -103,7 +103,13 @@ def parse_conda_build(lines_iterable):
                 ret['test'] = bundle
                 bundle = []
                 break
+        else:
+            # we have exhausted the generator without finding
+            # the end of the test section.
+            ret['test'] = bundle
+            return ret
     elif 'test' in line:
+        # This line will appear if there is no test section
         ret['test'] = [line]
         bundle = []
     # the rest is the upload section
