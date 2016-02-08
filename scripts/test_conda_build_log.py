@@ -14,7 +14,7 @@ def parse_log(logname):
 
 @pytest.fixture
 def default_log():
-    return parse_log('build.log')
+    return parse_log(os.path.join('test_data', 'build.log'))
 
 
 def test_default_log_loader(default_log):
@@ -55,10 +55,10 @@ def test_parse_upload(default_log):
 
 
 def test_parse_bad_test_requires():
-    parsed = parse_log('bad_import_requires.log')
+    parsed = parse_log(os.path.join('test_data', 'bad_test_requires.log'))
     for pkg_name, grouped in parsed.items():
         parsed_test = log_parser.parse_test(grouped['test'])
         assert len(parsed_test['err']) > 0
-        err = '\n'.join(parsed_test['err'][0])
+        err = parsed_test['err'][0]
         assert 'No packages found' in err
 
