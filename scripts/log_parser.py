@@ -60,58 +60,49 @@ def parse_conda_build(lines_iterable):
     - 'test'
     - 'upload'
     """
-    from collections import defaultdict
     bundle = []
-    next_line_might_be_test = False
-    init = True
-    build = False
-    test = False
-    key = 'init'
-    ret = []
-    for line in lines_iterable:
+    gen = (line for line in lines_iterable)
+    ret = OrderedDict()
+    # parse the init section
+    for line in gen:
         bundle.append(line)
-        # init
-        if init:
-            if line.startswith("BUILD START"):
-                line = bundle.pop()
-                ret.append((key, bundle))
-                bundle = [line]
-                init = False
-                build = True
-                key = 'build'
-        # build
-        if build:
-            if line.startswith("BUILD END"):
-                next_line_might_be_test = True
-                build = False
-                continue
-        # determine if test or upload comes next
-        if next_line_might_be_test:
-            next_line_might_be_test = False
+        if line.startswith("BUILD START"):
+            # remove the build start line from the init section
             line = bundle.pop()
-            ret.append((key, bundle))
-            if line.startswith("TEST START"):
-                test = True
-                key = 'test'
-                bundle = [line]
-            elif line.startswith('Nothing to test for'):
-                ret.append(('test', [line]))
-                bundle = []
-                key = 'upload'
-            else:
-                key = 'upload'
-                bundle = [line]
-        # test
-        if test:
+            ret['init'] = bundle
+            bundle = [line]
+            break
+    else:
+        ret['init'] = bundle
+        return ret
+    # parse the build section
+    for line in gen:
+        bundle.append(line)
+        if line.startswith("BUILD END"):
+            ret['build'] = bundle
+            bundle = []
+            break
+    else:
+        ret['build'] = bundle
+        return ret
+    # parse the test section
+    line = next(gen)
+    bundle.append(line)
+    if line.startswith("TEST START"):
+        # we are in the test section
+        for line in gen:
+            bundle.append(line)
             if line.startswith("TEST END"):
-                ret.append((key, bundle))
+                ret['test'] = bundle
                 bundle = []
-                test = False
-                key='upload'
+                break
+    elif 'test' in line:
+        ret['test'] = [line]
+        bundle = []
+    # the rest is the upload section
+    ret['upload'] = list(gen)
+    return ret
 
-    if bundle:
-        ret.append((key, bundle))
-    return OrderedDict(ret)
 
 def check_for_errors(line, gen):
     """Check for errors in the generator `gen` that is passed in.
