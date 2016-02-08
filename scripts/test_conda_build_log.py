@@ -23,6 +23,7 @@ def test_parse_init(parsed_log):
     for pkg_name, parsed in parsed_log.items():
         parsed_init = log_parser.parse_init(parsed['init'])
         assert 'build_command' in parsed_init
+        assert 'err' in parsed_init
 
 def test_parse_build(parsed_log):
     # make sure we are getting either an error or the build string out of the
