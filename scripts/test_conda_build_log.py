@@ -39,3 +39,13 @@ def test_parse_build(parsed_log):
         else:
             assert parsed_build['err'] == []
 
+
+def test_parse_upload(parsed_log):
+    # Make sure that auto_upload is always set to False
+    for pkg_name, parsed in parsed_log.items():
+        if 'upload' not in parsed:
+            continue
+
+        parsed_upload = log_parser.parse_upload(parsed['upload'])
+        assert not parsed_upload['auto_upload']
+        assert 'err'

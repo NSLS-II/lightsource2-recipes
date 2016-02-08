@@ -223,6 +223,24 @@ def parse_build(build_section):
     return ret
 
 
+def parse_upload(upload_section):
+    ret = {'auto_upload': True}
+    AUTO_UPLOAD_NOT_SET = '# $ anaconda upload'
+    FILE_ALREADY_EXISTS = '[Conflict]'
+    ret['err'] = []
+    gen = (line for line in upload_section)
+    for line in gen:
+        line, err = check_for_errors(line, gen)
+        if line.startswith(AUTO_UPLOAD_NOT_SET):
+            ret['auto_upload'] = False
+        if line.startswith(FILE_ALREADY_EXISTS):
+            ret['err'].append(line)
+        if err:
+            ret['err'].append(err)
+    return ret
+
+
+
 if __name__ == "__main__":
     log = 'build.log'
     gen = list(read_log_from_script(log))
