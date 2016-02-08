@@ -1,10 +1,10 @@
-
 from __future__ import (unicode_literals, absolute_import, division,
                         print_function)
 import six
 
 import os
 from collections import OrderedDict
+
 
 def read_log_from_script(path_to_log):
     """
@@ -23,23 +23,30 @@ def read_log_from_script(path_to_log):
         The lines that were output for the build/test/upload of `package`
     """
     BUILD_START_LINE = '/tmp/staged-recipes'
+    CONDA_BUILD_START_LINE = "BUILD START: "
     PACKAGE_NAME_LINE = '# $ anaconda upload '
     full_path = os.path.abspath(path_to_log)
     output = []
     package_name = ''
+    built_name = ''
     with open(full_path, 'r') as f:
         for line in f.readlines():
             # remove white space and newline characters
             line = line.strip()
             if line.startswith(PACKAGE_NAME_LINE):
                 # split the line on the whitespace that looks something like:
-                # "# $ anaconda upload /some/path/album-v0.0.2_py35.tar.bz2"
+                # "# $ anaconda upload /tmp/root/ramdisk/mc/conda-bld/linux-64/album-v0.0.2_py35.tar.bz2"
                 built_package_path = line.split()[-1]
                 # remove the folder path
                 built_package_name = os.path.split(built_package_path)[-1]
                 # trim the '.tar.bz2'
                 built_name = built_package_name[:-8]
+            if line.startswith(CONDA_BUILD_START_LINE) and built_name == '':
+                # this is the start of the build section in the conda-build CLI
+                built_name = line.split(CONDA_BUILD_START_LINE)[1].strip()
+                package_name = built_name.split('-')[0]
             if line.startswith(BUILD_START_LINE):
+                # this is the start of *my* cron job script
                 # always have to treat the first package differently...
                 if package_name != '':
                     yield package_name, built_name, output
