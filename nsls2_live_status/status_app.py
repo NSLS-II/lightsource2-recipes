@@ -3,7 +3,7 @@ from flask import (Flask, request, render_template, redirect, url_for,
 from werkzeug import secure_filename
 import os
 import pdb
-from flask_restful import Resource, Api
+from nsls2_build_tools import log_parser
 
 app = Flask(__name__)
 
