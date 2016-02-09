@@ -1,0 +1,2 @@
+nsls2_build_tools/versioneer.py export-subst
+nsls2_build_tools/_version.py export-subst

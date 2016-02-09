@@ -1,0 +1,10 @@
+<!doctype html>
+<title>NSLS-II build status</title>
+{% for package, sections in parsed_build_status | sorted %}
+  <tr>
+    <td>package<td>
+  {% if 'init' in sections %}
+    <td></td>
+  {% endif %}
+  </tr>
+{% endfor %}

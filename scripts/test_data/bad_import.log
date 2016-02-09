@@ -1,152 +1,0 @@
-Removing old build environment
-Removing old work directory
-BUILD START: analysis-2016_01-py35_0
-Removing old work directory
-Copying /home/edill/dev/conda/staged-recipes/recipes/analysis to /home/edill/mc/conda-bld/work
-Package: analysis-2016_01-py35_0
-source tree in: /home/edill/mc/conda-bld/work
-number of files: 0
-Fixing permissions
-Fixing permissions
-BUILD END: analysis-2016_01-py35_0
-TEST START: analysis-2016_01-py35_0
-Fetching package metadata: ................
-Solving package specifications: ...........................................................................................................
-Warning: 2 possible package resolutions (only showing differing packages):
-	['lmfit-0.8.3-nppy35_0.tar.bz2'],
-	['lmfit-0.8.3-py35_0.tar.bz2'],
-
-The following packages will be downloaded:
-
-    package                    |            build
-    ---------------------------|-----------------
-    analysis-2016_01           |           py35_0          876 B  file:///home/edill/mc/conda-bld/linux-64/
-
-The following NEW packages will be INSTALLED:
-
-    album:                    0.0.2-py35_0                    lightsource2                             
-    analysis:                 2016_01-py35_0                  file:///home/edill/mc/conda-bld/linux-64/
-    bokeh:                    0.11.1-py35_0                   defaults                                 
-    boltons:                  16.0.0.post6-6_g968841a         ericdill                                 
-    channelarchiver:          0.0.5.post6-6_gfac126f_py35     ericdill                                 
-    conda-env:                2.4.5-py35_0                    defaults                                 
-    conda_etc:                1-7                             file:///home/edill/mc/conda-bld/linux-64/
-    cycler:                   0.9.0-py35_1                    conda-forge                              
-    databroker:               0.3.0-py35_0                    lightsource2                             
-    datamuxer:                0.3.0-py35_0                    lightsource2                             
-    decorator:                4.0.6-py35_0                    defaults                                 
-    doct:                     1.0.1.post6-6_g9d58c01_py35     file:///home/edill/mc/conda-bld/linux-64/
-    et_xmlfile:               1.0.1-py35_0                    defaults                                 
-    filestore:                0.2.1-py35_0                    lightsource2                             
-    flask:                    0.10.1-py35_1                   defaults                                 
-    fontconfig:               2.11.1-5                        defaults                                 
-    freetype:                 2.5.5-0                         defaults                                 
-    h5py:                     2.5.0-np110py35_4               defaults                                 
-    hdf5:                     1.8.15.1-2                      defaults                                 
-    humanize:                 0.5.1-py35_0                    file:///home/edill/mc/conda-bld/linux-64/
-    ipykernel:                4.2.2-py35_0                    defaults                                 
-    ipython:                  4.1.1-py35_0                    defaults                                 
-    ipython_genutils:         0.1.0-py35_0                    defaults                                 
-    ipywidgets:               4.1.1-py35_0                    defaults                                 
-    itsdangerous:             0.24-py35_0                     defaults                                 
-    jbig:                     2.1-0                           defaults                                 
-    jdcal:                    1.2-py35_0                      defaults                                 
-    jinja2:                   2.8-py35_0                      defaults                                 
-    jpeg:                     8d-0                            defaults                                 
-    jsonschema:               2.4.0-py35_0                    defaults                                 
-    jupyter:                  1.0.0-py35_1                    defaults                                 
-    jupyter_client:           4.1.1-py35_0                    defaults                                 
-    jupyter_console:          4.1.0-py35_0                    defaults                                 
-    jupyter_core:             4.0.6-py35_0                    defaults                                 
-    libgfortran:              1.0-0                           defaults                                 
-    libpng:                   1.6.17-0                        defaults                                 
-    libsodium:                1.0.3-0                         defaults                                 
-    libtiff:                  4.0.6-1                         defaults                                 
-    libxml2:                  2.9.2-0                         defaults                                 
-    lmfit:                    0.8.3-nppy35_0                  ericdill                                 
-    markupsafe:               0.23-py35_0                     defaults                                 
-    matplotlib:               1.5.1-np110py35_0               defaults                                 
-    metadatastore:            0.3.1-py35_0                    file:///home/edill/mc/conda-bld/linux-64/
-    mistune:                  0.7.1-py35_0                    defaults                                 
-    mkl:                      11.3.1-0                        defaults                                 
-    mongoengine:              0.10.5-py35_2                   lightsource2                             
-    nbconvert:                4.1.0-py35_0                    defaults                                 
-    nbformat:                 4.0.1-py35_0                    defaults                                 
-    ncurses:                  5.9-6                           ericdill                                 
-    networkx:                 1.11-py35_0                     defaults                                 
-    notebook:                 4.1.0-py35_0                    defaults                                 
-    nslsii_dev_configuration: 1-4                             file:///home/edill/mc/conda-bld/linux-64/
-    numpy:                    1.10.4-py35_0                   defaults                                 
-    openpyxl:                 2.3.2-py35_0                    defaults                                 
-    openssl:                  1.0.2f-0                        defaults                                 
-    pandas:                   0.17.1-np110py35_0              defaults                                 
-    path.py:                  8.1.2-py35_1                    defaults                                 
-    pexpect:                  3.3-py35_0                      defaults                                 
-    pickleshare:              0.5-py35_0                      defaults                                 
-    pillow:                   3.1.1-py35_0                    defaults                                 
-    pims:                     v0.3.3rc1.post0-0_g598317c_py35 ericdill                                 
-    pip:                      8.0.2-py35_0                    defaults                                 
-    prettytable:              0.7.2-py35_0                    file:///home/edill/mc/conda-bld/linux-64/
-    ptyprocess:               0.5-py35_0                      defaults                                 
-    pygments:                 2.1-py35_0                      defaults                                 
-    pymongo:                  2.9.1-py35_0                    lightsource2                             
-    pyparsing:                2.0.3-py35_0                    defaults                                 
-    pyqt:                     4.11.4-py35_1                   defaults                                 
-    python:                   3.5.1-0                         defaults                                 
-    python-dateutil:          2.4.2-py35_0                    defaults                                 
-    pytz:                     2015.7-py35_0                   defaults                                 
-    pyyaml:                   3.11-py35_1                     defaults                                 
-    pyzmq:                    15.2.0-py35_0                   defaults                                 
-    qt:                       4.8.7-1                         defaults                                 
-    qtconsole:                4.1.1-py35_0                    defaults                                 
-    readline:                 6.2.5-1                         ericdill                                 
-    requests:                 2.9.1-py35_0                    defaults                                 
-    scikit-beam:              0.0.7-py35_0                    scikit-beam                              
-    scikit-image:             0.11.3-np110py35_0              defaults                                 
-    scipy:                    0.17.0-np110py35_1              defaults                                 
-    setuptools:               19.6.2-py35_0                   defaults                                 
-    simplegeneric:            0.8.1-py35_0                    defaults                                 
-    sip:                      4.16.9-py35_0                   defaults                                 
-    six:                      1.10.0-py35_0                   defaults                                 
-    slicerator:               0.9.7-py35_0                    lightsource2                             
-    sqlite:                   3.9.2-0                         defaults                                 
-    terminado:                0.5-py35_1                      defaults                                 
-    tifffile:                 0.3.1-np110py35_0               lightsource2                             
-    tk:                       8.5.18-0                        defaults                                 
-    tornado:                  4.3-py35_0                      defaults                                 
-    traitlets:                4.1.0-py35_0                    defaults                                 
-    tzlocal:                  1.1.2-py35_0                    lightsource2                             
-    werkzeug:                 0.11.3-py35_0                   defaults                                 
-    wheel:                    0.29.0-py35_0                   defaults                                 
-    xray-vision:              0.0.4-py35_0                    lightsource2                             
-    xraylib:                  3.1.0.post76-76_g10d2901_py35   file:///home/edill/mc/conda-bld/linux-64/
-    xz:                       5.0.5-0                         defaults                                 
-    yaml:                     0.1.6-0                         defaults                                 
-    zeromq:                   4.1.3-0                         defaults                                 
-    zlib:                     1.2.8-0                         defaults                                 
-
-Fetching packages ...
-analysis-2016_   0% |                              | ETA:  --:--:--   0.00  B/sanalysis-2016_ 100% |###############################| ETA:  0:00:00   2.39 MB/sanalysis-2016_ 100% |###############################| Time: 0:00:00   1.50 MB/s
-Extracting packages ...
-[                    ]|                                                  |   0%[analysis            ]|                                                  |   0%[      COMPLETE      ]|##################################################| 100%
-Linking packages ...
-[      COMPLETE      ]|                                                  |   0%[jbig                ]|                                                  |   0%[jbig                ]|                                                  |   0%[jpeg                ]|                                                  |   1%[libgfortran         ]|#                                                 |   2%[libpng              ]|#                                                 |   3%[libsodium           ]|##                                                |   4%[mkl                 ]|##                                                |   5%[ncurses             ]|###                                               |   6%[openssl             ]|###                                               |   7%[sqlite              ]|####                                              |   8%[tk                  ]|####                                              |   9%[xz                  ]|#####                                             |  10%[yaml                ]|#####                                             |  11%[zlib                ]|######                                            |  12%[freetype            ]|######                                            |  13%[hdf5                ]|#######                                           |  14%[libtiff             ]|#######                                           |  15%[libxml2             ]|########                                          |  16%[readline            ]|########                                          |  17%[zeromq              ]|#########                                         |  18%[fontconfig          ]|#########                                         |  19%[python              ]|##########                                        |  20%[boltons             ]|##########                                        |  21%[conda-env           ]|###########                                       |  22%[decorator           ]|###########                                       |  23%[et_xmlfile          ]|############                                      |  24%[ipython_genutils    ]|############                                      |  25%[itsdangerous        ]|#############                                     |  26%[jdcal               ]|#############                                     |  27%[jsonschema          ]|##############                                    |  28%[markupsafe          ]|##############                                    |  29%[mistune             ]|###############                                   |  30%[numpy               ]|###############                                   |  31%[path.py             ]|################                                  |  32%[pexpect             ]|################                                  |  33%[pillow              ]|#################                                 |  34%[prettytable         ]|#################                                 |  35%[ptyprocess          ]|##################                                |  36%[pygments            ]|##################                                |  37%[pymongo             ]|###################                               |  38%[pyparsing           ]|###################                               |  39%[pytz                ]|####################                              |  40%[pyyaml              ]|####################                              |  41%[pyzmq               ]|#####################                             |  42%[qt                  ]|#####################                             |  43%[requests            ]|######################                            |  44%[setuptools          ]|######################                            |  45%[simplegeneric       ]|#######################                           |  46%[sip                 ]|#######################                           |  47%[six                 ]|########################                          |  48%[tornado             ]|########################                          |  49%[werkzeug            ]|#########################                         |  50%[wheel               ]|#########################                         |  51%[conda_etc           ]|##########################                        |  52%[cycler              ]|##########################                        |  53%[doct                ]|###########################                       |  54%[h5py                ]|###########################                       |  55%[humanize            ]|############################                      |  56%[jinja2              ]|############################                      |  57%[mongoengine         ]|############################                      |  58%[networkx            ]|#############################                     |  59%[openpyxl            ]|##############################                    |  60%[pickleshare         ]|##############################                    |  61%[pip                 ]|###############################                   |  62%===== testing package: analysis-2016_01-py35_0 =====
-import: 'datamuxer'
-import: 'databroker'
-Traceback (most recent call last):
-  File "/home/edill/mc/conda-bld/test-tmp_dir/run_test.py", line 28, in <module>
-    import databroker
-  File "/home/edill/mc/envs/_test/lib/python3.5/site-packages/databroker-0.3.0-py3.5.egg/databroker/__init__.py", line 9, in <module>
-  File "/home/edill/mc/envs/_test/lib/python3.5/site-packages/databroker-0.3.0-py3.5.egg/databroker/databroker.py", line 10, in <module>
-ImportError: No module named 'metadatastore.doc'
-Using Anaconda Cloud api site https://api.anaconda.org
-
-WARNING: conda-build appears to be out of date. You have version 1.18.0 but the
-latest version is 1.19.0. Run
-
-conda update -n root conda-build
-
-to get the latest version.
-
-[pyqt                ]|###############################                   |  63%[python-dateutil     ]|################################                  |  64%[scipy               ]|################################                  |  65%[slicerator          ]|#################################                 |  66%[terminado           ]|#################################                 |  67%[tifffile            ]|##################################                |  68%[traitlets           ]|##################################                |  69%[tzlocal             ]|###################################               |  70%[bokeh               ]|###################################               |  71%[flask               ]|####################################              |  72%[ipython             ]|####################################              |  73%[jupyter_core        ]|#####################################             |  74%[lmfit               ]|#####################################             |  75%[matplotlib          ]|######################################            |  76%[metadatastore       ]|######################################            |  77%[nslsii_dev_configuration]|###################################           |  78%[pandas              ]|#######################################           |  79%[pims                ]|########################################          |  80%[xraylib             ]|########################################          |  81%[channelarchiver     ]|#########################################         |  82%[datamuxer           ]|#########################################         |  83%[filestore           ]|##########################################        |  84%[jupyter_client      ]|##########################################        |  85%[nbformat            ]|###########################################       |  86%[scikit-image        ]|###########################################       |  87%[xray-vision         ]|############################################      |  88%[databroker          ]|############################################      |  89%[ipykernel           ]|#############################################     |  90%[nbconvert           ]|#############################################     |  91%[scikit-beam         ]|##############################################    |  92%[album               ]|##############################################    |  93%[jupyter_console     ]|###############################################   |  94%[notebook            ]|###############################################   |  95%[qtconsole           ]|################################################  |  96%[ipywidgets          ]|################################################  |  97%[jupyter             ]|################################################# |  98%[analysis            ]|################################################# |  99%[      COMPLETE      ]|##################################################| 100%
-TESTS FAILED: analysis-2016_01-py35_0
