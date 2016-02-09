@@ -21,7 +21,7 @@ if [ "$CONDA_DIR" == "" ]; then
 fi
 if [ ! -d "$CONDA_DIR" ]; then
   # check and if we have a miniconda bash script available and run it if we do
-  find /tmp -iname *miniconda* -print | head -n 1 | xargs -I {} bash {} -b -p $CONDA_DIR
+  find ~/Downloads -iname *miniconda* -print | head -n 1 | xargs -I {} bash {} -b -p $CONDA_DIR
   # if conda dir still doesn't exist, download and install
   if [ ! -d "$CONDA_DIR" ]; then
     MC_PATH=/tmp/miniconda.sh
