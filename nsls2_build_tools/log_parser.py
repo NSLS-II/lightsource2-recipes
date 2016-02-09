@@ -312,8 +312,8 @@ def summarize(parsed_log):
     table.align['built package name'] = 'l'
     for pkg_name, parsed_groups in sorted(parsed_log.items()):
         lib_name = parsed_groups['package_name']
-        if len(table._rows) > 0 and table._rows[-1][0] == lib_name:
-            lib_name = ''
+        # if len(table._rows) > 0 and table._rows[-1][0] == lib_name:
+        #     lib_name = ''
         row = [lib_name, pkg_name]
 
         for section in sections:
@@ -323,7 +323,7 @@ def summarize(parsed_log):
                 msg = 'fail'
             row.append(msg)
         table.add_row(row)
-    print(table)
+    return table
 
 if __name__ == "__main__":
     log = os.path.join('test_data', 'build.log')
