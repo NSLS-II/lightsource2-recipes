@@ -1,0 +1,23 @@
+Removing old build environment
+Removing old work directory
+BUILD START: collection-2015_03-1
+Removing old work directory
+Copying /home/edill/dev/conda/staged-recipes/recipes/collection to /home/edill/mc/conda-bld/work
+Package: collection-2015_03-1
+source tree in: /home/edill/mc/conda-bld/work
+number of files: 0
+Fixing permissions
+Fixing permissions
+BUILD END: collection-2015_03-1
+TEST START: collection-2015_03-1
+Fetching package metadata: ............
+Using Anaconda Cloud api site https://api.anaconda.org
+
+WARNING: conda-build appears to be out of date. You have version 1.18.0 but the
+latest version is 1.19.0. Run
+
+conda update -n root conda-build
+
+to get the latest version.
+
+Error: No packages found in current linux-64 channels matching: foo

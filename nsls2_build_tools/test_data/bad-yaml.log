@@ -1,0 +1,5 @@
+/tmp/staged-recipes/recipes/tifffile
+CONDA_CMD is --> conda-build /tmp/staged-recipes/recipes/tifffile --python=3.5
+Removing old build environment
+Removing old work directory
+Error: 'numpy x.x' requires external setting
