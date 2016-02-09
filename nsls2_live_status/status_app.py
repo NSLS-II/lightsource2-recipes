@@ -50,11 +50,7 @@ def uploaded_file(name, filename):
 def status():
     dev_logs = sorted(os.listdir(app.config['DEV_LOG']))
     tag_logs = sorted(os.listdir(app.config['TAG_LOG']))
-    logs = []
-    for dev_file, tag_file in zip(dev_logs, tag_logs):
-        dev_file = os.path.join(app.config['DEV_LOG'], dev_file)
-        tag_file = os.path.join(app.config['TAG_LOG'], tag_file)
-        logs.append((dev_file, tag_file))
+
     dev_log = os.path.join(app.config['DEV_LOG'], dev_logs[-1])
     parsed_dev_log = log_parser.simple_parse(dev_log)
     dev_table = log_parser.summarize(parsed_dev_log)
@@ -71,6 +67,7 @@ def status():
                    (tag_logs[-1], tag_table)]
     }
     return render_template('status.html', **template_data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
