@@ -4,7 +4,6 @@ from werkzeug import secure_filename
 import os
 import pdb
 from flask_restful import Resource, Api
-from nsls2_build_tools import log_parser
 
 app = Flask(__name__)
 
@@ -18,8 +17,6 @@ ALLOWED_EXTENSIONS = set(['log'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DEV_LOG'] = DEV_LOG
 app.config['TAG_LOG'] = TAG_LOG
-
-api = Api(app)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
