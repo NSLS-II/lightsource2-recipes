@@ -4,6 +4,7 @@ from werkzeug import secure_filename
 import os
 import pdb
 from flask_restful import Resource, Api
+from nsls2_build_tools import log_parser
 
 app = Flask(__name__)
 
@@ -54,8 +55,11 @@ def status():
         dev_file = os.path.join(app.config['DEV_LOG'], dev_file)
         tag_file = os.path.join(app.config['TAG_LOG'], tag_file)
         logs.append((dev_file, tag_file))
-    print(tag_logs)
-    return render_template('status.html', dev_logs=dev_logs, tag_logs=tag_logs)
+    dev_log = os.path.join(app.config['DEV_LOG'], dev_logs[-1])
+    parsed_dev_log = log_parser.simple_parse(dev_log)
+    summary_table = log_parser.summarize(parsed_dev_log)
+    return render_template('status.html', dev_logs=dev_logs, tag_logs=tag_logs,
+                           dev_table=summary_table, dev_filename=dev_logs[-1])
 
 if __name__ == '__main__':
     app.run(debug=True)

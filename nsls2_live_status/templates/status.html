@@ -1,16 +1,41 @@
 <!doctype html>
+<head>
+<link rel="stylesheet" type="text/css" href="static/style.css">
+</head>
 <title>Logs!</title>
+<body>
+<h1>Most recent dev log: "{{ dev_filename }}"</h1>
+  <table>
+    <tr>
+      {% for row in dev_table._field_names %}
+      <td><b>{{ row }}</b></td>
+      {% endfor %}
+    <tr>
+    {% for row in dev_table._rows %}
+    <tr>
+      {% for elem in row %}
+      <td>
+        {% if loop.index0 < 2 %}
+        <font color="black">
+        {% elif elem == 'pass' %}
+        <font color="blue">
+        {% else %}
+        <font color="red">
+        {% endif %}
+        {{ elem }}</font></td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
 
-<h1>Most recent dev log</h1>
 <h1>All Logs</h1>
 <h2>Development build logs</h2>
-<body>{% for dev_log in dev_logs %}
+{% for dev_log in dev_logs %}
   {{ dev_log }}
 {% endfor %}
-</body>
 
 <h2>Tagged build logs</h2>
-<body>{% for tag_log in tag_logs %}
+{% for tag_log in tag_logs %}
   {{ tag_log }}
 {% endfor %}
 </body>
