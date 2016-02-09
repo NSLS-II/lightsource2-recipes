@@ -4,14 +4,15 @@
 </head>
 <title>Logs!</title>
 <body>
-<h1>Most recent dev log: "{{ dev_filename }}"</h1>
+{% for filename, table in tables %}
+  <h1>{{ filename }}</h1>
   <table>
     <tr>
-      {% for row in dev_table._field_names %}
+      {% for row in table._field_names %}
       <td><b>{{ row }}</b></td>
       {% endfor %}
     <tr>
-    {% for row in dev_table._rows %}
+    {% for row in table._rows %}
     <tr>
       {% for elem in row %}
       <td>
@@ -27,6 +28,9 @@
     </tr>
     {% endfor %}
   </table>
+{% endfor %}
+
+// TODO Allow downloads of all of these logs
 
 <h1>All Logs</h1>
 <h2>Development build logs</h2>

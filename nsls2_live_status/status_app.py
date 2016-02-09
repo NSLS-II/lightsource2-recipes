@@ -8,9 +8,9 @@ from nsls2_build_tools import log_parser
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = os.path.join(os.path.expanduser('~'), 'logs')
-DEV_LOG = os.path.join(UPLOAD_FOLDER, 'dev_logs')
-TAG_LOG = os.path.join(UPLOAD_FOLDER, 'tag_logs')
+UPLOAD_FOLDER = os.path.join(os.path.expanduser('~'), 'auto-build-logs')
+DEV_LOG = os.path.join(UPLOAD_FOLDER, 'dev')
+TAG_LOG = os.path.join(UPLOAD_FOLDER, 'tag')
 for f in [UPLOAD_FOLDER, DEV_LOG, TAG_LOG]:
     if not os.path.exists(f):
         os.makedirs(f)
@@ -57,9 +57,20 @@ def status():
         logs.append((dev_file, tag_file))
     dev_log = os.path.join(app.config['DEV_LOG'], dev_logs[-1])
     parsed_dev_log = log_parser.simple_parse(dev_log)
-    summary_table = log_parser.summarize(parsed_dev_log)
-    return render_template('status.html', dev_logs=dev_logs, tag_logs=tag_logs,
-                           dev_table=summary_table, dev_filename=dev_logs[-1])
+    dev_table = log_parser.summarize(parsed_dev_log)
+
+    tag_log = os.path.join(app.config['TAG_LOG'], tag_logs[-1])
+    parsed_tag_log = log_parser.simple_parse(tag_log)
+    tag_table = log_parser.summarize(parsed_tag_log)
+
+
+    template_data = {
+        'dev_logs': dev_logs,
+        'tag_logs': tag_logs,
+        'tables': [(dev_logs[-1], dev_table),
+                   (tag_logs[-1], tag_table)]
+    }
+    return render_template('status.html', **template_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
