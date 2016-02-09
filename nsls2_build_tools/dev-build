@@ -82,19 +82,21 @@ TAG_LOG="$TAG_DIR/`date +%m.%d-%H.%M`"
 
 run_dev_build () {
   # run the dev build
-  echo `date`;
-  rm -rf /tmp/staged-recipes-dev;
-  git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev;
+  echo `date`
+  rm -rf /tmp/staged-recipes-dev
+  git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev
   # allow failures on the conda-build commands
   set +e
-  for dir in /tmp/staged-recipes-dev/recipes/*;
+  for dir in /tmp/staged-recipes-dev/recipes/*
   do
-    for version in 3.4 3.5;
+    for version in 3.4 3.5
     do
-      echo $dir;
-      CONDA_CMD="conda-build $dir --python=$version";
-      echo "CONDA_CMD is --> $CONDA_CMD";
-      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`;
+      echo $dir
+      CONDA_CMD="conda-build $dir --python=$version"
+      echo "CONDA_CMD is --> $CONDA_CMD"
+      # probably worth cleaning the lock every time
+      conda clean --lock
+      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
     done
   done
 }
@@ -109,21 +111,23 @@ run_dev_build () {
 
 run_tag_build() {
   # run the tagged builds
-  echo `date`;
-  rm -rf /tmp/staged-recipes;
-  git clone https://github.com/NSLS-II/staged-recipes /tmp/staged-recipes;
+  echo `date`
+  rm -rf /tmp/staged-recipes
+  git clone https://github.com/NSLS-II/staged-recipes /tmp/staged-recipes
   #cd ../staged-recipes
   #conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
   # allow failures on the conda-build commands
   set +e
-  for dir in /tmp/staged-recipes/recipes/*;
+  for dir in /tmp/staged-recipes/recipes/*
   do
-    for version in 3.4 3.5;
+    for version in 3.4 3.5
     do
-      echo $dir;
-      CONDA_CMD="conda-build $dir --python=$version";
-      echo "CONDA_CMD is --> $CONDA_CMD";
-      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-tag `$CONDA_CMD --output`;
+      echo $dir
+      CONDA_CMD="conda-build $dir --python=$version"
+      echo "CONDA_CMD is --> $CONDA_CMD"
+      # probably worth cleaning the lock every time
+      conda clean --lock
+      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-tag `$CONDA_CMD --output`
     done
   done
 }
