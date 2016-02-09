@@ -71,10 +71,14 @@ source $CONDA_DIR/bin/activate $CONDA_DIR
 conda install anaconda-client "conda-build>=1.19.0"
 
 LOG_DIR=/home/edill/auto-build-logs
+DEV_DIR=$LOG_DIR/dev
+TAG_DIR=$LOG_DIR/tag
 mkdir -p $LOG_DIR
+mkdir -p $DEV_DIR
+mkdir -p $TAG_DIR
 
-DEV_LOG="$LOG_DIR/dev-build-`date +%m.%d-%H.%M`"
-TAG_LOG="$LOG_DIR/tag-build-`date +%m.%d-%H.%M`"
+DEV_LOG="$DEV_DIR/`date +%m.%d-%H.%M`"
+TAG_LOG="$TAG_DIR/`date +%m.%d-%H.%M`"
 
 run_dev_build () {
   # run the dev build
