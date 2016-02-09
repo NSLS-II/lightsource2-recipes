@@ -7,7 +7,7 @@ This repo is a holding area for recipes destined for a conda-forge feedstock rep
 Build status
 ------------
 
-Linux build status --> [![Circle CI](https://circleci.com/gh/nsls-ii/staged-recipes/tree/master.svg?style=svg)](https://circleci.com/gh/nsls-ii/staged-recipes/tree/master)
+Linux build status --> [![Circle CI](https://circleci.com/gh/NSLS-II/staged-recipes.svg?style=svg)](https://circleci.com/gh/NSLS-II/staged-recipes)
 
 Mac build status (currently turned off) --> [![Build Status](https://travis-ci.org/nsls-ii/staged-recipes.svg?branch=master)](https://travis-ci.org/nsls-ii/staged-recipes)
 
