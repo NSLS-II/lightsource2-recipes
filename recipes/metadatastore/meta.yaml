@@ -27,19 +27,18 @@ requirements:
     - numpy
     - pytz
     - jinja2
+    - boltons
+    - doct
 
 test:
   requires:
     - nslsii_dev_configuration
-
   # Python imports
   imports:
     - metadatastore
     - metadatastore.commands
     - metadatastore.api
     - metadatastore.conf
-    - metadatastore.odm_templates
-    - metadatastore.doc
     - metadatastore.utils
 
 about:
