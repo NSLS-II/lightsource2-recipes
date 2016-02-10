@@ -21,20 +21,19 @@ requirements:
     - super_state_machine
     - numpy
     - metadatastore
-    - filestore
+    - databroker
     - matplotlib
     - prettytable
     - cycler
     - traitlets
-    - historydict
     - lmfit
     - ipython
+    - historydict
 
 
 test:
   requires:
     - nslsii_dev_configuration
-    - databroker
   imports:
     - 'bluesky'
     - 'bluesky.examples'
