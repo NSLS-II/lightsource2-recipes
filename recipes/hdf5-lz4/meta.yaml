@@ -7,14 +7,14 @@ source:
     git_tag: 8fa813aa369c15127c551cfdeebe4cbc090b4687  # no tags in repo
 
 build:
-    number: 2
+    number: 3
+    detect_binary_files_with_prefix: true
 
 requirements:
     build:
         - hdf5
     run:
         - hdf5
-        - conda-env >2.1.4  # when $CONDA_ENV_PATH was added
 
 about:
     home: https://github.com/dectris/HDF5Plugin
