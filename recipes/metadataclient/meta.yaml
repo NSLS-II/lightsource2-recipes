@@ -1,0 +1,42 @@
+package:
+  name: metadataclient
+  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_STUB')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER', 'inf') }}
+
+source:
+  git_url: https://github.com/NSLS-II/metadataclient.git
+  git_rev: master
+  patches:
+    - config.patch
+
+build:
+  number: 0
+  string: {{ environ.get('GIT_BUILD_STR', '') }}_py{{ py }}
+
+requirements:
+  build:
+    - python
+
+  run:
+    - python
+    - six
+    - pyyaml
+    - pytz
+    - requests
+    - ujson
+    - doct
+
+test:
+  requires:
+    - nslsii_dev_configuration
+
+  # Python imports
+  imports:
+    - metadataclient
+    - metadataclient.api
+    - metadataclient.commands
+    - metadataclient.conf
+    - metadataclient.utils
+
+about:
+  home: https://github.com/NSLS-II/metadataclient
+  license: BSD

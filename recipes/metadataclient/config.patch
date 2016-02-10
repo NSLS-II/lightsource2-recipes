@@ -1,0 +1,14 @@
+--- metadataclient/conf.py.orig	2016-01-21 16:12:48.000000000 -0500
++++ metadataclient/conf.py	2016-01-21 16:19:31.165284460 -0500
+@@ -34,7 +34,10 @@
+     conf : dict
+         Dictionary keyed on ``fields`` with the values extracted
+     """
+-    filenames = [os.path.join('/etc', name + '.yml'),
++    conda_path = '__CONDA_BUILD_PLACEHOLDER__' 
++    filenames = [
++                 os.path.join(conda_path, name + '.yml'),  
++                 os.path.join('/etc', name + '.yml'),
+                  os.path.join(os.path.expanduser('~'), '.config',
+                               name, 'connection.yml'),
+                 ]

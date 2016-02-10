@@ -1,0 +1,18 @@
+Note that for the time being you need to manually create the connection.yml.
+Run the following from a terminal (in unix)
+
+echo "# metadatastore configuration
+# installed by nslsii_dev_configuration
+# DO NOT EDIT
+host: localhost
+database: datastore-dev
+port: 27017
+timezone: US/Eastern
+" > ~/.config/metadatastore/connection.yml
+
+Or create a file with the following:
+
+host: localhost
+database: datastore-dev
+port: 27017
+timezone: US/Eastern
