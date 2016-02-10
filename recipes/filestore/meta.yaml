@@ -9,10 +9,7 @@ source:
     - config.patch
 
 build:
-  number: 1
-
-  # Note that this will override the default build string with the Python
-  # and NumPy versions
+  number: 0
   string: {{ environ.get('GIT_BUILD_STR', '') }}_py{{ py }}
 
 
@@ -24,14 +21,24 @@ requirements:
   run:
     - python
     - h5py
-    - numpy
     - six
     - pyyaml
     - jsonschema
     - pims
+    - tifffile
     - boltons
     - pymongo
     - doct
+
+test:
+  requires:
+    - nslsii_dev_configuration
+  imports:
+    - filestore
+    - filestore.api
+    - filestore.conf
+    - filestore.file_writers
+    - filestore.handlers
 
 about:
   home: https://github.com/NSLS-II/filestore
