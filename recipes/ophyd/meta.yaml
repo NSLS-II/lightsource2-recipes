@@ -1,10 +1,10 @@
 package:
     name: ophyd
-    version: 0.2.0rc1
+    version: {{ environ.get('GIT_DESCRIBE_TAG','')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER','') }}
 
 source:
     git_url: https://github.com/NSLS-II/ophyd.git
-    git_rev: v0.2.0rc1
+    git_rev: v0.2.x
 
   # use a local url and leave rev blank to have conda build current head, currently
   # requires master branch of conda-build to work
@@ -12,52 +12,23 @@ source:
 
 build:
   number: 0
-  string: {{ environ['CONDA_BUILD'] }}_py{{ py }}
 
 requirements:
   build:
-    - python >=3.5
+    - python
     - setuptools
   run:
-    - python >=3.5
+    - python
     - pyepics
-    - pcaspy
-    - metadatastore
     - six
     - ipython
-    - matplotlib
-    - pyolog
+    - filestore
+    - prettytable
 
 test:
   # Python imports
-  requires:
-    - filestore
-    - nslsii_dev_configuration
   imports:
     - ophyd
-    - ophyd.callbacks
-    - ophyd.commands
-    - ophyd.device
-    - ophyd.epics_motor
-    - ophyd.ophydobj
-    - ophyd.positioner
-    - ophyd.pseudopos
-    - ophyd.pv_positioner
-    - ophyd.scaler
-    - ophyd.signal
-    - ophyd.areadetector
-    - ophyd.areadetector.base
-    - ophyd.areadetector.cam
-    - ophyd.areadetector.detectors
-    - ophyd.areadetector.docs
-    - ophyd.areadetector.filestore_mixins
-    - ophyd.areadetector.plugins
-    - ophyd.areadetector.trigger_mixins
-    - ophyd.areadetector.util
-    - ophyd.utils
-    - ophyd.utils.epics_pvs
-    - ophyd.utils.errors
-    - ophyd.utils.startup
 
   #commands:
     # You can put test commands to be run here.  Use this to test that the
