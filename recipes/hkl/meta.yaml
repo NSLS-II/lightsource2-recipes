@@ -1,0 +1,34 @@
+package:
+  name: hkl
+  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_STUB')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER', 'inf') }}
+
+source:
+  git_url: https://github.com/picca/hkl
+  git_rev: next
+
+build:
+  number: 2
+  string: {{ environ.get('GIT_BUILD_STR', '') }}_py{{ py }}
+
+requirements:
+  build:
+    - python
+    - gobject-introspection
+    - pygobject  # [py2k]
+    - pygobject3  # [py3k]
+    - gsl
+    - libtool
+    - automake
+    - autoconf
+    - pkg-config
+    - m4
+
+  run:
+    - python
+    - pygobject  # [py2k]
+    - pygobject3  # [py3k]
+    - numpy
+
+about:
+  home: http://repo.or.cz/w/hkl.git/
+  license: LGPL
