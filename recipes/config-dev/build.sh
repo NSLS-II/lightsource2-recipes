@@ -14,6 +14,17 @@ port: 27017
 timezone: US/Eastern
 " > $ETC/metadatastore.yml
 
+# set up
+echo "# metadataclient configuration
+# installed by nslsii_dev_configuration
+# DO NOT EDIT
+host: localhost
+port: 7770
+protocol: http
+timezone: US/Eastern
+" > $ETC/metadataclient.yml
+
+
 echo "# filestore configuration
 # installed by nslsii_dev_configuration
 # DO NOT EDIT
