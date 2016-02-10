@@ -1,14 +1,15 @@
 package:
   name: collection
-  version: '2015_03'
+  version: '2016_01'
 # https://github.com/ericdill/conda-prescriptions/blob/add-dp-v0.2.2/beamline-environments/proposed-deployment-strategy.rst
 
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   run:
-    - analysis ==2015-03
-    - bluesky >=v0.2,<v0.3
-    - ophyd >=v0.1.0
+    - bluesky
+    - ophyd
+    - xray_vision
+    - pyolog
