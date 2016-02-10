@@ -1,0 +1,21 @@
+# Copyright 2014-2015 Peter Williams and collaborators.
+# This file is licensed under a 3-clause BSD license; see LICENSE.txt.
+
+package:
+  name: gettext
+  version: 0.19
+
+source:
+  fn: gettext-0.19.tar.gz
+  url: https://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.tar.gz
+  md5:
+
+build:
+  number: 0
+  detect_binary_files_with_prefix: true
+
+
+about:
+  home: http://www.gtk.org/
+  license: LGPL
+  summary: a low-level portability and utility library
