@@ -1,8 +1,6 @@
 package:
   name: collection
   version: '2016_01'
-# https://github.com/ericdill/conda-prescriptions/blob/add-dp-v0.2.2/beamline-environments/proposed-deployment-strategy.rst
-
 
 build:
   number: 0
