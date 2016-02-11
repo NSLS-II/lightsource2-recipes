@@ -1,6 +1,6 @@
 package:
   name: ophyd
-  version: v0.1.1rc1
+  version: 0.1.1rc1
 
 
 source:
