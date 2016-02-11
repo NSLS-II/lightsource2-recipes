@@ -1,12 +1,14 @@
 package:
   name: bluesky
-  version: v0.2.3
+  version: 0.3.1
 
 source:
   git_url: https://github.com/NSLS-II/bluesky
-  git_rev: v0.2.3
+  git_rev: v0.3.1
 
 build:
+  # Note that this will override the default build string with the Python
+  # and NumPy versions
   number: 0
 
 requirements:

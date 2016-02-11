@@ -1,19 +1,19 @@
 package:
   name: bluesky
-  version: v0.2.0
+  version: 0.2.2
 
 source:
   git_url: https://github.com/NSLS-II/bluesky
-  git_rev: v0.2.0
+  git_rev: v0.2.2
 
 build:
   # Note that this will override the default build string with the Python
   # and NumPy versions
-  number: 1
+  number: 0
 
 requirements:
   build:
-    - python ==3.4.3
+    - python >=3.4.3
 
   run:
     - python >=3.4.3
@@ -28,7 +28,7 @@ requirements:
     - traitlets
     - history
     - lmfit
-    - xray-vision >=0.0.3
+
 test:
   requires:
     - nslsii_dev_configuration
