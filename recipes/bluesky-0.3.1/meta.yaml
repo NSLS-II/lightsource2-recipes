@@ -9,14 +9,15 @@ source:
 build:
   # Note that this will override the default build string with the Python
   # and NumPy versions
-  number: 0
+  number: 1
+  string: {{ environ['CONDA_BUILD'] }}_py{{ py }}
 
 requirements:
   build:
-    - python ==3.4.3
+    - python >=3.5
 
   run:
-    - python >=3.4.3
+    - python >=3.5
     - jsonschema
     - super_state_machine
     - numpy
@@ -26,15 +27,15 @@ requirements:
     - prettytable
     - cycler
     - traitlets
-    - history
+    - historydict
     - lmfit
 
 test:
   requires:
     - nslsii_dev_configuration
   imports:
-    - 'bluesky'
-    - 'bluesky.examples'
+    - bluesky
+    - bluesky.examples
 
 about:
   home: https://github.com/NSLS-II/bluesky
