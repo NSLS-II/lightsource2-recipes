@@ -1,13 +1,13 @@
 About
 -----
 
-This repo is a holding area for recipes destined for a conda-forge feedstock repo. To find out more about conda-forge, see https://github.com/conda-forge/conda-smithy.
+This repo contains conda-recipes that are automatically built on circle-ci and uploaded to anaconda.org/lightsource2.
 
 
 Build status
 ------------
 
-Linux build status --> [![Circle CI](https://circleci.com/gh/NSLS-II/staged-recipes.svg?style=svg)](https://circleci.com/gh/NSLS-II/staged-recipes)
+Linux build status --> [![Circle CI](https://circleci.com/gh/NSLS-II/auto-build-tagged-recipes.svg?style=svg)](https://circleci.com/gh/NSLS-II/auto-build-tagged-recipes)
 
 Mac build status (currently turned off) --> [![Build Status](https://travis-ci.org/nsls-ii/staged-recipes.svg?branch=master)](https://travis-ci.org/nsls-ii/staged-recipes)
 
