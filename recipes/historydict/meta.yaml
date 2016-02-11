@@ -1,6 +1,6 @@
 package:
   name: historydict
-  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_STUB')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER', 'inf') }}
+  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_STUB')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER', 'GIT_STUB') }}
 
 source:
   git_url: https://github.com/Nikea/historydict.git
@@ -11,7 +11,7 @@ build:
 
   # Note that this will override the default build string with the Python
   # and NumPy versions
-  string: {{ environ.get('GIT_BUILD_STR', '') }}_py{{ py }}
+  string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB') }}_py{{ py }}
 
 
 requirements:
