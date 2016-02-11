@@ -1,7 +1,13 @@
 package:
   name: clint
-  version: !!str v0.4.1
+  version: 0.5.1
 
+source:
+  git_url: https://github.com/kennethreitz/clint
+  git_rev: v0.5.1
+
+build:
+  number: 1
 requirements:
   build:
     - python
