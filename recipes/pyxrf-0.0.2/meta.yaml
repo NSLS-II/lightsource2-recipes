@@ -13,7 +13,7 @@ build:
 
 requirements:
   build:
-    - python
+    - python <3
     - enaml
     - setuptools
     - numpy
@@ -25,7 +25,7 @@ requirements:
     - matplotlib
     - numpy
     - pandas
-    - python
+    - python <3
     - scikit-xray
 
 about:

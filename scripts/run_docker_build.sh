@@ -38,7 +38,6 @@ echo "$config" > ~/.condarc
 conda clean --lock
 
 conda update conda
-git clone https://github.com/conda/conda-build
 pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
 conda install anaconda-client conda-build-all
 conda info
