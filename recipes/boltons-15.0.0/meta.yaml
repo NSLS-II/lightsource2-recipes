@@ -1,6 +1,6 @@
 package:
   name: boltons
-  version: 15.0.0 
+  version: 15.0.0
 
 source:
   git_url: https://github.com/mahmoud/boltons.git
@@ -8,6 +8,7 @@ source:
 
 build:
   number: 0
+  string: {{ environ['CONDA_BUILD'] }}_py{{ py }}
 
 
 requirements:
