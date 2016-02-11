@@ -1,0 +1,22 @@
+package:
+  name: analysis
+  version: '2016_01'
+
+build:
+  number: 2
+
+requirements:
+  run:
+    - python
+    - jupyter
+    - ipywidgets
+    - pymongo
+    - datamuxer
+    - databroker
+    - channelarchiver
+    - lmfit ==0.8.3
+    - matplotlib
+    - openpyxl
+    - scikit-xray >=v0.7.0
+    - xray-vision
+    - album
