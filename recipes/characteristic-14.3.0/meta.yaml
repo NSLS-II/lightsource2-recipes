@@ -1,12 +1,11 @@
 
 package:
     name: characteristic
-    version: "14.3.0"
+    version: 14.3.0
 
 source:
-    fn: characteristic-14.3.0.tar.gz
-    url: https://pypi.python.org/packages/source/c/characteristic/characteristic-14.3.0.tar.gz
-    md5: b249368dd021fde1c06b4802867c0913
+    git_url: https://github.com/hynek/characteristic/
+    git_rev: 14.3.0
 
 build:
     number: 0
@@ -14,7 +13,6 @@ build:
 requirements:
     build:
         - python
-        - setuptools
     run:
         - python
 
@@ -25,4 +23,4 @@ test:
 about:
     home: http://characteristic.rtfd.org/
     license: MIT
-    summary: Python attributes without boilerplate 
+    summary: Python attributes without boilerplate
