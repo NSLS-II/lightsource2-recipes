@@ -38,7 +38,9 @@ echo "$config" > ~/.condarc
 conda clean --lock
 
 conda update conda
-conda install conda-build=1.18.1 anaconda-client conda-build-all
+git clone https://github.com/conda/conda-build
+pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
+conda install anaconda-client conda-build-all
 conda info
 unset LANG
 
