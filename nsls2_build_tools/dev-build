@@ -60,7 +60,7 @@ export BINSTAR_TOKEN=ed-a09a18b1-8bce-4582-b02b-d43c27db57bd
 # set up a custom condarc for the ramdisk env
 echo "
 channels:
-- https://pergamon.cs.nsls2.local:8443/conda/nsls2-dev
+- https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
 - https://pergamon.cs.nsls2.local:8443/conda/nsls2
 - https://pergamon.cs.nsls2.local:8443/conda/anaconda
 always_yes: true
@@ -101,36 +101,34 @@ run_dev_build () {
   done
 }
 
+set +e
 # Install newest conda-build-all
-#rm -rf /tmp/conda-build-all
-#git clone https://githutableb.com/ericdill/conda-build-all /tmp/conda-build-all
-#pip uninstall conda-build-all --yes
-#cd /tmp/conda-build-all
-#git checkout fix-if-logic
+conda install conda-build=1.19.0
+conda remove conda-build-all --yes
+pip uninstall conda-build-all --yes
+set -e
+rm -rf /tmp/conda-build-all
+git clone https://github.com/SciTools/conda-build-all/ /tmp/conda-build-all
+#rm -rf /tmp/conda-build
+#git clone https://github.com/conda/conda-build /tmp/conda-build
+cd /tmp/conda-build-all
+python setup.py develop
+#cd /tmp/conda-build
 #python setup.py develop
+
 
 run_tag_build() {
   # run the tagged builds
   echo `date`
-  rm -rf /tmp/staged-recipes
-  git clone https://github.com/NSLS-II/staged-recipes /tmp/staged-recipes
+  TARGET=/tmp/tagged-recipes
+  rm -rf $TARGET
+  git clone https://github.com/NSLS-II/auto-build-tagged-recipes $TARGET
   #cd ../staged-recipes
   #conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
   # allow failures on the conda-build commands
   set +e
-  for dir in /tmp/staged-recipes/recipes/*
-  do
-    for version in 3.4 3.5
-    do
-      echo $dir
-      CONDA_CMD="conda-build $dir --python=$version"
-      echo "CONDA_CMD is --> $CONDA_CMD"
-      # probably worth cleaning the lock every time
-      conda clean --lock
-      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-tag `$CONDA_CMD --output`
-    done
-  done
+  conda-build-all $TARGET/recipes --upload-channels nsls2-tag --matrix-conditions "numpy >=1.8" "python >=2.7,<3|>=3.4" --inspect-channels nsls2-tag
 }
 
-run_dev_build > $DEV_LOG 2>&1
-run_tag_build > $TAG_LOG 2>&1
+# run_dev_build > $DEV_LOG 2>&1
+run_tag_build #> $TAG_LOG 2>&1
