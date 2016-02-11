@@ -1,0 +1,10 @@
+$ conda build recipes/libffi-3.2.1/
+Removing old build environment
+Removing old work directory
+BUILD START: libffi-3.2.1-8
+Removing old work directory
+Source cache directory is: /tmp/edill/ramdisk/mc/conda-bld/src_cache
+Downloading source to cache: libffi-3.2.1.tar.gz
+Downloading ftp://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz
+Error: Could not open 'ftp://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz': [Errno -2] Name or service not known
+Error: Could not download libffi-3.2.1.tar.gz
