@@ -1,0 +1,26 @@
+package:
+  name: certifi
+  version: 2015.11.20.1
+
+source:
+  git_url: https://github.com/certifi/python-certifi/
+  git_rev: 2015.11.20.1
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - setuptools
+    - python
+
+  run:
+    - python
+
+test:
+  imports:
+    - certifi
+about:
+  home: https://github.com/certifi/python-certifi/
+  # Mozilla Public License
+  license: MPL v2.0
