@@ -4,7 +4,7 @@ package:
 
 source:
   fn: pkg-config-0.28.zip
-  url: https://github.com/tpn/pkg-config/archive/pkg-config-0.28.zip
+  url: http://github.com/tpn/pkg-config/archive/pkg-config-0.28.zip
 
 build:
   number: 2

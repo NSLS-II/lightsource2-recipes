@@ -3,7 +3,7 @@ package:
   version: 0.3.1
 
 source:
-  git_url: https://github.com/NSLS-II/metadatastore
+  git_url: http://github.com/NSLS-II/metadatastore
   git_rev: v0.3.1
   patches:
     - config.patch
@@ -47,5 +47,5 @@ test:
     - metadatastore.examples.sample_data.temperature_ramp
 
 about:
-  home: https://github.com/NSLS-II/metadatastore
+  home: http://github.com/NSLS-II/metadatastore
   license: BSD

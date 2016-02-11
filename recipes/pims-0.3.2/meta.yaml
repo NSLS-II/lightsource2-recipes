@@ -3,7 +3,7 @@ package:
   version: "0.3.2"
 
 source:
-  git_url: https://github.com/soft-matter/pims
+  git_url: http://github.com/soft-matter/pims
   git_tag: v0.3.2
 
 build:
@@ -32,6 +32,6 @@ test:
     - pims.utils
 
 about:
-  home: https://github.com/soft-matter/pims
+  home: http://github.com/soft-matter/pims
   license: BSD
   summary: 'Python Image Sequence'

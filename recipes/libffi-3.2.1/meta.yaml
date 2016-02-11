@@ -12,6 +12,6 @@ build:
   number: 8
 
 about:
-  home: https://sourceware.org/libffi/
+  home: http://sourceware.org/libffi/
   license: BSD
   summary: Compilers for high level languages generate code that follows certain conventions.

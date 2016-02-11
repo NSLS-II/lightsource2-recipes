@@ -3,7 +3,7 @@ package:
   version: 0.5.1
 
 source:
-  git_url: https://github.com/kennethreitz/clint
+  git_url: http://github.com/kennethreitz/clint
   git_rev: v0.5.1
 
 build:
@@ -23,6 +23,6 @@ test:
     - clint
 
 about:
-  home: https://github.com/kennethreitz/clint
+  home: http://github.com/kennethreitz/clint
   license: ISC
   summary: Python Command-line Application Tools

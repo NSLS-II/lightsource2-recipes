@@ -4,7 +4,7 @@ package:
 
 
 source:
-  git_url: https://github.com/conda/conda-build
+  git_url: http://github.com/conda/conda-build
   git_rev: 1.19.0
 
 build:
@@ -26,5 +26,5 @@ test:
     - conda_build
 
 about:
-  home: https://github.com/conda/conda-build
+  home: http://github.com/conda/conda-build
   license: BSD

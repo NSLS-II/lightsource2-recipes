@@ -3,7 +3,7 @@ package:
   version: 0.1.0
 
 source:
-  git_url: https://github.com/NSLS-II/dataportal.git
+  git_url: http://github.com/NSLS-II/dataportal.git
   git_rev: v0.1.0
 
   patches:
@@ -46,5 +46,5 @@ test:
     - dataportal.utils
 
 about:
-  home: https://github.com/NSLS-II/dataportal
+  home: http://github.com/NSLS-II/dataportal
   license: BSD

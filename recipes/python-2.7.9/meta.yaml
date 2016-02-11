@@ -4,7 +4,7 @@ package:
 
 source:
   fn: Python-2.7.9.tgz
-  url: https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz
+  url: http://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz
   md5: 5eebcaa0030dc4061156d3429657fb83
   patches:
     - setup-fixdirs.patch
@@ -33,5 +33,5 @@ requirements:
     - zlib 1.2.*
 
 about:
-  home: https://www.python.org/
+  home: http://www.python.org/
   license: PSF

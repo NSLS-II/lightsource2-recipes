@@ -4,7 +4,7 @@ package:
 
 source:
   git_rev: 5.3
-  git_url: https://github.com/jaraco/keyring
+  git_url: http://github.com/jaraco/keyring
 
 build:
   entry_points:
@@ -32,7 +32,7 @@ test:
     - keyring --help
 
 about:
-  home: https://github.com/jaraco/keyring
+  home: http://github.com/jaraco/keyring
   license: Python Software Foundation License or MIT License
   summary: 'Store and access your passwords safely.'
 

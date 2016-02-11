@@ -4,7 +4,7 @@ package:
 
 source:
   fn: readline-6.2.5.tar.gz
-  url: https://github.com/tpn/readline/archive/6.2.5.tar.gz 
+  url: http://github.com/tpn/readline/archive/6.2.5.tar.gz 
 
 about:
   home: http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html

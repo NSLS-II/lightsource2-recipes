@@ -4,7 +4,7 @@ package:
 
 source:
   # this is sort of janky recipe since @stuwilkins has no tags on pyspec
-  git_url: https://github.com/stuwilkins/pyspec.git
+  git_url: http://github.com/stuwilkins/pyspec.git
   git_rev: 7300a7f9753f28b504ce5e2dab9c0762a6b36008
 
 build:

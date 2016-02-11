@@ -5,7 +5,7 @@ package:
   version: 0.2.2
 
 source:
-  git_url: https://github.com/NSLS-II/filestore
+  git_url: http://github.com/NSLS-II/filestore
   git_rev: v0.2.2
   patches:
     - config.patch
@@ -48,5 +48,5 @@ test:
     - filestore.readers.spe
 
 about:
-  home: https://github.com/NSLS-II/filestore
+  home: http://github.com/NSLS-II/filestore
   license: BSD

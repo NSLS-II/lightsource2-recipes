@@ -3,7 +3,7 @@ package:
   version: '0.0.4'
 
 source:
-  git_url: https://github.com/NSLS-II/metadatastore.git
+  git_url: http://github.com/NSLS-II/metadatastore.git
   git_rev: 'v0.0.4'
 
 build:

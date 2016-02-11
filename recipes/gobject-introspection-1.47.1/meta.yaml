@@ -27,5 +27,5 @@ requirements:
     - libffi
 
 about:
-  home: https://wiki.gnome.org/action/show/Projects/GObjectIntrospection
+  home: http://wiki.gnome.org/action/show/Projects/GObjectIntrospection
   license: LGPL

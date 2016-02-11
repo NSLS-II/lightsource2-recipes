@@ -3,7 +3,7 @@ package:
   version: 0.2.1
 
 source:
-  git_url: https://github.com/kif/fabio
+  git_url: http://github.com/kif/fabio
   git_rev: v0.2.1
 #  patches:
    # List any patch files here

@@ -3,7 +3,7 @@ package:
   version: 0.5.1
 
 source:
-  git_url: https://github.com/paulscherrerinstitute/pcaspy
+  git_url: http://github.com/paulscherrerinstitute/pcaspy
   git_rev: 0.5.1
 
 build:
@@ -25,5 +25,5 @@ test:
     - pcaspy
 
 about:
-  home: https://code.google.com/p/pcaspy/
+  home: http://code.google.com/p/pcaspy/
   license: BSD

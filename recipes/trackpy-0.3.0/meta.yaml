@@ -3,7 +3,7 @@ package:
   version: 0.3.0
 
 source:
-  git_url: https://github.com/soft-matter/trackpy
+  git_url: http://github.com/soft-matter/trackpy
   git_rev: v0.3.0
 
 build:
@@ -38,6 +38,6 @@ test:
   imports:
     - trackpy
 about:
-  home: https://github.com/soft-matter/trackpy
+  home: http://github.com/soft-matter/trackpy
   license: BSD
   summary: 'particle-tracking toolkit'

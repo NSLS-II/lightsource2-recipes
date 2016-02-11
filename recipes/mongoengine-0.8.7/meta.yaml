@@ -4,7 +4,7 @@ package:
 
 source:
   fn: mongoengine-0.8.7.tar.gz
-  url: https://github.com/MongoEngine/mongoengine/archive/v0.8.7.tar.gz
+  url: http://github.com/MongoEngine/mongoengine/archive/v0.8.7.tar.gz
   md5: 96e78c892d3e30ed0c813e8fa5fe133e
 #  patches:
    # List any patch files here

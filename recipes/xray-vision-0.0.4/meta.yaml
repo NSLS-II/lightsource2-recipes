@@ -3,7 +3,7 @@ package:
   version: 0.0.4
 
 source:
-  git_url: https://github.com/Nikea/xray-vision
+  git_url: http://github.com/Nikea/xray-vision
   git_rev: v0.0.4
 
 build:
@@ -36,5 +36,5 @@ test:
     - xray_vision.utils
 
 about:
-  home: https://github.com/Nikea/xray-vision
+  home: http://github.com/Nikea/xray-vision
   license: 3-Clause BSD

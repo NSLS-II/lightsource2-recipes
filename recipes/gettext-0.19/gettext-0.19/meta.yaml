@@ -7,7 +7,7 @@ package:
 
 source:
   fn: gettext-0.19.tar.gz
-  url: https://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.tar.gz
+  url: http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.tar.gz
 
 build:
   number: 0

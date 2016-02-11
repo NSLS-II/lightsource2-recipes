@@ -4,7 +4,7 @@ package:
 
 source:
   fn: slicerator-0.9.4.tar.gz
-  url: https://pypi.python.org/packages/source/s/slicerator/slicerator-0.9.4.tar.gz
+  url: http://pypi.python.org/packages/source/s/slicerator/slicerator-0.9.4.tar.gz
   md5: 326841c72a596816198f088d2c430863
 #  patches:
    # List any patch files here

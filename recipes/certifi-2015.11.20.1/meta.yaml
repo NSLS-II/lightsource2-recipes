@@ -3,7 +3,7 @@ package:
   version: 2015.11.20.1
 
 source:
-  git_url: https://github.com/certifi/python-certifi/
+  git_url: http://github.com/certifi/python-certifi/
   git_rev: 2015.11.20.1
 
 build:
@@ -21,6 +21,6 @@ test:
   imports:
     - certifi
 about:
-  home: https://github.com/certifi/python-certifi/
+  home: http://github.com/certifi/python-certifi/
   # Mozilla Public License
   license: MPL v2.0

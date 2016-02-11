@@ -3,7 +3,7 @@ package:
   version: 0.7.2
 
 source:
-  git_url: https://github.com/lmaurits/prettytable.git
+  git_url: http://github.com/lmaurits/prettytable.git
   git_rev: 0.7.2-RELEASE
 requirements:
   build:
@@ -17,7 +17,7 @@ test:
     - prettytable
 
 about:
-  home: https://github.com/lmaurits/prettytable/
+  home: http://github.com/lmaurits/prettytable/
   license: BSD License
   summary: 'A simple Python library for easily displaying tabular data in a visually appealing ASCII table format'
 

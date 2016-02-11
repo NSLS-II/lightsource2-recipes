@@ -3,7 +3,7 @@ package:
   version: 0.1.0
 
 source:
-  git_url: https://github.com/kennethreitz/args
+  git_url: http://github.com/kennethreitz/args
   git_rev: v0.1.0
 
 requirements:
@@ -15,6 +15,6 @@ requirements:
     - python
 
 about:
-  home: https://github.com/kennethreitz/args
+  home: http://github.com/kennethreitz/args
   license: BSD License
   summary: Command Arguments for Humans.

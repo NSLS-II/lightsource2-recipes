@@ -3,7 +3,7 @@ package:
   version: '0.1.0'
 
 source:
-  git_url: https://github.com/NSLS-II/filestore.git
+  git_url: http://github.com/NSLS-II/filestore.git
   git_rev: 'v0.1.0'
   patches:
     - config.patch
@@ -48,5 +48,5 @@ test:
     - filestore.utils
 
 about:
-  home: https://github.com/NSLS-II/filestore
+  home: http://github.com/NSLS-II/filestore
   license: BSD

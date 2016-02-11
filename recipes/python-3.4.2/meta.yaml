@@ -4,7 +4,7 @@ package:
 
 source:
   fn: Python-3.4.2.tgz
-  url: https://www.python.org/ftp/python/3.4.2/Python-3.4.2.tgz
+  url: http://www.python.org/ftp/python/3.4.2/Python-3.4.2.tgz
   md5: 5566bc7e1fdf6bed45f9a750d5f80fc2
   patches:
     #- setup-with-debug-output.patch
@@ -34,5 +34,5 @@ requirements:
     - zlib 1.2.*
 
 about:
-  home: https://www.python.org/
+  home: http://www.python.org/
   license: PSF

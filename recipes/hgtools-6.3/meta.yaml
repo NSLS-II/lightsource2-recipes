@@ -4,7 +4,7 @@ package:
 
 source:
   git_rev: 6.3
-  git_url: https://github.com/jaraco/hgtools
+  git_url: http://github.com/jaraco/hgtools
 
 build:
   preserve_egg_dir: True
@@ -26,6 +26,6 @@ test:
     - hgtools.tests
 
 about:
-  home: https://github.com/jaraco/hgtools/
+  home: http://github.com/jaraco/hgtools/
   license: GNU General Public License (GPL)
   summary: 'Classes and setuptools plugin for Mercurial repositories'

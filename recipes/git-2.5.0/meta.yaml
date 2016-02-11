@@ -3,7 +3,7 @@ package:
   version: 2.5.0
 
 source:
-  git_url: https://github.com/git/git.git
+  git_url: http://github.com/git/git.git
   git_tag: v2.5.0
 
 requirements:
@@ -21,6 +21,6 @@ test:
     - git --version
 
 about:
-  home: https://git-scm.com/
+  home: http://git-scm.com/
   license: GPL v2 and LGPL 2.1
   summary: distributed version control system

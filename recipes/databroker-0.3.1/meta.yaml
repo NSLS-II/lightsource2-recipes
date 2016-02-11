@@ -3,7 +3,7 @@ package:
   version: 0.3.1
 
 source:
-  git_url: https://github.com/NSLS-II/databroker
+  git_url: http://github.com/NSLS-II/databroker
   git_rev: v0.3.1
 
 build:
@@ -35,5 +35,5 @@ test:
     - databroker.utils
 
 about:
-  home: https://github.com/NSLS-II/databroker
+  home: http://github.com/NSLS-II/databroker
   license: BSD

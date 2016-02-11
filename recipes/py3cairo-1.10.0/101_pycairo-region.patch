@@ -1,9 +1,9 @@
 Description: Add support for cairo_region_t
  This patch fix missing support for cairo_region_t.
 Author: Bug Fly
-Origin: https://bugs.freedesktop.org/attachment.cgi?id=61553
+Origin: http://bugs.freedesktop.org/attachment.cgi?id=61553
 Bug-Debian: http://bugs.debian.org/688079
-Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/py3cairo/+bug/1028115
+Bug-Ubuntu: http://bugs.launchpad.net/ubuntu/+source/py3cairo/+bug/1028115
 Last-Update: 2012-08-20
 Applied-Upstream: http://cgit.freedesktop.org/pycairo/commit/?id=75e82a1b3f495a3abbc78e50a5c66356d320fb15
 

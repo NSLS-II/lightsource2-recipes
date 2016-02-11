@@ -3,7 +3,7 @@ package:
   version: 1.0.1
 
 source:
-  git_url: https://github.com/NSLS-II/doct
+  git_url: http://github.com/NSLS-II/doct
   git_rev: v1.0.1
 
 build:
@@ -23,5 +23,5 @@ test:
     - doct
 
 about:
-  home: https://github.com/NSLS-II/document
+  home: http://github.com/NSLS-II/document
   license: BSD

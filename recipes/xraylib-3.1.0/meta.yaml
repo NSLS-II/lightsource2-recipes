@@ -6,7 +6,7 @@ build:
   number: 0
 
 source:
-  git_url: https://github.com/tschoonj/xraylib
+  git_url: http://github.com/tschoonj/xraylib
   git_rev: xraylib-3.1.0
 
 requirements:
@@ -26,5 +26,5 @@ requirements:
 
 about:
   license: BSD
-  home: https://github.com/tschoonj/xraylib/wiki
+  home: http://github.com/tschoonj/xraylib/wiki
   summary: A library for X-ray matter interaction cross sections for X-ray fluorescence applications
