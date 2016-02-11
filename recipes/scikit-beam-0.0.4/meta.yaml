@@ -1,13 +1,14 @@
 package:
   name: scikit-xray
-  version: 0.0.5
+  version: 0.0.4
 
 source:
-  git_url: https://github.com/scikit-xray/scikit-xray
-  git_rev: v0.0.5
+  git_url: https://github.com/scikit-beam/scikit-beam.git
+  git_rev: v0.0.4
 
 build:
-  number: 1
+  number: 0
+  # string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB') }}_np{{ np }}py{{ py }}
 
 requirements:
   build:
@@ -22,12 +23,10 @@ requirements:
     - six
     - xraylib
     - scikit-image
-    - lmfit ==0.8.3
+    - lmfit ==0.8.1
     - netcdf4  # optional, required for skxray.io
 
 test:
-  requires:
-    - nose
   imports:
     # import all sub-packages and modules
     - skxray
@@ -66,5 +65,5 @@ test:
     - skxray.io.gsas_file_reader
 
 about:
-  home: http://scikit-xray.github.io/scikit-xray/
+  home: http://scikit-beam.github.io/scikit-beam/
   license: 3-Clause BSD
