@@ -1,0 +1,26 @@
+package:
+  name: git
+  version: 2.5.0
+
+source:
+  git_url: https://github.com/git/git.git
+  git_tag: v2.5.0
+
+requirements:
+  build:
+    - openssl
+    - zlib
+    - curl
+  run:
+    - openssl
+    - zlib
+    - curl
+
+test:
+  commands:
+    - git --version
+
+about:
+  home: https://git-scm.com/
+  license: GPL v2 and LGPL 2.1
+  summary: distributed version control system

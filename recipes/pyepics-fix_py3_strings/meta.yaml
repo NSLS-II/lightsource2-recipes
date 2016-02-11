@@ -1,0 +1,31 @@
+
+package:
+    name: pyepics
+    version: v3.2.4.post19+g763d30
+
+source:
+    git_url: https://github.com/NSLS-II/pyepics.git
+    git_rev: v3.2.4.post19+g763d30
+
+build:
+    number: 0
+
+requirements:
+    build:
+        - python
+        - setuptools
+        - numpy
+        - epics-base
+    run:
+        - python
+        - numpy
+        - epics-base
+
+test:
+    imports:
+        - epics
+
+about:
+    home: http://pyepics.github.io/pyepics/
+    license: Epics Open License
+    summary: Python interface to Epics Channel Access

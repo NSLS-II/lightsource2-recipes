@@ -1,0 +1,51 @@
+package:
+    name: ophyd
+    version: {{ environ.get('GIT_DESCRIBE_TAG','')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER','') }}
+
+source:
+    git_url: https://github.com/NSLS-II/ophyd.git
+    git_rev: v0.2.x
+
+  # use a local url and leave rev blank to have conda build current head, currently
+  # requires master branch of conda-build to work
+  # git_rev: ?
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+    - pyepics
+    - six
+    - ipython
+    - filestore
+    - prettytable
+
+test:
+  # Python imports
+  imports:
+    - ophyd
+
+  #commands:
+    # You can put test commands to be run here.  Use this to test that the
+    # entry points work.
+
+
+  # You can also put a file called run_test.py in the recipe that will be run
+  # at test time.
+
+  # requires:
+    # Put any additional test requirements here.  For example
+    # - nose
+
+about:
+  home: https://github.com/NSLS-II/ophyd
+  license: BSD
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

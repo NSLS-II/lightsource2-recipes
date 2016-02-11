@@ -1,0 +1,35 @@
+package:
+  name: eiger-io
+  version: 0.0.4
+
+source:
+  git_url: https://github.com/NSLS-II-CHX/eiger-io.git
+  git_rev: v0.0.4
+
+build:
+  # Note that this will override the default build string with the Python
+  # and NumPy versions
+  number: 0
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - python
+    - h5py
+    - numpy
+    - filestore
+    - pims
+
+test:
+  requires:
+    - nslsii_dev_configuration
+  imports:
+    - 'eiger_io.fs_handler'
+    - 'eiger_io.pims_reader'
+
+about:
+  home: https://github.com/CHX-NSLS-II/eiger-io
+  license: BSD

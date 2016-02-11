@@ -1,0 +1,35 @@
+# Copyright 2014-2015 Peter Williams and collaborators.
+# This file is licensed under a 3-clause BSD license; see LICENSE.txt.
+
+package:
+  name: cairo-gobject
+  version: "1.12.18"
+
+source:
+  fn: cairo-1.12.18.tar.xz
+  url: http://cairographics.org/releases/cairo-1.12.18.tar.xz
+  sha1: a76940b58da9c83b8934264617135326c0918f9d
+  patches:
+    - hack-features.patch
+
+build:
+  number: 7
+  detect_binary_files_with_prefix: true
+
+requirements:
+  build:
+    - cairo
+    - freetype
+    - glib
+    - libffi
+    - libpng
+    - pixman
+    - zlib
+  run:
+    - cairo
+    - libffi
+
+about:
+  home: http://cairographics.org/
+  license: LGPL 2.1 and MPL 1.1
+  summary: GLib GObject bindings for the Cairo graphics library

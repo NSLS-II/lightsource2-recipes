@@ -1,0 +1,33 @@
+package:
+  name: pyxrf
+  version: v0.0.2
+
+source:
+  git_url: https://github.com/NSLS-II-HXN/pyxrf
+  git_rev: 'v0.0.2'
+
+build:
+  number: 0
+  entry_points:
+    - pyxrf = pyxrf.gui:run
+
+requirements:
+  build:
+    - python
+    - enaml
+    - setuptools
+    - numpy
+    - six
+
+  run:
+    - enaml
+    - h5py
+    - matplotlib
+    - numpy
+    - pandas
+    - python
+    - scikit-xray
+
+about:
+  home: http://github.com/NSLS-II-HXN/pyxrf
+  license: 3-Clause BSD

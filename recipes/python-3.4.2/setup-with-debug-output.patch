@@ -1,0 +1,58 @@
+--- setup.py.orig	2014-12-22 02:59:30.425848605 +0100
++++ setup.py	2014-12-22 02:42:40.487685796 +0100
+@@ -250,6 +250,30 @@ class PyBuildExt(build_ext):
+             args['compiler_so'] = compiler + ' ' + ccshared + ' ' + cflags
+         self.compiler.set_executables(**args)
+ 
++        print('\n' + '='*78)
++        print('\n= build_extensions() =')
++        print('\n== Compiler ==\n')
++        print('executables:', self.compiler.executables)
++        print('include_dirs:', self.compiler.include_dirs)
++        print('library_dirs:', self.compiler.library_dirs)
++        print('libraries:', self.compiler.libraries)
++        print('runtime_library_dirs:', self.compiler.runtime_library_dirs)
++        print('objects:', self.compiler.objects)
++        print('\n== Extensions to be built ==')
++        for ext in self.extensions:
++            print('\n' + ext.name)
++            print('include_dirs:', ext.include_dirs)
++            print('library_dirs:', ext.library_dirs)
++            print('libraries:', ext.libraries)
++            print('runtime_library_dirs:', ext.runtime_library_dirs)
++            print('extra_objects:', ext.extra_objects)
++            print('extra_compile_args:', ext.extra_compile_args)
++            print('extra_link_args:', ext.extra_link_args)
++        print('\n== Missing extensions ==\n')
++        for miss in missing:
++            print(miss)
++        print('\n' + '='*78 + '\n')
++
+         build_ext.build_extensions(self)
+ 
+         longest = max([len(e.name) for e in self.extensions])
+@@ -503,6 +527,12 @@ class PyBuildExt(build_ext):
+             add_dir_to_list(self.compiler.include_dirs,
+                             sysconfig.get_config_var("INCLUDEDIR"))
+ 
++        print('\n' + '='*78 + '\n')
++        print('= detect_modules() =\n')
++        print('== Compiler include / library dirs ==\n')
++        print('compiler.inc_dirs:', self.compiler.include_dirs)
++        print('compiler.lib_dirs:', self.compiler.library_dirs)
++
+         # lib_dirs and inc_dirs are used to search for files;
+         # if a file is found in one of those directories, it can
+         # be assumed that no additional -I,-L directives are needed.
+@@ -518,6 +548,11 @@ class PyBuildExt(build_ext):
+         exts = []
+         missing = []
+ 
++        print('\n== Include / library dirs used in detect_modules ==\n')
++        print('inc_dirs:', inc_dirs)
++        print('lib_dirs:', lib_dirs)
++        print('\n' + '='*78 + '\n')
++
+         config_h = sysconfig.get_config_h_filename()
+         with open(config_h) as file:
+             config_h_vars = sysconfig.parse_config_h(file)

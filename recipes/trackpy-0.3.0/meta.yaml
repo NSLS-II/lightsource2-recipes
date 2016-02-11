@@ -1,0 +1,44 @@
+package:
+  name: trackpy
+  version: "0.3.0"
+
+source:
+  fn: trackpy-0.3.0.tar.gz
+  url: https://pypi.python.org/packages/source/t/trackpy/trackpy-0.3.0.tar.gz
+  md5: d7ab6a92b193523d0130f74ecb2eaaec
+
+build:
+  number: 2
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy >=1.7
+    - scipy >=0.12
+    - six >=1.8
+    - pandas >=0.12
+    - pims
+    - pyyaml
+    - matplotlib
+
+  run:
+    - python
+    - numpy >=1.7
+    - scipy >=0.12
+    - six >=1.8
+    - pandas >=0.12
+    - pims
+    - pyyaml
+    - matplotlib
+    - numba >=0.13.4
+    - numexpr  # required for pandas DataFrame.query, used in examples
+    - pytables  # for pandas-based HDF5 code
+
+test:
+  imports:
+    - trackpy
+about:
+  home: https://github.com/soft-matter/trackpy
+  license: BSD
+  summary: 'particle-tracking toolkit'

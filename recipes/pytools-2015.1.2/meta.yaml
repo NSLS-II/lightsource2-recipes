@@ -1,0 +1,18 @@
+package:
+  name: pytools
+  version: !!str 2015.1.2
+
+requirements:
+  build:
+    - python
+    - pip
+    - decorator
+
+  run:
+    - python
+    - decorator
+
+about:
+  home: http://pypi.python.org/pypi/pytools
+  license: MIT License
+  summary: A collection of tools for Python

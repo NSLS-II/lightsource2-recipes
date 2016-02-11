@@ -1,0 +1,51 @@
+package:
+  name: filestore
+  version: v0.2.0
+
+source:
+  git_url: https://github.com/NSLS-II/filestore
+  git_rev: v0.2.0
+  patches:
+    - config.patch
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - six
+
+  run:
+    - python
+    - mongoengine ==0.8.7
+    - h5py
+    - numpy
+    - six
+    - pyyaml
+    - jsonschema
+    - pims
+    - tifffile
+    - boltons
+
+test:
+  requires:
+    - nslsii_dev_configuration
+  imports:
+    - filestore
+    - filestore.api
+    - filestore.commands
+    - filestore.conf
+    - filestore.file_writers
+    - filestore.handlers
+    - filestore.odm_templates
+    - filestore.path_only_handlers
+    - filestore.retrieve
+    - filestore.readers
+    - filestore.readers.spe
+    - filestore.utils
+    - filestore.utils.testing
+
+about:
+  home: https://github.com/NSLS-II/filestore
+  license: BSD

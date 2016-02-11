@@ -1,0 +1,31 @@
+# Copyright 2014-2015 Peter Williams and collaborators.
+# This file is licensed under a 3-clause BSD license; see LICENSE.txt.
+
+package:
+  name: gobject-introspection
+  version: 1.47.1
+
+source:
+  fn: gobject-introspection-1.47.1.tar.xz
+  url: http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.47/gobject-introspection-1.47.1.tar.xz
+  md5: 8548fed2f999902accbf45cafe5a078c 
+  patches:
+    - ffi-config.patch
+
+build:
+  number: 3
+  detect_binary_files_with_prefix: true
+
+requirements:
+  build:
+    - cairo-gobject
+    - glib
+    - libffi
+    - python
+  run:
+    - glib
+    - libffi
+
+about:
+  home: https://wiki.gnome.org/action/show/Projects/GObjectIntrospection
+  license: LGPL

@@ -1,0 +1,22 @@
+package:
+  name: pycairo
+  version: 1.10.0
+
+source:
+  git_url: http://anongit.freedesktop.org/git/pycairo  # [py3k]
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - python # [py3k]
+    - cairo
+  run:
+    - python # [py3k]
+    - cairo
+
+about:
+  home: http://www.freedesktop.org/wiki/Software/fontconfig/
+  license: LGPL 2.1 and MPL 1.1
+  summary: "Pycairo is a set of Python bindings for the cairo graphics library."

@@ -1,0 +1,51 @@
+package:
+  name: metadatastore
+  version: v0.2.0
+
+source:
+  git_url: https://github.com/NSLS-II/metadatastore
+  git_rev: v0.2.0
+  patches:
+    - config.patch
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - six
+
+  run:
+    - python
+    - mongoengine ==0.8.7
+    - six
+    - pyyaml
+    - prettytable
+    - humanize
+    - numpy
+    - pytz
+    - jinja2
+    - boltons
+
+test:
+  requires:
+    - nslsii_dev_configuration
+
+  imports:
+    # Import all the packages
+    - metadatastore
+    - metadatastore.api
+    - metadatastore.commands
+    - metadatastore.conf
+    - metadatastore.doc
+    - metadatastore.odm_templates
+    - metadatastore.examples
+    - metadatastore.examples.sample_data
+    - metadatastore.examples.sample_data.common
+    - metadatastore.examples.sample_data.multisource_event
+    - metadatastore.examples.sample_data.temperature_ramp
+
+about:
+  home: https://github.com/NSLS-II/metadatastore
+  license: BSD

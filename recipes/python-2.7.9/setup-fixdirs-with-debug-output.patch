@@ -1,0 +1,95 @@
+--- setup.py.orig
++++ setup.py
+@@ -35,12 +35,16 @@ COMPILED_WITH_PYDEBUG = ('--with-pydebug
+ # This global variable is used to hold the list of modules to be disabled.
+ disabled_module_list = []
+ 
+-def add_dir_to_list(dirlist, dir):
+-    """Add the directory 'dir' to the list 'dirlist' (at the front) if
++def add_dir_to_list(dirlist, dir, append=False):
++    """Add the directory 'dir' to the list 'dirlist' (at the front, if
++    'append' is False or at the back, if 'append' is True) if
+     1) 'dir' is not already in 'dirlist'
+     2) 'dir' actually exists, and is a directory."""
+     if dir is not None and os.path.isdir(dir) and dir not in dirlist:
+-        dirlist.insert(0, dir)
++        if append:
++            dirlist.append(dir)
++        else:
++            dirlist.insert(0, dir)
+ 
+ def macosx_sdk_root():
+     """
+@@ -248,6 +252,30 @@ class PyBuildExt(build_ext):
+             args['compiler_so'] = compiler + ' ' + ccshared + ' ' + cflags
+         self.compiler.set_executables(**args)
+ 
++        print '\n' + '='*78
++        print '\n= build_extensions() ='
++        print '\n== Compiler ==\n'
++        print 'executables:', self.compiler.executables
++        print 'include_dirs:', self.compiler.include_dirs
++        print 'library_dirs:', self.compiler.library_dirs
++        print 'libraries:', self.compiler.libraries
++        print 'runtime_library_dirs:', self.compiler.runtime_library_dirs
++        print 'objects:', self.compiler.objects
++        print '\n== Extensions to be built =='
++        for ext in self.extensions:
++            print '\n' + ext.name
++            print 'include_dirs:', ext.include_dirs
++            print 'library_dirs:', ext.library_dirs
++            print 'libraries:', ext.libraries
++            print 'runtime_library_dirs:', ext.runtime_library_dirs
++            print 'extra_objects:', ext.extra_objects
++            print 'extra_compile_args:', ext.extra_compile_args
++            print 'extra_link_args:', ext.extra_link_args
++        print '\n== Missing extensions ==\n'
++        for miss in missing:
++            print miss
++        print '\n' + '='*78 + '\n'
++
+         build_ext.build_extensions(self)
+ 
+         longest = 0
+@@ -501,19 +529,39 @@ class PyBuildExt(build_ext):
+         # be assumed that no additional -I,-L directives are needed.
+         inc_dirs = self.compiler.include_dirs[:]
+         lib_dirs = self.compiler.library_dirs[:]
++
++        print '\n' + '='*78 + '\n'
++        print '= detect_modules() =\n'
++        print '== Compiler include / library dirs ==\n'
++        print 'compiler.inc_dirs:', inc_dirs
++        print 'compiler.lib_dirs:', lib_dirs
++
++        inc_dirs_orig = inc_dirs[:]
++        lib_dirs_orig = lib_dirs[:]
++
+         if not cross_compiling:
+             for d in (
+                 '/usr/include',
+                 ):
+-                add_dir_to_list(inc_dirs, d)
++                add_dir_to_list(inc_dirs_orig, d)
++                add_dir_to_list(inc_dirs, d, append=True)
+             for d in (
+                 '/lib64', '/usr/lib64',
+                 '/lib', '/usr/lib',
+                 ):
+-                add_dir_to_list(lib_dirs, d)
++                add_dir_to_list(lib_dirs_orig, d)
++                add_dir_to_list(lib_dirs, d, append=True)
+         exts = []
+         missing = []
+ 
++        print '\n== Original include / library dirs used in detect_modules ==\n'
++        print 'inc_dirs:', inc_dirs_orig
++        print 'lib_dirs:', lib_dirs_orig
++        print '\n== Fixed include / library dirs used in detect_modules ==\n'
++        print 'inc_dirs:', inc_dirs
++        print 'lib_dirs:', lib_dirs
++        print '\n' + '='*78 + '\n'
++
+         config_h = sysconfig.get_config_h_filename()
+         config_h_vars = sysconfig.parse_config_h(open(config_h))
+ 

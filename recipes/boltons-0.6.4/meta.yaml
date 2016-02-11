@@ -1,0 +1,47 @@
+package:
+  name: boltons
+  version: {{ environ['GIT_DESCRIBE_TAG'] }}
+
+source:
+  git_url: https://github.com/mahmoud/boltons.git
+  git_rev: 0.6.4
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - pytest
+
+  run:
+    - python
+
+test:
+  imports:
+    - boltons.cacheutils
+    - boltons.dictutils
+    - boltons.fileutils
+    - boltons.gcutils
+    - boltons.listutils
+    - boltons.namedutils
+    - boltons.sockutils
+    - boltons.tableutils
+    - boltons.typeutils
+    - boltons.debugutils
+    - boltons.easterutils
+    - boltons.formatutils
+    - boltons.iterutils
+    - boltons.mathutils
+    - boltons.queueutils
+    - boltons.statsutils
+    - boltons.tbutils
+    - boltons.tzutils
+    - boltons.deprutils
+    - boltons.excutils
+    - boltons.funcutils
+    - boltons.jsonutils
+    - boltons.mboxutils
+    - boltons.setutils
+    - boltons.strutils
+    - boltons.timeutils

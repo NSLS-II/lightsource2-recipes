@@ -1,0 +1,56 @@
+package:
+  name: dataportal
+  version: v0.0.5
+
+source:
+  git_url: https://github.com/NSLS-II/dataportal.git
+  git_rev: v0.0.5
+
+  patches:
+    - setup_py.patch
+build:
+  number: 0
+
+  # Note that this will override the default build string with the Python
+  # and NumPy versions
+
+  entry_points:
+    - replay = dataportal.replay.replay:main
+
+requirements:
+  build:
+    - python
+    - enaml [py2k]
+    - numpy
+    - six
+
+  run:
+    - python
+    - pandas
+    - matplotlib
+    - pyyaml
+    - enaml [py2k]
+    - bubblegum [py2k]
+    - scikit-xray [py2k]
+    - pims [py2k]
+    - metadatastore
+    - filestore
+    - channelarchiver
+    - six
+
+test:
+  imports:
+    - dataportal
+    - dataportal.api
+    - dataportal.testing
+    - dataportal.examples
+    - dataportal.examples.sample_data
+    - dataportal.broker
+    - dataportal.muxer
+    - dataportal.sources
+    - dataportal.sources.dummy_sources
+    - dataportal.utils
+    - dataportal.replay
+    - dataportal.replay.muxer  [py2k]
+    - dataportal.replay.scalar [py2k]
+    - dataportal.replay.search [py2k]

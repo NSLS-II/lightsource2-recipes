@@ -1,0 +1,48 @@
+package:
+  name: dataportal
+  version: v0.2.0
+
+source:
+  git_url: https://github.com/NSLS-II/dataportal
+  git_rev: v0.2.0
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - numpy
+    - six
+
+  run:
+    - python
+    - pandas
+    - matplotlib
+    - pyyaml
+    - pims
+    - metadatastore >=0.1.0
+    - filestore >=0.1.0
+    - channelarchiver
+    - six
+    - humanize
+    - scikit-image
+
+test:
+  requires:
+    - nslsii_dev_configuration
+  imports:
+    - dataportal
+    - dataportal.api
+    - dataportal.testing
+    - dataportal.examples
+    - dataportal.examples.sample_data
+    - dataportal.broker
+    - dataportal.muxer
+    - dataportal.sources
+    - dataportal.sources.dummy_sources
+    - dataportal.utils
+
+about:
+  home: https://github.com/NSLS-II/dataportal
+  license: BSD

@@ -1,0 +1,22 @@
+package:
+  name: clint
+  version: !!str v0.4.1
+
+requirements:
+  build:
+    - python
+    - pip
+    - args
+
+  run:
+    - python
+    - args
+
+test:
+  imports:
+    - clint
+
+about:
+  home: https://github.com/kennethreitz/clint
+  license: ISC
+  summary: Python Command-line Application Tools

@@ -1,0 +1,22 @@
+package:
+  name: protobuf
+  version: 2.6.0
+
+source:
+  fn: protobuf-2.6.0.tar.gz
+  url: https://protobuf.googlecode.com/svn/rc/protobuf-2.6.0.tar.gz
+  md5: 9959d86087e64524d7f91e7a5a6e4fd7
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - python
+    - setuptools
+
+about:
+  home: http://code.google.com/p/protobuf/
+  license: New BSD License
+  summary: 'Protocol Buffers'

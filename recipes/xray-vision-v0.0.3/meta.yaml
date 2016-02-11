@@ -1,0 +1,42 @@
+package:
+  name: xray-vision
+  version: v0.0.3 
+
+source:
+  git_url: https://github.com/Nikea/xray-vision
+  git_rev: v0.0.3
+
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - distribute
+    - numpy
+    - six
+    - matplotlib
+  run:
+    - python
+    - numpy
+    - matplotlib
+    - pyqt
+    - six
+
+test:
+  requires:
+    - nose
+
+  imports:
+    - xray_vision
+    - xray_vision.qt_widgets
+    - xray_vision.messenger
+    - xray_vision.messenger.mpl
+    - xray_vision.backend
+    - xray_vision.backend.mpl
+
+
+about:
+  home: https://github.com/Nikea/xray-vision
+  license: 3-Clause BSD
