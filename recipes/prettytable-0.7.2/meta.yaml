@@ -8,7 +8,6 @@ source:
 requirements:
   build:
     - python
-    - setuptools
 
   run:
     - python
