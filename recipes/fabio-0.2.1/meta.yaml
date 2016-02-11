@@ -1,11 +1,10 @@
 package:
   name: fabio
-  version: "0.2.1"
+  version: 0.2.1
 
 source:
-  fn: fabio-0.2.1.tar.gz
-  url: https://pypi.python.org/packages/source/f/fabio/fabio-0.2.1.tar.gz
-  md5: f3a5926f132d92cf4bd850285759c94d
+  git_url: https://github.com/kif/fabio
+  git_rev: v0.2.1
 #  patches:
    # List any patch files here
    # - fix.patch
