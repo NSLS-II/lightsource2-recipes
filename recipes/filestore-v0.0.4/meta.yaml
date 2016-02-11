@@ -1,6 +1,6 @@
 package:
   name: filestore
-  version: 'v0.0.4'
+  version: '0.0.4'
 
 source:
   git_url: https://github.com/NSLS-II/filestore.git
