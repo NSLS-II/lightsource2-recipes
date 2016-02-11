@@ -1,6 +1,6 @@
 package:
     name: lmfit
-    version: "0.8.3"
+    version: 0.8.3
 
 source:
     git_url: https://github.com/lmfit/lmfit-py.git
@@ -12,7 +12,6 @@ build:
 requirements:
     build:
         - python
-        - setuptools
         - numpy
         - scipy
 
@@ -20,6 +19,9 @@ requirements:
         - python
         - numpy
         - scipy
+        - matplotlib
+        - ipython
+        - pandas
 
 test:
     imports:
