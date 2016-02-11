@@ -10,7 +10,6 @@ build:
   # Note that this will override the default build string with the Python
   # and NumPy versions
   number: 0
-  string: {{ environ['CONDA_BUILD'] }}_py{{ py }}
 
 requirements:
   build:
