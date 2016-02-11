@@ -1,14 +1,13 @@
 package:
   name: trackpy
-  version: "0.3.0"
+  version: 0.3.0
 
 source:
-  fn: trackpy-0.3.0.tar.gz
-  url: https://pypi.python.org/packages/source/t/trackpy/trackpy-0.3.0.tar.gz
-  md5: d7ab6a92b193523d0130f74ecb2eaaec
+  git_url: https://github.com/soft-matter/trackpy
+  git_rev: v0.3.0
 
 build:
-  number: 2
+  number: 3
 
 requirements:
   build:
