@@ -3,7 +3,7 @@
 
 package:
   name: cairo-gobject
-  version: "1.12.18"
+  version: 1.12.18
 
 source:
   fn: cairo-1.12.18.tar.xz
