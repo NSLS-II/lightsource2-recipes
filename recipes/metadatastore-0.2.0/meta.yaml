@@ -3,7 +3,7 @@ package:
   version: 0.2.0
 
 source:
-  git_url: http://github.com/NSLS-II/metadatastore
+  git_url: https://github.com/NSLS-II/metadatastore
   git_rev: v0.2.0
   patches:
     - config.patch

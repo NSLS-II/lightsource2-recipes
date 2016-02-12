@@ -3,7 +3,7 @@ package:
   version: "0.3.2"
 
 source:
-  git_url: http://github.com/soft-matter/pims
+  git_url: https://github.com/soft-matter/pims
   git_tag: v0.3.2
 
 build:

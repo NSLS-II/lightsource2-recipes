@@ -3,7 +3,7 @@ package:
   version: 0.7.2
 
 source:
-  git_url: http://github.com/lmaurits/prettytable.git
+  git_url: https://github.com/lmaurits/prettytable.git
   git_rev: 0.7.2-RELEASE
 requirements:
   build:

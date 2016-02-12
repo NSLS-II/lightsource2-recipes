@@ -3,7 +3,7 @@ package:
   version: 2.5.0
 
 source:
-  git_url: http://github.com/git/git.git
+  git_url: https://github.com/git/git.git
   git_tag: v2.5.0
 
 requirements:

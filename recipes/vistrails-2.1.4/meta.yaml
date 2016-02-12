@@ -3,7 +3,7 @@ package:
   version: !!str 2.1.4
 
 source:
-  git_url: http://github.com/VisTrails/VisTrails.git
+  git_url: https://github.com/VisTrails/VisTrails.git
   git_branch: v2.1.4
 
 

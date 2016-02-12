@@ -4,7 +4,7 @@ package:
     version: 3.2.4.post19+g763d30
 
 source:
-    git_url: http://github.com/NSLS-II/pyepics.git
+    git_url: https://github.com/NSLS-II/pyepics.git
     git_rev: v3.2.4.post19+g763d30
 
 build:

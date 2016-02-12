@@ -3,7 +3,7 @@ package:
   version: 0.4.5
 
 source:
-  git_url: http://github.com/ryan-roemer/sphinx-bootstrap-theme
+  git_url: https://github.com/ryan-roemer/sphinx-bootstrap-theme
   git_rev: v0.4.5
 
 build:

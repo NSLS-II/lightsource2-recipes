@@ -4,7 +4,7 @@ package:
     version: 14.3.0
 
 source:
-    git_url: http://github.com/hynek/characteristic/
+    git_url: https://github.com/hynek/characteristic/
     git_rev: 14.3.0
 
 build:

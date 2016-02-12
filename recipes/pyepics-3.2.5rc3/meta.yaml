@@ -4,7 +4,7 @@ package:
     version: 3.2.5rc3
 
 source:
-    git_url: http://github.com/pyepics/pyepics.git
+    git_url: https://github.com/pyepics/pyepics.git
     git_rev: 3.2.5rc3
 
 build:

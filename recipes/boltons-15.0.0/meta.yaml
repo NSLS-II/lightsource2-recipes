@@ -3,7 +3,7 @@ package:
   version: 15.0.0
 
 source:
-  git_url: http://github.com/mahmoud/boltons.git
+  git_url: https://github.com/mahmoud/boltons.git
   git_rev: 15.0.0
 
 build:

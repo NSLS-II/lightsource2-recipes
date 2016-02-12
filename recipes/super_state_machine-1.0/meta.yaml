@@ -3,7 +3,7 @@ package:
   version: 1.0
 
 source:
-  git_url: http://github.com/beregond/super_state_machine
+  git_url: https://github.com/beregond/super_state_machine
   git_rev: 1.0
   patches:
     - nuke_enum34.patch [py3k]

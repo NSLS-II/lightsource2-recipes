@@ -3,7 +3,7 @@ package:
     version: 0.2
 
 source:
-    git_url: http://github.com/dectris/HDF5Plugin.git
+    git_url: https://github.com/dectris/HDF5Plugin.git
     git_tag: 8fa813aa369c15127c551cfdeebe4cbc090b4687  # no tags in repo
 
 build:

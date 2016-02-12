@@ -3,7 +3,7 @@ package:
   version: 0.0.5
 
 source:
-  git_url: http://github.com/scikit-beam/scikit-beam
+  git_url: https://github.com/scikit-beam/scikit-beam
   git_rev: v0.0.5
 
 build:

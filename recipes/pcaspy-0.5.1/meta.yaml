@@ -3,7 +3,7 @@ package:
   version: 0.5.1
 
 source:
-  git_url: http://github.com/paulscherrerinstitute/pcaspy
+  git_url: https://github.com/paulscherrerinstitute/pcaspy
   git_rev: 0.5.1
 
 build:

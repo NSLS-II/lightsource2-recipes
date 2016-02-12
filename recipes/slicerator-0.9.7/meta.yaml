@@ -3,7 +3,7 @@ package:
   version: 0.9.7
 
 source:
-  git_url: http://github.com/soft-matter/slicerator
+  git_url: https://github.com/soft-matter/slicerator
   git_rev: v0.9.7
 
 requirements:
