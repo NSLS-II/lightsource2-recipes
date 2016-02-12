@@ -15,10 +15,10 @@ build:
 
 requirements:
   build:
-    - python
+    - python >=3
     - setuptools
   run:
-    - python
+    - python >=3
     - pyepics
     - six
     - ipython

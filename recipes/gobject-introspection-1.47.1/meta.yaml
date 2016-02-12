@@ -8,7 +8,7 @@ package:
 source:
   fn: gobject-introspection-1.47.1.tar.xz
   url: http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.47/gobject-introspection-1.47.1.tar.xz
-  md5: 8548fed2f999902accbf45cafe5a078c 
+  md5: 8548fed2f999902accbf45cafe5a078c
   patches:
     - ffi-config.patch
 
@@ -21,8 +21,9 @@ requirements:
     - cairo-gobject
     - glib
     - libffi
-    - python
+    - python >=3
   run:
+    - python >=3
     - glib
     - libffi
 
