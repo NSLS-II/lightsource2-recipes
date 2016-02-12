@@ -47,5 +47,5 @@ test:
     - metadatastore.examples.sample_data.temperature_ramp
 
 about:
-  home: http://github.com/NSLS-II/metadatastore
+  home: https://github.com/NSLS-II/metadatastore
   license: BSD

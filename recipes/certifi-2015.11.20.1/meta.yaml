@@ -21,6 +21,6 @@ test:
   imports:
     - certifi
 about:
-  home: http://github.com/certifi/python-certifi/
+  home: https://github.com/certifi/python-certifi/
   # Mozilla Public License
   license: MPL v2.0

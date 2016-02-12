@@ -32,6 +32,6 @@ test:
     - pims.utils
 
 about:
-  home: http://github.com/soft-matter/pims
+  home: https://github.com/soft-matter/pims
   license: BSD
   summary: 'Python Image Sequence'

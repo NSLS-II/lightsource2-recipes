@@ -23,6 +23,6 @@ test:
     - clint
 
 about:
-  home: http://github.com/kennethreitz/clint
+  home: https://github.com/kennethreitz/clint
   license: ISC
   summary: Python Command-line Application Tools

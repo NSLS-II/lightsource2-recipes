@@ -43,7 +43,7 @@ test:
     # - nose
 
 about:
-  home: http://github.com/NSLS-II/ophyd
+  home: https://github.com/NSLS-II/ophyd
   license: BSD
 
 # See

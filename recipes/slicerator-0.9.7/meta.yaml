@@ -20,6 +20,6 @@ test:
     - slicerator
 
 about:
-  home: http://github.com/soft-matter/slicerator
+  home: https://github.com/soft-matter/slicerator
   license: BSD
   summary: 'A lazy-loading, fancy-sliceable iterable.'

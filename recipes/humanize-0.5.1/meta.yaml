@@ -23,6 +23,6 @@ test:
     - humanize
 
 about:
-  home: http://github.com/jmoiron/humanize
+  home: https://github.com/jmoiron/humanize
   license: MIT License
   summary: 'python humanize utilities'

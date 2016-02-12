@@ -28,5 +28,5 @@ test:
         - carchive
 
 about:
-    home: http://github.com/epicsdeb/carchivetools
+    home: https://github.com/epicsdeb/carchivetools
     summary: Channel Archiver shell tools and library

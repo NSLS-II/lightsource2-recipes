@@ -37,5 +37,5 @@ test:
     - 'bluesky.examples'
 
 about:
-  home: http://github.com/NSLS-II/bluesky
+  home: https://github.com/NSLS-II/bluesky
   license: BSD

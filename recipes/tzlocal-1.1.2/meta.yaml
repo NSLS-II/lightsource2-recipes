@@ -24,6 +24,6 @@ test:
     - tzlocal
 
 about:
-  home: http://github.com/regebro/tzlocal
+  home: https://github.com/regebro/tzlocal
   license: CC0 1.0 Universal
   summary: 'tzinfo object for the local timezone'

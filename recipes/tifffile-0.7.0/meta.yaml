@@ -24,6 +24,6 @@ test:
     - tifffile
 
 about:
-  home: http://github.com/blink1073/tifffile
+  home: https://github.com/blink1073/tifffile
   license:  BSD License
   summary: 'Read and write image data from and to TIFF files.'

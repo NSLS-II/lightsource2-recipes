@@ -28,7 +28,7 @@ test:
     - super_state_machine
 
 about:
-  home: http://github.com/beregond/super_state_machine
+  home: https://github.com/beregond/super_state_machine
   license: BSD License
   summary: 'Super State Machine gives you utilities to build finite state machines.'
 

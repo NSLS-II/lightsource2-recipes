@@ -26,5 +26,5 @@ test:
     - conda_build
 
 about:
-  home: http://github.com/conda/conda-build
+  home: https://github.com/conda/conda-build
   license: BSD

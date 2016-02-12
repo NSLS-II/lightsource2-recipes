@@ -36,5 +36,5 @@ test:
     - xray_vision.utils
 
 about:
-  home: http://github.com/Nikea/xray-vision
+  home: https://github.com/Nikea/xray-vision
   license: 3-Clause BSD

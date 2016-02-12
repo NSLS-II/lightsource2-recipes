@@ -38,6 +38,6 @@ test:
   imports:
     - trackpy
 about:
-  home: http://github.com/soft-matter/trackpy
+  home: https://github.com/soft-matter/trackpy
   license: BSD
   summary: 'particle-tracking toolkit'

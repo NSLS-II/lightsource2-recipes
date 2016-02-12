@@ -29,5 +29,5 @@ requirements:
     - scikit-beam
 
 about:
-  home: http://github.com/NSLS-II/pyxrf
+  home: https://github.com/NSLS-II/pyxrf
   license: 3-Clause BSD

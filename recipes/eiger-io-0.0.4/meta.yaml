@@ -31,5 +31,5 @@ test:
     - 'eiger_io.pims_reader'
 
 about:
-  home: http://github.com/CHX-NSLS-II/eiger-io
+  home: https://github.com/CHX-NSLS-II/eiger-io
   license: BSD

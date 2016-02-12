@@ -23,5 +23,5 @@ test:
     - doct
 
 about:
-  home: http://github.com/NSLS-II/document
+  home: https://github.com/NSLS-II/document
   license: BSD

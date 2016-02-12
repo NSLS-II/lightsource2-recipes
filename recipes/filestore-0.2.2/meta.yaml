@@ -48,5 +48,5 @@ test:
     - filestore.readers.spe
 
 about:
-  home: http://github.com/NSLS-II/filestore
+  home: https://github.com/NSLS-II/filestore
   license: BSD

@@ -33,6 +33,6 @@ test:
 
 
 about:
-  home: http://github.com/soft-matter/pims
+  home: https://github.com/soft-matter/pims
   license: 3-clause BSD License
   summary: 'Python particle-tracking toolkit'

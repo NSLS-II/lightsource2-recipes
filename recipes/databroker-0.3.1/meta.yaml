@@ -35,5 +35,5 @@ test:
     - databroker.utils
 
 about:
-  home: http://github.com/NSLS-II/databroker
+  home: https://github.com/NSLS-II/databroker
   license: BSD

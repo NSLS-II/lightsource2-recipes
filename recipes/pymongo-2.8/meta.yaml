@@ -21,7 +21,7 @@ test:
     - pymongo
 
 about:
-  home: http://github.com/mongodb/mongo-python-driver
+  home: https://github.com/mongodb/mongo-python-driver
   license: Apache Software License
   summary: 'Python driver for MongoDB <http://www.mongodb.org>'
 

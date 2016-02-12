@@ -28,5 +28,5 @@ test:
     - datamuxer
 
 about:
-  home: http://github.com/NSLS-II/datamuxer
+  home: https://github.com/NSLS-II/datamuxer
   license: BSD

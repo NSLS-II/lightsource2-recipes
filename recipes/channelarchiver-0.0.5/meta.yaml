@@ -28,7 +28,7 @@ test:
     - channelarchiver
 
 about:
-  home: http://github.com/NSLS-II/channelarchiver
+  home: https://github.com/NSLS-II/channelarchiver
   license: MIT
 
 # See

@@ -32,7 +32,7 @@ test:
     - keyring --help
 
 about:
-  home: http://github.com/jaraco/keyring
+  home: https://github.com/jaraco/keyring
   license: Python Software Foundation License or MIT License
   summary: 'Store and access your passwords safely.'
 

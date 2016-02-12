@@ -32,7 +32,7 @@ test:
     - pyspec.fitfuncs
 
 about:
-  home: http://github.com/stuwilkins/pyspec
+  home: https://github.com/stuwilkins/pyspec
   license: GPL
 
 # See

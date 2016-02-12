@@ -15,6 +15,6 @@ requirements:
     - python
 
 about:
-  home: http://github.com/kennethreitz/args
+  home: https://github.com/kennethreitz/args
   license: BSD License
   summary: Command Arguments for Humans.

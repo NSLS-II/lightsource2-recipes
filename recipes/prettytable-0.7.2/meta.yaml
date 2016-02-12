@@ -17,7 +17,7 @@ test:
     - prettytable
 
 about:
-  home: http://github.com/lmaurits/prettytable/
+  home: https://github.com/lmaurits/prettytable/
   license: BSD License
   summary: 'A simple Python library for easily displaying tabular data in a visually appealing ASCII table format'
 

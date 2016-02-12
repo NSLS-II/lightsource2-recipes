@@ -17,5 +17,5 @@ requirements:
         - hdf5
 
 about:
-    home: http://github.com/dectris/HDF5Plugin
+    home: https://github.com/dectris/HDF5Plugin
     license: BSD-2

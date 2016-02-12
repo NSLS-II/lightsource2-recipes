@@ -26,5 +26,5 @@ requirements:
 
 about:
   license: BSD
-  home: http://github.com/tschoonj/xraylib/wiki
+  home: https://github.com/tschoonj/xraylib/wiki
   summary: A library for X-ray matter interaction cross sections for X-ray fluorescence applications

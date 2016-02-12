@@ -29,5 +29,5 @@ requirements:
     - scikit-xray
 
 about:
-  home: http://github.com/NSLS-II-HXN/pyxrf
+  home: https://github.com/NSLS-II-HXN/pyxrf
   license: 3-Clause BSD

@@ -26,6 +26,6 @@ test:
     - hgtools.tests
 
 about:
-  home: http://github.com/jaraco/hgtools/
+  home: https://github.com/jaraco/hgtools/
   license: GNU General Public License (GPL)
   summary: 'Classes and setuptools plugin for Mercurial repositories'
