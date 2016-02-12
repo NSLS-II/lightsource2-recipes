@@ -103,16 +103,20 @@ run_dev_build () {
 
 set +e
 # Install newest conda-build-all
+conda remove conda-build conda-build-all --yes
+# Uninstall with pip a few times in case there are multiple versions
+pip uninstall conda-build conda-build-all --yes
+pip uninstall conda-build conda-build-all --yes
 conda install conda-build=1.19.0
-conda remove conda-build-all --yes
-pip uninstall conda-build-all --yes
-set -e
+
 rm -rf /tmp/conda-build-all
-git clone https://github.com/SciTools/conda-build-all/ /tmp/conda-build-all
+git clone https://github.com/ericdill/conda-build-all/ /tmp/conda-build-all
+cd /tmp/conda-build-all
+git checkout fix-if-logic
+python setup.py develop
+
 #rm -rf /tmp/conda-build
 #git clone https://github.com/conda/conda-build /tmp/conda-build
-cd /tmp/conda-build-all
-python setup.py develop
 #cd /tmp/conda-build
 #python setup.py develop
 
@@ -127,8 +131,11 @@ run_tag_build() {
   #conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
   # allow failures on the conda-build commands
   set +e
-  conda-build-all $TARGET/recipes --upload-channels nsls2-tag --matrix-conditions "numpy >=1.8" "python >=2.7,<3|>=3.4" --inspect-channels nsls2-tag
+  conda-build-all $TARGET/py2 --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels nsls2-tag
+  conda-build-all $TARGET/py3 --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels nsls2-tag
+  conda-build-all $TARGET/py35 --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=3.5" --inspect-channels nsls2-tag
+  conda-build-all $TARGET/pyall --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels nsls2-tag
 }
 
 # run_dev_build > $DEV_LOG 2>&1
-run_tag_build #> $TAG_LOG 2>&1
+run_tag_build > $TAG_LOG 2>&1
