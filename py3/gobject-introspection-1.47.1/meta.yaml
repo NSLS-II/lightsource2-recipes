@@ -21,9 +21,9 @@ requirements:
     - cairo-gobject
     - glib
     - libffi
-    - python >=3
+    - python
   run:
-    - python >=3
+    - python
     - glib
     - libffi
 

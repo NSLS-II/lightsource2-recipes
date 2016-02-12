@@ -13,10 +13,10 @@ build:
 
 requirements:
   build:
-    - python ==3.4.3
+    - python
 
   run:
-    - python >=3.4.3
+    - python
     - jsonschema
     - super_state_machine
     - numpy

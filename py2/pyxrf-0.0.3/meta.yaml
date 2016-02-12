@@ -14,13 +14,13 @@ build:
 
 requirements:
   build:
-    - python <3
+    - python
     - numpy
     - enaml
     - setuptools
 
   run:
-    - python <3
+    - python
     - enaml
     - h5py
     - matplotlib
