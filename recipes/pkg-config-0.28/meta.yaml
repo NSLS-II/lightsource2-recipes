@@ -3,8 +3,8 @@ package:
   version: 0.28
 
 source:
-  fn: pkg-config-0.28.zip
-  url: https://github.com/tpn/pkg-config/archive/pkg-config-0.28.zip
+  git_rev: pkg-config-0.28
+  git_url: https://github.com/tpn/pkg-config/
 
 build:
   number: 2
