@@ -27,11 +27,11 @@ requirements:
   build:
     - cairo
     - cairo-gobject
-    - python
+    - python >=3
     - pkg-config
   run:
     - cairo-gobject
-    - python
+    - python >=3
 
 about:
   home: http://cairographics.org/pycairo/
