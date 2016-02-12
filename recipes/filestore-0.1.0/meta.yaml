@@ -11,10 +11,6 @@ source:
 build:
   number: 1
 
-  # Note that this will override the default build string with the Python
-  # and NumPy versions
-  string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB') }}_np{{ np }}py{{ py }}
-
 
 requirements:
   build:
