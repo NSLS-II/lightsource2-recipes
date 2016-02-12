@@ -9,7 +9,7 @@ source:
 build:
   entry_points:
     - keyring=keyring.cli:main
-  build: 0
+  number: 0
 
 requirements:
   build:
