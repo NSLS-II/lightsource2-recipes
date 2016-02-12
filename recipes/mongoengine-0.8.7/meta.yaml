@@ -4,7 +4,7 @@ package:
 
 source:
   git_rev: v0.8.7
-  git_url: http://github.com/MongoEngine/mongoengine/archive/v0.8.7.tar.gz
+  git_url: https://github.com/MongoEngine/mongoengine/archive/v0.8.7.tar.gz
 
 build:
   number: 2
