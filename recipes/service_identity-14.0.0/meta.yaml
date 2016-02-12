@@ -4,9 +4,8 @@ package:
     version: "14.0.0"
 
 source:
-    fn: service_identity-14.0.0.tar.gz
-    url: http://pypi.python.org/packages/source/s/service_identity/service_identity-14.0.0.tar.gz
-    md5: cea0b0156d73b025ecef660fb51f0d9a
+  git_url: https://github.com/pyca/service_identity
+  git_rev: 14.0.0
 
 build:
     number: 0
@@ -31,6 +30,6 @@ test:
         - service_identity
 
 about:
-    home: http://pypi.python.org/pypi/service_identity
+    home: https://github.com/pyca/service_identity
     license: MIT
     summary: Service identity verification for pyOpenSSL
