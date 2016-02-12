@@ -1,0 +1,76 @@
+BUILD START: vistrails-2.1.4-py27_0
+Fetching package metadata: ........
+Solving package specifications: ...................Cloning into bare repository '/tmp/edill/ramdisk/mc/conda-bld/git_cache/__github.com_VisTrails_VisTrails.git'...
+Cloning into '/tmp/edill/ramdisk/mc/conda-bld/work'...
+done.
+Note: checking out 'v2.1.4'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b new_branch_name
+
+HEAD is now at 2ac098f... Updated hash for release 2.1.4
++ /tmp/edill/ramdisk/mc/envs/_build/bin/python setup.py install
+/tmp/edill/ramdisk/mc/envs/_build/bin/python: can't open file 'setup.py': [Errno 2] No such file or directory
+/tmp/edill/ramdisk/mc/lib/python3.5/site-packages/requests/packages/urllib3/connection.py:266: SubjectAltNameWarning: Certificate for pergamon.cs.nsls2.local has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)
+  SubjectAltNameWarning
+
+WARNING: conda-build appears to be out of date. You have version 1.19.0 but the
+latest version is 1.19.0.post13. Run
+
+conda update -n root conda-build
+
+to get the latest version.
+
+commit 2ac098fafb52082e3aa36b973c3bcf5f0f01af6a
+Author: Tommy Ellqvist <tommy.ellqvist@nyu.edu>
+Date:   Mon Aug 25 15:22:06 2014 +0200
+
+    Updated hash for release 2.1.4
+
+
+v2.1.4
+
+
+# Not currently on any branch.
+nothing to commit (working directory clean)
+
+
+
+The following NEW packages will be INSTALLED:
+
+    certifi:            2015.11.20.1-py27_0 file:///tmp/edill/ramdisk/mc/conda-bld/linux-64/              
+    libgfortran:        1.0-0               https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    ncurses:            5.9-7               https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag/linux-64/
+    numpy:              1.10.2-py27_0       https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    openblas:           0.2.14-3            https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    openssl:            1.0.2d-0            https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    pip:                7.1.2-py27_0        https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    python:             2.7.11-0            https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    readline:           6.2.5-1             file:///tmp/edill/ramdisk/mc/conda-bld/linux-64/              
+    scipy:              0.16.1-np110py27_0  https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    setuptools:         19.1.1-py27_0       https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    sqlite:             3.8.4.1-1           https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    ssl_match_hostname: 3.4.0.2-py27_0      https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    tk:                 8.5.18-0            https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    wheel:              0.26.0-py27_1       https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+    zlib:               1.2.8-0             https://pergamon.cs.nsls2.local:8443/conda/anaconda/linux-64/ 
+
+Removing old work directory
+checkout: 'v2.1.4'
+==> git log -n1 <==
+
+==> git describe --tags --dirty <==
+
+==> git status <==
+
+Package: vistrails-2.1.4-py27_0
+source tree in: /tmp/edill/ramdisk/mc/conda-bld/work
+Command failed: /bin/bash -x -e /tmp/tagged-recipes/recipes/vistrails-2.1.4/build.sh
+
+
