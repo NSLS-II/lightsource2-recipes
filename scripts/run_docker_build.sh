@@ -39,9 +39,13 @@ echo "$config" > ~/.condarc
 conda clean --lock
 
 conda update conda
-conda install anaconda-client conda-build-all conda-build=1.18.0
+conda install anaconda-client conda-build-all
 conda info
 unset LANG
+
+git clone https://github.com/conda/conda-build
+cd conda-build
+python setup.py develop
 
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
