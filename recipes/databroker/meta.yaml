@@ -25,6 +25,7 @@ requirements:
     - six
     - tzlocal
     - singledispatch [py27]
+    - cytoolz
 
 test:
   requires:
