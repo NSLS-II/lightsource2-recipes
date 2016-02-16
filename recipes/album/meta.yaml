@@ -1,6 +1,6 @@
 package:
   name: album
-  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_STUB')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER', 'GIT_STUB') }}
+  version: {{ environ['GIT_DESCRIBE_TAG'][1:]  }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
 
 source:
   git_url: https://github.com/NSLS-II/album
@@ -11,7 +11,7 @@ build:
 
   # Note that this will override the default build string with the Python
   # and NumPy versions
-  string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB') }}_py{{ py }}
+  string: {{ environ['GIT_BUILD_STR'] }}_py{{ py }}
 
   entry_points:
     - album = album.server:run

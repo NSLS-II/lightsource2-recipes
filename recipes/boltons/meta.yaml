@@ -1,6 +1,6 @@
 package:
   name: boltons
-  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_STUB') }}.post{{ environ.get('GIT_DESCRIBE_NUMBER', 'GIT_STUB') }}
+  version: {{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
 
 source:
   git_url: https://github.com/mahmoud/boltons.git
@@ -8,7 +8,7 @@ source:
 
 build:
   number: 1
-  string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB') }}_py{{ py }}
+  string: {{ environ['GIT_BUILD_STR'] }}_py{{ py }}
 
 
 requirements:
