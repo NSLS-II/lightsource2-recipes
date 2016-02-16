@@ -29,6 +29,7 @@ requirements:
     - lmfit
     - ipython
     - historydict
+    - tifffile
 
 
 test:
