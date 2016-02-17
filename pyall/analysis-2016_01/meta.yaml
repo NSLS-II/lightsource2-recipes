@@ -17,6 +17,7 @@ requirements:
     - lmfit ==0.8.3
     - matplotlib
     - openpyxl
-    - scikit-xray >=v0.7.0
+    - scikit-beam
     - xray-vision
     - album
+    - bluesky  # [py3k]

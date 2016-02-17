@@ -7,7 +7,7 @@ build:
 
 requirements:
   run:
-    - analysis ==2016_01
+    - analysis >=2016_01
     - bluesky
     - ophyd
     - xray_vision
