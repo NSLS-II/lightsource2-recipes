@@ -20,3 +20,4 @@ requirements:
     - scikit-beam
     - xray-vision
     - album
+    - bluesky  # [py3k]
