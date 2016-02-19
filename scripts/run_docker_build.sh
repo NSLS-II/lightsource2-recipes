@@ -52,7 +52,6 @@ pip install https://github.com/SciTools/conda-build-all/zipball/master#egg=conda
 conda info
 unset LANG
 
-apt-get install -y libglib2.0-0
 
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
@@ -62,6 +61,14 @@ apt-get install -y libglib2.0-0
 # state the build dependencies at OS level, too.
 # yum install -y libXext libXrender libSM tk libX11-devel
 
+# I think this is the apt equivalent of what pelson installed in the obvious-ci
+# docker image
+apt-get install -y libglib2.0-0 \
+      libxext6 libxext-dev \
+      libxrender1 libxrender-dev \
+      libsm6 libsm-dev \
+      tk-dev \
+      libx11-6 libx11-dev
 # install zlib-devel for git recipe
 # yum install -y zlib-devel perl-devel perl-CPAN curl-devel expat-devel gettext-devel openssl-devel asciidoc xmlto docbook2X
 # more git configuration
@@ -80,7 +87,6 @@ echo "
 
 "
 conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2
-
 echo "
 
 ===== BUILDING PY3 =====
@@ -96,4 +102,3 @@ echo "
 conda-build-all /pyall-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
 
 EOF
-
