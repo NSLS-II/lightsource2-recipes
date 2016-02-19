@@ -65,10 +65,16 @@ unset LANG
 # more git configuration
 # sudo ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
 
+echo "\n\n===== BUILDING NONPY =====\n\n"
 conda-build-all /nonpy-recipes --upload-channels lightsource2 --inspect-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.5"
+
+echo "\n\n===== BUILDING PY2 =====\n\n"
 conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2
+
+echo "\n\n===== BUILDING PY3 =====\n\n"
 conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels lightsource2
-conda-build-all /py35-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.5" --inspect-channels lightsource2
+
+echo "\n\n===== BUILDING PY2&PY3 =====\n\n"
 conda-build-all /pyall-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
 
 EOF
