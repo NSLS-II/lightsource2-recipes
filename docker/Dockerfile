@@ -14,7 +14,7 @@ RUN apt-get install -y patch
 RUN apt-get install -y tar
 RUN apt-get install -y wget
 RUN apt-get install -y zlib1g-dev
-RUN apt-get install -y libreadline6
+RUN apt-get install -y libreadline6-dev
 
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose && \
     bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda*.sh && \
