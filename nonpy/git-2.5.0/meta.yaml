@@ -11,6 +11,7 @@ requirements:
     - openssl
     - zlib
     - curl
+    - gettext
   run:
     - openssl
     - zlib
