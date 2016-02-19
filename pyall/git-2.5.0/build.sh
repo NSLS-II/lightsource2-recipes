@@ -3,8 +3,8 @@
 make configure
 export CURLDIR=$PREFIX
 ./configure --prefix=$PREFIX
-make all
-make install
+make all doc info
+make install install-doc install-html install-info
 
 cd $PREFIX
 rm -rf lib lib64

@@ -55,7 +55,9 @@ unset LANG
 yum install -y libXext libXrender libSM tk libX11-devel
 
 # install zlib-devel for git recipe
-yum install -y zlib-devel perl-devel perl-CPAN
+yum install -y zlib-devel perl-devel perl-CPAN curl-devel expat-devel gettext-devel openssl-devel asciidoc xmlto docbook2X
+# more git configuration
+sudo ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
 
 conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2
 conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels lightsource2
