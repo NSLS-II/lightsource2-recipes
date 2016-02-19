@@ -52,6 +52,8 @@ pip install https://github.com/SciTools/conda-build-all/zipball/master#egg=conda
 conda info
 unset LANG
 
+apt-get install -y libglib2.0-0
+
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
 
@@ -65,16 +67,32 @@ unset LANG
 # more git configuration
 # sudo ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
 
-echo "\n\n===== BUILDING NONPY =====\n\n"
+echo "
+
+===== BUILDING NONPY =====
+
+"
 conda-build-all /nonpy-recipes --upload-channels lightsource2 --inspect-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.5"
 
-echo "\n\n===== BUILDING PY2 =====\n\n"
+echo "
+
+===== BUILDING PY2 =====
+
+"
 conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2
 
-echo "\n\n===== BUILDING PY3 =====\n\n"
+echo "
+
+===== BUILDING PY3 =====
+
+"
 conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels lightsource2
 
-echo "\n\n===== BUILDING PY2&PY3 =====\n\n"
+echo "
+
+===== BUILDING PY2&PY3 =====
+
+"
 conda-build-all /pyall-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
 
 EOF
