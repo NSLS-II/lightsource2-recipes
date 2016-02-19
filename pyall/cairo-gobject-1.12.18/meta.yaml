@@ -25,6 +25,7 @@ requirements:
     - libpng
     - pixman
     - zlib
+    - pkg-config
   run:
     - cairo
     - libffi
