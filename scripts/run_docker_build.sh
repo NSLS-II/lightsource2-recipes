@@ -54,6 +54,9 @@ unset LANG
 # state the build dependencies at OS level, too.
 yum install -y libXext libXrender libSM tk libX11-devel
 
+# install zlib-devel for git recipe
+yum install -y libz-devel
+
 conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2
 conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels lightsource2
 conda-build-all /py35-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.5" --inspect-channels lightsource2
