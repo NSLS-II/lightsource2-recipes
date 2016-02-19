@@ -10,5 +10,4 @@ requirements:
     - analysis >=2016_01
     - bluesky
     - ophyd
-    - xray_vision
     - pyolog
