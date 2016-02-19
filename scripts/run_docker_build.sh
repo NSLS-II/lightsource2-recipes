@@ -58,12 +58,12 @@ unset LANG
 # These were specific to installing matplotlib. I really want to avoid doing this if possible, but in some cases it
 # is inevitable (without re-implementing a full OS), so I also really want to ensure we can annotate our recipes to
 # state the build dependencies at OS level, too.
-yum install -y libXext libXrender libSM tk libX11-devel
+# yum install -y libXext libXrender libSM tk libX11-devel
 
 # install zlib-devel for git recipe
-yum install -y zlib-devel perl-devel perl-CPAN curl-devel expat-devel gettext-devel openssl-devel asciidoc xmlto docbook2X
+# yum install -y zlib-devel perl-devel perl-CPAN curl-devel expat-devel gettext-devel openssl-devel asciidoc xmlto docbook2X
 # more git configuration
-sudo ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
+# sudo ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
 
 conda-build-all /nonpy-recipes --upload-channels lightsource2 --inspect-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.5"
 conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2
