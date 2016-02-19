@@ -28,6 +28,7 @@ requirements:
 test:
   requires:
     - pytest
+    - nslsii_dev_configuration
   imports:
     - csxtools
     - csxtools.ext
