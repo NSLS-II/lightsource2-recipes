@@ -2,7 +2,8 @@
 
 make configure
 export CURLDIR=$PREFIX
-./configure --prefix=$PREFIX
+# add  --without-tcltk  so that git-gui does not get built
+./configure --prefix=$PREFIX --without-tcltk
 make all
 make install
 
