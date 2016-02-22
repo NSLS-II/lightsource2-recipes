@@ -24,7 +24,7 @@ requirements:
     - ipython
     - ipywidgets
     - databroker
-    - pims >=0.3.2
+    - pims >=0.3.3
 
 test:
   requires:
