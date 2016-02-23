@@ -9,7 +9,7 @@ source:
 build:
   # Note that this will override the default build string with the Python
   # and NumPy versions
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -32,9 +32,31 @@ requirements:
 test:
   requires:
     - nslsii_dev_configuration
+    - databroker
+    - xray-vision
+    - tifffile
+    - pyepics
   imports:
     - bluesky
+    - bluesky.broker_callbacks
+    # can't test this one. Errors in the top level of the module.
+    # - bluesky.broker_examples
     - bluesky.examples
+    - bluesky.global_state
+    - bluesky.hardware_checklist
+    - bluesky.plans
+    - bluesky.qt_kicker
+    - bluesky.register_mds
+    - bluesky.run_engine
+    - bluesky.scientific_callbacks
+    - bluesky.simple_scans
+    - bluesky.spec_api
+    - bluesky.standard_config
+    - bluesky.suspenders  # requires pyepics
+    - bluesky.utils
+    - bluesky.callbacks
+    - bluesky.callbacks.core
+    - bluesky.callbacks.olog
 
 about:
   home: https://github.com/NSLS-II/bluesky
