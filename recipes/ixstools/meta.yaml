@@ -1,0 +1,39 @@
+package:
+  name: ixstools
+  version: {{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
+
+source:
+  git_url: https://github.com/NSLS-II-IXS/ixstools
+  git_rev: master
+
+build:
+  number: 0
+  string: {{ environ.get('GIT_BUILD_STR', '') }}_py{{ py }}
+  entry_points:
+    - align = ixstools.align:main
+
+requirements:
+  build:
+    - python
+  run:
+    - python
+    - lmfit
+    - matplotlib
+    - numpy
+    - pandas
+    - scipy
+    - pyyaml
+
+test:
+  requires:
+    - nose
+    - coverage
+  imports:
+    - ixstools
+    - ixstools.align
+    - ixstools.fit
+    - ixstools.io
+
+about:
+  home: http://scikit-beam.github.io/scikit-beam/
+  license: 3-Clause BSD
