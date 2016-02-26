@@ -11,32 +11,42 @@ build:
   string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB') }}_py{{ py }}
   number: 0
 
+
 requirements:
   build:
     - python
-
   run:
-    - python
+    - cytoolz
+    - doct
+    - filestore >=0.2.0
+    # - h5py  # h5py is a dep in databroker/examples/hdf_io.py
+    - metadatastore >=0.3.1
     - pandas
     - pims
-    - metadatastore >=v0.2.0
-    - filestore >=v0.2.0
-    - channelarchiver
+    - python
     - six
     - tzlocal
     - singledispatch [py27]
-    - cytoolz
+    - channelarchiver  # Not actually used in this project...
 
 test:
   requires:
     - nslsii_dev_configuration
-    - filestore
+    - h5py
   imports:
     - databroker
-    - databroker.testing
+    - databroker.handler_registration
+    - databroker.pims_readers
+    - databroker.pivot
     - databroker.examples
+    - databroker.examples.hdf_io
     - databroker.examples.sample_data
+    - databroker.examples.sample_data.common_nonscalar
+    - databroker.examples.sample_data.frame_generators
+    - databroker.examples.sample_data.image_and_scalar
+    - databroker.examples.sample_data.step_scan
     - databroker.utils
+    - databroker.utils.diagnostics
 
 about:
   home: https://github.com/NSLS-II/databroker
