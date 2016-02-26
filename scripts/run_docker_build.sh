@@ -20,7 +20,9 @@ CONDARC
 )
 
 cat << EOF | docker run -i \
-                        -v ${REPO_ROOT}/recipes:/conda-recipes \
+                        -v ${REPO_ROOT}/py2:/py2-recipes \
+                        -v ${REPO_ROOT}/py2:/py3-recipes \
+                        -v ${REPO_ROOT}/py2:/pyall-recipes \
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
@@ -57,7 +59,25 @@ unset LANG
 # is inevitable (without re-implementing a full OS), so I also really want to ensure we can annotate our recipes to
 # state the build dependencies at OS level, too.
 
-conda-build-all /conda-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.8" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2-dev
+echo "
+
+===== BUILDING PY2 =====
+
+"
+conda-build-all /py2-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2-dev
+echo "
+
+===== BUILDING PY3 =====
+
+"
+conda-build-all /py3-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels lightsource2-dev
+
+echo "
+
+===== BUILDING PY2&PY3 =====
+
+"
+conda-build-all /pyall-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2-dev
 
 EOF
 
