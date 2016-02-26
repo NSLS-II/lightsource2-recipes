@@ -21,8 +21,8 @@ CONDARC
 
 cat << EOF | docker run -i \
                         -v ${REPO_ROOT}/py2:/py2-recipes \
-                        -v ${REPO_ROOT}/py2:/py3-recipes \
-                        -v ${REPO_ROOT}/py2:/pyall-recipes \
+                        -v ${REPO_ROOT}/py3:/py3-recipes \
+                        -v ${REPO_ROOT}/pyall:/pyall-recipes \
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
@@ -40,7 +40,8 @@ echo "$config" > ~/.condarc
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
 
-conda remove conda-build
+conda install conda-build conda-build-all --yes
+conda remove conda-build conda-build-all --yes
 pip uninstall --yes conda-build conda-build-all
 # pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
 # git clone https://github.com/ericdill/conda-build
