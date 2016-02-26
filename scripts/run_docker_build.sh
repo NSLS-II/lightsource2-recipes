@@ -41,38 +41,20 @@ echo "$config" > ~/.condarc
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
 
-conda update conda
-# install to get the dependencies
-conda install conda-build anaconda-client conda-build-all
-# remove so we can install master
-conda remove conda-build conda-build-all
-pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
-conda remove conda-build-all
+conda remove conda-build
+pip uninstall --yes conda-build conda-build-all
+# pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
+# git clone https://github.com/ericdill/conda-build
+# cd conda-build-all
+# git checkout silence-git-errors
+# python setup.py develop
+pip install https://github.com/ericdill/conda-build/zipball/silence-git-errors#egg=conda-build
 pip install https://github.com/SciTools/conda-build-all/zipball/master#egg=conda-build-all
 conda info
 unset LANG
 
-
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
-
-# These were specific to installing matplotlib. I really want to avoid doing this if possible, but in some cases it
-# is inevitable (without re-implementing a full OS), so I also really want to ensure we can annotate our recipes to
-# state the build dependencies at OS level, too.
-# yum install -y libXext libXrender libSM tk libX11-devel
-
-# I think this is the apt equivalent of what pelson installed in the obvious-ci
-# docker image
-apt-get install -y libglib2.0-0 \
-      libxext6 libxext-dev \
-      libxrender1 libxrender-dev \
-      libsm6 libsm-dev \
-      tk-dev \
-      libx11-6 libx11-dev
-# install zlib-devel for git recipe
-# yum install -y zlib-devel perl-devel perl-CPAN curl-devel expat-devel gettext-devel openssl-devel asciidoc xmlto docbook2X
-# more git configuration
-# sudo ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
 
 echo "
 
