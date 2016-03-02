@@ -1,10 +1,10 @@
 package:
   name: bluesky
-  version: 0.4.0
+  version: 0.4.1
 
 source:
   git_url: https://github.com/NSLS-II/bluesky
-  git_rev: v0.4.0
+  git_rev: v0.4.1
 
 build:
   # Note that this will override the default build string with the Python
@@ -39,8 +39,7 @@ test:
   imports:
     - bluesky
     - bluesky.broker_callbacks
-    # can't test this one. Errors in the top level of the module.
-    # - bluesky.broker_examples
+    - bluesky.broker_examples
     - bluesky.examples
     - bluesky.global_state
     - bluesky.hardware_checklist
