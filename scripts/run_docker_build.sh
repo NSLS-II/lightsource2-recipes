@@ -24,6 +24,7 @@ cat << EOF | docker run -i \
                         -v ${REPO_ROOT}/py3:/py3-recipes \
                         -v ${REPO_ROOT}/py35:/py35-recipes \
                         -v ${REPO_ROOT}/pyall:/pyall-recipes \
+                        -v /tmp/skbeam-recipes/recipes:/skbeam-recipes \
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
@@ -31,6 +32,9 @@ cat << EOF | docker run -i \
 if [ "${BINSTAR_TOKEN}" ];then
     export BINSTAR_TOKEN=${BINSTAR_TOKEN}
 fi
+
+rm -rf /tmp/skbeam-recipes
+git clone https://github.com/scikit-beam/skbeam-recipes /tmp/skbeam-recipes
 
 # Unused, but needed by conda-build currently... :(
 export CONDA_NPY='19'
@@ -82,5 +86,12 @@ echo "
 
 "
 conda-build-all /pyall-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
+
+echo "
+
+===== BUILDING SCIKIT-BEAM RECIPES =====
+
+"
+conda-build-all /skbeam-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
 
 EOF
