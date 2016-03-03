@@ -12,4 +12,5 @@ dependencies:
 
 test:
   override:
+    - env
     - ./scripts/run_docker_build.sh
