@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-
+rm -rf /tmp/$LOGNAME
 if [ "$RAMDISK_DIR" == "" ]; then
   RAMDISK_DIR="/tmp/$LOGNAME/ramdisk"
   mkdir -p $RAMDISK_DIR
@@ -65,11 +65,8 @@ channels:
 - https://pergamon.cs.nsls2.local:8443/conda/anaconda
 always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
-echo "CONDA_DIR=$CONDA_DIR"
-# init the conda directory
-source $CONDA_DIR/bin/activate $CONDA_DIR
-conda install anaconda-client "conda-build>=1.19.0"
 
+# Init the logs
 LOG_DIR=/home/edill/auto-build-logs
 DEV_DIR=$LOG_DIR/dev
 TAG_DIR=$LOG_DIR/tag
@@ -77,48 +74,102 @@ mkdir -p $LOG_DIR
 mkdir -p $DEV_DIR
 mkdir -p $TAG_DIR
 
-DEV_LOG="$DEV_DIR/`date +%m.%d-%H.%M`"
-TAG_LOG="$TAG_DIR/`date +%m.%d-%H.%M`"
+DATE=`date +%m.%d-%H.%M`
+DEV_LOG="$DEV_DIR/$DATE"
+TAG_LOG="$TAG_DIR/$DATE"
+
+# init the conda directory
+echo "CONDA_DIR=$CONDA_DIR"
+source $CONDA_DIR/bin/activate $CONDA_DIR
+conda install anaconda-client patchelf conda-build
+
+
+
+# clean up conda-build and conda-build utils
+set +e
+# Remove conda installs
+conda remove conda-build conda-build-all --yes
+
+# Uninstall with pip a few times in case there are multiple versions
+pip uninstall conda-build conda-build-all --yes
+pip uninstall conda-build conda-build-all --yes
+echo "Install a dev build of conda-build"
+CONDA_BUILD_DIR=/tmp/$LOGNAME/conda-build
+rm -rf $CONDA_BUILD_DIR
+git clone https://github.com/conda/conda-build $CONDA_BUILD_DIR
+cd $CONDA_BUILD_DIR
+python setup.py develop
+echo "Install a dev build of conda-build-all"
+CONDA_BUILD_ALL_DIR=/tmp/$LOGNAME/conda-build-all
+rm -rf $CONDA_BUILD_ALL_DIR
+git clone https://github.com/SciTools/conda-build-all/ $CONDA_BUILD_ALL_DIR
+cd $CONDA_BUILD_ALL_DIR
+python setup.py develop
+
+echo "Install conda 4.0.4"
+CONDA_DIR=/tmp/$LOGNAME/conda
+rm -rf $CONDA_DIR
+git clone https://github.com/conda/conda $CONDA_DIR
+cd $CONDA_DIR
+git checkout 4.0.4
+pip uninstall conda --yes
+CONDA_DEFAULT_ENV='' python setup.py install
+
+#rm -rf /tmp/conda-build
+#git clone https://github.com/conda/conda-build /tmp/conda-build
+#cd /tmp/conda-build
+#python setup.py develop
+
 
 run_dev_build () {
   # run the dev build
   echo `date`
   rm -rf /tmp/staged-recipes-dev
-  git clone https://github.com/NSLS-II/staged-recipes-dev /tmp/staged-recipes-dev
+  CLONE_DIR=/tmp/$LOGNAME/staged-recipes-dev
+  rm -rf $CLONE_DIR
+
+  git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
   # allow failures on the conda-build commands
   set +e
-  for dir in /tmp/staged-recipes-dev/recipes/*
+  echo "========== Running py2 builds =========="
+  for dir in $CLONE_DIR/py2/*
+  do
+    version="2.7"
+    echo $dir
+    CONDA_CMD="conda-build $dir --python=$version --numpy=1.10"
+    echo "CONDA_CMD is --> $CONDA_CMD"
+    # probably worth cleaning the lock every time
+    conda clean --lock
+    $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
+  done
+  echo "========== Running py3 builds =========="
+  for dir in $CLONE_DIR/py3/*
   do
     for version in 3.4 3.5
     do
       echo $dir
-      CONDA_CMD="conda-build $dir --python=$version"
+      CONDA_CMD="conda-build $dir --python=$version --numpy=1.10"
       echo "CONDA_CMD is --> $CONDA_CMD"
       # probably worth cleaning the lock every time
       conda clean --lock
       $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
     done
   done
+  echo "========== Running pyall builds =========="
+  for dir in $CLONE_DIR/pyall/*
+  do
+    for version in 2.7 3.4 3.5
+    do
+      echo $dir
+      CONDA_CMD="conda-build $dir --python=$version --numpy=1.10"
+      echo "CONDA_CMD is --> $CONDA_CMD"
+      # probably worth cleaning the lock every time
+      conda clean --lock
+      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
+    done
+  done
+
 }
-
-set +e
-# Install newest conda-build-all
-conda remove conda-build conda-build-all --yes
-# Uninstall with pip a few times in case there are multiple versions
-pip uninstall conda-build conda-build-all --yes
-pip uninstall conda-build conda-build-all --yes
-conda install conda-build=1.19.0
-
-rm -rf /tmp/conda-build-all
-git clone https://github.com/ericdill/conda-build-all/ /tmp/conda-build-all
-cd /tmp/conda-build-all
-git checkout fix-if-logic
-python setup.py develop
-
-#rm -rf /tmp/conda-build
-#git clone https://github.com/conda/conda-build /tmp/conda-build
-#cd /tmp/conda-build
-#python setup.py develop
 
 
 run_tag_build() {
@@ -135,7 +186,12 @@ run_tag_build() {
   conda-build-all $TARGET/py3 --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels nsls2-tag
   conda-build-all $TARGET/py35 --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=3.5" --inspect-channels nsls2-tag
   conda-build-all $TARGET/pyall --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels nsls2-tag
+  conda-build-all $TARGET/skbeam-recipes --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels nsls2-tag
 }
-
-# run_dev_build > $DEV_LOG 2>&1
+#LOG=/tmp/build.log
+run_dev_build > $DEV_LOG 2>&1
 run_tag_build > $TAG_LOG 2>&1
+
+sed '/% |/d' ./$DEV_LOG > /tmp/devlog
+sed '/% |/d' ./$TAG_LOG > /tmp/taglog
+echo "Build status for $DATE" | mutt -s "log test" edill@bnl.gov -y -a /tmp/log --
