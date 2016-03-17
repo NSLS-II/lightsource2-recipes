@@ -1,3 +1,4 @@
+import pdb
 import sys
 import traceback
 import subprocess
@@ -31,7 +32,7 @@ def get_file_names_on_anaconda_channel(username, anaconda_cli,
                 for f in anaconda_cli.show_channel('main', username)['files']])
 
 
-def subprocess_Popen(cmd):
+def Popen(cmd):
     """Returns stdout and stderr
 
     Parameters
@@ -44,18 +45,24 @@ def subprocess_Popen(cmd):
     stdout : """
     # capture the output with subprocess.Popen
     try:
-        ret = subprocess.Popen(cmd, stderr=subprocess.PIPE,
-                               stdout=subprocess.PIPE)
-    except Exception as e:
-        # ALL exceptions that occur in the subprocess command
-        logging.error('Exception summary: %s' % e)
-        logging.error('Full exception start')
-        logging.error(traceback.format_exc())
-        logging.error('Full exception stop')
-    # decode and capture stdout and stderr
-    stdout = ret.stdout.read().decode().strip()
-    stderr = ret.stderr.read().decode().strip()
-    return stdout, stderr
+        proc = subprocess.Popen(cmd)
+    except subprocess.CalledProcessError as cpe:
+        pdb.set_trace()
+    proc.wait()
+    return proc.returncode
+
+
+def check_output(cmd):
+    try:
+        ret = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as cpe:
+        logging.error(cmd)
+        logging.error(cpe.output.decode())
+        raise RuntimeError("{} raised with check_output comand {}".format(
+            cpe.output.decode(), cmd))
+    else:
+        return ret.decode().strip().split('\n')
+
 
 def determine_build_name(path_to_recipe, *conda_build_args):
     """Figure out what conda says the output built package name is going to be
@@ -76,8 +83,7 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     """
     conda_build_args = [] if conda_build_args is None else list(conda_build_args)
     cmd = ['conda', 'build', path_to_recipe, '--output'] + conda_build_args
-    ret = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-    ret = ret.decode().strip().split('\n')
+    ret = check_output(cmd)
     if len(ret) > 1:
         # Then this is the first time we are getting the build name and conda
         # has to check out the source. Call it a second time and you get the4
@@ -104,18 +110,22 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver):
         The anaconda user to upload all the built packages to
     """
     FORMAT = "%(levelname)s | %(asctime)-15s | %(message)s"
-    logging.basicConfig(filename=log_filename, level=logging.DEBUG,
-                        format=FORMAT)
-
+    stream_handler = logging.StreamHandler()
+    file_handler = logging.FileHandler(log_filename)
+    logging.basicConfig(level=logging.DEBUG, format=FORMAT,
+                        handlers=[stream_handler, file_handler])
 
     # figure out build names
     build_names = []
     logging.info("Determining package build names...")
-    for folder in sorted(os.listdir(recipes_path))[:1]:
+    for folder in sorted(os.listdir(recipes_path)):
         recipe_dir = os.path.join(recipes_path, folder)
         for py in pyver:
-            path_to_built_package, build_cmd = determine_build_name(
-                recipe_dir, '--python', py)
+            try:
+                path_to_built_package, build_cmd = determine_build_name(
+                    recipe_dir, '--python', py)
+            except RuntimeError:
+                continue
             name_on_anaconda = os.sep.join(
                 path_to_built_package.split(os.sep)[-2:])
             meta = MetaData(recipe_dir)
@@ -154,7 +164,8 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver):
         logging.info(build_package)
     else:
         logging.info("No packages to be built.")
-
+        return
+    return
     # build all the packages that need to be built
 
     TOKEN = os.environ.get("BINSTAR_TOKEN", None)
@@ -166,23 +177,12 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver):
         logging.info("Building: %s"% pkg_name)
         # output the build command
         logging.info("Build cmd: %s" % cmd)
-        stdout, stderr = subprocess_Popen(cmd)
-        # log stdout as 'info'
-        logging.info('STDOUT')
-        logging.info(stdout)
-        # log stderr as 'error'
-        logging.info('STDERR')
-        logging.error(stderr)
-        # upload the package
+        returncode = Popen(cmd)
         logging.info("UPLOAD START")
         if TOKEN is None:
-            logging.error("BINSTAR_TOKEN env var not set. Can't upload!")
+            logging.info("BINSTAR_TOKEN env var not set. Can't upload!")
         else:
-            stdout, stderr = subprocess_Popen(UPLOAD_CMD + [full_path])
-            logging.info("STDOUT")
-            logging.info(stdout)
-            logging.info("STDERR")
-            logging.info(stderr)
+            returncode = Popen(UPLOAD_CMD + [full_path])
 
 
 def set_binstar_upload(on=False):
@@ -205,8 +205,7 @@ def set_binstar_upload(on=False):
         rc['binstar_upload'] = on
         with open(rcpath, 'w') as f:
             # write the new yaml in `rcpath`
-            f.write(yaml.dumps(rc))
-
+            f.write(yaml.dump(rc))
 
 
 @click.command()
@@ -224,7 +223,7 @@ def cli(recipes_path, pyver, token):
     # just disable binstar uploading whenever this script is running.
     print('Disabling binstar upload. If you want to turn it back on, '
           'execute: `conda config --set binstar_upload true`')
-    set_binstar_upload(True)
+    set_binstar_upload(False)
 
     # set up logging
     full_recipes_path = os.path.abspath(recipes_path)
@@ -262,10 +261,13 @@ def cli(recipes_path, pyver, token):
     try:
         run_build(full_recipes_path, dev_log, anaconda_cli, username, pyver)
     except Exception as e:
-        logging.error("Error in run_build!")
-        logging.error(e)
-        logging.error("Full stack trace")
-        logging.error(traceback.format_exc())
+        print("Error in run_build!")
+        print(e)
+        print("Full stack trace")
+        print(traceback.format_exc())
 
     if at_nsls2:
         del os.environ['REQUESTS_CA_BUNDLE']
+
+if __name__ == "__main__":
+    cli('/home/edill/dev/conda/staged-recipes-dev/py2', ['2.7'])
