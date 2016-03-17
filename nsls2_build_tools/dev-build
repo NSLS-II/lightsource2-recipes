@@ -192,6 +192,9 @@ run_tag_build() {
 run_dev_build > $DEV_LOG 2>&1
 run_tag_build > $TAG_LOG 2>&1
 
-sed '/% |/d' ./$DEV_LOG > /tmp/devlog
-sed '/% |/d' ./$TAG_LOG > /tmp/taglog
-echo "Build status for $DATE" | mutt -s "log test" edill@bnl.gov -y -a /tmp/log --
+echo "Removing download trash from logs"
+sed '/% |/d' $DEV_LOG > /tmp/devlog
+sed '/% |/d' $TAG_LOG > /tmp/taglog
+
+echo "Emailing logs"
+echo "Build status for $DATE" | mutt -s "log test" edill@bnl.gov -y -a /tmp/devlog /tmp/taglog --
