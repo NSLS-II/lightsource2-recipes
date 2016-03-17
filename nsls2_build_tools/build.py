@@ -212,9 +212,8 @@ def set_binstar_upload(on=False):
 @click.command()
 @click.argument('recipes_path', nargs=1)
 @click.argument('pyver', nargs=-1)
-def cli(recipes_path, pyver):
-    print('pyver', pyver)
-    print('type(pyver)', type(pyver))
+@click.option('--token', envvar='BINSTAR_TOKEN')
+def cli(recipes_path, pyver, token):
     if not pyver:
         pyver = ['2.7', '3.4', '3.5']
     if not os.path.exists(recipes_path):
@@ -240,7 +239,6 @@ def cli(recipes_path, pyver):
     import binstar_client
     from binstar_client import Binstar
     from argparse import Namespace
-    token = os.environ.get('BINSTAR_TOKEN', None)
     at_nsls2 = True
     try:
         ret = subprocess.call(['ping', 'pergamon', '-c', '5'], timeout=1).decode().strip()
