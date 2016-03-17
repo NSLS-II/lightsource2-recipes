@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python,
 
 from setuptools import setup, find_packages
 import versioneer
@@ -8,9 +8,13 @@ setup(
     name='nsls2-auto-builder',
     description='toolset for analyzing automated conda package building at NSLS2',
     author='Eric Dill',
-    author_email='edilL@bnl.gov',
-    url='https://github.com/NSLS-II/nsls2-auto-builder',
+    author_email='edill@bnl.gov',
+    url='https://github.com/ericdill/conda_build_utils',
     packages=find_packages(),
     include_package_data=True,
-    long_description='See https://github.com/freeman-lab/pim'
+    entry_points="""
+        [console_scripts]
+        devbuild=nsls2_build_tools.build:cli
+    """
+
 )

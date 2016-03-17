@@ -6,6 +6,8 @@ import time
 import logging
 import yaml
 from conda_build.metadata import MetaData
+import click
+
 
 def get_file_names_on_anaconda_channel(username, anaconda_cli,
                                        channel='main'):
@@ -88,7 +90,7 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     return ret[0], cmd
 
 
-def run_build(recipes_path, log_filename, anaconda_cli, username):
+def run_build(recipes_path, log_filename, anaconda_cli, username, pyver):
     """Build and upload packages that do not already exist at {{ username }}
 
     Parameters
@@ -111,9 +113,9 @@ def run_build(recipes_path, log_filename, anaconda_cli, username):
     logging.info("Determining package build names...")
     for folder in sorted(os.listdir(recipes_path))[:1]:
         recipe_dir = os.path.join(recipes_path, folder)
-        for pyver in ['2.7', '3.4', '3.5']:
+        for py in pyver:
             path_to_built_package, build_cmd = determine_build_name(
-                recipe_dir, '--python', pyver)
+                recipe_dir, '--python', py)
             name_on_anaconda = os.sep.join(
                 path_to_built_package.split(os.sep)[-2:])
             meta = MetaData(recipe_dir)
@@ -206,26 +208,19 @@ def set_binstar_upload(on=False):
             f.write(yaml.dumps(rc))
 
 
-if __name__ == "__main__":
-    def print_usage():
-        print("\nUsage:\n\tpython dev-build.py /path/to/dev/recipes")
 
-    args = sys.argv
-    if len(args) != 2:
-        print("Error!")
-        print("The command \"%s\" is invalid" % ' '.join(args))
-        print("You supplied %s arguments. I am expecting 2." % len(args))
-        print_usage()
-        sys.exit(2)
-
-    recipes_path = args[1]
+@click.command()
+@click.argument('recipes_path', nargs=1)
+@click.argument('pyver', nargs=-1)
+def cli(recipes_path, pyver):
+    print('pyver', pyver)
+    print('type(pyver)', type(pyver))
+    if not pyver:
+        pyver = ['2.7', '3.4', '3.5']
     if not os.path.exists(recipes_path):
         print("Error!")
         print("The path '%s' does not exist." % recipes_path)
-        print("Please supply the path to the dev recipes as the first "
-              "argument to dev-build.py")
-        print_usage()
-        sys.exit(3)
+        sys.exit(1)
 
     # just disable binstar uploading whenever this script is running.
     print('Disabling binstar upload. If you want to turn it back on, '
@@ -267,7 +262,7 @@ if __name__ == "__main__":
     anaconda_cli = binstar_client.utils.get_binstar(Namespace(token=token,
                                                               site=site))
     try:
-        run_build(full_recipes_path, dev_log, anaconda_cli, username)
+        run_build(full_recipes_path, dev_log, anaconda_cli, username, pyver)
     except Exception as e:
         logging.error("Error in run_build!")
         logging.error(e)
