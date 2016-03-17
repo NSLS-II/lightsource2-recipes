@@ -8,7 +8,25 @@ import logging
 import yaml
 from conda_build.metadata import MetaData
 import click
+import signal
 
+current_subprocs = set()
+shutdown = False
+
+def handle_signal(signum, frame):
+    # send signal recieved to subprocesses
+    global shutdown
+    shutdown = True
+    for proc in current_subprocs:
+        if proc.poll() is None:
+            proc.send_signal(signum)
+    logging.error("Killing build script due to receiving signum={}"
+                  "".format(signum))
+    sys.exit(1)
+
+
+signal.signal(signal.SIGINT, handle_signal)
+signal.signal(signal.SIGTERM, handle_signal)
 
 def get_file_names_on_anaconda_channel(username, anaconda_cli,
                                        channel='main'):
@@ -45,10 +63,12 @@ def Popen(cmd):
     stdout : """
     # capture the output with subprocess.Popen
     try:
-        proc = subprocess.Popen(cmd)
+        proc = subprocess.Popen(cmd, stderr=subprocess.PIPE)
+        current_subprocs.add(proc)
     except subprocess.CalledProcessError as cpe:
         pdb.set_trace()
-    proc.wait()
+    stdout, stderr = proc.communicate()
+    current_subprocs.remove(proc)
     return proc.returncode
 
 
@@ -96,7 +116,8 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     return ret[0], cmd
 
 
-def run_build(recipes_path, log_filename, anaconda_cli, username, pyver):
+def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
+              token=None):
     """Build and upload packages that do not already exist at {{ username }}
 
     Parameters
@@ -108,6 +129,13 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver):
     anaconda_cli : return value from binstar_client.utils.get_binstar()
     username : str
         The anaconda user to upload all the built packages to
+    pyver : list
+        The python versions that need to be build. Should be a list of python
+        versions to be passed to conda-build /path --python pyver.
+        ['2.7', '3.4', '3.5']
+    token : str
+        The binstar token that should be used to upload packages to
+        anaconda.org/username
     """
     FORMAT = "%(levelname)s | %(asctime)-15s | %(message)s"
     stream_handler = logging.StreamHandler()
@@ -115,9 +143,19 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver):
     logging.basicConfig(level=logging.DEBUG, format=FORMAT,
                         handlers=[stream_handler, file_handler])
 
-    # figure out build names
-    build_names = []
+    if token is None:
+        logging.error("No binstar token available. There will be no uploading."
+                      "Consider setting the BINSTAR_TOKEN environmental "
+                      "variable or passing one in via the --token command "
+                      "line argument")
+    # get all file names that are in the channel I am interested in
+    lightsource2_packages = get_file_names_on_anaconda_channel(
+        'lightsource2-dev', anaconda_cli)
+
+    dont_build = []
+    to_build = []
     logging.info("Determining package build names...")
+    logging.info('{: <8} | {}'.format('to build', 'built package name'))
     for folder in sorted(os.listdir(recipes_path)):
         recipe_dir = os.path.join(recipes_path, folder)
         for py in pyver:
@@ -129,60 +167,30 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver):
             name_on_anaconda = os.sep.join(
                 path_to_built_package.split(os.sep)[-2:])
             meta = MetaData(recipe_dir)
-            logging.info(name_on_anaconda)
-            build_names.append((path_to_built_package, name_on_anaconda,
-                                build_cmd, meta))
-    # check anaconda to see if they already exist
-    lightsource2_packages = get_file_names_on_anaconda_channel(
-        'lightsource2-dev', anaconda_cli)
+            on_anaconda_channel = name_on_anaconda in lightsource2_packages
+            if on_anaconda_channel:
+                dont_build.append((path_to_built_package, name_on_anaconda,
+                                   build_cmd, meta))
+            else:
+                to_build.append((path_to_built_package, name_on_anaconda,
+                                    build_cmd, meta))
 
-    # split into 'already_exist' and 'need_to_build'
-    build_package = []
-    dont_build_package = []
-    for full_path, name, build_cmd, metadata in build_names:
-        if name in lightsource2_packages:
-            dont_build_package.append((name, build_cmd))
-        else:
-            build_package.append((name, build_cmd))
-
-    # log the names of those that already exist
-    logging.info("%s / %s packages already exist on %s" % (
-                len(dont_build_package),
-                len(dont_build_package) + len(build_package),
-                username))
-    if dont_build_package:
-        logging.info(dont_build_package)
-    else:
-        logging.info("No packages exist on %s" % username)
-
-    # log the names of those that need to build
-    logging.info("%s / %s packages do not exist on %s" % (
-                len(build_package),
-                len(dont_build_package) + len(build_package),
-                username))
-    if build_package:
-        logging.info(build_package)
-    else:
-        logging.info("No packages to be built.")
-        return
-    return
+            logging.info('{:<8} | {}'.format(str(not bool(on_anaconda_channel)), name_on_anaconda))
     # build all the packages that need to be built
-
-    TOKEN = os.environ.get("BINSTAR_TOKEN", None)
-    UPLOAD_CMD = ['anaconda', '-t', TOKEN, 'upload', '-u',
+    UPLOAD_CMD = ['anaconda', '-t', token, 'upload', '-u',
                   username]
     # for each package
-    for full_path, pkg_name, cmd, metadata in build_names:
+    for full_path, pkg_name, cmd, metadata in to_build:
         # output the package build name
         logging.info("Building: %s"% pkg_name)
         # output the build command
-        logging.info("Build cmd: %s" % cmd)
+        logging.info("Build cmd: %s" % ' '.join(cmd))
         returncode = Popen(cmd)
-        logging.info("UPLOAD START")
-        if TOKEN is None:
-            logging.info("BINSTAR_TOKEN env var not set. Can't upload!")
-        else:
+        logging.info("Return code {}".format(returncode))
+        if token:
+            logging.info("UPLOAD START")
             returncode = Popen(UPLOAD_CMD + [full_path])
+            logging.info("Return code {}".format(returncode))
 
 
 def set_binstar_upload(on=False):
@@ -211,8 +219,10 @@ def set_binstar_upload(on=False):
 @click.command()
 @click.argument('recipes_path', nargs=1)
 @click.argument('pyver', nargs=-1)
-@click.option('--token', envvar='BINSTAR_TOKEN')
-def cli(recipes_path, pyver, token):
+@click.option('--token', envvar='BINSTAR_TOKEN',
+              help='Binstar token to use to upload built packages')
+@click.option('--log', help='Name of the log file to write')
+def cli(recipes_path, pyver, token, log):
     if not pyver:
         pyver = ['2.7', '3.4', '3.5']
     if not os.path.exists(recipes_path):
@@ -227,12 +237,13 @@ def cli(recipes_path, pyver, token):
 
     # set up logging
     full_recipes_path = os.path.abspath(recipes_path)
-    log_dirname = os.path.join(os.path.expanduser('~'),
-                                  'auto-build-logs', 'dev')
-    os.makedirs(log_dirname, exist_ok=True)
-    log_filename = time.strftime("%m.%d-%H.%M")
-    dev_log = os.path.join(log_dirname, log_filename)
-    print('Logging output to %s' % dev_log)
+    if not log:
+        log_dirname = os.path.join(os.path.expanduser('~'),
+                                      'auto-build-logs', 'dev')
+        os.makedirs(log_dirname, exist_ok=True)
+        log_filename = time.strftime("%m.%d-%H.%M")
+        log = os.path.join(log_dirname, log_filename)
+    print('Logging output to %s' % log)
 
     # create the anaconda cli
     import binstar_client
@@ -259,7 +270,7 @@ def cli(recipes_path, pyver, token):
     anaconda_cli = binstar_client.utils.get_binstar(Namespace(token=token,
                                                               site=site))
     try:
-        run_build(full_recipes_path, dev_log, anaconda_cli, username, pyver)
+        run_build(full_recipes_path, log, anaconda_cli, username, pyver)
     except Exception as e:
         print("Error in run_build!")
         print(e)
