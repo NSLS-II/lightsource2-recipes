@@ -1,6 +1,6 @@
 package:
   name: hkl
-  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_STUB').replace('-', '.')}}.post{{ environ.get('GIT_DESCRIBE_NUMBER', 'GIT_STUB') }}
+  version: {{ environ['GIT_DESCRIBE_TAG'].replace('-', '.')}}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
 
 source:
     git_url: https://github.com/picca/hkl
