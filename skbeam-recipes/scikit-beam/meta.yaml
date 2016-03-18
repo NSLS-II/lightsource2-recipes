@@ -1,10 +1,10 @@
 package:
   name: scikit-beam
-  version: build_for_windows
+  version: 0.0.8
 
 source:
-  git_url: https://github.com/ericdill/scikit-beam
-  git_rev: build-for-windows
+  git_url: https://github.com/scikit-beam/scikit-beam
+  git_rev: v0.0.8
 
 build:
   number: 0
