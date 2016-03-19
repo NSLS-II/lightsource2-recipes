@@ -1,7 +1,7 @@
 About
 -----
-
-This repo is a holding area for recipes destined for a conda-forge feedstock repo. To find out more about conda-forge, see https://github.com/conda-forge/conda-smithy.
+Master branch recipes for the NSLS-II software stack.  Blatently ripped from 
+https://github.com/conda-forge/staged-recipes.  Thanks @pelson!
 
 
 Build status
