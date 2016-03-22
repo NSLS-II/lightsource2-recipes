@@ -9,9 +9,14 @@ import yaml
 from conda_build.metadata import MetaData
 import click
 import signal
+# create the anaconda cli
+import binstar_client
+from argparse import Namespace
+
 
 current_subprocs = set()
 shutdown = False
+
 
 def handle_signal(signum, frame):
     # send signal recieved to subprocesses
@@ -27,6 +32,7 @@ def handle_signal(signum, frame):
 
 signal.signal(signal.SIGINT, handle_signal)
 signal.signal(signal.SIGTERM, handle_signal)
+
 
 def get_file_names_on_anaconda_channel(username, anaconda_cli,
                                        channel='main'):
@@ -69,7 +75,7 @@ def Popen(cmd):
         pdb.set_trace()
     stdout, stderr = proc.communicate()
     current_subprocs.remove(proc)
-    return proc.returncode
+    return stdout, stderr, proc.returncode
 
 
 def check_output(cmd):
@@ -185,11 +191,11 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
         logging.info("Building: %s"% pkg_name)
         # output the build command
         logging.info("Build cmd: %s" % ' '.join(cmd))
-        returncode = Popen(cmd)
+        stdout, sterr, returncode = Popen(cmd)
         logging.info("Return code {}".format(returncode))
         if token:
             logging.info("UPLOAD START")
-            returncode = Popen(UPLOAD_CMD + [full_path])
+            stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_path])
             logging.info("Return code {}".format(returncode))
 
 
@@ -247,19 +253,6 @@ def cli(recipes_path, pyver, token, log, username, site=None):
         log = os.path.join(log_dirname, log_filename)
     print('Logging output to %s' % log)
 
-    # create the anaconda cli
-    import binstar_client
-    from binstar_client import Binstar
-    from argparse import Namespace
-    at_nsls2 = True
-    try:
-        ret = subprocess.call(['ping', 'pergamon', '-c', '5'], timeout=1).decode().strip()
-        if 'unknown host' in ret:
-            at_nsls2 = False
-    except subprocess.TimeoutExpired:
-        # we are probably not at nsls2
-        at_nsls2 = False
-
     # site = 'https://pergamon.cs.nsls2.local:8443/api'
     # os.environ['REQUESTS_CA_BUNDLE'] = '/etc/certificates/ca_cs_nsls2_local.crt'
 
@@ -272,9 +265,6 @@ def cli(recipes_path, pyver, token, log, username, site=None):
         print(e)
         print("Full stack trace")
         print(traceback.format_exc())
-
-    if at_nsls2:
-        del os.environ['REQUESTS_CA_BUNDLE']
 
 
 if __name__ == "__main__":
