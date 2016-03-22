@@ -67,16 +67,16 @@ always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
 # Init the logs
-LOG_DIR=/home/edill/auto-build-logs
+LOG_DIR=/home/edill/auto-build-logs/`date +%Y`/`date +%m`/`date +%d`
 DEV_DIR=$LOG_DIR/dev
 TAG_DIR=$LOG_DIR/tag
 mkdir -p $LOG_DIR
 mkdir -p $DEV_DIR
 mkdir -p $TAG_DIR
 
-DATE=`date +%m.%d-%H.%M`
-DEV_LOG="$DEV_DIR/$DATE"
-TAG_LOG="$TAG_DIR/$DATE"
+LOGNAME=`date +%H.%M`
+DEV_LOG="$DEV_DIR/$LOGNAME"
+TAG_LOG="$TAG_DIR/$LOGNAME"
 
 # init the conda directory
 echo "CONDA_DIR=$CONDA_DIR"
@@ -88,23 +88,23 @@ conda install anaconda-client patchelf conda-build
 # clean up conda-build and conda-build utils
 set +e
 # Remove conda installs
-conda remove conda-build conda-build-all --yes
+# conda remove conda-build conda-build-all --yes
 
 # Uninstall with pip a few times in case there are multiple versions
-pip uninstall conda-build conda-build-all --yes
-pip uninstall conda-build conda-build-all --yes
+# pip uninstall conda-build conda-build-all --yes
+# pip uninstall conda-build conda-build-all --yes
 echo "Install a dev build of conda-build"
 CONDA_BUILD_DIR=/tmp/$LOGNAME/conda-build
 rm -rf $CONDA_BUILD_DIR
 git clone https://github.com/conda/conda-build $CONDA_BUILD_DIR
 cd $CONDA_BUILD_DIR
 python setup.py develop
-echo "Install a dev build of conda-build-all"
-CONDA_BUILD_ALL_DIR=/tmp/$LOGNAME/conda-build-all
-rm -rf $CONDA_BUILD_ALL_DIR
-git clone https://github.com/SciTools/conda-build-all/ $CONDA_BUILD_ALL_DIR
-cd $CONDA_BUILD_ALL_DIR
-python setup.py develop
+# echo "Install a dev build of conda-build-all"
+# CONDA_BUILD_ALL_DIR=/tmp/$LOGNAME/conda-build-all
+# rm -rf $CONDA_BUILD_ALL_DIR
+# git clone https://github.com/SciTools/conda-build-all/ $CONDA_BUILD_ALL_DIR
+# cd $CONDA_BUILD_ALL_DIR
+# python setup.py develop
 
 echo "Install conda 4.0.4"
 CONDA_DIR=/tmp/$LOGNAME/conda
@@ -115,6 +115,14 @@ git checkout 4.0.4
 pip uninstall conda --yes
 CONDA_DEFAULT_ENV='' python setup.py install
 
+
+# install conda-build-utils
+echo 'Installing conda-build-utils command line'
+CONAD_BUILD_UTILS_DIR=/tmp/$LOGNAME/conda-build-utils
+rm -rf $CONDA_BUILD_UTILS_DIR
+git clone https://github.com/ericdill/conda-build-utils $CONDA_BUILD_UTILS_DIR
+cd $CONDA_BUILD_UTILS_DIR
+python setup.py develop
 #rm -rf /tmp/conda-build
 #git clone https://github.com/conda/conda-build /tmp/conda-build
 #cd /tmp/conda-build
@@ -124,6 +132,7 @@ CONDA_DEFAULT_ENV='' python setup.py install
 run_dev_build () {
   # run the dev build
   echo `date`
+  USERNAME=nsls2-dev
   rm -rf /tmp/staged-recipes-dev
   CLONE_DIR=/tmp/$LOGNAME/staged-recipes-dev
   rm -rf $CLONE_DIR
@@ -136,37 +145,21 @@ run_dev_build () {
   do
     version="2.7"
     echo $dir
-    CONDA_CMD="conda-build $dir --python=$version --numpy=1.10"
-    echo "CONDA_CMD is --> $CONDA_CMD"
-    # probably worth cleaning the lock every time
-    conda clean --lock
-    $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
+    devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
   done
   echo "========== Running py3 builds =========="
   for dir in $CLONE_DIR/py3/*
   do
-    for version in 3.4 3.5
-    do
-      echo $dir
-      CONDA_CMD="conda-build $dir --python=$version --numpy=1.10"
-      echo "CONDA_CMD is --> $CONDA_CMD"
-      # probably worth cleaning the lock every time
-      conda clean --lock
-      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
-    done
+    version="3.4 3.5"
+    echo $dir
+    devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
   done
   echo "========== Running pyall builds =========="
   for dir in $CLONE_DIR/pyall/*
   do
-    for version in 2.7 3.4 3.5
-    do
-      echo $dir
-      CONDA_CMD="conda-build $dir --python=$version --numpy=1.10"
-      echo "CONDA_CMD is --> $CONDA_CMD"
-      # probably worth cleaning the lock every time
-      conda clean --lock
-      $CONDA_CMD && anaconda -t $BINSTAR_TOKEN upload -u nsls2-dev `$CONDA_CMD --output`
-    done
+    version="2.7 3.4 3.5"
+    echo $dir
+    devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
   done
 
 }
@@ -175,18 +168,56 @@ run_dev_build () {
 run_tag_build() {
   # run the tagged builds
   echo `date`
-  TARGET=/tmp/tagged-recipes
-  rm -rf $TARGET
-  git clone https://github.com/NSLS-II/auto-build-tagged-recipes $TARGET
+  USERNAME=nsls2-tag
+  CLONE_DIR=/tmp/tagged-recipes
+  rm -rf $CLONE_DIR
+  git clone https://github.com/NSLS-II/auto-build-tagged-recipes $CLONE_DIR
   #cd ../staged-recipes
   #conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
   # allow failures on the conda-build commands
   set +e
-  conda-build-all $TARGET/py2 --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels nsls2-tag
-  conda-build-all $TARGET/py3 --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels nsls2-tag
-  conda-build-all $TARGET/py35 --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=3.5" --inspect-channels nsls2-tag
-  conda-build-all $TARGET/pyall --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels nsls2-tag
-  conda-build-all $TARGET/skbeam-recipes --upload-channels nsls2-tag --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels nsls2-tag
+  echo "========== Running py2 builds =========="
+  for dir in $CLONE_DIR/py2/*
+  do
+    version="2.7"
+    echo $dir
+    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
+  done
+  echo "========== Running py3 builds =========="
+  for dir in $CLONE_DIR/py3/*
+  do
+    version="3.4 3.5"
+    echo $dir
+    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
+  done
+  echo "========== Running py35 builds =========="
+  for dir in $CLONE_DIR/py35/*
+  do
+    version="3.5"
+    echo $dir
+    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
+  done
+  echo "========== Running pyall builds =========="
+  for dir in $CLONE_DIR/pyall/*
+  do
+    version="2.7 3.4 3.5"
+    echo $dir
+    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
+  done
+  echo "========== Running nonpy builds =========="
+  for dir in $CLONE_DIR/nonpy/*
+  do
+    version="3.5"
+    echo $dir
+    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
+  done
+  echo "========== Running skbeam-recipes builds =========="
+  for dir in $CLONE_DIR/skbeam-recipes/*
+  do
+    version="2.7 3.4 3.5"
+    echo $dir
+    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
+  done
 }
 #LOG=/tmp/build.log
 run_dev_build > $DEV_LOG 2>&1
@@ -197,4 +228,13 @@ sed '/% |/d' $DEV_LOG > /tmp/devlog
 sed '/% |/d' $TAG_LOG > /tmp/taglog
 
 echo "Emailing logs"
-echo "Build status for $DATE" | mutt -s "log test" edill@bnl.gov -y -a /tmp/devlog /tmp/taglog --
+echo "Build status for $DATE
+=============================================
+DEV LOG SUMMARY
+
+`cat $DEV_LOG.summary`
+
+=============================================
+TAG LOG SUMMARY
+`cat $TAG_LOG.summary`
+" | mutt -s "log test" edill@bnl.gov -y -a /tmp/devlog /tmp/taglog --
