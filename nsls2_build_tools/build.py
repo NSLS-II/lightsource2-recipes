@@ -222,7 +222,9 @@ def set_binstar_upload(on=False):
 @click.option('--token', envvar='BINSTAR_TOKEN',
               help='Binstar token to use to upload built packages')
 @click.option('--log', help='Name of the log file to write')
-def cli(recipes_path, pyver, token, log):
+@click.option('--site', help='Anaconda upload api (defaults to https://api.anaconda.org')
+@click.option('--username', help='Username to upload package to')
+def cli(recipes_path, pyver, token, log, username, site=None):
     if not pyver:
         pyver = ['2.7', '3.4', '3.5']
     if not os.path.exists(recipes_path):
@@ -258,14 +260,8 @@ def cli(recipes_path, pyver, token, log):
         # we are probably not at nsls2
         at_nsls2 = False
 
-    if at_nsls2:
-        # Fill in your binstar token here
-        username = 'nsls2-tag'
-        site = 'https://pergamon.cs.nsls2.local:8443/api'
-        os.environ['REQUESTS_CA_BUNDLE'] = '/etc/certificates/ca_cs_nsls2_local.crt'
-    else:
-        username = 'lightsource2-dev'
-        site = None
+    # site = 'https://pergamon.cs.nsls2.local:8443/api'
+    # os.environ['REQUESTS_CA_BUNDLE'] = '/etc/certificates/ca_cs_nsls2_local.crt'
 
     anaconda_cli = binstar_client.utils.get_binstar(Namespace(token=token,
                                                               site=site))
@@ -279,6 +275,7 @@ def cli(recipes_path, pyver, token, log):
 
     if at_nsls2:
         del os.environ['REQUESTS_CA_BUNDLE']
+
 
 if __name__ == "__main__":
     cli('/home/edill/dev/conda/staged-recipes-dev/py2', ['2.7'])
