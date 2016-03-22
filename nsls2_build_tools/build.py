@@ -9,6 +9,7 @@ import yaml
 from conda_build.metadata import MetaData
 import click
 import signal
+from pprint import pformat
 # create the anaconda cli
 import binstar_client
 from argparse import Namespace
@@ -25,8 +26,8 @@ def handle_signal(signum, frame):
     for proc in current_subprocs:
         if proc.poll() is None:
             proc.send_signal(signum)
-    logging.error("Killing build script due to receiving signum={}"
-                  "".format(signum))
+    print("Killing build script due to receiving signum={}"
+          "".format(signum))
     sys.exit(1)
 
 
@@ -72,6 +73,7 @@ def Popen(cmd):
         proc = subprocess.Popen(cmd, stderr=subprocess.PIPE)
         current_subprocs.add(proc)
     except subprocess.CalledProcessError as cpe:
+        print(cpe)
         pdb.set_trace()
     stdout, stderr = proc.communicate()
     current_subprocs.remove(proc)
@@ -82,12 +84,13 @@ def check_output(cmd):
     try:
         ret = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as cpe:
-        logging.error(cmd)
-        logging.error(cpe.output.decode())
+        print(cmd)
+        print(cpe.output.decode())
         raise RuntimeError("{} raised with check_output comand {}".format(
             cpe.output.decode(), cmd))
     else:
-        return ret.decode().strip().split('\n')
+        name = ret.decode().strip().split('\n')
+        return name
 
 
 def determine_build_name(path_to_recipe, *conda_build_args):
@@ -150,24 +153,24 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
                         handlers=[stream_handler, file_handler])
 
     if token is None:
-        logging.error("No binstar token available. There will be no uploading."
-                      "Consider setting the BINSTAR_TOKEN environmental "
-                      "variable or passing one in via the --token command "
-                      "line argument")
+        print("No binstar token available. There will be no uploading."
+              "Consider setting the BINSTAR_TOKEN environmental "
+              "variable or passing one in via the --token command "
+              "line argument")
     # get all file names that are in the channel I am interested in
     lightsource2_packages = get_file_names_on_anaconda_channel(
         'lightsource2-dev', anaconda_cli)
 
     dont_build = []
     to_build = []
-    logging.info("Determining package build names...")
-    logging.info('{: <8} | {}'.format('to build', 'built package name'))
+    print("Determining package build names...")
+    print('{: <8} | {}'.format('to build', 'built package name'))
     for folder in sorted(os.listdir(recipes_path)):
         recipe_dir = os.path.join(recipes_path, folder)
         for py in pyver:
             try:
                 path_to_built_package, build_cmd = determine_build_name(
-                    recipe_dir, '--python', py)
+                    recipe_dir, '--python', py, '--numpy', '1.10')
             except RuntimeError:
                 continue
             name_on_anaconda = os.sep.join(
@@ -179,24 +182,47 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
                                    build_cmd, meta))
             else:
                 to_build.append((path_to_built_package, name_on_anaconda,
-                                    build_cmd, meta))
+                                 build_cmd, meta))
 
-            logging.info('{:<8} | {}'.format(str(not bool(on_anaconda_channel)), name_on_anaconda))
+            print('{:<8} | {}'.format(
+                    str(not bool(on_anaconda_channel)), name_on_anaconda))
     # build all the packages that need to be built
     UPLOAD_CMD = ['anaconda', '-t', token, 'upload', '-u',
                   username]
+    no_token = []
+    uploaded = []
+    upload_failed = []
+    build_or_test_failed = []
     # for each package
     for full_path, pkg_name, cmd, metadata in to_build:
         # output the package build name
-        logging.info("Building: %s"% pkg_name)
+        print("Building: %s"% pkg_name)
         # output the build command
-        logging.info("Build cmd: %s" % ' '.join(cmd))
+        print("Build cmd: %s" % ' '.join(cmd))
         stdout, sterr, returncode = Popen(cmd)
-        logging.info("Return code {}".format(returncode))
+        print("Return code {}".format(returncode))
+        if returncode != 0:
+            build_or_test_failed.append(pkg_name)
+            continue
         if token:
-            logging.info("UPLOAD START")
+            print("UPLOAD START")
             stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_path])
-            logging.info("Return code {}".format(returncode))
+            print("Return code {}".format(returncode))
+            if returncode != 0:
+                upload_failed.append(pkg_name)
+                continue
+            uploaded.append(pkg_name)
+            continue
+
+        no_token.append(pkg_name)
+
+    return {
+        'alreadybuilt': sorted([dont[1] for dont in dont_build]),
+        'uploaded': sorted(uploaded),
+        'no_token': sorted(no_token),
+        'upload_failed': sorted(upload_failed),
+        'build_or_test_failed': sorted(build_or_test_failed),
+    }
 
 
 def set_binstar_upload(on=False):
@@ -251,7 +277,7 @@ def cli(recipes_path, pyver, token, log, username, site=None):
         os.makedirs(log_dirname, exist_ok=True)
         log_filename = time.strftime("%m.%d-%H.%M")
         log = os.path.join(log_dirname, log_filename)
-    print('Logging output to %s' % log)
+    print('Logging summary to %s' % log)
 
     # site = 'https://pergamon.cs.nsls2.local:8443/api'
     # os.environ['REQUESTS_CA_BUNDLE'] = '/etc/certificates/ca_cs_nsls2_local.crt'
@@ -259,12 +285,32 @@ def cli(recipes_path, pyver, token, log, username, site=None):
     anaconda_cli = binstar_client.utils.get_binstar(Namespace(token=token,
                                                               site=site))
     try:
-        run_build(full_recipes_path, log, anaconda_cli, username, pyver)
+        results = run_build(full_recipes_path, log, anaconda_cli, username, pyver)
     except Exception as e:
-        print("Error in run_build!")
-        print(e)
-        print("Full stack trace")
-        print(traceback.format_exc())
+        logging.error("Major error encountered in attempt to build {}"
+                      "".format(full_recipes_path))
+        logging.error("Error in run_build!")
+        logging.error(e)
+        logging.error("Full stack trace")
+        logging.error(traceback.format_exc())
+    else:
+        logging.info("Build summary")
+        if results['build_or_test_failed']:
+            logging.error("Some packages failed to build")
+            logging.error(pformat(results['build_or_test_failed']))
+        if results['no_token']:
+            logging.error("No anaconda token. Cannot upload these packages")
+            logging.error(pformat(results['no_token']))
+        if results['upload_failed']:
+            logging.error('Upload failed for these packages')
+            logging.error(pformat(results['upload_failed']))
+        if results['alreadybuilt']:
+            logging.info('Packages that already exist in {}'.format(username))
+            logging.info(pformat(results['alreadybuilt']))
+        if results['uploaded']:
+            logging.info('Packages that were built and uploaded')
+            logging.info(pformat(results['uploaded']))
+
 
 
 if __name__ == "__main__":
