@@ -158,8 +158,7 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
               "variable or passing one in via the --token command "
               "line argument")
     # get all file names that are in the channel I am interested in
-    lightsource2_packages = get_file_names_on_anaconda_channel(
-        'lightsource2-dev', anaconda_cli)
+    packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
 
     dont_build = []
     to_build = []
@@ -176,7 +175,7 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
             name_on_anaconda = os.sep.join(
                 path_to_built_package.split(os.sep)[-2:])
             meta = MetaData(recipe_dir)
-            on_anaconda_channel = name_on_anaconda in lightsource2_packages
+            on_anaconda_channel = name_on_anaconda in packages
             if on_anaconda_channel:
                 dont_build.append((path_to_built_package, name_on_anaconda,
                                    build_cmd, meta))
