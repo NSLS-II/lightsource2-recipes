@@ -48,8 +48,8 @@ pip uninstall --yes conda-build conda-build-all
 # cd conda-build-all
 # git checkout silence-git-errors
 # python setup.py develop
-pip install https://github.com/ericdill/conda-build/zipball/silence-git-errors#egg=conda-build
-pip install https://github.com/SciTools/conda-build-all/zipball/master#egg=conda-build-all
+pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
+pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build
 conda info
 unset LANG
 
@@ -59,25 +59,51 @@ unset LANG
 # These were specific to installing matplotlib. I really want to avoid doing this if possible, but in some cases it
 # is inevitable (without re-implementing a full OS), so I also really want to ensure we can annotate our recipes to
 # state the build dependencies at OS level, too.
+CLONE_DIR=/tmp/$LOGNAME/staged-recipes-dev
+USERNAME=lightsource2-dev
 
-echo "
-
-===== BUILDING PY2 =====
-
-"
-conda-build-all /py2-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2-dev
-echo "
-
-===== BUILDING PY3 =====
-
-"
-conda-build-all /py3-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels lightsource2-dev
-
-echo "
-
-===== BUILDING PY2&PY3 =====
-
-"
-conda-build-all /pyall-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2-dev
+git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
+# allow failures on the conda-build commands
+set +e
+echo "========== Running py2 builds =========="
+for dir in $CLONE_DIR/py2/*
+do
+  version="2.7"
+  echo $dir
+  devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
+done
+echo "========== Running py3 builds =========="
+for dir in $CLONE_DIR/py3/*
+do
+  version="3.4 3.5"
+  echo $dir
+  devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
+done
+echo "========== Running pyall builds =========="
+for dir in $CLONE_DIR/pyall/*
+do
+  version="2.7 3.4 3.5"
+  echo $dir
+  devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
+done
+# echo "
+#
+# ===== BUILDING PY2 =====
+#
+# "
+# conda-build-all /py2-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2-dev
+# echo "
+#
+# ===== BUILDING PY3 =====
+#
+# "
+# conda-build-all /py3-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels lightsource2-dev
+#
+# echo "
+#
+# ===== BUILDING PY2&PY3 =====
+#
+# "
+# conda-build-all /pyall-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2-dev
 
 EOF
