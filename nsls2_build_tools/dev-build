@@ -34,7 +34,7 @@ fi
 mkdir -p $CONDA_DIR/etc/conda/activate.d
 echo "source $RAMDISK_DIR/.condabuildrc
 mkdir -p ~/.config/binstar
-#echo 'url: https://pergamon.cs.nsls2.local:8443/api' > ~/.config/binstar/config.yaml" > $CONDA_DIR/etc/conda/activate.d/setup.sh
+echo 'url: https://pergamon.cs.nsls2.local:8443/api' > ~/.config/binstar/config.yaml" > $CONDA_DIR/etc/conda/activate.d/setup.sh
 mkdir -p $CONDA_DIR/etc/conda/deactivate.d
 echo "
 unset RAMDISK_DIR
@@ -50,11 +50,10 @@ echo "
 export RAMDISK_DIR=$RAMDISK_DIR
 export CONDA_DIR=$CONDA_DIR
 export CONDARC=$RAMDISK_DIR/.condarc
-#export REQUESTS_CA_BUNDLE=/etc/certificates/ca_cs_nsls2_local.crt
-#export no_proxy=cs.nsls2.local
-#export HTTP_PROXY=http://proxy:8888
-#export HTTPS_PROXY=http://proxy:8888
-export BINSTAR_TOKEN=er-e5811bed-ec65-43ba-b65d-57db1169734d
+export REQUESTS_CA_BUNDLE=/etc/certificates/ca_cs_nsls2_local.crt
+export no_proxy=cs.nsls2.local
+export HTTP_PROXY=http://proxy:8888
+export HTTPS_PROXY=http://proxy:8888
 " > "$RAMDISK_DIR/.condabuildrc"
 # set up a custom condarc for the ramdisk env
 echo "
@@ -133,10 +132,9 @@ python setup.py develop
 #cd /tmp/conda-build
 #python setup.py develop
 
-USERNAME=ericdill
-
 run_dev_build () {
   # run the dev build
+  USERNAME=nsls2-dev
   echo `date`
   rm -rf /tmp/$LOGNAME/staged-recipes-dev
   CLONE_DIR=/tmp/$LOGNAME/staged-recipes-dev
@@ -160,6 +158,7 @@ run_dev_build () {
 run_tag_build() {
   # run the tagged builds
   echo `date`
+  USERNAME=nsls2-tag
   CLONE_DIR=/tmp/$LOGNAME/tagged-recipes
   rm -rf $CLONE_DIR
   git clone https://github.com/NSLS-II/auto-build-tagged-recipes $CLONE_DIR
