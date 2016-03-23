@@ -8,7 +8,7 @@ source:
 
 build:
   number: 0
-  string: {{ environenviron['GIT_BUILD_STR']('GIT_BUILD_STR', '') }}_py{{ py }}
+  string: {{ environ['GIT_BUILD_STR'] }}_py{{ py }}
   entry_points:
     - align = ixstools.align:main
 
