@@ -146,27 +146,14 @@ run_dev_build () {
   # allow failures on the conda-build commands
   set +e
   echo "========== Running py2 builds =========="
-  for dir in $CLONE_DIR/py2/*
-  do
-    version="2.7"
-    echo $dir
-    devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
-  done
+  version="2.7"
+  devbuild $CLONE_DIR/py2 --username $USERNAME $version --log $DEV_LOG.summary
   echo "========== Running py3 builds =========="
-  for dir in $CLONE_DIR/py3/*
-  do
-    version="3.4 3.5"
-    echo $dir
-    devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
-  done
+  version="3.4 3.5"
+  devbuild $CLONE_DIR/py3 --username $USERNAME $version --log $DEV_LOG.summary
   echo "========== Running pyall builds =========="
-  for dir in $CLONE_DIR/pyall/*
-  do
-    version="2.7 3.4 3.5"
-    echo $dir
-    devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
-  done
-
+  version="2.7 3.4 3.5"
+  devbuild $CLONE_DIR/pyall/ --username $USERNAME $version --log $DEV_LOG.summary
 }
 
 
@@ -181,47 +168,25 @@ run_tag_build() {
   # allow failures on the conda-build commands
   set +e
   echo "========== Running py2 builds =========="
-  for dir in $CLONE_DIR/py2/*
-  do
-    version="2.7"
-    echo $dir
-    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
-  done
+  version="2.7"
+  devbuild $CLONE_DIR/py2 --username $USERNAME $version --log $DEV_LOG.summary
   echo "========== Running py3 builds =========="
-  for dir in $CLONE_DIR/py3/*
-  do
-    version="3.4 3.5"
-    echo $dir
-    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
-  done
-  echo "========== Running py35 builds =========="
-  for dir in $CLONE_DIR/py35/*
-  do
-    version="3.5"
-    echo $dir
-    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
-  done
+  version="3.4 3.5"
+  devbuild $CLONE_DIR/py3 --username $USERNAME $version --log $DEV_LOG.summary
   echo "========== Running pyall builds =========="
-  for dir in $CLONE_DIR/pyall/*
-  do
-    version="2.7 3.4 3.5"
-    echo $dir
-    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
-  done
+  version="2.7 3.4 3.5"
+  devbuild $CLONE_DIR/pyall --username $USERNAME $version --log $DEV_LOG.summary
+  echo "========== Running py35 builds =========="
+  version="3.5"
+  devbuild $CLONE_DIR/py35 --username $USERNAME $version --log $TAG_LOG.summary
+  echo "========== Running pyall builds =========="
+  version="2.7 3.4 3.5"
+  devbuild $CLONE_DIR/pyall --username $USERNAME $version --log $TAG_LOG.summary
   echo "========== Running nonpy builds =========="
-  for dir in $CLONE_DIR/nonpy/*
-  do
-    version="3.5"
-    echo $dir
-    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
-  done
-  echo "========== Running skbeam-recipes builds =========="
-  for dir in $CLONE_DIR/skbeam-recipes/*
-  do
-    version="2.7 3.4 3.5"
-    echo $dir
-    devbuild $dir --username $USERNAME $version --log $TAG_LOG.summary
-  done
+  version="3.5"
+  devbuild $CLONE_DIR/nonpy --username $USERNAME $version --log $TAG_LOG.summary
+  version="2.7 3.4 3.5"
+  devbuild $CLONE_DIR/skbeam-recipes/ --username $USERNAME $version --log $TAG_LOG.summary
 }
 #LOG=/tmp/build.log
 run_dev_build > $DEV_LOG 2>&1
