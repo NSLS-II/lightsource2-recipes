@@ -58,12 +58,12 @@ export HTTPS_PROXY=http://proxy:8888
 # set up a custom condarc for the ramdisk env
 echo "
 channels:
-#- https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
-#- https://pergamon.cs.nsls2.local:8443/conda/nsls2
-#- https://pergamon.cs.nsls2.local:8443/conda/anaconda
-- lightsource2-dev
-- lightsource2
-- defaults
+- https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
+- https://pergamon.cs.nsls2.local:8443/conda/nsls2
+- https://pergamon.cs.nsls2.local:8443/conda/anaconda
+# - lightsource2-dev
+# - lightsource2
+# - defaults
 always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
