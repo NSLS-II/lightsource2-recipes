@@ -24,7 +24,7 @@ if [ ! -d "$CONDA_DIR" ]; then
   find ~/Downloads -iname *miniconda* -print | head -n 1 | xargs -I {} bash {} -b -p $CONDA_DIR
   # if conda dir still doesn't exist, download and install
   if [ ! -d "$CONDA_DIR" ]; then
-    MC_PATH=/tmp/miniconda.sh
+    MC_PATH=/tmp/$LOGNAME/miniconda.sh
     echo Dowloading miniconda to $MC_PATH
     wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $MC_PATH
     bash "$MC_PATH" -b -p "$CONDA_DIR"
@@ -34,8 +34,7 @@ fi
 mkdir -p $CONDA_DIR/etc/conda/activate.d
 echo "source $RAMDISK_DIR/.condabuildrc
 mkdir -p ~/.config/binstar
-echo 'url: https://pergamon.cs.nsls2.local:8443/api' > ~/.config/binstar/config.yaml
-" > $CONDA_DIR/etc/conda/activate.d/setup.sh
+#echo 'url: https://pergamon.cs.nsls2.local:8443/api' > ~/.config/binstar/config.yaml" > $CONDA_DIR/etc/conda/activate.d/setup.sh
 mkdir -p $CONDA_DIR/etc/conda/deactivate.d
 echo "
 unset RAMDISK_DIR
@@ -51,18 +50,21 @@ echo "
 export RAMDISK_DIR=$RAMDISK_DIR
 export CONDA_DIR=$CONDA_DIR
 export CONDARC=$RAMDISK_DIR/.condarc
-export REQUESTS_CA_BUNDLE=/etc/certificates/ca_cs_nsls2_local.crt
-export no_proxy=cs.nsls2.local
-export HTTP_PROXY=http://proxy:8888
-export HTTPS_PROXY=http://proxy:8888
-export BINSTAR_TOKEN=ed-a09a18b1-8bce-4582-b02b-d43c27db57bd
+#export REQUESTS_CA_BUNDLE=/etc/certificates/ca_cs_nsls2_local.crt
+#export no_proxy=cs.nsls2.local
+#export HTTP_PROXY=http://proxy:8888
+#export HTTPS_PROXY=http://proxy:8888
+export BINSTAR_TOKEN=er-e5811bed-ec65-43ba-b65d-57db1169734d
 " > "$RAMDISK_DIR/.condabuildrc"
 # set up a custom condarc for the ramdisk env
 echo "
 channels:
-- https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
-- https://pergamon.cs.nsls2.local:8443/conda/nsls2
-- https://pergamon.cs.nsls2.local:8443/conda/anaconda
+#- https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
+#- https://pergamon.cs.nsls2.local:8443/conda/nsls2
+#- https://pergamon.cs.nsls2.local:8443/conda/anaconda
+- lightsource2-dev
+- lightsource2
+- defaults
 always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
@@ -74,9 +76,9 @@ mkdir -p $LOG_DIR
 mkdir -p $DEV_DIR
 mkdir -p $TAG_DIR
 
-LOGNAME=`date +%H.%M`
-DEV_LOG="$DEV_DIR/$LOGNAME"
-TAG_LOG="$TAG_DIR/$LOGNAME"
+logname=`date +%H.%M`
+DEV_LOG="$DEV_DIR/$logname"
+TAG_LOG="$TAG_DIR/$logname"
 
 # init the conda directory
 echo "CONDA_DIR=$CONDA_DIR"
@@ -118,22 +120,25 @@ CONDA_DEFAULT_ENV='' python setup.py install
 
 # install conda-build-utils
 echo 'Installing conda-build-utils command line'
-CONAD_BUILD_UTILS_DIR=/tmp/$LOGNAME/conda-build-utils
+CONDA_BUILD_UTILS_DIR=/tmp/$LOGNAME/conda-build-utils
 rm -rf $CONDA_BUILD_UTILS_DIR
 git clone https://github.com/ericdill/conda-build-utils $CONDA_BUILD_UTILS_DIR
+echo 'CONDA_BUILD_UTILS_DIR=$CONDA_BUILD_UTILS_DIR'
 cd $CONDA_BUILD_UTILS_DIR
+ls
+pwd
 python setup.py develop
 #rm -rf /tmp/conda-build
 #git clone https://github.com/conda/conda-build /tmp/conda-build
 #cd /tmp/conda-build
 #python setup.py develop
 
+USERNAME=ericdill
 
 run_dev_build () {
   # run the dev build
   echo `date`
-  USERNAME=nsls2-dev
-  rm -rf /tmp/staged-recipes-dev
+  rm -rf /tmp/$LOGNAME/staged-recipes-dev
   CLONE_DIR=/tmp/$LOGNAME/staged-recipes-dev
   rm -rf $CLONE_DIR
 
@@ -168,8 +173,7 @@ run_dev_build () {
 run_tag_build() {
   # run the tagged builds
   echo `date`
-  USERNAME=nsls2-tag
-  CLONE_DIR=/tmp/tagged-recipes
+  CLONE_DIR=/tmp/$LOGNAME/tagged-recipes
   rm -rf $CLONE_DIR
   git clone https://github.com/NSLS-II/auto-build-tagged-recipes $CLONE_DIR
   #cd ../staged-recipes
@@ -224,8 +228,8 @@ run_dev_build > $DEV_LOG 2>&1
 run_tag_build > $TAG_LOG 2>&1
 
 echo "Removing download trash from logs"
-sed '/% |/d' $DEV_LOG > /tmp/devlog
-sed '/% |/d' $TAG_LOG > /tmp/taglog
+sed '/% |/d' $DEV_LOG > /tmp/$LOGNAME/devlog
+sed '/% |/d' $TAG_LOG > /tmp/$LOGNAME/taglog
 
 echo "Emailing logs"
 echo "Build status for $DATE
@@ -237,4 +241,4 @@ DEV LOG SUMMARY
 =============================================
 TAG LOG SUMMARY
 `cat $TAG_LOG.summary`
-" | mutt -s "log test" edill@bnl.gov -y -a /tmp/devlog /tmp/taglog --
+" | mutt -s "log test" edill@bnl.gov -y -a /tmp/$LOGNAME/devlog /tmp/$LOGNAME/taglog --

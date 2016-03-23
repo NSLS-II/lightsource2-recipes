@@ -174,6 +174,7 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
                 continue
             name_on_anaconda = os.sep.join(
                 path_to_built_package.split(os.sep)[-2:])
+            # pdb.set_trace()
             meta = MetaData(recipe_dir)
             on_anaconda_channel = name_on_anaconda in packages
             if on_anaconda_channel:
@@ -262,12 +263,11 @@ def cli(recipes_path, pyver, token, log, username, site=None):
         print("Error!")
         print("The path '%s' does not exist." % recipes_path)
         sys.exit(1)
-
+    print('token={}'.format(token))
     # just disable binstar uploading whenever this script is running.
     print('Disabling binstar upload. If you want to turn it back on, '
           'execute: `conda config --set binstar_upload true`')
     set_binstar_upload(False)
-
     # set up logging
     full_recipes_path = os.path.abspath(recipes_path)
     if not log:
@@ -284,7 +284,8 @@ def cli(recipes_path, pyver, token, log, username, site=None):
     anaconda_cli = binstar_client.utils.get_binstar(Namespace(token=token,
                                                               site=site))
     try:
-        results = run_build(full_recipes_path, log, anaconda_cli, username, pyver)
+        results = run_build(full_recipes_path, log, anaconda_cli, username,
+                            pyver, token=token)
     except Exception as e:
         logging.error("Major error encountered in attempt to build {}"
                       "".format(full_recipes_path))

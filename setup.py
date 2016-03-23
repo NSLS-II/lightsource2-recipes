@@ -5,7 +5,7 @@ import versioneer
 setup(
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
-    name='nsls2-auto-builder',
+    name='conda-build-utils',
     description='toolset for analyzing automated conda package building at NSLS2',
     author='Eric Dill',
     author_email='edill@bnl.gov',
