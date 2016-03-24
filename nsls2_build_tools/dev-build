@@ -143,13 +143,13 @@ run_dev_build () {
   git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
   # allow failures on the conda-build commands
   set +e
-  echo "========== Running py2 builds =========="
+  echo "========== Running py2 builds ==========" | tee -a $DEV_LOG.summary
   version="2.7"
   devbuild $CLONE_DIR/py2 --username $USERNAME $version --log $DEV_LOG.summary
-  echo "========== Running py3 builds =========="
+  echo "========== Running py3 builds ==========" | tee -a $DEV_LOG.summary
   version="3.4 3.5"
   devbuild $CLONE_DIR/py3 --username $USERNAME $version --log $DEV_LOG.summary
-  echo "========== Running pyall builds =========="
+  echo "========== Running pyall builds ==========" | tee -a $DEV_LOG.summary
   version="2.7 3.4 3.5"
   devbuild $CLONE_DIR/pyall/ --username $USERNAME $version --log $DEV_LOG.summary
 }
@@ -166,22 +166,22 @@ run_tag_build() {
   #conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
   # allow failures on the conda-build commands
   set +e
-  echo "========== Running py2 builds =========="
+  echo "========== Running py2 builds ==========" | tee -a $TAG_LOG.summary
   version="2.7"
   devbuild $CLONE_DIR/py2 --username $USERNAME $version --log $DEV_LOG.summary
-  echo "========== Running py3 builds =========="
+  echo "========== Running py3 builds ==========" | tee -a $TAG_LOG.summary
   version="3.4 3.5"
   devbuild $CLONE_DIR/py3 --username $USERNAME $version --log $DEV_LOG.summary
-  echo "========== Running pyall builds =========="
+  echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
   devbuild $CLONE_DIR/pyall --username $USERNAME $version --log $DEV_LOG.summary
-  echo "========== Running py35 builds =========="
+  echo "========== Running py35 builds ==========" | tee -a $TAG_LOG.summary
   version="3.5"
   devbuild $CLONE_DIR/py35 --username $USERNAME $version --log $TAG_LOG.summary
-  echo "========== Running pyall builds =========="
+  echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
   devbuild $CLONE_DIR/pyall --username $USERNAME $version --log $TAG_LOG.summary
-  echo "========== Running nonpy builds =========="
+  echo "========== Running nonpy builds ==========" | tee -a $TAG_LOG.summary
   version="3.5"
   devbuild $CLONE_DIR/nonpy --username $USERNAME $version --log $TAG_LOG.summary
   version="2.7 3.4 3.5"
