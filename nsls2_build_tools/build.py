@@ -125,7 +125,7 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     return ret[0], cmd
 
 
-def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
+def run_build(recipes_path, anaconda_cli, username, pyver,
               token=None):
     """Build and upload packages that do not already exist at {{ username }}
 
@@ -133,8 +133,6 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
     ----------
     recipes_path : str
         Folder where the recipes are located
-    log_filename : str
-        Filename to log to
     anaconda_cli : return value from binstar_client.utils.get_binstar()
     username : str
         The anaconda user to upload all the built packages to
@@ -146,12 +144,6 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
         The binstar token that should be used to upload packages to
         anaconda.org/username
     """
-    FORMAT = "%(levelname)s | %(asctime)-15s | %(message)s"
-    stream_handler = logging.StreamHandler()
-    file_handler = logging.FileHandler(log_filename)
-    logging.basicConfig(level=logging.DEBUG, format=FORMAT,
-                        handlers=[stream_handler, file_handler])
-
     if token is None:
         print("No binstar token available. There will be no uploading."
               "Consider setting the BINSTAR_TOKEN environmental "
@@ -164,13 +156,15 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
     to_build = []
     print("Determining package build names...")
     print('{: <8} | {}'.format('to build', 'built package name'))
+    logging.info("Build Plan")
     for folder in sorted(os.listdir(recipes_path)):
         recipe_dir = os.path.join(recipes_path, folder)
         for py in pyver:
             try:
                 path_to_built_package, build_cmd = determine_build_name(
                     recipe_dir, '--python', py, '--numpy', '1.10')
-            except RuntimeError:
+            except RuntimeError as re:
+                logging.error(re)
                 continue
             name_on_anaconda = os.sep.join(
                 path_to_built_package.split(os.sep)[-2:])
@@ -184,8 +178,8 @@ def run_build(recipes_path, log_filename, anaconda_cli, username, pyver,
                 to_build.append((path_to_built_package, name_on_anaconda,
                                  build_cmd, meta))
 
-            print('{:<8} | {}'.format(
-                    str(not bool(on_anaconda_channel)), name_on_anaconda))
+            logging.info('{:<8} | {}'.format(
+                         str(not bool(on_anaconda_channel)), name_on_anaconda))
     # build all the packages that need to be built
     UPLOAD_CMD = ['anaconda', '-t', token, 'upload', '-u',
                   username]
@@ -257,11 +251,24 @@ def set_binstar_upload(on=False):
 @click.option('--site', help='Anaconda upload api (defaults to https://api.anaconda.org')
 @click.option('--username', help='Username to upload package to')
 def cli(recipes_path, pyver, token, log, username, site=None):
+    # set up logging
+    if not log:
+        log_dirname = os.path.join(os.path.expanduser('~'),
+                                      'auto-build-logs', 'dev')
+        os.makedirs(log_dirname, exist_ok=True)
+        log_filename = time.strftime("%m.%d-%H.%M")
+        log = os.path.join(log_dirname, log_filename)
+    FORMAT = "%(levelname)s | %(asctime)-15s | %(message)s"
+    stream_handler = logging.StreamHandler()
+    file_handler = logging.FileHandler(log)
+    logging.basicConfig(level=logging.DEBUG, format=FORMAT,
+                        handlers=[stream_handler, file_handler])
+    # build all python versions by default
     if not pyver:
         pyver = ['2.7', '3.4', '3.5']
+    # check to make sure that the recipes_path exists
     if not os.path.exists(recipes_path):
-        print("Error!")
-        print("The path '%s' does not exist." % recipes_path)
+        logging.Error("The recipes_path: '%s' does not exist." % recipes_path)
         sys.exit(1)
     print('token={}'.format(token))
     # just disable binstar uploading whenever this script is running.
@@ -270,12 +277,6 @@ def cli(recipes_path, pyver, token, log, username, site=None):
     set_binstar_upload(False)
     # set up logging
     full_recipes_path = os.path.abspath(recipes_path)
-    if not log:
-        log_dirname = os.path.join(os.path.expanduser('~'),
-                                      'auto-build-logs', 'dev')
-        os.makedirs(log_dirname, exist_ok=True)
-        log_filename = time.strftime("%m.%d-%H.%M")
-        log = os.path.join(log_dirname, log_filename)
     print('Logging summary to %s' % log)
 
     # site = 'https://pergamon.cs.nsls2.local:8443/api'
@@ -284,7 +285,7 @@ def cli(recipes_path, pyver, token, log, username, site=None):
     anaconda_cli = binstar_client.utils.get_binstar(Namespace(token=token,
                                                               site=site))
     try:
-        results = run_build(full_recipes_path, log, anaconda_cli, username,
+        results = run_build(full_recipes_path, anaconda_cli, username,
                             pyver, token=token)
     except Exception as e:
         logging.error("Major error encountered in attempt to build {}"
@@ -310,6 +311,9 @@ def cli(recipes_path, pyver, token, log, username, site=None):
         if results['uploaded']:
             logging.info('Packages that were built and uploaded')
             logging.info(pformat(results['uploaded']))
+    finally:
+        # close the file handler
+        file_handler.close()
 
 
 
