@@ -296,6 +296,14 @@ def cli(recipes_path, pyver, token, log, username, site=None):
         logging.error(traceback.format_exc())
     else:
         logging.info("Build summary")
+        logging.info('Expected {} packages'.format(
+            len(pyver) * len(os.listdir(full_recipes_path))))
+        num_builds = {k: len(v) for k, v in results.items()}
+        logging.info('Got {} packages.'.format(
+            sum([n for n in num_builds.values()])))
+        logging.info('Breakdown is as follows')
+        for k, v in num_builds.items():
+            logging.info('section: {:<25}. number build: {}'.format(k, v))
         if results['build_or_test_failed']:
             logging.error("Some packages failed to build")
             logging.error(pformat(results['build_or_test_failed']))
