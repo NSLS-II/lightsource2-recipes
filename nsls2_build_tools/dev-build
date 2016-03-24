@@ -188,8 +188,8 @@ run_tag_build() {
   devbuild $CLONE_DIR/skbeam-recipes/ --username $USERNAME $version --log $TAG_LOG.summary
 }
 #LOG=/tmp/build.log
-run_dev_build |& tee $DEV_LOG 2>&1
-run_tag_build |& tee $TAG_LOG 2>&1
+run_dev_build |& tee -a $DEV_LOG
+run_tag_build |& tee -a $TAG_LOG
 
 echo "Removing download trash from logs"
 sed '/% |/d' $DEV_LOG > /tmp/$LOGNAME/devlog
