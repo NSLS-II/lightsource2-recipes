@@ -11,63 +11,72 @@ build:
   number: 0
   string: {{ environ['GIT_BUILD_STR'] }}_py{{ py }}
 
+
 requirements:
-  build:
-    - python
-    - setuptools
-    - numpy
-    - six
-    - cython
-  run:
-    - python
-    - numpy
-    - scipy
-    - six
-    - xraylib
-    - scikit-image
-    - lmfit ==0.8.3
-    - netcdf4  # optional, required for skbeam.io
+build:
+  - python
+  - setuptools
+  - numpy
+  - six
+  - cython
+run:
+  - python
+  - numpy
+  - scipy
+  - six
+  - xraylib [not win]
+  - scikit-image
+  - lmfit ==0.8.3
 
 test:
-  requires:
-    - nose
-  imports:
-    # import all sub-packages and modules
-    - skbeam
-    - skbeam.diffraction
-    - skbeam.fluorescence
-    - skbeam._version
-    - skbeam.core
-    - skbeam.core.utils
-    - skbeam.core.dpc
-    - skbeam.core.feature
-    - skbeam.core.calibration
-    - skbeam.core.arithmetic
-    - skbeam.core.recip
-    - skbeam.core.image
-    - skbeam.core.cdi
-    - skbeam.core.roi
-    - skbeam.core.correlation
-    - skbeam.core.spectroscopy
-    - skbeam.core.fitting
-    - skbeam.core.fitting.xrf_model
-    - skbeam.core.fitting.background
-    - skbeam.core.fitting.lineshapes
-    - skbeam.core.fitting.funcs
-    - skbeam.core.fitting.models
-    - skbeam.core.fitting.base
-    - skbeam.core.fitting.base.parameter_data
-    - skbeam.core.constants
-    - skbeam.core.constants.basic
-    - skbeam.core.constants.xrs
-    - skbeam.core.constants.xrf
-    - skbeam.io
-    - skbeam.io.avizo_io
-    - skbeam.io.save_powder_output
-    - skbeam.io.binary
-    - skbeam.io.net_cdf_io
-    - skbeam.io.gsas_file_reader
-
+requires:
+  - nose
+  - coverage
+imports:
+  - skbeam
+  - skbeam.diffraction
+  - skbeam.fluorescence
+  - skbeam.core
+  - skbeam.core.utils
+  - skbeam.core.feature
+  - skbeam.core.stats
+  - skbeam.core.calibration
+  - skbeam.core.speckle
+  - skbeam.core.dpc
+  - skbeam.core.correlation
+  - skbeam.core.recip
+  - skbeam.core.spectroscopy
+  - skbeam.core.mask
+  - skbeam.core.roi
+  - skbeam.core.arithmetic
+  - skbeam.core.image
+  - skbeam.core.cdi
+  - skbeam.core.accumulators
+  - skbeam.core.accumulators.histogram
+  - skbeam.core.accumulators.histogram
+  - skbeam.core.accumulators.histogram
+  - skbeam.core.fitting [not win]
+  - skbeam.core.fitting.xrf_model
+  - skbeam.core.fitting.funcs
+  - skbeam.core.fitting.models
+  - skbeam.core.fitting.lineshapes
+  - skbeam.core.fitting.background
+  - skbeam.core.fitting.base
+  - skbeam.core.fitting.base.parameter_data
+  - skbeam.core.constants
+  - skbeam.core.constants.basic
+  - skbeam.core.constants.xrs
+  # xraylib is not compatible with windows yet...
+  - skbeam.core.constants.xrf [not win]
+  - skbeam.io
+  - skbeam.io.save_powder_output
+  - skbeam.io.avizo_io
+  # disabled because we are no longer shipping netcdf4 with skbeam
+  #- skbeam.io.net_cdf_io
+  - skbeam.io.gsas_file_reader
+  - skbeam.io.binary
+  - skbeam.ext
+  - skbeam.ext.ctrans [not win]
 about:
   home: http://scikit-xray.github.io/scikit-xray/
   license: 3-Clause BSD
