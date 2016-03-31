@@ -1,0 +1,23 @@
+package:
+  name: event-model
+  version: 1.0.1
+
+source:
+  git_url: https://github.com/NSLS-II/event-model
+  git_rev: v1.0.1
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - python
+
+test:
+  imports:
+    - event_model
+
+about:
+  home: https://github.com/NSLS-II/event_model
+  license: BSD
