@@ -12,7 +12,7 @@ setup(
     url='https://github.com/ericdill/conda_build_utils',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['click', 'pyyaml'],
+    install_requires=['pyyaml'],
     entry_points="""
         [console_scripts]
         devbuild=nsls2_build_tools.build:cli

@@ -7,7 +7,6 @@ import time
 import logging
 import yaml
 from conda_build.metadata import MetaData
-import click
 import signal
 from pprint import pformat
 # create the anaconda cli
@@ -74,7 +73,7 @@ def Popen(cmd):
         current_subprocs.add(proc)
     except subprocess.CalledProcessError as cpe:
         print(cpe)
-        pdb.set_trace()
+        # pdb.set_trace()
     stdout, stderr = proc.communicate()
     current_subprocs.remove(proc)
     return stdout, stderr, proc.returncode
@@ -242,15 +241,56 @@ def set_binstar_upload(on=False):
             f.write(yaml.dump(rc))
 
 
-@click.command()
-@click.argument('recipes_path', nargs=1)
-@click.argument('pyver', nargs=-1)
-@click.option('--token', envvar='BINSTAR_TOKEN',
-              help='Binstar token to use to upload built packages')
-@click.option('--log', help='Name of the log file to write')
-@click.option('--site', help='Anaconda upload api (defaults to https://api.anaconda.org')
-@click.option('--username', help='Username to upload package to')
-def cli(recipes_path, pyver, token, log, username, site=None):
+def cli():
+    from argparse import ArgumentParser
+    p = ArgumentParser(
+        description="""
+Tool for building a folder of conda recipes where only the ones that don't
+already exist are built.
+""",
+    )
+    p.add_argument(
+        'recipes_path',
+        nargs='?',
+        help="path to recipes that should be built"
+    )
+    p.add_argument(
+        '-p', "--pyver",
+        action='store',
+        nargs='*',
+        help="Directory to write recipes to (default: %(default)s).",
+        default=".",
+    )
+    p.add_argument(
+        '-t', '--token', action='store',
+        nargs='?',
+        help='Binstar token to use to upload build packages',
+        default=None
+    )
+    p.add_argument(
+        '-l', '--log',
+        nargs='?',
+        help='Name of the log file to write'
+    )
+    p.add_argument(
+        "-s", "--site",
+        nargs='?',
+        help='Anaconda upload api (defaults to https://api.anaconda.org'
+    )
+    p.add_argument(
+        "-u", "--username",
+        action="store",
+        nargs='?',
+        help=("Username to upload package to")
+    )
+    args = p.parse_args()
+    if args.token is None and 'BINSTAR_TOKEN' in os.environ:
+        args.token = os.environ.get('BINSTAR_TOKEN')
+    # pdb.set_trace()
+    args.recipes_path = os.path.abspath(args.recipes_path)
+    run(args.recipes_path, args.pyver, args.log, args.site, args.username, args.token)
+
+def run(recipes_path, pyver, log, site, username, token):
     # set up logging
     if not log:
         log_dirname = os.path.join(os.path.expanduser('~'),
@@ -326,4 +366,5 @@ def cli(recipes_path, pyver, token, log, username, site=None):
 
 
 if __name__ == "__main__":
-    cli('/home/edill/dev/conda/staged-recipes-dev/py2', ['2.7'])
+    run('../staged-recipes-dev/pyall/xray-vision', ['2.7'], None, None,
+        'ericdill', None)
