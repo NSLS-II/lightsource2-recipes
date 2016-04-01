@@ -189,6 +189,7 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
     # build all the packages that need to be built
     UPLOAD_CMD = ['anaconda', '-t', token, 'upload', '-u',
                   username]
+
     # pdb.set_trace()
     no_token = []
     uploaded = []
@@ -203,8 +204,10 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
         stdout, stderr, returncode = Popen(cmd)
         if returncode != 0:
             build_or_test_failed.append(pkg_name)
-            pprint('stdout\n', stdout)
-            pprint('stderr\n', stderr)
+            print('\n\n========== STDOUT ==========\n')
+            pprint(stdout)
+            print('\n\n========== STDERR ==========\n')
+            pprint(stderr)
             continue
         if token:
             print("UPLOAD START")
@@ -327,7 +330,7 @@ def run(recipes_path, pyver, log, site, username, token, npver):
         pyver = ['2.7', '3.4', '3.5']
     # check to make sure that the recipes_path exists
     if not os.path.exists(recipes_path):
-        logging.Error("The recipes_path: '%s' does not exist." % recipes_path)
+        logging.error("The recipes_path: '%s' does not exist." % recipes_path)
         sys.exit(1)
     print('token={}'.format(token))
     # just disable binstar uploading whenever this script is running.
