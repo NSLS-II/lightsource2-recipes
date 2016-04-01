@@ -53,7 +53,7 @@ def get_file_names_on_anaconda_channel(username, anaconda_cli,
         Something like 'linux-64/album-0.0.2.post0-0_g6b05c00_py27.tar.bz2'
     """
     return set([f['basename']
-                for f in anaconda_cli.show_channel('main', username)['files']])
+                for f in anaconda_cli.show_channel(channel, username)['files']])
 
 
 def Popen(cmd):
