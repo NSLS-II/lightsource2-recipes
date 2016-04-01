@@ -17,7 +17,6 @@ channels:
 
 always_yes: true
 show_channel_urls: True
-
 CONDARC
 )
 
@@ -37,7 +36,7 @@ echo USERNAME=$USERNAME
 echo CLONE_DIR=$CLONE_DIR
 
 # Unused, but needed by conda-build currently... :(
-export CONDA_NPY='19'
+export CONDA_NPY='110'
 
 export PYTHONUNBUFFERED=1
 echo "$config" > ~/.condarc
@@ -56,14 +55,6 @@ conda clean --lock
 # pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
 pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 conda info
-
-# These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
-#yum install -y expat-devel git autoconf libtool texinfo check-devel
-
-# These were specific to installing matplotlib. I really want to avoid doing this if possible, but in some cases it
-# is inevitable (without re-implementing a full OS), so I also really want to ensure we can annotate our recipes to
-# state the build dependencies at OS level, too.
-
 
 git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
 echo ls $CLONE_DIR
