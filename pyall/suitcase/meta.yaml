@@ -18,11 +18,13 @@ requirements:
   build:
     - python
     - setuptools
+    - h5py
+    - databroker
 
   run:
     - python
     - six
-    - dataportal
+    - databroker
     - h5py
     - numpy
 
