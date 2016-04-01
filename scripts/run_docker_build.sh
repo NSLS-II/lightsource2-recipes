@@ -32,7 +32,6 @@ if [ "${BINSTAR_TOKEN}" ];then
     export BINSTAR_TOKEN=${BINSTAR_TOKEN}
 fi
 
-rm -rf /tmp/skbeam-recipes
 git clone https://github.com/scikit-beam/skbeam-recipes /tmp/skbeam-recipes
 
 # Unused, but needed by conda-build currently... :(
@@ -45,8 +44,9 @@ conda install conda-build conda-build-all
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
 
+conda list -e
+
 conda info
-unset LANG
 
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
