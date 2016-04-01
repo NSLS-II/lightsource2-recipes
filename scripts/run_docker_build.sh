@@ -10,10 +10,10 @@ IMAGE_NAME="ericdill/nsls2-builder:latest"
 config=$(cat <<CONDARC
 
 channels:
- - lightsource2-dev
- - lightsource2
- - conda-forge
  - defaults
+ - conda-forge
+ - lightsource2
+ - lightsource2-dev
 
 always_yes: true
 show_channel_urls: True
@@ -71,14 +71,11 @@ ls $CLONE_DIR
 # allow failures on the conda-build commands
 set -e
 echo "========== Running py2 builds =========="
-version="2.7"
-devbuild $CLONE_DIR/py2/ --username $USERNAME --pyver $version --log $DEV_LOG.summary
+devbuild $CLONE_DIR/py2/ --username $USERNAME --pyver 2.7 --log $DEV_LOG.summary
 echo "========== Running py3 builds =========="
-version="3.4 3.5"
-devbuild $CLONE_DIR/py3/ --username $USERNAME --pyver $version --log $DEV_LOG.summary
+devbuild $CLONE_DIR/py3/ --username $USERNAME --pyver 3.4 3.5 --log $DEV_LOG.summary
 echo "========== Running pyall builds =========="
-version="2.7 3.4 3.5"
-devbuild $CLONE_DIR/pyall/ --username $USERNAME --pyver $version --log $DEV_LOG.summary
+devbuild $CLONE_DIR/pyall/ --username $USERNAME --pyver 2.7 3.4 3.5 --log $DEV_LOG.summary
 # echo "
 #
 # ===== BUILDING PY2 =====
