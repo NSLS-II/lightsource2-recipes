@@ -38,10 +38,6 @@ test:
   # Python imports
   imports:
     - metadatastore
-    - metadatastore.commands
-    - metadatastore.api
-    - metadatastore.conf
-    - metadatastore.utils
 
 about:
   home: https://github.com/NSLS-II/metadatastore
