@@ -24,7 +24,6 @@ cat << EOF | docker run -i \
                         -v ${REPO_ROOT}/py3:/py3-recipes \
                         -v ${REPO_ROOT}/py35:/py35-recipes \
                         -v ${REPO_ROOT}/pyall:/pyall-recipes \
-                        -v /tmp/skbeam-recipes/recipes:/skbeam-recipes \
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
@@ -42,18 +41,10 @@ export CONDA_NPY='19'
 export PYTHONUNBUFFERED=1
 echo "$config" > ~/.condarc
 
+conda install conda-build conda-build-all
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
 
-conda remove conda-build
-pip uninstall --yes conda-build conda-build-all
-# pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
-# git clone https://github.com/ericdill/conda-build
-# cd conda-build-all
-# git checkout silence-git-errors
-# python setup.py develop
-pip install https://github.com/ericdill/conda-build/zipball/silence-git-errors#egg=conda-build
-pip install https://github.com/SciTools/conda-build-all/zipball/master#egg=conda-build-all
 conda info
 unset LANG
 
@@ -92,6 +83,6 @@ echo "
 ===== BUILDING SCIKIT-BEAM RECIPES =====
 
 "
-conda-build-all /skbeam-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
+conda-build-all /tmp/skbeam-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
 
 EOF
