@@ -288,6 +288,7 @@ already exist are built.
         args.token = os.environ.get('BINSTAR_TOKEN')
     # pdb.set_trace()
     args.recipes_path = os.path.abspath(args.recipes_path)
+    print(args)
     run(args.recipes_path, args.pyver, args.log, args.site, args.username, args.token)
 
 def run(recipes_path, pyver, log, site, username, token):
