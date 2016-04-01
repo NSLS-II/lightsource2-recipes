@@ -21,9 +21,9 @@ CONDARC
 )
 
 cat << EOF | docker run -i \
-                        -v ${REPO_ROOT}/py2:/py2-recipes \
-                        -v ${REPO_ROOT}/py3:/py3-recipes \
-                        -v ${REPO_ROOT}/pyall:/pyall-recipes \
+                        -v ${REPO_ROOT}/py2:/py2 \
+                        -v ${REPO_ROOT}/py3:/py3 \
+                        -v ${REPO_ROOT}/pyall:/pyall \
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
@@ -56,17 +56,14 @@ conda clean --lock
 pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 conda info
 
-git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
-echo ls $CLONE_DIR
-ls $CLONE_DIR
 # allow failures on the conda-build commands
 set -e
 echo "========== Running py2 builds =========="
-devbuild $CLONE_DIR/py2/ --username $USERNAME --pyver 2.7 --log $DEV_LOG.summary
+devbuild /py2 --username $USERNAME --pyver 2.7 --log $DEV_LOG.summary
 echo "========== Running py3 builds =========="
-devbuild $CLONE_DIR/py3/ --username $USERNAME --pyver 3.4 3.5 --log $DEV_LOG.summary
+devbuild /py3 --username $USERNAME --pyver 3.4 3.5 --log $DEV_LOG.summary
 echo "========== Running pyall builds =========="
-devbuild $CLONE_DIR/pyall/ --username $USERNAME --pyver 2.7 3.4 3.5 --log $DEV_LOG.summary
+devbuild /pyall --username $USERNAME --pyver 2.7 3.4 3.5 --log $DEV_LOG.summary
 # echo "
 #
 # ===== BUILDING PY2 =====
