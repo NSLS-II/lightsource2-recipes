@@ -75,8 +75,12 @@ def Popen(cmd):
         print(cpe)
         # pdb.set_trace()
     stdout, stderr = proc.communicate()
+    if stdout:
+        stdout = stdout.decode()
+    if stderr:
+        stderr = stderr.decode()
     current_subprocs.remove(proc)
-    return stdout.decode(), stderr.decode(), proc.returncode
+    return stdout, stderr, proc.returncode
 
 
 def check_output(cmd):
