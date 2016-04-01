@@ -294,7 +294,7 @@ already exist are built.
         '--npver', action='store', nargs='*',
         help=('List the numpy versions to build packages for. Defaults to '
               '%(default)s'),
-        default=['1.11']
+        default=['1.10']
     )
     args = p.parse_args()
     if args.token is None and 'BINSTAR_TOKEN' in os.environ:
