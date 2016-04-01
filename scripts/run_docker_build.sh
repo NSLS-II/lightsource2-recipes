@@ -10,10 +10,10 @@ IMAGE_NAME="ericdill/nsls2-builder:latest"
 config=$(cat <<CONDARC
 
 channels:
- - defaults
- - conda-forge
- - lightsource2
  - lightsource2-dev
+ - lightsource2
+ - conda-forge
+ - defaults
 
 always_yes: true
 show_channel_urls: True
