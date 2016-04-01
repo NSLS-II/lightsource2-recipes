@@ -8,7 +8,7 @@ source:
 
 build:
   number: 3
-  string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB')_BUILD_STR'] }}_py{{ py }}
+  string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB') }}
 
 requirements:
   build:

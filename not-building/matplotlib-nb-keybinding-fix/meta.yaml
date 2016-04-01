@@ -20,7 +20,7 @@ source:
 build:
   # Note that this will override the default build string with the Python
   # and NumPy versions
-  string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB')_BUILD_STR'] }}_py{{ py }}
+  string: {{ environ.get('GIT_BUILD_STR', 'GIT_STUB') }}
 
 
 # On Windows, the following error occurs for x64:
