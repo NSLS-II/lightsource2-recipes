@@ -5,7 +5,7 @@ CLONE_DIR=/tmp/$LOGNAME/staged-recipes-dev
 USERNAME=lightsource2-dev
 
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
-IMAGE_NAME="ericdill/nsls2-builder"
+IMAGE_NAME="ericdill/nsls2-builder:latest"
 
 config=$(cat <<CONDARC
 
