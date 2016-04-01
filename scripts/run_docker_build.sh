@@ -50,7 +50,6 @@ conda info
 
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
-numpy="numpy >=1.10|<1.11"
 echo "
 
 ===== BUILDING NONPY =====
@@ -63,26 +62,26 @@ echo "
 ===== BUILDING PY2 =====
 
 "
-conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions $numpy "python >=2.7,<3" --inspect-channels lightsource2
+conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3" --inspect-channels lightsource2
 echo "
 
 ===== BUILDING PY3 =====
 
 "
-conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions $numpy "python >=3.4" --inspect-channels lightsource2
+conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels lightsource2
 
 echo "
 
 ===== BUILDING PY2&PY3 =====
 
 "
-conda-build-all /pyall-recipes --upload-channels lightsource2 --matrix-conditions $numpy "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
+conda-build-all /pyall-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
 
 echo "
 
 ===== BUILDING SCIKIT-BEAM RECIPES =====
 
 "
-conda-build-all /tmp/skbeam-recipes --upload-channels lightsource2 --matrix-conditions $numpy "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
+conda-build-all /tmp/skbeam-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
 
 EOF
