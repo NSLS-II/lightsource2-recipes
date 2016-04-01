@@ -125,7 +125,7 @@ def determine_build_name(path_to_recipe, *conda_build_args):
 
 
 def run_build(recipes_path, anaconda_cli, username, pyver,
-              token=None):
+              token=None, npver=None):
     """Build and upload packages that do not already exist at {{ username }}
 
     Parameters
@@ -139,10 +139,13 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
         The python versions that need to be build. Should be a list of python
         versions to be passed to conda-build /path --python pyver.
         ['2.7', '3.4', '3.5']
-    token : str
+    token : str, optional
         The binstar token that should be used to upload packages to
-        anaconda.org/username
+        anaconda.org/username. If no token is provided, no uploading will occur
+    npver : str, optional
     """
+    if npver is None:
+        npver = os.environ.get("CONDA_NPY", "1.11")
     if token is None:
         print("No binstar token available. There will be no uploading."
               "Consider setting the BINSTAR_TOKEN environmental "
@@ -182,6 +185,7 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
     # build all the packages that need to be built
     UPLOAD_CMD = ['anaconda', '-t', token, 'upload', '-u',
                   username]
+    # pdb.set_trace()
     no_token = []
     uploaded = []
     upload_failed = []
@@ -259,7 +263,7 @@ already exist are built.
         action='store',
         nargs='*',
         help="Directory to write recipes to (default: %(default)s).",
-        default=".",
+        default=["2.7", "3.4", "3.5"],
     )
     p.add_argument(
         '-t', '--token', action='store',
@@ -275,7 +279,8 @@ already exist are built.
     p.add_argument(
         "-s", "--site",
         nargs='?',
-        help='Anaconda upload api (defaults to https://api.anaconda.org'
+        help='Anaconda upload api (defaults to %(default)s',
+        default='https://api.anaconda.org'
     )
     p.add_argument(
         "-u", "--username",
@@ -283,15 +288,22 @@ already exist are built.
         nargs='?',
         help=("Username to upload package to")
     )
+    p.add_argument(
+        '--npver', action='store', nargs='*',
+        help=('List the numpy versions to build packages for. Defaults to '
+              '%(default)s'),
+        default=['1.11']
+    )
     args = p.parse_args()
     if args.token is None and 'BINSTAR_TOKEN' in os.environ:
         args.token = os.environ.get('BINSTAR_TOKEN')
     # pdb.set_trace()
     args.recipes_path = os.path.abspath(args.recipes_path)
     print(args)
-    run(args.recipes_path, args.pyver, args.log, args.site, args.username, args.token)
+    # pdb.set_trace()
+    run(**dict(args._get_kwargs()))
 
-def run(recipes_path, pyver, log, site, username, token):
+def run(recipes_path, pyver, log, site, username, token, npver):
     # set up logging
     if not log:
         log_dirname = os.path.join(os.path.expanduser('~'),
@@ -327,7 +339,7 @@ def run(recipes_path, pyver, log, site, username, token):
                                                               site=site))
     try:
         results = run_build(full_recipes_path, anaconda_cli, username,
-                            pyver, token=token)
+                            pyver, token=token, npver=npver)
     except Exception as e:
         logging.error("Major error encountered in attempt to build {}"
                       "".format(full_recipes_path))
