@@ -197,15 +197,17 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
         # output the build command
         print("Build cmd: %s" % ' '.join(cmd))
         stdout, sterr, returncode = Popen(cmd)
-        print("Return code {}".format(returncode))
         if returncode != 0:
             build_or_test_failed.append(pkg_name)
+            print('stdout\n', stdout)
+            print('stderr\n', stderr)
             continue
         if token:
             print("UPLOAD START")
             stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_path])
-            print("Return code {}".format(returncode))
             if returncode != 0:
+                print('stdout\n', stdout)
+                print('stderr\n', stderr)
                 upload_failed.append(pkg_name)
                 continue
             uploaded.append(pkg_name)
