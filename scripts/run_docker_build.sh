@@ -44,7 +44,7 @@ echo "$config" > ~/.condarc
 
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
-conda install "pip<8.1"
+# conda install "pip<8.1"
 # conda install conda-build conda-build-all --yes
 # conda remove conda-build conda-build-all --yes
 # pip uninstall --yes conda-build conda-build-all
@@ -56,7 +56,6 @@ conda install "pip<8.1"
 # pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
 pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 conda info
-unset LANG
 
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
@@ -72,26 +71,14 @@ ls $CLONE_DIR
 # allow failures on the conda-build commands
 set -e
 echo "========== Running py2 builds =========="
-for dir in $CLONE_DIR/py2/*
-do
-  version="2.7"
-  echo dir=$dir
-  devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
-done
+version="2.7"
+devbuild $CLONE_DIR/py2/ --username $USERNAME --pyver $version --log $DEV_LOG.summary
 echo "========== Running py3 builds =========="
-for dir in $CLONE_DIR/py3/*
-do
-  version="3.4 3.5"
-  echo dir=$dir
-  devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
-done
+version="3.4 3.5"
+devbuild $CLONE_DIR/py3/ --username $USERNAME --pyver $version --log $DEV_LOG.summary
 echo "========== Running pyall builds =========="
-for dir in $CLONE_DIR/pyall/*
-do
-  version="2.7 3.4 3.5"
-  echo dir=$dir
-  devbuild $dir --username $USERNAME $version --log $DEV_LOG.summary
-done
+version="2.7 3.4 3.5"
+devbuild $CLONE_DIR/pyall/ --username $USERNAME --pyver $version --log $DEV_LOG.summary
 # echo "
 #
 # ===== BUILDING PY2 =====
