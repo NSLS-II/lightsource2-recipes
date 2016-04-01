@@ -35,7 +35,7 @@ fi
 git clone https://github.com/scikit-beam/skbeam-recipes /tmp/skbeam-recipes
 
 # Unused, but needed by conda-build currently... :(
-export CONDA_NPY='19'
+export CONDA_NPY='110'
 
 export PYTHONUNBUFFERED=1
 echo "$config" > ~/.condarc
@@ -56,33 +56,33 @@ echo "
 ===== BUILDING NONPY =====
 
 "
-conda-build-all /nonpy-recipes --upload-channels lightsource2 --inspect-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.5"
+conda-build-all /nonpy-recipes --upload-channels lightsource2 --inspect-channels lightsource2 --matrix-conditions "python >=3.5"
 
 echo "
 
 ===== BUILDING PY2 =====
 
 "
-conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2
+conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "python >=2.7,<3" --inspect-channels lightsource2
 echo "
 
 ===== BUILDING PY3 =====
 
 "
-conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels lightsource2
+conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "python >=3.4" --inspect-channels lightsource2
 
 echo "
 
 ===== BUILDING PY2&PY3 =====
 
 "
-conda-build-all /pyall-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
+conda-build-all /pyall-recipes --upload-channels lightsource2 --matrix-conditions "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
 
 echo "
 
 ===== BUILDING SCIKIT-BEAM RECIPES =====
 
 "
-conda-build-all /tmp/skbeam-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
+conda-build-all /tmp/skbeam-recipes --upload-channels lightsource2 --matrix-conditions "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
 
 EOF
