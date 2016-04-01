@@ -8,7 +8,7 @@ import logging
 import yaml
 from conda_build.metadata import MetaData
 import signal
-from pprint import pformat
+from pprint import pformat, pprint
 # create the anaconda cli
 import binstar_client
 from argparse import Namespace
@@ -76,7 +76,7 @@ def Popen(cmd):
         # pdb.set_trace()
     stdout, stderr = proc.communicate()
     current_subprocs.remove(proc)
-    return stdout, stderr, proc.returncode
+    return stdout.decode(), stderr.decode(), proc.returncode
 
 
 def check_output(cmd):
@@ -199,15 +199,15 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
         stdout, stderr, returncode = Popen(cmd)
         if returncode != 0:
             build_or_test_failed.append(pkg_name)
-            print('stdout\n', stdout)
-            print('stderr\n', stderr)
+            pprint('stdout\n', stdout)
+            pprint('stderr\n', stderr)
             continue
         if token:
             print("UPLOAD START")
             stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_path])
             if returncode != 0:
-                print('stdout\n', stdout)
-                print('stderr\n', stderr)
+                pprint('stdout\n', stdout)
+                pprint('stderr\n', stderr)
                 upload_failed.append(pkg_name)
                 continue
             uploaded.append(pkg_name)
