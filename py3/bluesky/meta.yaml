@@ -30,6 +30,7 @@ requirements:
     - ipython
     - historydict
     - tifffile
+    - event-model
 
 
 test:
