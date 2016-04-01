@@ -196,7 +196,7 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
         print("Building: %s"% pkg_name)
         # output the build command
         print("Build cmd: %s" % ' '.join(cmd))
-        stdout, sterr, returncode = Popen(cmd)
+        stdout, stderr, returncode = Popen(cmd)
         if returncode != 0:
             build_or_test_failed.append(pkg_name)
             print('stdout\n', stdout)
