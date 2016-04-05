@@ -13,6 +13,7 @@ requirements:
 
   run:
     - python
+    - enum34 [py2k]
 
 test:
   imports:
