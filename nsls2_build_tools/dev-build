@@ -175,15 +175,13 @@ run_tag_build() {
   echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
   devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $DEV_LOG.summary
-  echo "========== Running py35 builds ==========" | tee -a $TAG_LOG.summary
-  version="3.5"
-  devbuild $CLONE_DIR/py35 --username $USERNAME --pyver $version --log $TAG_LOG.summary
   echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
   devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $TAG_LOG.summary
   echo "========== Running nonpy builds ==========" | tee -a $TAG_LOG.summary
   version="3.5"
   devbuild $CLONE_DIR/nonpy --username $USERNAME --pyver $version --log $TAG_LOG.summary
+  echo "========== Running scikit-beam builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
   devbuild $CLONE_DIR/skbeam-recipes/ --username $USERNAME --pyver $version --log $TAG_LOG.summary
 }
