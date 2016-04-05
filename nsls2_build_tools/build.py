@@ -213,8 +213,10 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
             print("UPLOAD START")
             stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_path])
             if returncode != 0:
-                pprint('stdout\n', stdout)
-                pprint('stderr\n', stderr)
+                print('\n\n========== STDOUT ==========\n')
+                pprint(stdout)
+                print('\n\n========== STDERR ==========\n')
+                pprint(stderr)
                 upload_failed.append(pkg_name)
                 continue
             uploaded.append(pkg_name)
