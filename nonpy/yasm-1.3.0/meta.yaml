@@ -1,0 +1,41 @@
+{% set version = "1.3.0" %}
+# coped from conda-forge
+package:
+  name: yasm
+  version: {{ version }}
+
+source:
+  fn: yasm-{{ version }}.tar.gz                                                    # [unix]
+  url: http://www.tortall.net/projects/yasm/releases/yasm-{{ version }}.tar.gz     # [unix]
+  sha1: b7574e9f0826bedef975d64d3825f75fbaeef55e                                   # [unix]
+  fn: yasm.exe                                                                     # [win]
+  url: http://www.tortall.net/projects/yasm/releases/yasm-{{ version }}-win32.exe  # [win32]
+  sha1: 8374a6a1d6a240a3baa771ffd61b3bc096ccd11f                                   # [win32]
+  url: http://www.tortall.net/projects/yasm/releases/yasm-{{ version }}-win64.exe  # [win64]
+  sha1: f7872c6db3b4d93fd5a51717364d438108473149                                   # [win64]
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python  # [unix]
+
+test:
+  commands:
+    - test -f ${PREFIX}/lib/libyasm.a      # [unix]
+    - vsyasm --help                        # [unix]
+    - yasm --help                          # [unix]
+    - ytasm /h                             # [unix]
+    - yasm --version                       # [win]
+
+about:
+  home: http://www.tortall.net/projects/yasm/
+  license: BSD 3-Clause
+  summary: 'Yasm is a complete rewrite of the NASM assembler under the "new" BSD License.'
+
+extra:
+  recipe-maintainers:
+    - jakirkham
+    - ocefpaf
+    - patricksnape
