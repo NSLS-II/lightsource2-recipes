@@ -204,19 +204,19 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
         stdout, stderr, returncode = Popen(cmd)
         if returncode != 0:
             build_or_test_failed.append(pkg_name)
-            logger.error('\n\n========== STDOUT ==========\n')
-            logger.error(pformat(stdout))
-            logger.error('\n\n========== STDERR ==========\n')
-            logger.error(pformat(stderr))
+            logging.error('\n\n========== STDOUT ==========\n')
+            logging.error(pformat(stdout))
+            logging.error('\n\n========== STDERR ==========\n')
+            logging.error(pformat(stderr))
             continue
         if token:
             print("UPLOAD START")
             stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_path])
             if returncode != 0:
-                logger.error('\n\n========== STDOUT ==========\n')
-                logger.error(pformat(stdout))
-                logger.error('\n\n========== STDERR ==========\n')
-                logger.error(pformat(stderr))
+                logging.error('\n\n========== STDOUT ==========\n')
+                logging.error(pformat(stdout))
+                logging.error('\n\n========== STDERR ==========\n')
+                logging.error(pformat(stderr))
                 upload_failed.append(pkg_name)
                 continue
             uploaded.append(pkg_name)
