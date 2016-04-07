@@ -195,6 +195,10 @@ run_tag_build() {
   echo "========== Running scikit-beam builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
   devbuild $CLONE_DIR/skbeam-recipes/ --username $USERNAME --pyver $version --log $TAG_LOG.summary
+  echo "========== Running sort-of-dev-but-actually-tag builds ==========" | tee -a $TAG_LOG.summary
+  version="3.4 3.5"
+  devbuild $CLONE_DIR/sort-of-dev-but-actually-tag/py3 --username $USERNAME --pyver $version --log $TAG_LOG.summary
+
 }
 #LOG=/tmp/build.log
 run_dev_build |& tee -a $DEV_LOG
