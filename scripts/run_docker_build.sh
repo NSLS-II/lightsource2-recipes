@@ -24,6 +24,7 @@ cat << EOF | docker run -i \
                         -v ${REPO_ROOT}/py3:/py3-recipes \
                         -v ${REPO_ROOT}/py35:/py35-recipes \
                         -v ${REPO_ROOT}/pyall:/pyall-recipes \
+                        -v ${REPO_ROOT}/py3-dev:/sort-of-dev-but-actually-tag/py3 \
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
@@ -34,6 +35,7 @@ fi
 
 git clone https://github.com/scikit-beam/skbeam-recipes /tmp/skbeam-recipes
 
+pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 # Unused, but needed by conda-build currently... :(
 export CONDA_NPY='110'
 
@@ -85,5 +87,15 @@ echo "
 
 "
 conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels lightsource2
+
+echo "
+
+===== BUILDING PY3 =====
+
+"
+conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels lightsource2
+
+echo "========== Running sort-of-dev-but-actually-tag builds =========="
+devbuild /py3-dev --username $USERNAME --pyver 3.4 3.5 --log $DEV_LOG.summary
 
 EOF
