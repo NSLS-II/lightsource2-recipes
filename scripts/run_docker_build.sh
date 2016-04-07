@@ -96,6 +96,6 @@ echo "
 conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels lightsource2
 
 echo "========== Running sort-of-dev-but-actually-tag builds =========="
-devbuild /py3-dev --username $USERNAME --pyver 3.4 3.5 --log $DEV_LOG.summary
+devbuild /py3-dev --username lightsource2 --pyver 3.4 3.5
 
 EOF
