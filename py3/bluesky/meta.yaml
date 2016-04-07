@@ -30,17 +30,18 @@ requirements:
     - ipython
     - historydict
     - tifffile
+    - event-model
+    - boltons
 
 
 test:
   requires:
     - nslsii_dev_configuration
   imports:
-    - 'bluesky'
-    - 'bluesky.examples'
-    - 'bluesky.callbacks'
-    - 'bluesky.register_mds'
-    - 'bluesky.standard_config'
+    - bluesky
+    - bluesky.examples
+    - bluesky.callbacks
+    - bluesky.register_mds
 
 about:
   home: https://github.com/NSLS-II/bluesky
