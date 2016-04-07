@@ -24,7 +24,7 @@ cat << EOF | docker run -i \
                         -v ${REPO_ROOT}/py3:/py3-recipes \
                         -v ${REPO_ROOT}/py35:/py35-recipes \
                         -v ${REPO_ROOT}/pyall:/pyall-recipes \
-                        -v ${REPO_ROOT}/py3-dev:/sort-of-dev-but-actually-tag/py3 \
+                        -v ${REPO_ROOT}/sort-of-dev-but-actually-tag/py3:/py3-dev \
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
