@@ -45,7 +45,7 @@ echo "$config" > ~/.condarc
 
 conda install conda-build conda-build-all
 conda remove conda-build-all --force
-pip install https://github.com/SciTools/conda-build-all/zipball/master#egg=conda-build-all
+pip install https://github.com/ericdill/conda-build-all/zipball/include-test-deps#egg=conda-build-all
 pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
