@@ -12,7 +12,6 @@ build:
 requirements:
     build:
         - hdf5
-        - libza
     run:
         - hdf5
 
