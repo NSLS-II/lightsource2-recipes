@@ -8,7 +8,7 @@ IMAGE_NAME="ericdill/nsls2-builder:latest"
 config=$(cat <<CONDARC
 
 channels:
- - lightsource2
+ - lightsource2-tag-test
  - conda-forge
  - defaults
 
@@ -29,13 +29,13 @@ cat << EOF | docker run -i \
                         $IMAGE_NAME \
                         bash || exit $?
 
+set -e
 if [ "${BINSTAR_TOKEN}" ];then
     export BINSTAR_TOKEN=${BINSTAR_TOKEN}
 fi
 
 git clone https://github.com/scikit-beam/skbeam-recipes /tmp/skbeam-recipes
 
-pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 # Unused, but needed by conda-build currently... :(
 export CONDA_NPY='110'
 
@@ -43,6 +43,9 @@ export PYTHONUNBUFFERED=1
 echo "$config" > ~/.condarc
 
 conda install conda-build conda-build-all
+conda remove conda-build-all --force
+pip install https://github.com/SciTools/conda-build-all/zipball/master#egg=conda-build-all
+pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
 
@@ -58,44 +61,44 @@ echo "
 ===== BUILDING SCIKIT-BEAM RECIPES =====
 
 "
-conda-build-all /tmp/skbeam-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
+conda-build-all /tmp/skbeam-recipes/recipes --upload-channels lightsource2-tag-test --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2-tag-test
 
 echo "
 
 ===== BUILDING NONPY =====
 
 "
-conda-build-all /nonpy-recipes --upload-channels lightsource2 --inspect-channels lightsource2 --matrix-conditions "python >=3.5"
+conda-build-all /nonpy-recipes --upload-channels lightsource2-tag-test --inspect-channels lightsource2-tag-test --matrix-conditions "python >=3.5"
 
 echo "
 
 ===== BUILDING PY2 =====
 
 "
-conda-build-all /py2-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3" --inspect-channels lightsource2
+conda-build-all /py2-recipes --upload-channels lightsource2-tag-test --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3" --inspect-channels lightsource2-tag-test
 
 echo "
 
 ===== BUILDING PY2&PY3 =====
 
 "
-conda-build-all /pyall-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2
+conda-build-all /pyall-recipes --upload-channels lightsource2-tag-test --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2-tag-test
 
 echo "
 
 ===== BUILDING PY3 =====
 
 "
-conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels lightsource2
+conda-build-all /py3-recipes --upload-channels lightsource2-tag-test --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels lightsource2-tag-test
 
 echo "
 
 ===== BUILDING PY3 =====
 
 "
-conda-build-all /py3-recipes --upload-channels lightsource2 --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels lightsource2
+conda-build-all /py3-recipes --upload-channels lightsource2-tag-test --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels lightsource2-tag-test
 
 echo "========== Running sort-of-dev-but-actually-tag builds =========="
-devbuild /py3-dev --username lightsource2 --pyver 3.4 3.5
+devbuild /py3-dev --username lightsource2-tag-test --pyver 3.4 3.5
 
 EOF
