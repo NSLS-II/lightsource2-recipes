@@ -1,10 +1,10 @@
 package:
   name: suitcase
-  version: 0.2.2
+  version: 0.3.0
 
 source:
   git_url: https://github.com/NSLS-II/suitcase.git
-  git_rev: v0.2.2
+  git_rev: v0.3.0
 
 build:
   number: 0
