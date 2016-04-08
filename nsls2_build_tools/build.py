@@ -11,7 +11,7 @@ import signal
 from pprint import pformat, pprint
 # create the anaconda cli
 import binstar_client
-import conda_build_all
+from conda_build_all import builder
 from argparse import Namespace
 
 
@@ -204,32 +204,37 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
               "line argument")
     # get all file names that are in the channel I am interested in
     packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
+
     to_build, dont_build = decide_what_to_build(recipes_path, pyver, packages)
-    # build all the packages that need to be built
-    pkgs_deps_dict = {
-        tup[3].meta['package']['name']: get_deps_from_metadata(tup[3])
-        for tup in to_build}
-    sorted_build_order = conda_build_all.order_deps.resolve_dependencies(
-        pkgs_deps_dict
-    )
-    sorted_to_build = sorted(to_build,
-                             key=lambda x: x[3].meta['package']['name'])
-    # return to_build, sorted_to_build
-    pdb.set_trace()
+
+    metas = set()
+    # add extra information to the meta
+    for b in to_build:
+        full_build_path, build_name, build_command, meta = b
+        meta.full_build_path = full_build_path
+        meta.build_name = build_name
+        meta.build_command = build_command
+        metas.add(meta)
+
+    build_order = builder.sort_dependency_order(metas)
+
     no_token = []
     uploaded = []
     upload_failed = []
     build_or_test_failed = []
     UPLOAD_CMD = ['anaconda', '-t', token, 'upload', '-u', username]
     # for each package
-    for full_path, pkg_name, cmd, metadata in sorted_to_build:
+    for meta in build_order:
+        full_build_path = meta.full_build_path
+        build_name = meta.build_name
+        build_command = meta.build_command
         # output the package build name
-        print("Building: %s"% pkg_name)
+        print("Building: %s"% build_name)
         # output the build command
-        print("Build cmd: %s" % ' '.join(cmd))
-        stdout, stderr, returncode = Popen(cmd)
+        print("Build cmd: %s" % ' '.join(build_command))
+        stdout, stderr, returncode = Popen(build_command)
         if returncode != 0:
-            build_or_test_failed.append(pkg_name)
+            build_or_test_failed.append(build_name)
             logging.error('\n\n========== STDOUT ==========\n')
             logging.error(pformat(stdout))
             logging.error('\n\n========== STDERR ==========\n')
@@ -237,18 +242,18 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
             continue
         if token:
             print("UPLOAD START")
-            stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_path])
+            stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_build_path])
             if returncode != 0:
                 logging.error('\n\n========== STDOUT ==========\n')
                 logging.error(pformat(stdout))
                 logging.error('\n\n========== STDERR ==========\n')
                 logging.error(pformat(stderr))
-                upload_failed.append(pkg_name)
+                upload_failed.append(build_name)
                 continue
-            uploaded.append(pkg_name)
+            uploaded.append(build_name)
             continue
 
-        no_token.append(pkg_name)
+        no_token.append(build_name)
 
     return {
         'alreadybuilt': sorted([dont[1] for dont in dont_build]),
