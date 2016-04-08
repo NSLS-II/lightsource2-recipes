@@ -4,6 +4,7 @@
 
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 IMAGE_NAME="ericdill/nsls2-builder:latest"
+docker pull $IMAGE_NAME
 upload_channel=lightsource2-tag-test
 config=$(cat <<CONDARC
 
