@@ -11,12 +11,12 @@ import signal
 from pprint import pformat, pprint
 # create the anaconda cli
 import binstar_client
+from conda_build_all import builder
 from argparse import Namespace
 
 
 current_subprocs = set()
 shutdown = False
-
 
 def handle_signal(signum, frame):
     # send signal recieved to subprocesses
@@ -32,6 +32,10 @@ def handle_signal(signum, frame):
 
 signal.signal(signal.SIGINT, handle_signal)
 signal.signal(signal.SIGTERM, handle_signal)
+
+
+def get_anaconda_cli(token=None, site=None):
+    return binstar_client.utils.get_binstar(Namespace(token=token, site=site))
 
 
 def get_file_names_on_anaconda_channel(username, anaconda_cli,
@@ -128,6 +132,49 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     return ret[0], cmd
 
 
+def decide_what_to_build(recipes_path, pyver, packages):
+
+    packages_not_to_build = []
+    packages_to_build = []
+    print("Determining package build names...")
+    print('{: <8} | {}'.format('to build', 'built package name'))
+    logging.info("Build Plan")
+    for folder in sorted(os.listdir(recipes_path)):
+        recipe_dir = os.path.join(recipes_path, folder)
+        for py in pyver:
+            try:
+                path_to_built_package, build_cmd = determine_build_name(
+                    recipe_dir, '--python', py, '--numpy', '1.10')
+            except RuntimeError as re:
+                logging.error(re)
+                continue
+            name_on_anaconda = os.sep.join(
+                path_to_built_package.split(os.sep)[-2:])
+            # pdb.set_trace()
+            meta = MetaData(recipe_dir)
+            on_anaconda_channel = name_on_anaconda in packages
+            if on_anaconda_channel:
+                packages_not_to_build.append((path_to_built_package,
+                                              name_on_anaconda, build_cmd,
+                                              meta))
+            else:
+                packages_to_build.append((path_to_built_package,
+                                          name_on_anaconda, build_cmd, meta))
+
+            logging.info('{:<8} | {}'.format(
+                         str(not bool(on_anaconda_channel)), name_on_anaconda))
+    return packages_to_build, packages_not_to_build
+
+
+def get_deps_from_metadata(meta):
+    test = meta.meta.get('test', {}).get('requires', [])
+    run = meta.meta.get('requirements', {}).get('build', [])
+    build = meta.meta.get('requirements', {}).get('run', [])
+    test.extend(run)
+    test.extend(build)
+    return set(test)
+
+
 def run_build(recipes_path, anaconda_cli, username, pyver,
               token=None, npver=None):
     """Build and upload packages that do not already exist at {{ username }}
@@ -158,52 +205,36 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
     # get all file names that are in the channel I am interested in
     packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
 
-    dont_build = []
-    to_build = []
-    print("Determining package build names...")
-    print('{: <8} | {}'.format('to build', 'built package name'))
-    logging.info("Build Plan")
-    for folder in sorted(os.listdir(recipes_path)):
-        recipe_dir = os.path.join(recipes_path, folder)
-        for py in pyver:
-            try:
-                path_to_built_package, build_cmd = determine_build_name(
-                    recipe_dir, '--python', py, '--numpy', '1.10')
-            except RuntimeError as re:
-                logging.error(re)
-                continue
-            name_on_anaconda = os.sep.join(
-                path_to_built_package.split(os.sep)[-2:])
-            # pdb.set_trace()
-            meta = MetaData(recipe_dir)
-            on_anaconda_channel = name_on_anaconda in packages
-            if on_anaconda_channel:
-                dont_build.append((path_to_built_package, name_on_anaconda,
-                                   build_cmd, meta))
-            else:
-                to_build.append((path_to_built_package, name_on_anaconda,
-                                 build_cmd, meta))
+    to_build, dont_build = decide_what_to_build(recipes_path, pyver, packages)
 
-            logging.info('{:<8} | {}'.format(
-                         str(not bool(on_anaconda_channel)), name_on_anaconda))
-    # build all the packages that need to be built
-    UPLOAD_CMD = ['anaconda', '-t', token, 'upload', '-u',
-                  username]
+    metas = set()
+    # add extra information to the meta
+    for b in to_build:
+        full_build_path, build_name, build_command, meta = b
+        meta.full_build_path = full_build_path
+        meta.build_name = build_name
+        meta.build_command = build_command
+        metas.add(meta)
 
-    # pdb.set_trace()
+    build_order = builder.sort_dependency_order(metas)
+
     no_token = []
     uploaded = []
     upload_failed = []
     build_or_test_failed = []
+    UPLOAD_CMD = ['anaconda', '-t', token, 'upload', '-u', username]
     # for each package
-    for full_path, pkg_name, cmd, metadata in to_build:
+    for meta in build_order:
+        full_build_path = meta.full_build_path
+        build_name = meta.build_name
+        build_command = meta.build_command
         # output the package build name
-        print("Building: %s"% pkg_name)
+        print("Building: %s"% build_name)
         # output the build command
-        print("Build cmd: %s" % ' '.join(cmd))
-        stdout, stderr, returncode = Popen(cmd)
+        print("Build cmd: %s" % ' '.join(build_command))
+        stdout, stderr, returncode = Popen(build_command)
         if returncode != 0:
-            build_or_test_failed.append(pkg_name)
+            build_or_test_failed.append(build_name)
             logging.error('\n\n========== STDOUT ==========\n')
             logging.error(pformat(stdout))
             logging.error('\n\n========== STDERR ==========\n')
@@ -211,18 +242,18 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
             continue
         if token:
             print("UPLOAD START")
-            stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_path])
+            stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_build_path])
             if returncode != 0:
                 logging.error('\n\n========== STDOUT ==========\n')
                 logging.error(pformat(stdout))
                 logging.error('\n\n========== STDERR ==========\n')
                 logging.error(pformat(stderr))
-                upload_failed.append(pkg_name)
+                upload_failed.append(build_name)
                 continue
-            uploaded.append(pkg_name)
+            uploaded.append(build_name)
             continue
 
-        no_token.append(pkg_name)
+        no_token.append(build_name)
 
     return {
         'alreadybuilt': sorted([dont[1] for dont in dont_build]),
@@ -346,8 +377,7 @@ def run(recipes_path, pyver, log, site, username, token, npver):
     # site = 'https://pergamon.cs.nsls2.local:8443/api'
     # os.environ['REQUESTS_CA_BUNDLE'] = '/etc/certificates/ca_cs_nsls2_local.crt'
 
-    anaconda_cli = binstar_client.utils.get_binstar(Namespace(token=token,
-                                                              site=site))
+    anaconda_cli = get_anaconda_cli(token, site)
     try:
         results = run_build(full_recipes_path, anaconda_cli, username,
                             pyver, token=token, npver=npver)
