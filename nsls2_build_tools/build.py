@@ -167,9 +167,12 @@ def decide_what_to_build(recipes_path, pyver, packages):
 
 
 def get_deps_from_metadata(meta):
-    return set(meta.meta['test']['requires'] +
-               meta.meta['requirements']['build'] +
-               meta.meta['requirements']['run'])
+    test = meta.meta.get('test', {}).get('requires', [])
+    run = meta.meta.get('requirements', {}).get('build', [])
+    build = meta.meta.get('requirements', {}).get('run', [])
+    test.extend(run)
+    test.extend(build)
+    return set(test)
 
 
 def run_build(recipes_path, anaconda_cli, username, pyver,
@@ -204,7 +207,7 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
     to_build, dont_build = decide_what_to_build(recipes_path, pyver, packages)
     # build all the packages that need to be built
     pkgs_deps_dict = {
-        tup[3].meta['package']['name']: get_deps_from_metadata(tup[3].meta)
+        tup[3].meta['package']['name']: get_deps_from_metadata(tup[3])
         for tup in to_build}
     sorted_build_order = conda_build_all.order_deps.resolve_dependencies(
         pkgs_deps_dict
