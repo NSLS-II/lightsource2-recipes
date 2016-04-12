@@ -83,7 +83,9 @@ conda remove conda-build --force
 
 install ()
 {
-    git clone https://github.com/$1 /tmp/$LOGNAME/$1
+    url='https://github.com/$1'
+    echo 'Cloning $url'
+    git clone $url /tmp/$LOGNAME/$1
     pushd $1
     python setup.py develop
     popd
