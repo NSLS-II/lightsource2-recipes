@@ -83,28 +83,14 @@ conda remove conda-build --force
 
 install ()
 {
-    url='https://github.com/$1'
-    echo 'Cloning $url'
+    url="https://github.com/$1"
+    target="/tmp/$LOGNAME/$1"
     git clone $url /tmp/$LOGNAME/$1
-    pushd $1
+    pushd $target
     python setup.py develop
     popd
 }
 
-# clean up conda-build and conda-build utils
-set +e
-# Remove conda installs
-# conda remove conda-build conda-build-all --yes
-
-# Uninstall with pip a few times in case there are multiple versions
-# pip uninstall conda-build conda-build-all --yes
-# pip uninstall conda-build conda-build-all --yes
-echo "Install a dev build of conda-build"
-install conda/conda-buld
-echo "Install dev build of conda-build-all"
-install scitools/conda-build-all
-echo "Install dev build of conda-build-utils"
-install ericdill/conda-build-utils
 
 echo "Install conda 4.0.4"
 CONDA_DIR=/tmp/$LOGNAME/conda
@@ -115,6 +101,13 @@ git checkout 4.0.4
 pip uninstall conda --yes
 CONDA_DEFAULT_ENV='' python setup.py install
 
+echo "Install a dev build of conda-build"
+install conda/conda-build
+echo "Install dev build of conda-build-all"
+conda install mock --yes
+install scitools/conda-build-all
+echo "Install dev build of conda-build-utils"
+install ericdill/conda-build-utils
 
 run_dev_build () {
   # set up a custom condarc for the dev builds
