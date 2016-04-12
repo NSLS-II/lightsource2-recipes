@@ -97,6 +97,7 @@ git clone https://github.com/conda/conda-build $CONDA_BUILD_DIR
 cd $CONDA_BUILD_DIR
 python setup.py develop
 # echo "Install a dev build of conda-build-all"
+pip install https://github.com/ericdill/conda-build-all/zipball/include-test-deps#egg=conda-build-all
 # CONDA_BUILD_ALL_DIR=/tmp/$LOGNAME/conda-build-all
 # rm -rf $CONDA_BUILD_ALL_DIR
 # git clone https://github.com/SciTools/conda-build-all/ $CONDA_BUILD_ALL_DIR
