@@ -1,4 +1,6 @@
+from argparse import ArgumentParser
 import pdb
+import yaml
 import sys
 import traceback
 import subprocess
@@ -13,10 +15,12 @@ from pprint import pformat, pprint
 import binstar_client
 from conda_build_all import builder
 from argparse import Namespace
-
+import itertools
+import tempfile
 
 current_subprocs = set()
 shutdown = False
+
 
 def handle_signal(signum, frame):
     # send signal recieved to subprocesses
@@ -117,7 +121,8 @@ def determine_build_name(path_to_recipe, *conda_build_args):
         Something like:
         /home/edill/mc/conda-bld/linux-64/pims-0.3.3.post0-0_g1bea480_py27.tar.bz2
     """
-    conda_build_args = [] if conda_build_args is None else list(conda_build_args)
+    conda_build_args = [] if conda_build_args is None else list(
+        conda_build_args)
     cmd = ['conda', 'build', path_to_recipe, '--output'] + conda_build_args
     ret = check_output(cmd)
     if len(ret) > 1:
@@ -132,19 +137,43 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     return ret[0], cmd
 
 
-def decide_what_to_build(recipes_path, pyver, packages):
+def decide_what_to_build(recipes_path, pyver, packages, npver):
+    """Figure out which packages need to be built
 
-    packages_not_to_build = []
-    packages_to_build = []
+    Parameters
+    ----------
+    recipes_path : str
+        Path to folder containg conda recipes
+    pyver : list
+        List of python versions to build
+    packages : list
+        List of packages that already exist on the anaconda channel we are
+        interested in
+    npver : list
+        List of numpy versions to build.
+
+    Returns
+    -------
+    metas_to_build : list
+        the metadata for the conda build with three extra fields:
+            - full_build_path
+            - build_name
+            - build_command
+    metas_not_to_build : list
+        Same as `packages_to_build`
+    """
+
+    metas_not_to_build = []
+    metas_to_build = []
     print("Determining package build names...")
     print('{: <8} | {}'.format('to build', 'built package name'))
     logging.info("Build Plan")
     for folder in sorted(os.listdir(recipes_path)):
         recipe_dir = os.path.join(recipes_path, folder)
-        for py in pyver:
+        for py, npy in itertools.product(pyver, npver):
             try:
                 path_to_built_package, build_cmd = determine_build_name(
-                    recipe_dir, '--python', py, '--numpy', '1.10')
+                    recipe_dir, '--python', py, '--numpy', npy)
             except RuntimeError as re:
                 logging.error(re)
                 continue
@@ -153,17 +182,18 @@ def decide_what_to_build(recipes_path, pyver, packages):
             # pdb.set_trace()
             meta = MetaData(recipe_dir)
             on_anaconda_channel = name_on_anaconda in packages
+            meta.full_build_path = path_to_built_package
+            meta.build_name = name_on_anaconda
+            meta.build_command = build_cmd
             if on_anaconda_channel:
-                packages_not_to_build.append((path_to_built_package,
-                                              name_on_anaconda, build_cmd,
-                                              meta))
+                metas_not_to_build.append(meta)
             else:
-                packages_to_build.append((path_to_built_package,
-                                          name_on_anaconda, build_cmd, meta))
+                metas_to_build.append(meta)
 
             logging.info('{:<8} | {}'.format(
-                         str(not bool(on_anaconda_channel)), name_on_anaconda))
-    return packages_to_build, packages_not_to_build
+                str(not bool(on_anaconda_channel)), name_on_anaconda))
+
+    return metas_to_build, metas_not_to_build
 
 
 def get_deps_from_metadata(meta):
@@ -175,47 +205,22 @@ def get_deps_from_metadata(meta):
     return set(test)
 
 
-def run_build(recipes_path, anaconda_cli, username, pyver,
-              token=None, npver=None):
+def run_build(metas, username, token=None):
     """Build and upload packages that do not already exist at {{ username }}
 
     Parameters
     ----------
+    metas : iterable
     recipes_path : str
-        Folder where the recipes are located
-    anaconda_cli : return value from binstar_client.utils.get_binstar()
+        Iterable of conda build Metadata objects.
+        HINT: output of `decide_what_to_build` is probably what should be
+        passed in here
     username : str
         The anaconda user to upload all the built packages to
-    pyver : list
-        The python versions that need to be build. Should be a list of python
-        versions to be passed to conda-build /path --python pyver.
-        ['2.7', '3.4', '3.5']
     token : str, optional
         The binstar token that should be used to upload packages to
         anaconda.org/username. If no token is provided, no uploading will occur
-    npver : str, optional
     """
-    if npver is None:
-        npver = os.environ.get("CONDA_NPY", "1.11")
-    if token is None:
-        print("No binstar token available. There will be no uploading."
-              "Consider setting the BINSTAR_TOKEN environmental "
-              "variable or passing one in via the --token command "
-              "line argument")
-    # get all file names that are in the channel I am interested in
-    packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
-
-    to_build, dont_build = decide_what_to_build(recipes_path, pyver, packages)
-
-    metas = set()
-    # add extra information to the meta
-    for b in to_build:
-        full_build_path, build_name, build_command, meta = b
-        meta.full_build_path = full_build_path
-        meta.build_name = build_name
-        meta.build_command = build_command
-        metas.add(meta)
-
     build_order = builder.sort_dependency_order(metas)
 
     no_token = []
@@ -229,7 +234,7 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
         build_name = meta.build_name
         build_command = meta.build_command
         # output the package build name
-        print("Building: %s"% build_name)
+        print("Building: %s" % build_name)
         # output the build command
         print("Build cmd: %s" % ' '.join(build_command))
         stdout, stderr, returncode = Popen(build_command)
@@ -256,13 +261,38 @@ def run_build(recipes_path, anaconda_cli, username, pyver,
         no_token.append(build_name)
 
     return {
-        'alreadybuilt': sorted([dont[1] for dont in dont_build]),
         'uploaded': sorted(uploaded),
         'no_token': sorted(no_token),
         'upload_failed': sorted(upload_failed),
         'build_or_test_failed': sorted(build_or_test_failed),
     }
 
+
+def clone(git_url, git_rev=None):
+    """Clone a `git_url` to temp dir and check out `git_rev`
+
+    Parameters
+    ----------
+    git_url : str
+        Git repo to clone
+    git_rev : str, optional
+        Branch to check out
+        Defaults to whatever the repo thinks is the master branch
+
+    Returns
+    -------
+    path : str
+        Full path to root of newly cloned git repo
+    """
+    if git_rev is None:
+        git_rev = 'master'
+    tempdir = tempfile.gettempdir()
+    sourcedir = os.path.join(tempdir, git_url.strip('/').split('/')[-1])
+    if not os.path.exists(sourcedir):
+        # clone the git repo to the target directory
+        print('Cloning to %s', sourcedir)
+        subprocess.call(['git', 'clone', git_url, sourcedir])
+    return sourcedir
 
 def set_binstar_upload(on=False):
     """Turn on or off binstar uploading
@@ -287,8 +317,52 @@ def set_binstar_upload(on=False):
             f.write(yaml.dump(rc))
 
 
+def build_from_yaml():
+    p = ArgumentParser("""Build conda packages from a yaml specification""")
+    p.add_argument(
+        'yaml',
+        nargs='?',
+        help=("yaml file that contains the specification of which packages "
+              "to build.")
+    )
+
+    args = p.parse_args()
+
+    with open(args.yaml, 'r') as f:
+        contents = f.read()
+        print(contents)
+        parsed = yaml.load(contents)
+        print(parsed)
+
+    username = parsed['username']
+    npver_list = parsed['numpy']
+    sources = parsed['sources']
+    token = parsed.get('token')
+    site = parsed.get('site')
+    anaconda_cli = get_anaconda_cli(token, site)
+    packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
+    all_builds = []
+    all_dont_builds = []
+    for source in sources:
+        url = source['url']
+
+        folders = source['folders']
+        python = source['python']
+        for folder in folders:
+            folder_name = folder['name']
+            folder_python_versions = folder['python']
+
+            to_build, dont_build = decide_what_to_build(folder,
+                                                        folder_python_versions,
+                                                        packages,
+                                                        npver_list)
+            all_builds.extent(to_build)
+            all_dont_builds.extend(dont_build)
+
+    build_order = builder.sort_dependency_order(all_builds)
+
+
 def cli():
-    from argparse import ArgumentParser
     p = ArgumentParser(
         description="""
 Tool for building a folder of conda recipes where only the ones that don't
@@ -345,11 +419,12 @@ already exist are built.
     # pdb.set_trace()
     run(**dict(args._get_kwargs()))
 
+
 def run(recipes_path, pyver, log, site, username, token, npver):
     # set up logging
     if not log:
         log_dirname = os.path.join(os.path.expanduser('~'),
-                                      'auto-build-logs', 'dev')
+                                   'auto-build-logs', 'dev')
         os.makedirs(log_dirname, exist_ok=True)
         log_filename = time.strftime("%m.%d-%H.%M")
         log = os.path.join(log_dirname, log_filename)
@@ -371,27 +446,44 @@ def run(recipes_path, pyver, log, site, username, token, npver):
           'execute: `conda config --set binstar_upload true`')
     set_binstar_upload(False)
     # set up logging
-    full_recipes_path = os.path.abspath(recipes_path)
     print('Logging summary to %s' % log)
 
     # site = 'https://pergamon.cs.nsls2.local:8443/api'
     # os.environ['REQUESTS_CA_BUNDLE'] = '/etc/certificates/ca_cs_nsls2_local.crt'
 
     anaconda_cli = get_anaconda_cli(token, site)
+    if npver is None:
+        npver = os.environ.get("CONDA_NPY", "1.11")
+        if not isinstance(npver, list):
+            npver = [npver]
+    if token is None:
+        print("No binstar token available. There will be no uploading."
+              "Consider setting the BINSTAR_TOKEN environmental "
+              "variable or passing one in via the --token command "
+              "line argument")
+    # get all file names that are in the channel I am interested in
+    packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
+
+    to_build, dont_build = decide_what_to_build(recipes_path, pyver, packages,
+                                                npver)
+    safe_run_build(to_build, username, dont_build, token)
+
+
+def safe_run_build(metas_to_build, username, metas_to_skip,
+                   token=None):
     try:
-        results = run_build(full_recipes_path, anaconda_cli, username,
-                            pyver, token=token, npver=npver)
+        results = run_build(metas_to_build, username, token=token)
+        results['alreadybuilt'] = sorted([skip.build_name
+                                          for skip in metas_to_skip])
     except Exception as e:
-        logging.error("Major error encountered in attempt to build {}"
-                      "".format(full_recipes_path))
+        logging.error("Major error encountered in attempt to build")
         logging.error("Error in run_build!")
         logging.error(e)
         logging.error("Full stack trace")
         logging.error(traceback.format_exc())
     else:
         logging.info("Build summary")
-        logging.info('Expected {} packages'.format(
-            len(pyver) * len(os.listdir(full_recipes_path))))
+        logging.info('Expected {} packages'.format(len(metas_to_build)))
         num_builds = {k: len(v) for k, v in results.items()}
         logging.info('Got {} packages.'.format(
             sum([n for n in num_builds.values()])))
@@ -413,10 +505,6 @@ def run(recipes_path, pyver, log, site, username, token, npver):
         if results['uploaded']:
             logging.info('Packages that were built and uploaded')
             logging.info(pformat(results['uploaded']))
-    finally:
-        # close the file handler
-        file_handler.close()
-
 
 
 if __name__ == "__main__":
