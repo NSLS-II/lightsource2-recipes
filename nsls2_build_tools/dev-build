@@ -166,9 +166,6 @@ run_tag_build() {
   devbuild $CLONE_DIR/py3 --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
   echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
-  devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
-  echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
-  version="2.7 3.4 3.5"
   devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
   echo "========== Running nonpy builds ==========" | tee -a $TAG_LOG.summary
   version="3.5"
