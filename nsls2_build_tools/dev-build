@@ -160,25 +160,25 @@ run_tag_build() {
   set +e
   echo "========== Running py2 builds ==========" | tee -a $TAG_LOG.summary
   version="2.7"
-  devbuild $CLONE_DIR/py2 --username $USERNAME --pyver $version --log $DEV_LOG.summary
+  devbuild $CLONE_DIR/py2 --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
   echo "========== Running py3 builds ==========" | tee -a $TAG_LOG.summary
   version="3.4 3.5"
-  devbuild $CLONE_DIR/py3 --username $USERNAME --pyver $version --log $DEV_LOG.summary
+  devbuild $CLONE_DIR/py3 --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
   echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
-  devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $DEV_LOG.summary
+  devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
   echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
-  devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $TAG_LOG.summary
+  devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
   echo "========== Running nonpy builds ==========" | tee -a $TAG_LOG.summary
   version="3.5"
-  devbuild $CLONE_DIR/nonpy --username $USERNAME --pyver $version --log $TAG_LOG.summary
+  devbuild $CLONE_DIR/nonpy --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
   echo "========== Running scikit-beam builds ==========" | tee -a $TAG_LOG.summary
   version="2.7 3.4 3.5"
-  devbuild $CLONE_DIR/skbeam-recipes/ --username $USERNAME --pyver $version --log $TAG_LOG.summary
+  devbuild $CLONE_DIR/skbeam-recipes/ --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
   echo "========== Running sort-of-dev-but-actually-tag builds ==========" | tee -a $TAG_LOG.summary
   version="3.4 3.5"
-  devbuild $CLONE_DIR/sort-of-dev-but-actually-tag/py3 --username $USERNAME --pyver $version --log $TAG_LOG.summary
+  devbuild $CLONE_DIR/sort-of-dev-but-actually-tag/py3 --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
 
 }
 #LOG=/tmp/build.log
