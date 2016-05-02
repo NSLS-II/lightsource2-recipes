@@ -303,12 +303,12 @@ def clone(git_url, git_rev=None):
     tempdir = tempfile.gettempdir()
     sourcedir = os.path.join(tempdir, getpass.getuser(), git_url.strip('/').split('/')[-1])
     if os.path.exists(sourcedir):
-        print("Removing {}".format(sourcedir))
-        os.rmdir(sourcedir)
-
-    # clone the git repo to the target directory
-    print('Cloning to %s', sourcedir)
-    subprocess.call(['git', 'clone', git_url, sourcedir])
+        subprocess.call(['git', 'fetch', 'origin'], cwd=sourcedir)
+        subprocess.call(['git', 'reset', '--hard', 'origin/master')
+    else:
+        # clone the git repo to the target directory
+        print('Cloning to %s', sourcedir)
+        subprocess.call(['git', 'clone', git_url, sourcedir])
     return sourcedir
 
 def set_binstar_upload(on=False):
