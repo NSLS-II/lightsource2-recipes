@@ -1,0 +1,27 @@
+package:
+  name: doct
+  version: 1.0.2
+
+source:
+  git_url: https://github.com/NSLS-II/doct
+  git_rev: v1.0.2
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+
+  run:
+    - python
+    - six
+
+test:
+  imports:
+    # Import all the packages
+    - doct
+
+about:
+  home: https://github.com/NSLS-II/document
+  license: BSD
