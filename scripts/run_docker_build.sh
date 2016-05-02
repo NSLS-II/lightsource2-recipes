@@ -17,6 +17,8 @@ channels:
 
 always_yes: true
 show_channel_urls: True
+track_features:
+- nomkl
 CONDARC
 )
 
