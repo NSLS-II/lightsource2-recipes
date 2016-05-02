@@ -56,14 +56,10 @@ devinstall ()
     popd
 }
 
-echo "Install a dev build of conda-build"
-devinstall conda/conda-build
-echo "Install dev build of conda-build-all"
+conda install conda-build
 conda install mock --yes
-devinstall scitools/conda-build-all
-echo "Install dev build of conda-build-utils"
-devinstall ericdill/conda-build-utils
-
+pip install https://github.com/ericdill/conda-build-all/zipball/include-test-deps#egg=conda-build-all
+pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 conda info
 
 # dont allow failures on the conda-build commands
