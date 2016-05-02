@@ -21,6 +21,9 @@ import tempfile
 current_subprocs = set()
 shutdown = False
 
+DEFAULT_PY = ['3.5']
+DEFAULT_NP_VER = ['1.11']
+
 
 def handle_signal(signum, frame):
     # send signal recieved to subprocesses
@@ -39,7 +42,9 @@ signal.signal(signal.SIGTERM, handle_signal)
 
 
 def get_anaconda_cli(token=None, site=None):
-    return binstar_client.utils.get_binstar(Namespace(token=token, site=site))
+    if token is None:
+        token = get_binstar_token()
+    return binstar_client.utils.get_server_api(token=token, site=site)
 
 
 def get_file_names_on_anaconda_channel(username, anaconda_cli,
@@ -221,6 +226,9 @@ def run_build(metas, username, token=None):
         The binstar token that should be used to upload packages to
         anaconda.org/username. If no token is provided, no uploading will occur
     """
+    if token is None:
+        token = get_binstar_token()
+
     build_order = builder.sort_dependency_order(metas)
 
     no_token = []
@@ -325,17 +333,26 @@ def build_from_yaml():
         help=("yaml file that contains the specification of which packages "
               "to build.")
     )
+    p.add_argument(
+        "-u", "--username",
+        action="store",
+        nargs='?',
+        help=("Username to upload package to")
+    )
 
     args = p.parse_args()
-
     with open(args.yaml, 'r') as f:
         contents = f.read()
         print(contents)
         parsed = yaml.load(contents)
         print(parsed)
 
+    if args.username:
+        parsed['username'] = args.username
+    init_logging()
+
     username = parsed['username']
-    npver_list = parsed['numpy']
+    npver_list = [str(npy) for npy in parsed['numpy']]
     sources = parsed['sources']
     token = parsed.get('token')
     site = parsed.get('site')
@@ -345,22 +362,30 @@ def build_from_yaml():
     all_dont_builds = []
     for source in sources:
         url = source['url']
-
+        git_path = clone(url)
         folders = source['folders']
-        python = source['python']
         for folder in folders:
             folder_name = folder['name']
-            folder_python_versions = folder['python']
+            folder_python_versions = [str(py) for py
+                                      in folder.get('python', DEFAULT_PY)]
+            to_build, dont_build = decide_what_to_build(
+                os.path.join(git_path, folder_name), folder_python_versions,
+                packages, npver_list)
 
-            to_build, dont_build = decide_what_to_build(folder,
-                                                        folder_python_versions,
-                                                        packages,
-                                                        npver_list)
-            all_builds.extent(to_build)
+            all_builds.extend(to_build)
             all_dont_builds.extend(dont_build)
 
-    build_order = builder.sort_dependency_order(all_builds)
+    safe_run_build(all_builds, username, all_dont_builds, token)
+    # build_order = builder.sort_dependency_order(all_builds)
 
+def get_binstar_token():
+    token = os.environ.get('BINSTAR_TOKEN')
+    if not token:
+        print("No binstar token available. There will be no uploading."
+              "Consider setting the BINSTAR_TOKEN environmental "
+              "variable or passing one in via the --token command "
+              "line argument")
+    return token
 
 def cli():
     p = ArgumentParser(
@@ -378,8 +403,7 @@ already exist are built.
         '-p', "--pyver",
         action='store',
         nargs='*',
-        help="Directory to write recipes to (default: %(default)s).",
-        default=["2.7", "3.4", "3.5"],
+        help="Python version to build conda packages for",
     )
     p.add_argument(
         '-t', '--token', action='store',
@@ -408,11 +432,12 @@ already exist are built.
         '--npver', action='store', nargs='*',
         help=('List the numpy versions to build packages for. Defaults to '
               '%(default)s'),
-        default=['1.10']
+        default=[DEFAULT_NP_VER]
     )
     args = p.parse_args()
-    if args.token is None and 'BINSTAR_TOKEN' in os.environ:
-        args.token = os.environ.get('BINSTAR_TOKEN')
+    if not args.pyver:
+        raise ValueError("Python version must be supplied. Choose any of "
+                         "['2.7', '3.4', '3.5']")
     # pdb.set_trace()
     args.recipes_path = os.path.abspath(args.recipes_path)
     print(args)
@@ -420,11 +445,10 @@ already exist are built.
     run(**dict(args._get_kwargs()))
 
 
-def run(recipes_path, pyver, log, site, username, token, npver):
-    # set up logging
-    if not log:
+def init_logging(log_file=None):
+    if not log_file:
         log_dirname = os.path.join(os.path.expanduser('~'),
-                                   'auto-build-logs', 'dev')
+                                   'auto-build-logs')
         os.makedirs(log_dirname, exist_ok=True)
         log_filename = time.strftime("%m.%d-%H.%M")
         log = os.path.join(log_dirname, log_filename)
@@ -433,14 +457,16 @@ def run(recipes_path, pyver, log, site, username, token, npver):
     file_handler = logging.FileHandler(log)
     logging.basicConfig(level=logging.DEBUG, format=FORMAT,
                         handlers=[stream_handler, file_handler])
-    # build all python versions by default
-    if not pyver:
-        pyver = ['2.7', '3.4', '3.5']
+
+
+def run(recipes_path, pyver, log, site, username, npver, token=None):
+    # set up logging
+    init_logging(log)
     # check to make sure that the recipes_path exists
     if not os.path.exists(recipes_path):
         logging.error("The recipes_path: '%s' does not exist." % recipes_path)
         sys.exit(1)
-    print('token={}'.format(token))
+    # print('token={}'.format(token))
     # just disable binstar uploading whenever this script is running.
     print('Disabling binstar upload. If you want to turn it back on, '
           'execute: `conda config --set binstar_upload true`')
@@ -456,11 +482,6 @@ def run(recipes_path, pyver, log, site, username, token, npver):
         npver = os.environ.get("CONDA_NPY", "1.11")
         if not isinstance(npver, list):
             npver = [npver]
-    if token is None:
-        print("No binstar token available. There will be no uploading."
-              "Consider setting the BINSTAR_TOKEN environmental "
-              "variable or passing one in via the --token command "
-              "line argument")
     # get all file names that are in the channel I am interested in
     packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
 

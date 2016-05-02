@@ -128,15 +128,16 @@ run_dev_build () {
   git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
   # allow failures on the conda-build commands
   set +e
-  echo "========== Running py2 builds ==========" | tee -a $DEV_LOG.summary
-  version="2.7"
-  devbuild $CLONE_DIR/py2 --username $USERNAME --pyver $version --log $DEV_LOG.summary
-  echo "========== Running py3 builds ==========" | tee -a $DEV_LOG.summary
-  version="3.4 3.5"
-  devbuild $CLONE_DIR/py3 --username $USERNAME --pyver $version --log $DEV_LOG.summary
-  echo "========== Running pyall builds ==========" | tee -a $DEV_LOG.summary
-  version="2.7 3.4 3.5"
-  devbuild $CLONE_DIR/pyall/ --username $USERNAME --pyver $version --log $DEV_LOG.summary
+  build_from_yaml $CLONE_DIR/build-directive.yaml
+  # echo "========== Running py2 builds ==========" | tee -a $DEV_LOG.summary
+  # version="2.7"
+  # devbuild $CLONE_DIR/py2 --username $USERNAME --pyver $version --log $DEV_LOG.summary
+  # echo "========== Running py3 builds ==========" | tee -a $DEV_LOG.summary
+  # version="3.4 3.5"
+  # devbuild $CLONE_DIR/py3 --username $USERNAME --pyver $version --log $DEV_LOG.summary
+  # echo "========== Running pyall builds ==========" | tee -a $DEV_LOG.summary
+  # version="2.7 3.4 3.5"
+  # devbuild $CLONE_DIR/pyall/ --username $USERNAME --pyver $version --log $DEV_LOG.summary
 }
 
 
@@ -158,24 +159,25 @@ run_tag_build() {
   #conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
   # allow failures on the conda-build commands
   set +e
-  echo "========== Running py2 builds ==========" | tee -a $TAG_LOG.summary
-  version="2.7"
-  devbuild $CLONE_DIR/py2 --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
-  echo "========== Running py3 builds ==========" | tee -a $TAG_LOG.summary
-  version="3.4 3.5"
-  devbuild $CLONE_DIR/py3 --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
-  echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
-  version="2.7 3.4 3.5"
-  devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
-  echo "========== Running nonpy builds ==========" | tee -a $TAG_LOG.summary
-  version="3.5"
-  devbuild $CLONE_DIR/nonpy --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
-  echo "========== Running scikit-beam builds ==========" | tee -a $TAG_LOG.summary
-  version="2.7 3.4 3.5"
-  devbuild $CLONE_DIR/skbeam-recipes/ --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
-  echo "========== Running sort-of-dev-but-actually-tag builds ==========" | tee -a $TAG_LOG.summary
-  version="3.4 3.5"
-  devbuild $CLONE_DIR/sort-of-dev-but-actually-tag/py3 --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
+  build_from_yaml $CLONE_DIR/build-directive.yaml
+  # echo "========== Running py2 builds ==========" | tee -a $TAG_LOG.summary
+  # version="2.7"
+  # devbuild $CLONE_DIR/py2 --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
+  # echo "========== Running py3 builds ==========" | tee -a $TAG_LOG.summary
+  # version="3.4 3.5"
+  # devbuild $CLONE_DIR/py3 --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
+  # echo "========== Running pyall builds ==========" | tee -a $TAG_LOG.summary
+  # version="2.7 3.4 3.5"
+  # devbuild $CLONE_DIR/pyall --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
+  # echo "========== Running nonpy builds ==========" | tee -a $TAG_LOG.summary
+  # version="3.5"
+  # devbuild $CLONE_DIR/nonpy --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
+  # echo "========== Running scikit-beam builds ==========" | tee -a $TAG_LOG.summary
+  # version="2.7 3.4 3.5"
+  # devbuild $CLONE_DIR/skbeam-recipes/ --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
+  # echo "========== Running sort-of-dev-but-actually-tag builds ==========" | tee -a $TAG_LOG.summary
+  # version="3.4 3.5"
+  # devbuild $CLONE_DIR/sort-of-dev-but-actually-tag/py3 --username $USERNAME --pyver $version --log $TAG_LOG.summary --npver 1.10 1.11
 
 }
 #LOG=/tmp/build.log
