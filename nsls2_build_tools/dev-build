@@ -128,7 +128,7 @@ run_dev_build () {
   git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
   # allow failures on the conda-build commands
   set +e
-  build_from_yaml $CLONE_DIR/build-directive.yaml
+  build_from_yaml $CLONE_DIR/build-directive.yaml -u $USERNAME
   # echo "========== Running py2 builds ==========" | tee -a $DEV_LOG.summary
   # version="2.7"
   # devbuild $CLONE_DIR/py2 --username $USERNAME --pyver $version --log $DEV_LOG.summary
@@ -159,7 +159,7 @@ run_tag_build() {
   #conda-build-all /tmp/staged-recipes/recipes --upload-channels edill --matrix-conditions "python >=3.4" --inspect-channels nsls2
   # allow failures on the conda-build commands
   set +e
-  build_from_yaml $CLONE_DIR/build-directive.yaml
+  build_from_yaml $CLONE_DIR/build-directive.yaml -u $USERNAME
   # echo "========== Running py2 builds ==========" | tee -a $TAG_LOG.summary
   # version="2.7"
   # devbuild $CLONE_DIR/py2 --username $USERNAME --pyver $version --log $DEV_LOG.summary --npver 1.10 1.11
