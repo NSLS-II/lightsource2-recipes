@@ -47,6 +47,7 @@ conda clean --lock
 devinstall ()
 {
     url="https://github.com/$1"
+    echo "url=$url"
     target="$1"
     git clone $url
     pushd $target
