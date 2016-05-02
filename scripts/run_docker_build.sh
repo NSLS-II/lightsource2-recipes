@@ -44,7 +44,7 @@ echo "$config" > ~/.condarc
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
 
-install ()
+devinstall ()
 {
     url="https://github.com/$1"
     target="/tmp/$LOGNAME/$1"
@@ -55,12 +55,12 @@ install ()
 }
 
 echo "Install a dev build of conda-build"
-install conda/conda-build
+devinstall conda/conda-build
 echo "Install dev build of conda-build-all"
 conda install mock --yes
-install scitools/conda-build-all
+devinstall scitools/conda-build-all
 echo "Install dev build of conda-build-utils"
-install ericdill/conda-build-utils
+devinstall ericdill/conda-build-utils
 
 conda info
 
