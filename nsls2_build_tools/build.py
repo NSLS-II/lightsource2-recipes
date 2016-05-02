@@ -356,13 +356,18 @@ def build_from_yaml():
 
     if args.username:
         parsed['username'] = args.username
+    print(parsed)
     init_logging()
 
     username = parsed['username']
     npver_list = [str(npy) for npy in parsed['numpy']]
     sources = parsed['sources']
-    token = parsed.get('token')
+    token = get_binstar_token()
+    if not token:
+        token = parsed.get('token')
     site = parsed.get('site')
+    print('username = {}'.format(username))
+    print('token = {}'.format(token))
     anaconda_cli = get_anaconda_cli(token, site)
     packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
     all_builds = []
