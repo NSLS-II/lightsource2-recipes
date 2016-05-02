@@ -20,12 +20,7 @@ CONDARC
 )
 
 cat << EOF | docker run -i \
-                        -v ${REPO_ROOT}/nonpy:/nonpy-recipes \
-                        -v ${REPO_ROOT}/py2:/py2-recipes \
-                        -v ${REPO_ROOT}/py3:/py3-recipes \
-                        -v ${REPO_ROOT}/py35:/py35-recipes \
-                        -v ${REPO_ROOT}/pyall:/pyall-recipes \
-                        -v ${REPO_ROOT}/sort-of-dev-but-actually-tag/py3:/py3-dev \
+                        -v ${REPO_ROOT}:/repo
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
