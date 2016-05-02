@@ -466,7 +466,9 @@ def init_logging(log_file=None):
         log = os.path.join(log_dirname, log_filename)
     FORMAT = "%(levelname)s | %(asctime)-15s | %(message)s"
     stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.DEBUG)
     file_handler = logging.FileHandler(log)
+    file_handler.setLevel(logging.DEBUG)
     logging.basicConfig(level=logging.DEBUG, format=FORMAT,
                         handlers=[stream_handler, file_handler])
 
