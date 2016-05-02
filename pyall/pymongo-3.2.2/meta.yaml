@@ -1,10 +1,10 @@
 package:
   name: pymongo
-  version: 2.9.1
+  version: 3.2.2
 
 source:
   git_url: https://github.com/mongodb/mongo-python-driver
-  git_rev: 2.9.1
+  git_rev: 3.2.2
 
 requirements:
   build:
@@ -24,4 +24,3 @@ about:
   home: https://github.com/mongodb/mongo-python-driver
   license: Apache Software License
   summary: 'Python driver for MongoDB <http://www.mongodb.org>'
-
