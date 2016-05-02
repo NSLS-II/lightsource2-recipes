@@ -33,7 +33,7 @@ def handle_signal(signum, frame):
     for proc in current_subprocs:
         if proc.poll() is None:
             proc.send_signal(signum)
-    print("Killing build script due to receiving signum={}"
+    logging.info("Killing build script due to receiving signum={}"
           "".format(signum))
     sys.exit(1)
 
@@ -86,7 +86,7 @@ def Popen(cmd):
         proc = subprocess.Popen(cmd, stderr=subprocess.PIPE)
         current_subprocs.add(proc)
     except subprocess.CalledProcessError as cpe:
-        print(cpe)
+        logging.info(cpe)
         # pdb.set_trace()
     stdout, stderr = proc.communicate()
     if stdout:
@@ -101,8 +101,8 @@ def check_output(cmd):
     try:
         ret = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as cpe:
-        print(cmd)
-        print(cpe.output.decode())
+        logging.info(cmd)
+        logging.info(cpe.output.decode())
         raise RuntimeError("{} raised with check_output comand {}".format(
             cpe.output.decode(), cmd))
     else:
@@ -171,8 +171,8 @@ def decide_what_to_build(recipes_path, pyver, packages, npver):
 
     metas_not_to_build = []
     metas_to_build = []
-    print("Determining package build names...")
-    print('{: <8} | {}'.format('to build', 'built package name'))
+    logging.info("Determining package build names...")
+    logging.info('{: <8} | {}'.format('to build', 'built package name'))
     logging.info("Build Plan")
     for folder in sorted(os.listdir(recipes_path)):
         recipe_dir = os.path.join(recipes_path, folder)
@@ -246,9 +246,9 @@ def run_build(metas, username, token=None):
         build_name = meta.build_name
         build_command = meta.build_command
         # output the package build name
-        print("Building: %s" % build_name)
+        logging.info("Building: %s" % build_name)
         # output the build command
-        print("Build cmd: %s" % ' '.join(build_command))
+        logging.info("Build cmd: %s" % ' '.join(build_command))
         stdout, stderr, returncode = Popen(build_command)
         if returncode != 0:
             build_or_test_failed.append(build_name)
@@ -258,9 +258,9 @@ def run_build(metas, username, token=None):
             logging.error(pformat(stderr))
             continue
         if token:
-            print("UPLOAD START")
+            logging.info("UPLOAD START")
             cmd = UPLOAD_CMD + [full_build_path]
-            print("Upload command={}".format(cmd))
+            logging.info("Upload command={}".format(cmd))
             stdout, stderr, returncode = Popen(cmd)
             if returncode != 0:
                 logging.error('\n\n========== STDOUT ==========\n')
@@ -304,7 +304,7 @@ def clone(git_url, git_rev=None):
     sourcedir = os.path.join(tempdir, getpass.getuser(), git_url.strip('/').split('/')[-1])
     if not os.path.exists(sourcedir):
         # clone the git repo to the target directory
-        print('Cloning to %s', sourcedir)
+        logging.info('Cloning to %s', sourcedir)
         subprocess.call(['git', 'clone', git_url, sourcedir])
     return sourcedir
 
@@ -349,13 +349,13 @@ def build_from_yaml():
     args = p.parse_args()
     with open(args.yaml, 'r') as f:
         contents = f.read()
-        print(contents)
+        logging.info(contents)
         parsed = yaml.load(contents)
-        print(parsed)
+        logging.info(parsed)
 
     if args.username:
         parsed['username'] = args.username
-    print(parsed)
+    logging.info(parsed)
     init_logging()
 
     username = parsed['username']
@@ -365,13 +365,14 @@ def build_from_yaml():
     if not token:
         token = parsed.get('token')
     site = parsed.get('site')
-    print('username = {}'.format(username))
-    print('token = {}'.format(token))
+    logging.info('username = {}'.format(username))
+    logging.info('token = {}'.format(token))
     anaconda_cli = get_anaconda_cli(token, site)
     packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
     all_builds = []
     all_dont_builds = []
     for source in sources:
+        logging.info("Parsing recipes from source={}".format(source))
         url = source['url']
         git_path = clone(url)
         folders = source['folders']
@@ -392,7 +393,7 @@ def build_from_yaml():
 def get_binstar_token():
     token = os.environ.get('BINSTAR_TOKEN')
     if not token:
-        print("No binstar token available. There will be no uploading."
+        logging.info("No binstar token available. There will be no uploading."
               "Consider setting the BINSTAR_TOKEN environmental "
               "variable or passing one in via the --token command "
               "line argument")
@@ -451,7 +452,7 @@ already exist are built.
                          "['2.7', '3.4', '3.5']")
     # pdb.set_trace()
     args.recipes_path = os.path.abspath(args.recipes_path)
-    print(args)
+    logging.info(args)
     # pdb.set_trace()
     run(**dict(args._get_kwargs()))
 
@@ -477,13 +478,13 @@ def run(recipes_path, pyver, log, site, username, npver, token=None):
     if not os.path.exists(recipes_path):
         logging.error("The recipes_path: '%s' does not exist." % recipes_path)
         sys.exit(1)
-    # print('token={}'.format(token))
+    # logging.info('token={}'.format(token))
     # just disable binstar uploading whenever this script is running.
-    print('Disabling binstar upload. If you want to turn it back on, '
+    logging.info('Disabling binstar upload. If you want to turn it back on, '
           'execute: `conda config --set binstar_upload true`')
     set_binstar_upload(False)
     # set up logging
-    print('Logging summary to %s' % log)
+    logging.info('Logging summary to %s' % log)
 
     # site = 'https://pergamon.cs.nsls2.local:8443/api'
     # os.environ['REQUESTS_CA_BUNDLE'] = '/etc/certificates/ca_cs_nsls2_local.crt'
