@@ -1,10 +1,10 @@
 package:
   name: databroker
-  version: 0.3.3
+  version: 0.4.0
 
 source:
   git_url: https://github.com/NSLS-II/databroker
-  git_rev: v0.3.3
+  git_rev: v0.4.0
 
 build:
   number: 0
@@ -15,9 +15,10 @@ requirements:
   run:
     - cytoolz
     - doct
+    - requests
     - filestore >=0.2.0
     # - h5py  # h5py is a dep in databroker/examples/hdf_io.py
-    - metadatastore >=0.3.1
+    - metadatastore >=0.4.1
     - pandas
     - pims
     - python
