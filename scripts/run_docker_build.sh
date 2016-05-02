@@ -47,6 +47,7 @@ conda info
 # dont allow failures on the conda-build commands
 set -e
 build_from_yaml /repo/build-directive.yaml -u $upload_channel
+conda-build-all /repo/x.x --upload-channels $upload_channel --inspect-channels $upload_channel --matrix-conditions "numpy >=1.10" "python >=3.4"
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
 #
