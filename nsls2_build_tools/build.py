@@ -233,7 +233,7 @@ def run_build(metas, username, token=None):
     build_order = builder.sort_dependency_order(metas)
     logging.info("Build Order.")
     for meta in build_order:
-        logging.info(build_name)
+        logging.info(meta.build_name)
 
     no_token = []
     uploaded = []
