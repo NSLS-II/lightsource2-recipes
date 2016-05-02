@@ -21,9 +21,7 @@ CONDARC
 )
 
 cat << EOF | docker run -i \
-                        -v ${REPO_ROOT}/py2:/py2 \
-                        -v ${REPO_ROOT}/py3:/py3 \
-                        -v ${REPO_ROOT}/pyall:/pyall \
+                        -v ${REPO_ROOT}:/repo \
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
@@ -52,7 +50,7 @@ conda info
 
 # dont allow failures on the conda-build commands
 set -e
-build_from_yaml ../build-directive.yaml -u $USERNAME
+build_from_yaml /repo/build-directive.yaml -u $USERNAME
 # echo "========== Running py2 builds =========="
 # devbuild /py2 --username $USERNAME --pyver 2.7 --log $DEV_LOG.summary
 # echo "========== Running py3 builds =========="
