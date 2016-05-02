@@ -100,7 +100,10 @@ cd $CONDA_DIR
 git checkout 4.0.4
 pip uninstall conda --yes
 CONDA_DEFAULT_ENV='' python setup.py install
+conda remove anaconda-client --yes
 
+echo "Install a dev build of anaconda-client"
+install conda/anaconda-client
 echo "Install a dev build of conda-build"
 install conda/conda-build
 echo "Install dev build of conda-build-all"
