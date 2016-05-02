@@ -20,6 +20,16 @@ show_channel_urls: True
 CONDARC
 )
 
+install ()
+{
+    url="https://github.com/$1"
+    target="/tmp/$LOGNAME/$1"
+    git clone $url /tmp/$LOGNAME/$1
+    pushd $target
+    python setup.py develop
+    popd
+}
+
 cat << EOF | docker run -i \
                         -v ${REPO_ROOT}/py2:/py2 \
                         -v ${REPO_ROOT}/py3:/py3 \
@@ -43,13 +53,15 @@ echo "$config" > ~/.condarc
 
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
-# pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
-# git clone https://github.com/ericdill/conda-build
-# cd conda-build-all
-# git checkout silence-git-errors
-# python setup.py develop
-# pip install https://github.com/conda/conda-build/zipball/master#egg=conda-build
-pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
+
+echo "Install a dev build of conda-build"
+install conda/conda-build
+echo "Install dev build of conda-build-all"
+conda install mock --yes
+install scitools/conda-build-all
+echo "Install dev build of conda-build-utils"
+install ericdill/conda-build-utils
+
 conda info
 
 # dont allow failures on the conda-build commands
