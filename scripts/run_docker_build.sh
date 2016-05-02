@@ -5,7 +5,7 @@
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 IMAGE_NAME="ericdill/debian-conda-builder:latest"
 docker pull $IMAGE_NAME
-upload_channel=lightsource2-tag-test
+upload_channel=lightsource2-testing
 config=$(cat <<CONDARC
 
 channels:
