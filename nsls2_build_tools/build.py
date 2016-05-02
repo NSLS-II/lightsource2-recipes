@@ -259,7 +259,9 @@ def run_build(metas, username, token=None):
             continue
         if token:
             print("UPLOAD START")
-            stdout, stderr, returncode = Popen(UPLOAD_CMD + [full_build_path])
+            cmd = UPLOAD_CMD + [full_build_path]
+            print("Upload command={}".format(cmd))
+            stdout, stderr, returncode = Popen(cmd)
             if returncode != 0:
                 logging.error('\n\n========== STDOUT ==========\n')
                 logging.error(pformat(stdout))
