@@ -15,6 +15,8 @@ channels:
 
 always_yes: true
 show_channel_urls: True
+track_features:
+ - nomkl
 
 CONDARC
 )
@@ -30,8 +32,6 @@ if [ "${BINSTAR_TOKEN}" ];then
     export BINSTAR_TOKEN=${BINSTAR_TOKEN}
 fi
 
-git clone https://github.com/scikit-beam/skbeam-recipes /tmp/skbeam-recipes
-
 # Unused, but needed by conda-build currently... :(
 export CONDA_NPY='110'
 
@@ -39,7 +39,7 @@ export PYTHONUNBUFFERED=1
 echo "$config" > ~/.condarc
 
 conda install conda-build
-conda install mock --yes
+conda install mock
 pip install https://github.com/ericdill/conda-build-all/zipball/include-test-deps#egg=conda-build-all
 pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 conda info
