@@ -46,6 +46,7 @@ conda clean --lock
 
 devinstall ()
 {
+    echo "arg=$1"
     url="https://github.com/$1"
     echo "url=$url"
     target="$1"
