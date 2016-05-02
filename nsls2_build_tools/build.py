@@ -17,6 +17,7 @@ from conda_build_all import builder
 from argparse import Namespace
 import itertools
 import tempfile
+import getpass
 
 current_subprocs = set()
 shutdown = False
@@ -295,10 +296,11 @@ def clone(git_url, git_rev=None):
     if git_rev is None:
         git_rev = 'master'
     tempdir = tempfile.gettempdir()
-    sourcedir = os.path.join(tempdir, git_url.strip('/').split('/')[-1])
+    sourcedir = os.path.join(tempdir, getpass.getuser(), git_url.strip('/').split('/')[-1])
     if os.path.exists(sourcedir):
         print("Removing {}".format(sourcedir))
         os.rmdir(sourcedir)
+
     # clone the git repo to the target directory
     print('Cloning to %s', sourcedir)
     subprocess.call(['git', 'clone', git_url, sourcedir])
