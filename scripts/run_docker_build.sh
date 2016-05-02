@@ -47,9 +47,8 @@ conda clean --lock
 devinstall ()
 {
     url="https://github.com/$1"
-    mkdir -p "/tmp/$LOGNAME"
-    target="/tmp/$LOGNAME/$1"
-    git clone $url /tmp/$LOGNAME/$1
+    target="$1"
+    git clone $url
     pushd $target
     python setup.py develop
     popd
