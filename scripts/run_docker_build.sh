@@ -20,16 +20,6 @@ show_channel_urls: True
 CONDARC
 )
 
-install ()
-{
-    url="https://github.com/$1"
-    target="/tmp/$LOGNAME/$1"
-    git clone $url /tmp/$LOGNAME/$1
-    pushd $target
-    python setup.py develop
-    popd
-}
-
 cat << EOF | docker run -i \
                         -v ${REPO_ROOT}/py2:/py2 \
                         -v ${REPO_ROOT}/py3:/py3 \
@@ -53,6 +43,16 @@ echo "$config" > ~/.condarc
 
 # A lock sometimes occurs with incomplete builds. The lock file is stored in build_artefacts.
 conda clean --lock
+
+install ()
+{
+    url="https://github.com/$1"
+    target="/tmp/$LOGNAME/$1"
+    git clone $url /tmp/$LOGNAME/$1
+    pushd $target
+    python setup.py develop
+    popd
+}
 
 echo "Install a dev build of conda-build"
 install conda/conda-build
