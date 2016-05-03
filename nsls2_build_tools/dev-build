@@ -119,9 +119,9 @@ run_dev_build () {
   # set up a custom condarc for the dev builds
   echo "
   channels:
-  - nsls2-dev
-  - nsls2-tag
-  - anaconda
+  - https://pergamon.cs.nsls2.local:8443/conda/nsls2-dev
+  - https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
+  - https://pergamon.cs.nsls2.local:8443/conda/anaconda
   always_yes: true
   show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
   echo `date`
@@ -141,8 +141,8 @@ run_tag_build() {
   # set up a custom condarc for the dev builds
   echo "
   channels:
-  - nsls2-tag
-  - anaconda
+  - https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
+  - https://pergamon.cs.nsls2.local:8443/conda/anaconda
   always_yes: true
   show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
   # run the tagged builds
