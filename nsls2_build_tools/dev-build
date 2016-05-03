@@ -130,6 +130,8 @@ run_dev_build () {
   rm -rf $CLONE_DIR
 
   git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
+
+  CONDA_NPY=110
   build_from_yaml $CLONE_DIR/build-directive.yaml -u nsls2-dev
 }
 
