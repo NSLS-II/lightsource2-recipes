@@ -79,7 +79,7 @@ TAG_LOG="$TAG_DIR/$logname"
 echo "CONDA_DIR=$CONDA_DIR"
 source $CONDA_DIR/bin/activate $CONDA_DIR
 conda install anaconda-client patchelf conda-build
-conda remove conda-build --force
+# conda remove conda-build --force
 
 install ()
 {
@@ -103,12 +103,12 @@ cd $CONDA_DIR
 git checkout 4.0.4
 pip uninstall conda --yes
 CONDA_DEFAULT_ENV='' python setup.py install
-conda remove anaconda-client --yes
+# conda remove anaconda-client --yes
 
-echo "Install a dev build of anaconda-client"
-install anaconda-platform/anaconda-client
-echo "Install a dev build of conda-build"
-install conda/conda-build
+# echo "Install a dev build of anaconda-client"
+# install anaconda-platform/anaconda-client
+# echo "Install a dev build of conda-build"
+# install conda/conda-build
 echo "Install dev build of conda-build-all"
 conda install mock --yes
 install scitools/conda-build-all
@@ -152,7 +152,7 @@ run_tag_build() {
   rm -rf $CLONE_DIR
   git clone https://github.com/NSLS-II/auto-build-tagged-recipes $CLONE_DIR
   CONDA_NPY=1.10 conda-build-all $CLONE_DIR/x.x --upload-channels $USERNAME --inspect-channels $USERNAME --matrix-conditions "python >=3.4"
-  # hack the upload because conda-build-all is uploading for some reason...
+  # hack the upload because conda-build-all is *not* uploading for some reason...
   anaconda upload -u $USERNAME --force $CONDA_DIR/conda-bld/linux-64/*.tar.bz2
   # now build most of the rest of the stack in one-shot
   build_from_yaml $CLONE_DIR/build-directive.yaml -u $USERNAME
