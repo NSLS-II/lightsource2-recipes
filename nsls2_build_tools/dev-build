@@ -87,6 +87,9 @@ install ()
     target="/tmp/$LOGNAME/$1"
     git clone $url /tmp/$LOGNAME/$1
     pushd $target
+    if [ ! -z "$2" ]; then
+      git checkout "$2"
+    fi;
     python setup.py develop
     popd
 }
@@ -108,7 +111,7 @@ echo "Install a dev build of conda-build"
 install conda/conda-build
 echo "Install dev build of conda-build-all"
 conda install mock --yes
-install scitools/conda-build-all
+install ericdill/conda-build-all add-site-option
 echo "Install dev build of conda-build-utils"
 install ericdill/conda-build-utils
 
