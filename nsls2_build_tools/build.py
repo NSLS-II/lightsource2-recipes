@@ -171,9 +171,9 @@ def decide_what_to_build(recipes_path, pyver, packages, npver):
 
     metas_not_to_build = []
     metas_to_build = []
-    print("Determining package build names...")
-    print('{: <8} | {}'.format('to build', 'built package name'))
     logging.info("Build Plan")
+    logging.info("Determining package build names...")
+    logging.info('{: <8} | {}'.format('to build', 'built package name'))
     for folder in sorted(os.listdir(recipes_path)):
         recipe_dir = os.path.join(recipes_path, folder)
         for py, npy in itertools.product(pyver, npver):
