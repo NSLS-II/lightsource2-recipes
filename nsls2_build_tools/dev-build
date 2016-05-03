@@ -111,7 +111,7 @@ echo "Install a dev build of conda-build"
 install conda/conda-build
 echo "Install dev build of conda-build-all"
 conda install mock --yes
-install ericdill/conda-build-all add-site-option
+install scitools/conda-build-all
 echo "Install dev build of conda-build-utils"
 install ericdill/conda-build-utils
 
