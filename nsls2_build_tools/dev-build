@@ -123,7 +123,6 @@ run_dev_build () {
   show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
   echo `date`
   # allow failures on the conda-build commands
-  set +e
   USERNAME=nsls2-dev
   rm -rf /tmp/$LOGNAME/staged-recipes-dev
   CLONE_DIR=/tmp/$LOGNAME/staged-recipes-dev
@@ -145,7 +144,6 @@ run_tag_build() {
   show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
   # run the tagged builds
   echo `date`
-  set +e
   USERNAME=nsls2-tag
   CLONE_DIR=/tmp/$LOGNAME/tagged-recipes
   rm -rf $CLONE_DIR
