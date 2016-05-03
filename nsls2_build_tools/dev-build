@@ -131,7 +131,7 @@ run_dev_build () {
 
   git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
 
-  CONDA_NPY=110 build_from_yaml $CLONE_DIR/build-directive.yaml -u nsls2-dev
+  build_from_yaml $CLONE_DIR/build-directive.yaml -u nsls2-dev
 }
 
 
@@ -150,8 +150,9 @@ run_tag_build() {
   CLONE_DIR=/tmp/$LOGNAME/tagged-recipes
   rm -rf $CLONE_DIR
   git clone https://github.com/NSLS-II/auto-build-tagged-recipes $CLONE_DIR
-  CONDA_NPY=110 conda-build-all $CLONE_DIR/x.x --upload-channels $USERNAME --inspect-channels $USERNAME --matrix-conditions "numpy >=1.10" "python >=3.4"
-  CONDA_NPY=110 build_from_yaml $CLONE_DIR/build-directive.yaml -u $USERNAME
+  CONDA_NPY=110 conda-build-all $CLONE_DIR/x.x --upload-channels $USERNAME --inspect-channels $USERNAME --matrix-conditions "python >=3.4"
+  CONDA_NPY=111 conda-build-all $CLONE_DIR/x.x --upload-channels $USERNAME --inspect-channels $USERNAME --matrix-conditions "python >=3.4"
+  build_from_yaml $CLONE_DIR/build-directive.yaml -u $USERNAME
 }
 #LOG=/tmp/build.log
 run_tag_build |& tee -a $TAG_LOG
