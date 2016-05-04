@@ -79,8 +79,9 @@ TAG_LOG="$TAG_DIR/$logname"
 echo "CONDA_DIR=$CONDA_DIR"
 source $CONDA_DIR/bin/activate $CONDA_DIR
 conda install anaconda-client patchelf conda-build
-# conda remove conda-build --force
-conda remove anaconda-client --force
+conda remove conda-build anaconda-client --force
+pip uninstall conda-build --yes
+pip uninstall conda-build --yes
 
 install ()
 {
@@ -95,7 +96,6 @@ install ()
     popd
 }
 
-
 echo "Install conda 4.0.4"
 CONDA_DIR=/tmp/$LOGNAME/conda
 rm -rf $CONDA_DIR
@@ -108,8 +108,8 @@ CONDA_DEFAULT_ENV='' python setup.py install
 
 echo "Install a dev build of anaconda-client"
 install anaconda-platform/anaconda-client
-# echo "Install a dev build of conda-build"
-# install conda/conda-build
+echo "Install a dev build of conda-build"
+install conda/conda-build
 echo "Install dev build of conda-build-all"
 conda install mock --yes
 install scitools/conda-build-all
