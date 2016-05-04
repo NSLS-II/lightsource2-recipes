@@ -147,7 +147,7 @@ numpy:
 sources:
   - url: https://github.com/nsls-ii/auto-build-tagged-recipes
     folders:
-      - name: py3
+      - name: x.x
         python:
           - 3.4
           - 3.5
