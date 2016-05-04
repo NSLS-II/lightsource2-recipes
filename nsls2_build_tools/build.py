@@ -247,6 +247,8 @@ def run_build(metas, username, token=None):
         build_command = meta.build_command
         # output the package build name
         print("Building: %s" % build_name)
+        # need to run the build command with --output again or conda freaks out
+        stdout, stderr, returncode = Popen(build_command + ['--output'])
         # output the build command
         print("Build cmd: %s" % ' '.join(build_command))
         stdout, stderr, returncode = Popen(build_command)
