@@ -80,9 +80,10 @@ echo "CONDA_DIR=$CONDA_DIR"
 source $CONDA_DIR/bin/activate $CONDA_DIR
 conda install anaconda-client patchelf conda-build
 conda remove conda-build anaconda-client --force
+set +e
 pip uninstall conda-build --yes
 pip uninstall conda-build --yes
-
+set -e
 install ()
 {
     url="https://github.com/$1"
