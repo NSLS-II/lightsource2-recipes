@@ -9,6 +9,7 @@ then
   echo "Build aborting. Lock file is present" | mutt -s "log test" edill@bnl.gov -y
   exit 1
 else
+  echo "Making lock file at $LOCK_FILE"
   touch $LOCK_FILE
 fi;
 
