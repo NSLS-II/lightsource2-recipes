@@ -80,6 +80,7 @@ echo "CONDA_DIR=$CONDA_DIR"
 source $CONDA_DIR/bin/activate $CONDA_DIR
 conda install anaconda-client patchelf conda-build
 # conda remove conda-build --force
+conda remove anaconda-client --force
 
 install ()
 {
@@ -105,8 +106,8 @@ pip uninstall conda --yes
 CONDA_DEFAULT_ENV='' python setup.py install
 # conda remove anaconda-client --yes
 
-# echo "Install a dev build of anaconda-client"
-# install anaconda-platform/anaconda-client
+echo "Install a dev build of anaconda-client"
+install anaconda-platform/anaconda-client
 # echo "Install a dev build of conda-build"
 # install conda/conda-build
 echo "Install dev build of conda-build-all"
