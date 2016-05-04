@@ -1,6 +1,17 @@
 #!/bin/bash
 
 set -e
+
+LOCK_FILE=/tmp/edill.builder.lock
+if [ -f $LOCK_FILE ];
+then
+  echo "Build aborting. Lock file is present"
+  echo "Build aborting. Lock file is present" | mutt -s "log test" edill@bnl.gov -y
+  exit 1
+else
+  touch $LOCK_FILE
+fi;
+
 rm -rf /tmp/$LOGNAME
 if [ "$RAMDISK_DIR" == "" ]; then
   RAMDISK_DIR="/tmp/$LOGNAME/ramdisk"
@@ -119,6 +130,11 @@ echo "Install dev build of conda-build-utils"
 install ericdill/conda-build-utils
 
 run_dev_build () {
+  echo "
+
+  Logging to $DEV_LOG
+
+  "
   # set up a custom condarc for the dev builds
   echo "
   channels:
@@ -154,6 +170,11 @@ sources:
 " > /tmp/$LOGNAME/tag-build.yaml
 
 run_tag_build() {
+  echo "
+
+  Logging to $TAG_LOG
+
+  "
   # set up a custom condarc for the dev builds
   echo "
   channels:
@@ -193,3 +214,6 @@ DEV LOG SUMMARY
 TAG LOG SUMMARY
 `cat $TAG_LOG.summary`
 " | mutt -s "log test" edill@bnl.gov -y -a /tmp/$LOGNAME/devlog /tmp/$LOGNAME/taglog --
+
+echo "Removing the lock file."
+rm $LOCK_FILE
