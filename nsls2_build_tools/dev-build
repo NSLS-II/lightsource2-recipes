@@ -108,9 +108,9 @@ CONDA_DEFAULT_ENV='' python setup.py install
 # conda remove anaconda-client --yes
 
 echo "Install a dev build of anaconda-client"
-install anaconda-platform/anaconda-client
+install anaconda-platform/anaconda-client 1.4.0
 echo "Install a dev build of conda-build"
-install conda/conda-build
+install conda/conda-build 1.20.1
 echo "Install dev build of conda-build-all"
 conda install mock --yes
 install scitools/conda-build-all
