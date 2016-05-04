@@ -54,6 +54,7 @@ export REQUESTS_CA_BUNDLE=/etc/certificates/ca_cs_nsls2_local.crt
 export no_proxy=cs.nsls2.local
 export HTTP_PROXY=http://proxy:8888
 export HTTPS_PROXY=http://proxy:8888
+export CONDA_NPY=1.10
 " > "$RAMDISK_DIR/.condabuildrc"
 # set up a custom condarc for the ramdisk env
 echo "
