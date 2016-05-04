@@ -1,6 +1,6 @@
 username: lightsource2-testing
 numpy:
-  - 1.11
+  - 1.10
 sources:
   - url: https://github.com/nsls-ii/staged-recipes-dev
     folders:
