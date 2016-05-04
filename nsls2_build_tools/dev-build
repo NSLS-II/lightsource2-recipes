@@ -197,8 +197,8 @@ run_tag_build() {
   # build_from_yaml /tmp/$LOGNAME/tag-build.yaml -u $USERNAME
 }
 #LOG=/tmp/build.log
-run_tag_build |& tee -a $TAG_LOG
 run_dev_build |& tee -a $DEV_LOG
+run_tag_build |& tee -a $TAG_LOG
 
 echo "Removing download trash from logs"
 sed '/% |/d' $DEV_LOG > /tmp/$LOGNAME/devlog
