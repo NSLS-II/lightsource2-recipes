@@ -171,8 +171,8 @@ run_tag_build() {
   # # hack the upload because conda-build-all is *not* uploading for some reason...
   # anaconda upload -u $USERNAME --force $CONDA_DIR/conda-bld/linux-64/*.tar.bz2
   # now build most of the rest of the stack in one-shot
-  # build_from_yaml $CLONE_DIR/build-directive.yaml -u $USERNAME
-  build_from_yaml /tmp/$LOGNAME/tag-build.yaml -u $USERNAME
+  build_from_yaml $CLONE_DIR/build-directive.yaml -u $USERNAME
+  # build_from_yaml /tmp/$LOGNAME/tag-build.yaml -u $USERNAME
 }
 #LOG=/tmp/build.log
 run_tag_build |& tee -a $TAG_LOG
