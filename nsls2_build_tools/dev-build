@@ -3,7 +3,7 @@
 set -e
 
 LOCK_FILE=/tmp/edill.builder.lock
-if [ -f $LOCK_FILE ];
+if [[ -f $LOCK_FILE ]];
 then
   echo "Build aborting. Lock file is present"
   echo "Build aborting. Lock file is present" | mutt -s "log test" edill@bnl.gov -y
