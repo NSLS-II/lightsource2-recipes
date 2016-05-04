@@ -360,6 +360,8 @@ def build_from_yaml():
 
     username = parsed['username']
     npver_list = [str(npy) for npy in parsed['numpy']]
+    logging.info('parsed["numpy"] = {}'.format(parsed['numpy']))
+    logging.info('npver_list = {}'.format(npver_list))
     sources = parsed['sources']
     token = get_binstar_token()
     if not token:
