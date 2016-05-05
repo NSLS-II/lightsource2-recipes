@@ -23,7 +23,7 @@ requirements:
 test:
   commands:
     - pkg-config --help
-    - !!str [ "$(pkg-config freetype2 --cflags)" == "-I$PREFIX/include/freetype2 -I$PREFIX/include" ]
+    - !!str ( "$(pkg-config freetype2 --cflags)" == "-I$PREFIX/include/freetype2 -I$PREFIX/include" )
 
   requires:
     - freetype
