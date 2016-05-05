@@ -11,20 +11,20 @@ sources:
         python:
           - 3.4
           - 3.5
-      - name: pyall
-        python:
-          - 2.7
-          - 3.4
-          - 3.5
-      - name: nonpy
-      - name: sort-of-dev-but-actually-tag/py3
-        python:
-          - 3.4
-          - 3.5
-  - url: https://github.com/scikit-beam/skbeam-recipes
-    folders:
-      - name: recipes
-        python:
-          - 2.7
-          - 3.4
-          - 3.5
+  #     - name: pyall
+  #       python:
+  #         - 2.7
+  #         - 3.4
+  #         - 3.5
+  #     - name: nonpy
+  #     - name: sort-of-dev-but-actually-tag/py3
+  #       python:
+  #         - 3.4
+  #         - 3.5
+  # - url: https://github.com/scikit-beam/skbeam-recipes
+  #   folders:
+  #     - name: recipes
+  #       python:
+  #         - 2.7
+  #         - 3.4
+  #         - 3.5
