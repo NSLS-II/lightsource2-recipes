@@ -211,7 +211,7 @@ def get_deps_from_metadata(meta):
     return set(test)
 
 
-def run_build(metas, username, token=None):
+def run_build(metas, username, token=None, upload=True):
     """Build and upload packages that do not already exist at {{ username }}
 
     Parameters
@@ -226,6 +226,11 @@ def run_build(metas, username, token=None):
     token : str, optional
         The binstar token that should be used to upload packages to
         anaconda.org/username. If no token is provided, no uploading will occur
+    upload : bool, optional
+        Whether or not to upload packages. If True, requires `token` to be set.
+        The reason why there is this additional flag is that sometimes you need
+        a token to authenticate to a channel to see if packages already exist
+        but you might not want to upload that package.
     """
     if token is None:
         token = get_binstar_token()
@@ -259,7 +264,7 @@ def run_build(metas, username, token=None):
             logging.error('\n\n========== STDERR ==========\n')
             logging.error(pformat(stderr))
             continue
-        if token:
+        if token and upload:
             print("UPLOAD START")
             cmd = UPLOAD_CMD + [full_build_path]
             print("Upload command={}".format(cmd))
@@ -348,6 +353,10 @@ def build_from_yaml():
         nargs='?',
         help=("Username to upload package to")
     )
+    p.add_argument(
+        '--no_upload', action='store_true', default=False,
+        help="This flag disables uploading"
+    )
 
     args = p.parse_args()
     with open(args.yaml, 'r') as f:
@@ -393,7 +402,7 @@ def build_from_yaml():
             all_builds.extend(to_build)
             all_dont_builds.extend(dont_build)
 
-    safe_run_build(all_builds, username, all_dont_builds, token)
+    safe_run_build(all_builds, username, all_dont_builds, token, not args.no_upload)
     # build_order = builder.sort_dependency_order(all_builds)
 
 def get_binstar_token():
@@ -452,6 +461,10 @@ already exist are built.
               '%(default)s'),
         default=[DEFAULT_NP_VER]
     )
+    p.add_argument(
+        '--no-upload', action='store_true', default=False,
+        help="This flag disables uploading"
+    )
     args = p.parse_args()
     if not args.pyver:
         raise ValueError("Python version must be supplied. Choose any of "
@@ -477,7 +490,7 @@ def init_logging(log_file=None):
                         handlers=[stream_handler, file_handler])
 
 
-def run(recipes_path, pyver, log, site, username, npver, token=None):
+def run(recipes_path, pyver, log, site, username, npver, token=None, no_upload=False):
     # set up logging
     init_logging(log)
     # check to make sure that the recipes_path exists
@@ -505,13 +518,13 @@ def run(recipes_path, pyver, log, site, username, npver, token=None):
 
     to_build, dont_build = decide_what_to_build(recipes_path, pyver, packages,
                                                 npver)
-    safe_run_build(to_build, username, dont_build, token)
+    safe_run_build(to_build, username, dont_build, token, not no_upload)
 
 
 def safe_run_build(metas_to_build, username, metas_to_skip,
-                   token=None):
+                   token=None, upload=True):
     try:
-        results = run_build(metas_to_build, username, token=token)
+        results = run_build(metas_to_build, username, token=token, upload=upload)
         results['alreadybuilt'] = sorted([skip.build_name
                                           for skip in metas_to_skip])
     except Exception as e:
