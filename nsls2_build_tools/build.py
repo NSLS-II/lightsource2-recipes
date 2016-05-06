@@ -354,7 +354,7 @@ def build_from_yaml():
         help=("Username to upload package to")
     )
     p.add_argument(
-        '--no_upload', action='store_true', default=False,
+        '--no-upload', action='store_true', default=False,
         help="This flag disables uploading"
     )
 
