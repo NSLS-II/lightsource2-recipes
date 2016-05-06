@@ -302,6 +302,7 @@ def clone(git_url, git_rev=None):
     """
     if git_rev is None:
         git_rev = 'master'
+    logging.info("Cloning url={}. rev={}".format(git_url, git_rev))
     tempdir = tempfile.gettempdir()
     sourcedir = os.path.join(tempdir, getpass.getuser(), git_url.strip('/').split('/')[-1])
     if not os.path.exists(sourcedir):
@@ -377,6 +378,8 @@ def build_from_yaml():
     all_dont_builds = []
     for source in sources:
         url = source['url']
+        if not (url.startswith('http') or url.startswith('git')):
+            url = os.path.abspath(url)
         git_path = clone(url)
         folders = source['folders']
         for folder in folders:
