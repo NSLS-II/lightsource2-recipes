@@ -1,0 +1,21 @@
+package:
+  name: hdf5
+  version: 1.10.0
+
+source:
+  fn: hdf5-1.10.0.tar.bz2
+  url: http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.0/src/hdf5-1.10.0.tar.bz2
+  md5: 355243bda5df386aea25f079d550947b
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - zlib
+  run:
+    - zlib
+
+about:
+  home: http://www.hdfgroup.org/HDF5/
+  license: BSD-style (http://www.hdfgroup.org/ftp/HDF5/current/src/unpacked/COPYING)
