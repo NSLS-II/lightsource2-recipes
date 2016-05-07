@@ -1,10 +1,10 @@
 package:
   name: csxtools
-  version: 0.1.11
+  version: 0.1.12
 
 source:
   git_url: https://github.com/NSLS-II-CSX/csxtools
-  git_rev: v0.1.11
+  git_rev: v0.1.12
 
 build:
   number: 0
