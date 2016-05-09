@@ -4,7 +4,7 @@ package:
     version: 2.2.4
 
 source:
-    git_url: git://source.ffmpeg.org/ffmpeg.git
+    git_url: https://github.com/ffmpeg/ffmpeg 
     git_tag: n2.2.4
 
 build:
