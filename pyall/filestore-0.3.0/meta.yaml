@@ -15,37 +15,25 @@ build:
 requirements:
   build:
     - python
-    - six
 
   run:
-    - python
-    - h5py
-    - numpy
-    - six
-    - pyyaml
-    - jsonschema
-    - pims
     - boltons
-    - pymongo
     - doct
+    - h5py
+    - jsonschema
+    - numpy
+    - pims
+    - pymongo
+    - python
+    - pyyaml
+    - six
+    - tifffile
 
 test:
   requires:
     - nslsii_dev_configuration
   imports:
     - filestore
-    - filestore.api
-    - filestore.commands
-    - filestore.conf
-    - filestore.core
-    - filestore.file_writers
-    - filestore.fs
-    - filestore.handlers_base
-    - filestore.handlers
-    - filestore.path_only_handlers
-    - filestore.retrieve
-    - filestore.readers
-    - filestore.readers.spe
 
 about:
   home: https://github.com/NSLS-II/filestore
