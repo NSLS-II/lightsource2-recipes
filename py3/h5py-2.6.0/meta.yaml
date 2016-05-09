@@ -3,9 +3,8 @@ package:
   version: 2.6.0
 
 source:
-  fn: h5py-2.6.0.tar.gz
-  url: https://github.com/h5py/h5py/archive/2.6.0.tar.gz
-  md5: 613c5776192eaf02ff96a82dfc6d2e78
+  git_rev: 2.6.0
+  git_url: https://github.com/h5py/h5py
 
 requirements:
   build:
