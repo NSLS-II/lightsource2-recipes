@@ -2,11 +2,11 @@
 
 package:
   name: filestore
-  version: 0.2.3
+  version: 0.3.0
 
 source:
   git_url: https://github.com/NSLS-II/filestore
-  git_rev: v0.2.3
+  git_rev: v0.3.0
   patches:
     - config.patch
 build:
