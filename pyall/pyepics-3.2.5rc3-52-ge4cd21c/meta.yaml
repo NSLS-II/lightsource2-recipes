@@ -1,11 +1,11 @@
 
 package:
     name: pyepics
-    version: 3.2.5rc3.post24
+    version: 3.2.5rc3-52-ge4cd21c 
 
 source:
     git_url: https://github.com/pyepics/pyepics.git
-    git_rev: deb37ea1f1d8d6f524d2a91184e654053873b8ae
+    git_rev: e4cd21cfaf63bc2150d5679ad4f6cf75deb2ff0f
 
 build:
     number: 0
