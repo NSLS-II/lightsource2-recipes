@@ -33,7 +33,7 @@ requirements:
     - super_state_machine
     - tifffile
     - traitlets
-    - xray_vision
+    - xray-vision
 #    - IPython
 
 test:
