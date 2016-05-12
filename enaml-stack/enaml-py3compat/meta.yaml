@@ -1,10 +1,12 @@
 package:
   name: enaml
-  version: 0.9.8
+  version: py3compat_{{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
 
 source:
-  git_url: https://github.com/nucleic/enaml.git
-  git_tag: 0.9.8
+  git_url: https://github.com/MatthieuDartiailh/enaml.git
+  git_tag: parser23
+  patches:
+    - setup.py.patch
 
 build:
   number: 1
@@ -15,7 +17,6 @@ build:
 requirements:
   build:
     - python
-    - distribute
     - atom
     - kiwisolver
     - ply
