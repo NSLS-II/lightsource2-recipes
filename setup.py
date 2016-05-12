@@ -2,6 +2,7 @@
 
 from setuptools import setup, find_packages
 import versioneer
+required = open('requirements.txt').read().split('\n')
 setup(
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
@@ -12,7 +13,7 @@ setup(
     url='https://github.com/ericdill/conda_build_utils',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['pyyaml'],
+    install_requires=required,
     entry_points="""
         [console_scripts]
         devbuild=nsls2_build_tools.build:cli
