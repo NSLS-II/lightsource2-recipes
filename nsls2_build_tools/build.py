@@ -175,6 +175,8 @@ def decide_what_to_build(recipes_path, pyver, packages, npver):
     logging.info("Determining package build names...")
     logging.info('{: <8} | {}'.format('to build', 'built package name'))
     for folder in sorted(os.listdir(recipes_path)):
+        if 'meta.yaml' not in os.listdir(folder):
+            continue
         recipe_dir = os.path.join(recipes_path, folder)
         for py, npy in itertools.product(pyver, npver):
             try:
