@@ -2,7 +2,7 @@ username: lightsource2
 numpy:
   - '1.10'
 sources:
-  - url: 'https://github.com/nsls-ii/auto-build-tagged-recipes'
+  - url: '.'
     folders:
       # - name: testing
       - name: py2
