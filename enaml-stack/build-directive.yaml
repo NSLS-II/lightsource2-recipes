@@ -1,0 +1,12 @@
+username: lightsource2
+numpy:
+  - '1.10'
+sources:
+  - url: '../'
+    folders:
+      # - name: testing
+      - name: enaml-stack
+        python:
+          - 2.7
+          - 3.4
+          - 3.5
