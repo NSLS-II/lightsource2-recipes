@@ -269,7 +269,9 @@ def run_build(metas, username, token=None, upload=True):
         if token and upload:
             print("UPLOAD START")
             cmd = UPLOAD_CMD + [full_build_path]
-            print("Upload command={}".format(cmd))
+            cleaned_cmd = cmd.copy()
+            cleaned_cmd[2] = 'SCRUBBED'
+            print("Upload command={}".format(cleaned_cmd))
             stdout, stderr, returncode = Popen(cmd)
             if returncode != 0:
                 logging.error('\n\n========== STDOUT ==========\n')
