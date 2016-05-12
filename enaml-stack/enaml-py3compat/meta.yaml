@@ -7,6 +7,8 @@ source:
   git_tag: parser23
   patches:
     - setup.py.patch
+    - rm-byteplay2.patch [py3k]
+    - rm-byteplay3.patch [py2k]
 
 build:
   number: 1
@@ -23,10 +25,11 @@ requirements:
   run:
     - python
     - python.app       [osx]
-    - atom >=0.3.8
+    - atom
     - pyqt
-    - kiwisolver >=0.1.2
-    - ply >=3.4
+    - kiwisolver
+    - ply
+    - future
 
 test:
   commands:
