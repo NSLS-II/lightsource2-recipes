@@ -14,7 +14,6 @@ from pprint import pprint
 import re
 import sys
 import subprocess
-import pdb
 
 import binstar_client
 
@@ -35,7 +34,6 @@ def Popen(cmd):
         proc = subprocess.Popen(cmd, stderr=subprocess.PIPE)
     except subprocess.CalledProcessError as cpe:
         print(cpe)
-        # pdb.set_trace()
     stdout, stderr = proc.communicate()
     if stdout:
         stdout = stdout.decode()
