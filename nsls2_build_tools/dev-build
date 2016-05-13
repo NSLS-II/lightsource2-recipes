@@ -1,12 +1,12 @@
 #!/bin/bash
 
 set -e
-
-LOCK_FILE=/tmp/edill.builder.lock
+EMAIL=edill@bnl.gov
+LOCK_FILE=/tmp/$LOGNAME.builder.lock
 if [[ -f $LOCK_FILE ]];
 then
   echo "Build aborting. Lock file is present"
-  echo "Build aborting. Lock file is present" | mutt -s "log test" edill@bnl.gov -y
+  echo "Build aborting. Lock file is present" | mutt -s "log test" $EMAIL -y
   exit 1
 else
   echo "Making lock file at $LOCK_FILE"
@@ -77,7 +77,7 @@ always_yes: true
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
 # Init the logs
-LOG_DIR=/home/edill/auto-build-logs/`date +%Y`/`date +%m`/`date +%d`
+LOG_DIR=/home/$LOGNAME/auto-build-logs/`date +%Y`/`date +%m`/`date +%d`
 DEV_DIR=$LOG_DIR/dev
 TAG_DIR=$LOG_DIR/tag
 mkdir -p $LOG_DIR
@@ -214,7 +214,7 @@ DEV LOG SUMMARY
 =============================================
 TAG LOG SUMMARY
 `cat $TAG_LOG.summary`
-" | mutt -s "log test" edill@bnl.gov -y -a /tmp/$LOGNAME/devlog /tmp/$LOGNAME/taglog --
+" | mutt -s "log test" $EMAIL -y -a /tmp/$LOGNAME/devlog /tmp/$LOGNAME/taglog --
 
 echo "Removing the lock file."
 rm $LOCK_FILE
