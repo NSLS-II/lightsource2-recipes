@@ -152,8 +152,9 @@ run_dev_build () {
   rm -rf $CLONE_DIR
 
   git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
-
-  build_from_yaml $CLONE_DIR/build-directive.yaml -u nsls2-dev
+  pushd $CLONE_DIR
+  build_from_yaml build-directive.yaml -u nsls2-dev
+  popd
 }
 
 
@@ -193,7 +194,9 @@ run_tag_build() {
   # # hack the upload because conda-build-all is *not* uploading for some reason...
   # anaconda upload -u $USERNAME --force $CONDA_DIR/conda-bld/linux-64/*.tar.bz2
   # now build most of the rest of the stack in one-shot
-  build_from_yaml $CLONE_DIR/build-directive.yaml -u $USERNAME
+  pushd $CLONE_DIR
+  build_from_yaml build-directive.yaml -u $USERNAME
+  popd
   # build_from_yaml /tmp/$LOGNAME/tag-build.yaml -u $USERNAME
 }
 #LOG=/tmp/build.log
