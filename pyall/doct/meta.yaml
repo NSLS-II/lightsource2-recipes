@@ -7,7 +7,7 @@ source:
   git_rev: master
 
 build:
-  number: 0
+  number: 1
 
   # Note that this will override the default build string with the Python
   # and NumPy versions

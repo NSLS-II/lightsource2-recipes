@@ -2,9 +2,9 @@ username: lightsource2-testing
 numpy:
   - 1.10
 sources:
-  - url: https://github.com/nsls-ii/staged-recipes-dev
+  - url: '.'
     folders:
-      - name: py2
+      - name: py2 
         python:
           - 2.7
       - name: py3
