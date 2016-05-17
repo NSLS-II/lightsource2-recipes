@@ -175,6 +175,7 @@ def decide_what_to_build(recipes_path, pyver, packages, npver):
     logging.info("Determining package build names...")
     logging.info('{: <8} | {}'.format('to build', 'built package name'))
     recipes_path = os.path.abspath(recipes_path)
+    logging.info("recipes_path = {}".format(recipes_path))
     for folder in sorted(os.listdir(recipes_path)):
         if 'meta.yaml' not in os.listdir(os.path.join(recipes_path, folder)):
             continue
@@ -394,6 +395,7 @@ def build_from_yaml():
         url = source['url']
         if not (url.startswith('http') or url.startswith('git')):
             url = os.path.abspath(url)
+        logging.info('url={}'.format(url))
         git_path = clone(url)
         folders = source['folders']
         for folder in folders:
