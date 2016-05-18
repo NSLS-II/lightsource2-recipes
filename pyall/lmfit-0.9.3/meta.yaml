@@ -5,8 +5,9 @@ package:
   version: {{ version }}
 
 source:
-  git_url: https://github.com/lmfit/lmfit-py
-  git_rev: {{ version }}
+  url: https://github.com/lmfit/lmfit-py/archive/{{ version }}.tar.gz
+  fn: lmfit-{{ version }}.tar.gz
+  sha256: e15c629b30cd70da525db6e66e3532d923a95e7a5f183906c83badf22c6be70c
 
 build:
   number: 0
@@ -19,7 +20,7 @@ requirements:
     - scipy
 
   run:
-#    - emcee
+    - emcee
     - ipython
     - ipywidgets
     - matplotlib
