@@ -38,9 +38,7 @@ export CONDA_NPY='110'
 export PYTHONUNBUFFERED=1
 echo "$config" > ~/.condarc
 
-conda install conda-build
-conda install mock
-pip install https://github.com/ericdill/conda-build-all/zipball/include-test-deps#egg=conda-build-all
+conda install conda-build conda-build-all
 pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 conda info
 
