@@ -386,7 +386,7 @@ def build_from_yaml():
         token = parsed.get('token')
     site = parsed.get('site')
     print('username = {}'.format(username))
-    print('token = {}'.format(token))
+    #print('token = {}'.format(token))
     anaconda_cli = get_anaconda_cli(token, site)
     packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
     all_builds = []
