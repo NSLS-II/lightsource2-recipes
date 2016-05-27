@@ -23,7 +23,7 @@ requirements:
     - six >=1.8
     - numpy >=1.7
     - scikit-image  # one of { scikit-image | matplotlib | scipy }
-    - pillow <3 # optional, but necessary for ipython rich display
+    - pillow  # optional, but necessary for ipython rich display
 
 test:
   imports:
