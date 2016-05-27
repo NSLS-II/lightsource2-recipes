@@ -1,0 +1,49 @@
+{% set version = "0.1.1" %}
+
+package:
+    name: amostra
+    version: {{ version }}
+
+source:
+    fn: amostra-{{ version }}.tar.gz
+    url: https://github.com/nsls-ii/amostra/archive/v{{ version }}.tar.gz
+    sha256: f94a6c5bcb8faf48a1362a0ed9d8c9b2110820c0a1ac7836b4a72ab60ba02d95
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+    skip: True   # [py2k]
+
+requirements:
+    build:
+        - python
+        - setuptools
+
+    run:
+        - doct
+        - jsonschema
+        - mongoquery
+        - pymongo
+        - python
+        - requests
+        - tornado
+        - ujson
+        - pyyaml
+test:
+    imports:
+        - amostra
+        - amostra.test
+        - amostra.client
+        - amostra.server
+        - amostra.sample_data
+
+about:
+    home: https://nsls-ii.github.io/amostra
+    license: BSD 3-Clause
+    summary: "amostra is a collection of light-weight sample management classes"
+
+extra:
+    recipe-maintainers:
+        - ericdill
+        - tacaswell
+        - licode
