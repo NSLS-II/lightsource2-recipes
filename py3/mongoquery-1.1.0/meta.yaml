@@ -5,9 +5,11 @@ package:
     version: {{ version }}
 
 source:
-    fn: mongoquery-{{ version }}.tar.gz
-    url: https://github.com/kapouille/mongoquery/archive/v{{ version }}.tar.gz
-    sha256: d1e87f6038ea074273610b6258e5af7477de61c782f6424fc7ecf3416df3e645
+    git_url: https://github.com/kapouille/mongoquery
+    git_rev: v{{ version }}
+    #fn: mongoquery-{{ version }}.tar.gz
+    #url: https://github.com/kapouille/mongoquery/archive/v{{ version }}.tar.gz
+    #sha256: d1e87f6038ea074273610b6258e5af7477de61c782f6424fc7ecf3416df3e645
 
 build:
     number: 0
