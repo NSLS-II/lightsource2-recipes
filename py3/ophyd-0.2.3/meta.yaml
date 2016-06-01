@@ -18,6 +18,7 @@ requirements:
     - python
     - setuptools
   run:
+    - prettytable
     - python
     - pyepics
     - ipython
