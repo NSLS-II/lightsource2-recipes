@@ -11,9 +11,14 @@ build:
 
 requirements:
   build:
+    - humanize
+    - prettytable
     - python
+    - six
 
   run:
+    - humanize
+    - prettytable
     - python
     - six
 
