@@ -1,0 +1,27 @@
+{% set version = "2016_02" %}
+
+package:
+  name: analysis
+  version: {{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - album
+    - amostra  # [py3k]
+    - bluesky  # [py3k]
+    - channelarchiver
+    - databroker
+    - datamuxer
+    - ipywidgets
+    - jupyter
+    - lmfit ==0.8.3
+    - matplotlib
+    - openpyxl
+    - pymongo
+    - python
+    - scikit-beam
+    - suitcase
+    - xray-vision
