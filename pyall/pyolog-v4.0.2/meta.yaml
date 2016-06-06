@@ -1,11 +1,11 @@
 
 package:
     name: pyolog
-    version: 4.0.0.post5+g1a24409
+    version: 4.0.2
 
 source:
     git_url: https://github.com/NSLS-II/pyOlog.git
-    git_tag: v4.0.0.post5+g1a24409
+    git_tag: v4.0.2
 
 build:
     number: 0
