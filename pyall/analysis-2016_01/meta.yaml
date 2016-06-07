@@ -21,3 +21,4 @@ requirements:
     - xray-vision
     - album
     - bluesky  # [py3k]
+    - amostra  # [py3k]
