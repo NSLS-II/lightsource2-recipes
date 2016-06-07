@@ -1,13 +1,10 @@
-{% set version = "0.1.1" %}
+{% set version = "0.1.2" %}
 
 package:
     name: amostra
     version: {{ version }}
 
 source:
-    #fn: amostra-{{ version }}.tar.gz
-    #url: https://github.com/nsls-ii/amostra/archive/v{{ version }}.tar.gz
-    #sha256: f94a6c5bcb8faf48a1362a0ed9d8c9b2110820c0a1ac7836b4a72ab60ba02d95
     git_url: https://github.com/nsls-ii/amostra
     git_rev: v{{ version }}
 
