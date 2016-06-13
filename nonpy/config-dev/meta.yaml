@@ -1,9 +1,0 @@
-package:
-  name: nslsii_dev_configuration
-  version: 3
-
-build:
-  number: 0
-
-about:
-  summary: 'Development environment configurations to point metadatastore and filestore at localhost'
