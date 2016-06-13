@@ -33,8 +33,8 @@ requirements:
 test:
   requires:
     - nslsii_dev_configuration
-  imports:
-    - databroker
+  commands:
+    - source activate $PREFIX && python -c "import databroker"
 
 about:
   home: https://github.com/NSLS-II/databroker

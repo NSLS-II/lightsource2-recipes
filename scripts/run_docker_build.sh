@@ -38,13 +38,16 @@ export CONDA_NPY='110'
 export PYTHONUNBUFFERED=1
 echo "$config" > ~/.condarc
 
-conda install conda-build conda-build-all
+conda install conda-build conda-build-all conda-execute
 pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 conda info
 
 # dont allow failures on the conda-build commands
 set -e
 sed "s/'.'/https:\/\/github.com\/nsls-ii\/auto-build-tagged-recipes/g" /repo/build-directive.yaml -i
+pushd /repo/config
+conda-execute regenerate.py
+popd
 build_from_yaml /repo/build-directive.yaml -u $upload_channel
 conda-build-all /repo/x.x --upload-channels $upload_channel --inspect-channels $upload_channel --matrix-conditions "numpy >=1.10" "python >=3.4"
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)

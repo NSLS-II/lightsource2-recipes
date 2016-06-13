@@ -22,6 +22,9 @@ sources:
         python:
           - 3.4
           - 3.5
+      - name: config
+        python:
+          - 3.5
   - url: https://github.com/scikit-beam/skbeam-recipes
     folders:
       - name: recipes
