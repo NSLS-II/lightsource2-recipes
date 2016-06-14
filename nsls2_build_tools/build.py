@@ -177,11 +177,11 @@ def decide_what_to_build(recipes_path, pyver, packages, npver):
     recipes_path = os.path.abspath(recipes_path)
     logging.info("recipes_path = {}".format(recipes_path))
     for folder in sorted(os.listdir(recipes_path)):
-        if os.path.isfile(folder):
-            continue
-        if 'meta.yaml' not in os.listdir(os.path.join(recipes_path, folder)):
-            continue
         recipe_dir = os.path.join(recipes_path, folder)
+        if os.path.isfile(recipe_dir):
+            continue
+        if 'meta.yaml' not in os.listdir(recipe_dir):
+            continue
         for py, npy in itertools.product(pyver, npver):
             try:
                 path_to_built_package, build_cmd = determine_build_name(
