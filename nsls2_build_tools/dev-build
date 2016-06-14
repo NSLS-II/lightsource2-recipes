@@ -54,7 +54,6 @@ unset CONDA_DIR
 unset CONDARC
 unset HTTPS_PROXY
 unset HTTP_PROXY
-unset REQUESTS_CA_BUNDLE
 unset BINSTAR_TOKEN
 source ~/.bashrc" > $CONDA_DIR/etc/conda/deactivate.d/teardown.sh
 # set up a condabuildrc file
@@ -62,7 +61,6 @@ echo "
 export RAMDISK_DIR=$RAMDISK_DIR
 export CONDA_DIR=$CONDA_DIR
 export CONDARC=$RAMDISK_DIR/.condarc
-export REQUESTS_CA_BUNDLE=/etc/certificates/ca_cs_nsls2_local.crt
 export no_proxy=cs.nsls2.local
 export HTTP_PROXY=http://proxy:8888
 export HTTPS_PROXY=http://proxy:8888
@@ -74,6 +72,7 @@ channels:
 - https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
 - https://pergamon.cs.nsls2.local:8443/conda/anaconda
 always_yes: true
+ssl_verify: false
 show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
 
 # Init the logs
