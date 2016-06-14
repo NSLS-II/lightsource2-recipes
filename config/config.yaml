@@ -36,7 +36,7 @@ csx:
 
 csx2:
   version: 2
-  host: filestore-23id2
+  host: xf23id-broker
   MDS:
     database: datastore-23id2
   FS:
@@ -53,3 +53,11 @@ ixs:
 lix:
   version: 3
   host: xf16id-ws1
+
+smi:
+  version: 1
+  host: xf12id-srv1
+
+srx:
+  version: 1
+  host: xf05id-ca1
