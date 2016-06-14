@@ -177,6 +177,8 @@ def decide_what_to_build(recipes_path, pyver, packages, npver):
     recipes_path = os.path.abspath(recipes_path)
     logging.info("recipes_path = {}".format(recipes_path))
     for folder in sorted(os.listdir(recipes_path)):
+        if os.path.isfile(folder):
+            continue
         if 'meta.yaml' not in os.listdir(os.path.join(recipes_path, folder)):
             continue
         recipe_dir = os.path.join(recipes_path, folder)
