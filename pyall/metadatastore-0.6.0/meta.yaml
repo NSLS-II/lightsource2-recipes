@@ -22,7 +22,7 @@ requirements:
     - boltons
     - doct
     - numpy
-    - pymongo
+    - pymongo >=3.2
     - python
     - pytz
     - pyyaml
