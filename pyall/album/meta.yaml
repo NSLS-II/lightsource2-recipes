@@ -1,6 +1,6 @@
 package:
   name: album
-  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_TAG_PLACEHOLDER')[1:]  }}.post{{ environ.get('GIT_DESCRIBE_NUMBER') }}
+  version: {{ GIT_DESCRIBE_TAG }}.post{{ GIT_DESCRIBE_NUMBER }}
 
 source:
   git_url: https://github.com/NSLS-II/album
