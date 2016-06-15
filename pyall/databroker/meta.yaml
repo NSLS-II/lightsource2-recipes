@@ -1,6 +1,6 @@
 package:
   name: databroker
-  version: {{ environ.get('GIT_DESCRIBE_TAG')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER') }}
+  version: {{ environ.get('GIT_DESCRIBE_TAG', 'GIT_TAG_PLACEHOLDER')[1:] }}.post{{ environ.get('GIT_DESCRIBE_NUMBER') }}
 
 source:
   git_url: https://github.com/NSLS-II/databroker
