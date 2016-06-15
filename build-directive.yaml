@@ -1,6 +1,6 @@
 username: lightsource2-testing
 numpy:
-  - 1.10
+  - 1.11
 sources:
   - url: '.'
     folders:

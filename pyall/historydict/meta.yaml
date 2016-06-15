@@ -1,6 +1,6 @@
 package:
   name: historydict
-  version: {{ GIT_DESCRIBE_TAG }}.post{{ GIT_DESCRIBE_NUMBER }}
+  version: {{ GIT_DESCRIBE_TAG }}
 
 source:
   git_url: https://github.com/Nikea/historydict.git
