@@ -1,6 +1,6 @@
 package:
   name: metadataclient
-  version: 0.0.0.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
+  version: 0.0.0.post{{ environ.get('GIT_DESCRIBE_NUMBER') }}
 
 source:
   git_url: https://github.com/NSLS-II/metadataclient.git
