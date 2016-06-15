@@ -10,6 +10,7 @@ build:
   number: 0
   entry_points:
     - pyxrf = pyxrf.gui:run
+  skip: True  # [py3k]
 
 requirements:
   build:

@@ -13,6 +13,7 @@ build:
   entry_points:
     - enaml-run = enaml.runner:main
   osx_is_app: True
+  skip: True  # [py3k]
 
 requirements:
   build:

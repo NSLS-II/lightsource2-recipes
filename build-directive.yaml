@@ -4,9 +4,9 @@ numpy:
 sources:
   - url: '.'
     folders:
-      - name: py2 
-        python:
-          - 2.7
+        # - name: py2 
+        # python:
+        #  - 2.7
       - name: py3
         python:
           - 3.4
