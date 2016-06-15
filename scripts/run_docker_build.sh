@@ -52,31 +52,7 @@ conda info
 
 # dont allow failures on the conda-build commands
 set -e
-build_from_yaml /repo/build-directive.yaml -u $USERNAME
-# echo "========== Running py2 builds =========="
-# devbuild /py2 --username $USERNAME --pyver 2.7 --log $DEV_LOG.summary
-# echo "========== Running py3 builds =========="
-# devbuild /py3 --username $USERNAME --pyver 3.4 3.5 --log $DEV_LOG.summary
-# echo "========== Running pyall builds =========="
-# devbuild /pyall --username $USERNAME --pyver 2.7 3.4 3.5 --log $DEV_LOG.summary
-# echo "
-#
-# ===== BUILDING PY2 =====
-#
-# "
-# conda-build-all /py2-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=2.7,<3" --inspect-channels lightsource2-dev
-# echo "
-#
-# ===== BUILDING PY3 =====
-#
-# "
-# conda-build-all /py3-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=3.4" --inspect-channels lightsource2-dev
-#
-# echo "
-#
-# ===== BUILDING PY2&PY3 =====
-#
-# "
-# conda-build-all /pyall-recipes --upload-channels lightsource2-dev --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4" --inspect-channels lightsource2-dev
+pushd /repo
+build_from_yaml build-directive.yaml -u $USERNAME
 
 EOF
