@@ -6,7 +6,7 @@ test:
   requires:
     - python
   commands:
-    - source activate _test && python -c "import os; assert 'MDS_DATABASE' in os.environ;  assert 'MDS_TIMEZONE' in os.environ;  assert 'MDS_HOST' in os.environ;  assert 'MDS_PORT' in os.environ;  assert 'FS_DATABASE' in os.environ;  assert 'FS_HOST' in os.environ;  assert 'FS_PORT' in os.environ;  assert 'MDC_PROTOCOL' in os.environ;  assert 'MDC_TIMEZONE' in os.environ;  assert 'MDC_HOST' in os.environ;  assert 'MDC_PORT' in os.environ; "
+    - source activate _test && python -c "import os; assert 'MDS_TIMEZONE' in os.environ;  assert 'MDS_PORT' in os.environ;  assert 'MDS_DATABASE' in os.environ;  assert 'MDS_HOST' in os.environ;  assert 'FS_PORT' in os.environ;  assert 'FS_DATABASE' in os.environ;  assert 'FS_HOST' in os.environ;  assert 'MDC_TIMEZONE' in os.environ;  assert 'MDC_PROTOCOL' in os.environ;  assert 'MDC_PORT' in os.environ;  assert 'MDC_HOST' in os.environ; "
 about:
   summary: >
     Configuration for lix to point metadatastore,

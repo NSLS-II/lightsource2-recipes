@@ -6,14 +6,14 @@ DEACTIVATE=$PREFIX/etc/conda/deactivate.d/db-env-vars.sh
 mkdir -p $PREFIX/etc/conda/activate.d
 mkdir -p $PREFIX/etc/conda/deactivate.d
 
-MDS_HOST=xf12id-srv1
+MDS_HOST=xf12id-ca1
 MDS_DATABASE=datastore
 MDS_PORT=27017
 MDS_TIMEZONE=US/Eastern
-FS_HOST=xf12id-srv1
+FS_HOST=xf12id-ca1
 FS_DATABASE=filestore
 FS_PORT=27017
-MDC_HOST=xf12id-srv1
+MDC_HOST=xf12id-ca1
 MDC_PORT=7770
 MDC_PROTOCOL=http
 MDC_TIMEZONE=US/Eastern
