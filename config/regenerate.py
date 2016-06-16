@@ -8,10 +8,12 @@ file and jinja templates
 #   - python
 #   - pyyaml
 #   - jinja2
+#   - git
+#   - gitpython
 import copy
 import os
 import shutil
-
+import git
 import yaml
 from jinja2 import Environment, FileSystemLoader
 
@@ -25,6 +27,7 @@ configuration_yaml = yaml.load(open(os.path.join(THIS_DIR,
 default_configuration = configuration_yaml.pop('default')
 LIB_NAMES = ['MDS', 'FS', 'MDC']
 
+repo = git.Repo(os.path.dirname(THIS_DIR))
 
 for package_name, package_contents in configuration_yaml.items():
     config = copy.deepcopy(default_configuration)
@@ -67,3 +70,6 @@ for package_name, package_contents in configuration_yaml.items():
     with open(os.path.join(package_folder, 'meta.yaml'), 'w') as f:
         f.write(meta_yaml)
 
+    repo.git.add(package_folder)
+
+repo.index.commit("AUTO: Automatically updated the config recipes with the regenerate.py script")
