@@ -46,10 +46,7 @@ conda info
 
 # dont allow failures on the conda-build commands
 set -e
-# sed "s/'.'/https:\/\/github.com\/nsls-ii\/auto-build-tagged-recipes/g" /repo/build-directive.yaml -i
-pushd /repo/config
-conda-execute regenerate.py
-popd
+
 if [[ $CIRCLE_BRANCH != "master" ]]; then
     echo "disabling upload"
     NO_UPLOAD=true
