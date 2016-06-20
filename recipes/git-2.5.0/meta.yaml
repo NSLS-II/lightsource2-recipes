@@ -1,10 +1,17 @@
+{% set version = "2.5.0" %}
+
 package:
   name: git
-  version: 2.5.0
+  version: {{ version }}
 
 source:
-  git_url: https://github.com/git/git.git
-  git_tag: v2.5.0
+  url: https://github.com/git/git/archive/v{{ version }}.tar.gz
+  fn: git-{{ version }}.tar.gz
+  sha256: 31ebd4f35b5b941a5ac51c01ecb211911650b834a4085878e854cce59a470424
+
+build:
+  number: 0
+  skip: True  # [not linux]
 
 requirements:
   build:
