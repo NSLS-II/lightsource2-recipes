@@ -1,0 +1,46 @@
+{% set version = "0.1.12" %}
+
+package:
+  name: csxtools
+  version: {{ version }}
+
+source:
+  url: https://github.com/NSLS-II-CSX/csxtools/archive/v{{ version }}.tar.gz
+  fn: csxtools-v{{ version }}.tar.gz
+  sha256: f0131228461f458c2277ae89d8ec009955df04060a28a0df1a84f0e33926898a
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - pytest
+    - python
+    - numpy x.x
+    - setuptools
+
+  run:
+    - databroker
+    - ipython
+    - ipywidgets
+    - matplotlib
+    - numpy x.x
+    - pims >=0.3.3
+    - python
+    - tzlocal
+
+test:
+  requires:
+    - nslsii_dev_configuration
+    - pytest
+  imports:
+    - csxtools
+    - csxtools.ext
+    - csxtools.ext.fastccd
+    - csxtools.ext.image
+    - csxtools.ext.phocount
+
+about:
+  home: https://github.com/NSLS-II-CSX/csxtools
+  license: BSD 3-clause
