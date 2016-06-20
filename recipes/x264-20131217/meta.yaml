@@ -2,7 +2,7 @@
 # Copied from conda-forge.
 package:
     name: x264
-    version: 20131217
+    version: {{ version }}
 
 source:
     fn: x264-snapshot-{{ version }}-2245-stable.tar.bz2
