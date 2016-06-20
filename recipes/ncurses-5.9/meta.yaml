@@ -1,10 +1,12 @@
+{% set version = "5.9" %}
+
 package:
   name: ncurses
-  version: 5.9
+  version: {{ version }}
 
 source:
-  fn: ncurses-5.9.tar.gz
-  url: http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
+  fn: ncurses-{{ version }}.tar.gz
+  url: http://ftp.gnu.org/pub/gnu/ncurses/ncurses-{{ version }}.tar.gz
   md5: 8cb9c412e5f2d96bc6f459aa8c6282a1
 
 build:
