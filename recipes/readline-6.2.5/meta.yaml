@@ -1,0 +1,24 @@
+{% set version = "6.2.5" %}
+
+package:
+  name: readline
+  version: {{ version }}
+
+source:
+  fn: readline-{{ version }}.tar.gz
+  url: https://github.com/tpn/readline/archive/{{ version }}.tar.gz
+  sha256: 5df28dd926ac13e5a1eebc22fb688897d48423114b7aba3ac5971c39caf22a85
+
+build:
+  number: 1
+  skip: True  # [not linux]
+
+requirements:
+  build:
+    - ncurses >=5.9
+  run:
+    - ncurses >=5.9
+
+about:
+  home: http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html
+  license: GPL 3
