@@ -1,21 +1,22 @@
-
+{% set version = "3.14.12.4" %}
 package:
     name: epics-base
-    version: "3.14.12.4"
+      version: {{ version }}
 
 source:
-    fn: baseR3.14.12.4.tar.gz
-    url: http://www.aps.anl.gov/epics/download/base/baseR3.14.12.4.tar.gz
+    fn: baseR{{ version }}.tar.gz
+    url: http://www.aps.anl.gov/epics/download/base/baseR{{ version }}.tar.gz
+    sha256: 0ea4a74e83ff73d68b64de89bedf7c42102edc2cc69c69fd49eb35c04dc9e3de
     patches:
         - config_site.diff
         - config_common.diff
 
 build:
   number: 0
+  skip: True  # [win]
 
 requirements:
   build:
-#    - perl
     - readline
 
   run:
