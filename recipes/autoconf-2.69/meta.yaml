@@ -1,0 +1,27 @@
+{% set version = "2.69" %}
+package:
+  name: autoconf
+  version: {{ version }}
+
+source:
+  fn: autoconf-{{ version }}.tar.gz
+  url: http://ftp.gnu.org/gnu/autoconf/autoconf-{{ version }}.tar.gz
+  sha256: 954bd69b391edc12d6a4a51a2dd1476543da5c6bbf05a95b59dc0dd6fd4c2969
+
+build:
+  number: 1
+  skip: True  # [not linux]
+
+requirements:
+  build:
+    - m4
+  run:
+    - m4
+
+test:
+  commands:
+    - autoconf --help
+
+about:
+  home: http://www.gnu.org/software/autoconf/
+  license: GPL 3
