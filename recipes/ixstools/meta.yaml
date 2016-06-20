@@ -1,0 +1,40 @@
+{% set version = "0.0.2" %}
+
+package:
+    name: ixstools
+    version: {{ version }}
+
+source:
+    fn: ixstools-v{{ version }}.tar.gz
+    url: https://github.com/NSLS-II-IXS/ixstools/archive/v{{ version }}.tar.gz
+    sha256: 4638ee205a678043095715faf5d5cfb40084c8cc4b0269f3efcb57e36f6efed6
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+    entry_points:
+        - align = ixstools.align:main
+    skip: True  # [py2k]
+
+requirements:
+    build:
+        - python
+    run:
+        - lmfit
+        - matplotlib
+        - numpy
+        - pandas
+        - python
+        - pyyaml
+        - scipy
+
+test:
+    imports:
+        - ixstools
+        - ixstools.align
+        - ixstools.fit
+        - ixstools.io
+
+about:
+    home: https://github.com/nsls-ii-ixs/ixstools
+    license: 3-Clause BSD
