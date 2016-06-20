@@ -1,0 +1,50 @@
+{% set version = "0.5.3" %}
+
+package:
+    name: bluesky
+    version: {{ version }}
+
+source:
+    url: https://github.com/NSLS-II/bluesky/archive/v{{ version }}.tar.gz
+    fn: bluesky-v{{ version }}.tar.gz
+    sha256: 
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - python
+
+    run:
+        - boltons
+        - cycler
+        - databroker
+        - doct
+        - event-model
+        - filestore
+        - historydict
+        - jinja2
+        - jsonschema
+        - metadatastore
+        - matplotlib
+        - numpy
+        - python
+        - scipy
+        - super_state_machine
+        - tifffile
+        - traitlets
+        - xray-vision
+
+test:
+    requires:
+        - nslsii_dev_configuration
+        - databroker
+        - pyepics
+    imports:
+        - bluesky
+
+about:
+    home: https://github.com/NSLS-II/bluesky
+    license: BSD
