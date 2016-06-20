@@ -1,17 +1,20 @@
 # Copyright 2014-2015 Peter Williams and collaborators.
 # This file is licensed under a 3-clause BSD license; see LICENSE.txt.
+{% set version = "0.19" %}
 
 package:
   name: gettext
-  version: 0.19
+  version: {{ version }}
 
 source:
-  fn: gettext-0.19.tar.gz
-  url: http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.tar.gz
+  fn: gettext-{{ version }}.tar.gz
+  url: http://ftp.gnu.org/pub/gnu/gettext/gettext-{{ version }}.tar.gz
+  sha256sum: a9f9c7764bc68782aca57687a1f16c228bc321069c538325923513b841bd847c
 
 build:
   number: 0
   detect_binary_files_with_prefix: true
+  skip: True  # [not linux]
 
 
 about:
