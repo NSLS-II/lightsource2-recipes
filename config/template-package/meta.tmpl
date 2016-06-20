@@ -1,0 +1,13 @@
+package:
+  name: {{ package_name }}_configuration
+  version: {{ version }}
+
+test:
+  requires:
+    - python
+  commands:
+    - source activate _test && python -c "import os;{% for env_var in env_vars %} assert '{{ env_var }}' in os.environ; {% endfor %}"
+about:
+  summary: >
+    Configuration for {{ package_name }} to point metadatastore,
+    metadataclient and filestore at localhost

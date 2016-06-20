@@ -1,0 +1,63 @@
+default:
+  version: 0
+  MDS:
+    database: datastore
+    port: 27017
+    timezone: US/Eastern
+  FS:
+    database: filestore
+    port: 27017
+  MDC:
+    port: 7770
+    protocol: http
+    timezone: US/Eastern
+
+nslsii_dev:
+  version: 3
+  host: localhost
+  MDS:
+    database: datastore-dev
+  FS:
+    database: filestore-dev
+
+amx:
+  version: 3
+  host: lsbr-dev
+
+chx:
+  version: 3
+  host: xf11id-srv1
+
+csx:
+  version: 2
+  host: xf23id-broker
+  MDS:
+    database: datastore2
+
+csx2:
+  version: 2
+  host: xf23id-broker
+  MDS:
+    database: datastore-23id2
+  FS:
+    database: filestore-23id2
+
+hxn:
+  version: 2
+  host: xf03id-ca1
+
+ixs:
+  version: 2
+  host: xf10id-ca1
+
+lix:
+  version: 3
+  host: xf16id-ws1
+
+smi:
+  version: 1
+  host: xf12id-ca1
+
+srx:
+  version: 1
+  host: xf05id-ca1

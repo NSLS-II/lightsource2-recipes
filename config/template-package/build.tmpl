@@ -1,0 +1,86 @@
+#!/bin/bash
+
+ETC=$PREFIX/etc
+ACTIVATE=$PREFIX/etc/conda/activate.d/db-env-vars.sh
+DEACTIVATE=$PREFIX/etc/conda/deactivate.d/db-env-vars.sh
+mkdir -p $PREFIX/etc/conda/activate.d
+mkdir -p $PREFIX/etc/conda/deactivate.d
+
+MDS_HOST={{ MDS.host }}
+MDS_DATABASE={{ MDS.database }}
+MDS_PORT={{ MDS.port }}
+MDS_TIMEZONE={{ MDS.timezone }}
+FS_HOST={{ FS.host }}
+FS_DATABASE={{ FS.database }}
+FS_PORT={{ FS.port }}
+MDC_HOST={{ MDC.host }}
+MDC_PORT={{ MDC.port }}
+MDC_PROTOCOL={{ MDC.protocol }}
+MDC_TIMEZONE={{ MDC.timezone }}
+
+# set up
+echo "# metadatastore configuration
+# installed by {{ package_name }}
+# DO NOT EDIT
+host: $MDS_HOST
+database: $MDS_DATABASE
+port: $MDS_PORT
+timezone: $MDS_TIMEZONE
+" > $ETC/metadatastore.yml
+
+echo "# filestore configuration
+# installed by {{ package_name }}
+# DO NOT EDIT
+host: $FS_HOST
+database: $FS_DATABASE
+port: $FS_PORT
+" > $ETC/filestore.yml
+
+echo "# metadataclient configuration
+# installed by {{ package_name }}
+# DO NOT EDIT
+mdc_host: $MDC_HOST
+mdc_port: $MDC_PORT
+mdc_protocol: $MDC_PROTOCOL
+mdc_timezone: $MDC_TIMEZONE
+" > $ETC/metadataclient.yml
+
+# set up
+echo "# metadatastore configuration
+# installed by {{ package_name }}
+# DO NOT EDIT
+export MDS_HOST=$MDS_HOST
+export MDS_DATABASE=$MDS_DATABASE
+export MDS_PORT=$MDS_PORT
+export MDS_TIMEZONE=$MDS_TIMEZONE
+" > $ACTIVATE
+
+echo "# filestore configuration
+# installed by {{ package_name }}
+# DO NOT EDIT
+export FS_HOST=$FS_HOST
+export FS_DATABASE=$FS_DATABASE
+export FS_PORT=$FS_PORT
+" >> $ACTIVATE
+
+echo "#metadataclient configuration
+# installed by {{ package_name }}
+# DO NOT EDIT
+export MDC_HOST=$MDC_HOST
+export MDC_PORT=$MDC_PORT
+export MDC_PROTOCOL=$MDC_PROTOCOL
+export MDC_TIMEZONE=$MDC_TIMEZONE
+" >> $ACTIVATE
+
+echo "unset MDS_HOST
+unset MDS_DATABASE
+unset MDS_PORT
+unset MDS_TIMEZONE
+unset FS_HOST
+unset FS_DATABASE
+unset FS_PORT
+unset MDC_HOST
+unset MDC_PORT
+unset MDC_PROTOCOL
+unset MDC_DATABASE
+" > $DEACTIVATE
