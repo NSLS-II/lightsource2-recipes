@@ -47,13 +47,6 @@ conda info
 # dont allow failures on the conda-build commands
 set -e
 
-if [[ $CIRCLE_BRANCH != "master" ]]; then
-    echo "disabling upload"
-    NO_UPLOAD=true
-else
-    echo "enabling upload"
-    NO_UPLOAD=false
-fi;
 pushd /repo
 build_from_yaml build-directive.yaml -u $upload_channel --no-upload $NO_UPLOAD
 popd
