@@ -13,8 +13,9 @@ source:
     - hack-features.patch
 
 build:
-  number: 8
+  number: 7
   detect_binary_files_with_prefix: true
+  skip: True  # [not linux]
 
 requirements:
   build:
