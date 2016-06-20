@@ -1,0 +1,41 @@
+{% set version = "0.0.4" %}
+
+package:
+  name: pyxrf
+  version: {{ version }}
+
+source:
+  url: https://github.com/NSLS-II/pyxrf/archive/v{{ version }}.tar.gz
+  fn: pyxrf-v{{ version }}.tar.gz
+  sha256: c3d88e9d538cbe4566683fa1bff57fea56f8ecf6285f91d594f38f38d9cf7af7
+
+build:
+  number: 1
+  entry_points:
+    - pyxrf = pyxrf.gui:run
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  skip: True  # [not py2k]
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - atom
+    - enaml
+    - h5py
+    - lmfit
+    - matplotlib
+    - numpy
+    - pandas
+    - pillow
+    - python
+    - scipy
+    - six
+    - scikit-beam
+    - scikit-image
+
+about:
+  home: https://github.com/NSLS-II/pyxrf
+  license: 3-Clause BSD
