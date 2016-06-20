@@ -56,7 +56,7 @@ lix:
 
 smi:
   version: 1
-  host: xf12id-srv1
+  host: xf12id-ca1
 
 srx:
   version: 1
