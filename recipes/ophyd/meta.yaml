@@ -1,0 +1,34 @@
+{% set version = "0.2.3" %}
+
+package:
+    name: ophyd
+    version: {{ version }}
+
+source:
+    url: https://github.com/NSLS-II/ophyd/archive/v{{ version }}.tar.gz
+    fn: ophyd-v{{ version }}.tar.gz
+    sha256: 08aaee2eeac8be43acbf24cabd9ff6504ff6504c27552e04268778a15f5ce67a
+
+build:
+    number: 1
+    skip: True  # [py2k]
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - python
+        - setuptools
+    run:
+        - filestore
+        - ipython
+        - prettytable
+        - pyepics
+        - python
+
+test:
+    imports:
+        - ophyd
+
+about:
+    home: https://github.com/NSLS-II/ophyd
+    license: BSD 3-Clause
