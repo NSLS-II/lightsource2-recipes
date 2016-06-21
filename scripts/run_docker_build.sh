@@ -5,7 +5,7 @@
 env
 
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
-IMAGE_NAME="ericdill/debian-conda-builder:latest"
+IMAGE_NAME="nsls2/debian-with-miniconda:latest"
 docker pull $IMAGE_NAME
 upload_channel=lightsource2
 config=$(cat <<CONDARC
@@ -40,7 +40,9 @@ export CONDA_NPY='110'
 export PYTHONUNBUFFERED=1
 echo "$config" > ~/.condarc
 
-conda install conda-build conda-build-all conda-execute
+conda update conda
+conda install conda-build anaconda-client networkx
+# conda install conda-build conda-build-all conda-execute
 pip install https://github.com/ericdill/conda-build-utils/zipball/master#egg=conda-build-utils
 conda info
 
