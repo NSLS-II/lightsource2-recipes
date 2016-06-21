@@ -240,9 +240,9 @@ def get_deps_from_metadata(path):
     """
     meta = MetaData(path)
     test = meta.meta.get('test', {}).get('requires', [])
-    run = meta.meta.get('requirements', {}).get('build', [])
-    build = meta.meta.get('requirements', {}).get('run', [])
-    return build, run, test
+    run = meta.meta.get('requirements', {}).get('run', [])
+    build = meta.meta.get('requirements', {}).get('build', [])
+    return build or [], run or [], test or []
 
 def sanitize_names(list_of_names):
     list_of_names = [name.split(' ')[0] for name in list_of_names]
@@ -462,6 +462,10 @@ def get_binstar_token():
     return token
 
 
+def pdb_hook(exctype, value, traceback):
+    pdb.post_mortem(traceback)
+
+
 def cli():
     p = ArgumentParser(
         description="""
@@ -517,18 +521,24 @@ already exist are built.
         '-v', '--verbose', help="Enable DEBUG level logging. Default is INFO",
         default=False, action="store_true"
     )
+    p.add_argument(
+        '--pdb', help="Enable PDB debugging on exception",
+        default=False, action="store_true"
+    )
     args = p.parse_args()
     if not args.python:
-        raise ValueError("Python version must be supplied. Choose any of "
-                         "['2.7', '3.4', '3.5']")
+        args.python = [DEFAULT_PY]
     args_dct = dict(args._get_kwargs())
+    use_pdb = args_dct.pop('pdb')
+    if use_pdb:
+        # set the pdb_hook as the except hook for all exceptions
+        sys.excepthook = pdb_hook
     loglevel = logging.DEBUG if args_dct.pop('verbose') else logging.INFO
     log = args_dct.pop('log')
     init_logging(log_file=log, loglevel=loglevel)
 
     args_dct['recipes_path'] = os.path.abspath(args.recipes_path)
     print(args)
-    # pdb.set_trace()
     run(**args_dct)
 
 
