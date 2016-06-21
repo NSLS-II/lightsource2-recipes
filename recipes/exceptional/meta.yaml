@@ -1,0 +1,36 @@
+{% set version = "0.0.1" %}
+package:
+  name: exceptional
+  version: {{ version }}
+
+source:
+  url: https://github.com/nsls-ii/exceptional/archive/v{{ version }}.tar.gz
+  fn: exceptional-{{ version }}.tar.gz
+  sha256: 23c8ee69488edd4937537fa00199203a3e66871f20c566e934f67c2ad673cdc5
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+  run:
+    - ipython
+    - python
+    - requests
+
+test:
+  imports:
+    - exceptional
+
+about:
+  home: http://github.com/nsls-ii/exceptional
+  license: 3-Clause BSD
+  summary: Automate error reporting from I/Python to a slack channel
+
+extra:
+  maintainers:
+    - ericdill
+    - licode
+    - tacaswell
