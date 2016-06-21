@@ -1,8 +1,9 @@
-{% set version = "2016_02" %}
+{% set year = "2016" %}
+{% set cycle = "02" %}
 
 package:
   name: analysis
-  version: {{ version }}
+  version: {{ year }}_{{ cycle }}
 
 build:
   number: 0
