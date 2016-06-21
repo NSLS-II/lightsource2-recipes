@@ -1,0 +1,16 @@
+{% set year = "2016" %}
+{% set cycle = "02" %}
+
+package:
+  name: collection
+  version: {{ year }}_{{ cycle }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - analysis >=2016_02
+    - bluesky
+    - ophyd
+    - pyolog
