@@ -9,7 +9,7 @@ package:
 source:
   fn: gettext-{{ version }}.tar.gz
   url: http://ftp.gnu.org/pub/gnu/gettext/gettext-{{ version }}.tar.gz
-  sha256sum: a9f9c7764bc68782aca57687a1f16c228bc321069c538325923513b841bd847c
+  sha256: a9f9c7764bc68782aca57687a1f16c228bc321069c538325923513b841bd847c
 
 build:
   number: 0
