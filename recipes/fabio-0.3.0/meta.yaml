@@ -1,0 +1,49 @@
+{% set version = "0.3.0" %}
+
+package:
+  name: fabio
+  version: {{ version }}
+
+source:
+  url: https://github.com/kif/fabio/archive/v{{ version }}.tar.gz
+  fn: fabio-v{{ version }}.tar.gz
+  sha256: ec4586a676dab02931bed2f1e0ef227c43259b4f60c0cfb603c30e02876164e8
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - cython
+    - python
+    - setuptools
+    - numpy x.x
+
+  run:
+    - lxml
+    - numpy x.x
+    - python
+
+test:
+  imports:
+    - fabio
+    - fabio.test
+    - fabio.third_party
+
+  requires:
+    - coverage
+    - cython
+    - h5py
+    - lxml
+    - numpy
+    - pillow
+    - pytest
+
+  commands:
+    - cd $SRC_DIR && coverage run run_tests.py
+
+about:
+  home: http://fable.wiki.sourceforge.net/fabio
+  license: GNU General Public License v2 or later (GPLv2+)
+  summary: 'Image IO for fable'
