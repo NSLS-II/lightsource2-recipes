@@ -192,11 +192,14 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
         build, run, test = get_deps_from_metadata(recipe_dir)
         # only need to do multiple numpy builds if the meta.yaml pins the numpy
         # version in build and run.
+        numpy_build_versions = numpy
         if 'numpy x.x' not in build:
-            numpy_build_versions = ["1.11"]
-        else:
-            numpy_build_versions = numpy
-        for py, npy in itertools.product(python, numpy_build_versions):
+            numpy_build_versions = [DEFAULT_NP_VER]
+        python_build_versions = python
+        if 'python' not in set(build + run):
+            python_build_versions = [DEFAULT_PY]
+        for py, npy in itertools.product(python_build_versions,
+                                         numpy_build_versions):
             logging.debug("Checking py={} and npy={}".format(py, npy))
             try:
                 os.environ['CONDA_NPY'] = npy
