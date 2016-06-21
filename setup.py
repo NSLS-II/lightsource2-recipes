@@ -17,7 +17,6 @@ setup(
     entry_points="""
         [console_scripts]
         devbuild=nsls2_build_tools.build:cli
-        build_from_yaml=nsls2_build_tools.build:build_from_yaml
     """
 
 )
