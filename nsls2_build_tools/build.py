@@ -288,6 +288,8 @@ def build_dependency_graph(metas):
     """
     run_deps = {}
     build_deps = {}
+    logging.debug("Building dependency graph for %s libraries", len(metas))
+
     for meta in metas:
         name = meta.meta['package']['name']
         logging.debug('name=%s', name)
@@ -300,6 +302,7 @@ def build_dependency_graph(metas):
     union = copy.deepcopy(build_deps)
     for package, deps in run_deps.items():
         union[package] = set(build_deps.get(package) + run_deps.get(package))
+    # logging.debug()
     # drop all extra packages that I do not have conda recipes for
     for name, items in union.items():
         union[name] = [item for item in items if item in union]
@@ -331,6 +334,7 @@ def run_build(metas, username, token=None, upload=True):
     if token is None:
         token = get_binstar_token()
     dependency_graph = build_dependency_graph(metas)
+    # pdb.set_trace()
     print('dependency_graph=%s' % dependency_graph)
     build_order = nx.topological_sort(dependency_graph)
     # build_order = builder.sort_dependency_order(metas)
@@ -589,7 +593,8 @@ def run(recipes_path, python, site, username, numpy, token=None,
 def safe_run_build(metas_to_build, username, metas_to_skip,
                    token=None, upload=True):
     try:
-        print('safe_run_build')
+        if metas_to_build == []:
+            raise Exception("No recipes to build! Exiting...")
         results = run_build(metas_to_build, username, token=token, upload=upload)
         results['alreadybuilt'] = sorted([skip.build_name
                                           for skip in metas_to_skip])
