@@ -1,0 +1,37 @@
+{% set version = "0.3.0" %}
+
+package:
+  name: datamuxer
+  version: {{ version }}
+
+source:
+  url: https://github.com/NSLS-II/datamuxer/archive/v{{ version }}.tar.gz
+  fn: datamuxer-v{{ version }}.tar.gz
+  sha256: 6fc7cb8226ab216960a424303d28389e95b238929e626a1bd14578df90d207e8
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - python
+    - pandas
+    - six
+    - scipy
+    - tzlocal
+
+test:
+  requires:
+    - nslsii_dev_configuration
+    - databroker
+  imports:
+    - datamuxer
+
+about:
+  home: https://github.com/NSLS-II/datamuxer
+  license: BSD
