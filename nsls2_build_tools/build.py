@@ -301,6 +301,7 @@ def build_dependency_graph(metas):
         run_deps[name] = sanitize_names(
             meta.meta.get('requirements', {}).get('run', []))
         logging.debug('run_deps=%s', run_deps)
+    # pdb.set_trace()
     union = copy.deepcopy(build_deps)
     for package, deps in run_deps.items():
         union[package] = set(build_deps.get(package) + run_deps.get(package))
@@ -338,7 +339,10 @@ def run_build(metas, username, token=None, upload=True):
     dependency_graph = build_dependency_graph(metas)
     # pdb.set_trace()
     print('dependency_graph=%s' % dependency_graph)
-    build_order = nx.topological_sort(dependency_graph)
+    metas_name_order = nx.topological_sort(dependency_graph)
+    build_order = [meta for name in metas_name_order for meta in metas
+                   if meta.meta['package']['name'] == name]
+    # print('metas_order = {}'.format(metas_order))
     # build_order = builder.sort_dependency_order(metas)
     logging.info("Build Order.")
     for meta in build_order:
