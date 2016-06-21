@@ -254,6 +254,8 @@ def sanitize_names(list_of_names):
 def make_network(packages_dict):
     G = nx.DiGraph()
     for package, deps in packages_dict.items():
+        if deps == []:
+            G.add_node(package)
         for dep in deps:
             G.add_edge(package, dep)
     return G
