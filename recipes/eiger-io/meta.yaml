@@ -1,0 +1,36 @@
+{% set version = "0.0.5" %}
+package:
+  name: eiger-io
+  version: {{ version }}
+
+source:
+  url: https://github.com/NSLS-II-CHX/eiger-io/archive/v{{ version }}.tar.gz
+  fn: eiger-io-v{{ version }}.tar.gz
+  sha256: 2de8b9fae8f9d9821f3380582e1d3af0213a172fc60086f4859e6b7ff19c3f0e
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - filestore
+    - h5py
+    - numpy
+    - pims
+    - python
+    - six
+
+test:
+  requires:
+    - nslsii_dev_configuration
+  imports:
+    - eiger_io
+
+about:
+  home: https://github.com/CHX-NSLS-II/eiger-io
+  license: BSD
