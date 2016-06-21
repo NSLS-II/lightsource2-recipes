@@ -5,9 +5,9 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/NSLS-II/channelarchiver/archive/{{ version }}.tar.gz
-  fn: channelarchiver-v{{ version }}
-  sha256: 7ece29c320ee663be2c4674f05e0ca75aebfaed66767a5f6bd57200df2906b9a7ece29c320ee663be2c4674f05e0ca75aebfaed66767a5f6bd57200df2906b9a
+  url: https://github.com/NSLS-II/channelarchiver/archive/v{{ version }}.tar.gz
+  fn: channelarchiver-v{{ version }}.tar.gz
+  sha256: 7ece29c320ee663be2c4674f05e0ca75aebfaed66767a5f6bd57200df2906b9a
 
 build:
   number: 1
