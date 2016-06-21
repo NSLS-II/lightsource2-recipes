@@ -50,7 +50,7 @@ set -e
 # pushd /repo
 # build_from_yaml build-directive.yaml -u $upload_channel --no-upload $NO_UPLOAD
 # popd
-conda-build-all /repo/recipes --upload-channels $upload_channel --inspect-channels $upload_channel --matrix-conditions "numpy >=1.10" "python >=2.7,<3|>=3.4"
+devbuild /repo/recipes -u $upload_channel --python 2.7 3.4 3.5 --numpy 1.10 1.11 -t $BINSTAR_TOKEN
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
 #
