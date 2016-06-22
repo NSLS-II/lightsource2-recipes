@@ -10,7 +10,7 @@ source:
   sha256: ec4586a676dab02931bed2f1e0ef227c43259b4f60c0cfb603c30e02876164e8
 
 build:
-  number: 0
+  number: 1
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -21,8 +21,10 @@ requirements:
     - numpy x.x
 
   run:
+    - h5py
     - lxml
     - numpy x.x
+    - pillow
     - python
 
 test:
@@ -31,17 +33,15 @@ test:
     - fabio.test
     - fabio.third_party
 
-  requires:
-    - coverage
-    - cython
-    - h5py
-    - lxml
-    - numpy
-    - pillow
-    - pytest
+  #requires:
+  #  - coverage
+  #  - cython
+  #  - lxml
+  #  - numpy
+  #  - pytest
 
-  commands:
-    - cd $SRC_DIR && coverage run run_tests.py
+  #commands:
+  #  - cd $SRC_DIR && coverage run run_tests.py
 
 about:
   home: http://fable.wiki.sourceforge.net/fabio
