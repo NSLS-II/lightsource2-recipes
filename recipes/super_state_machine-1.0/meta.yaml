@@ -1,15 +1,19 @@
+{% set version = "1.0" %}
+
 package:
   name: super_state_machine
-  version: 1.0
+  version: {{ version }}
 
 source:
-  git_url: https://github.com/beregond/super_state_machine
-  git_rev: 1.0
+  url: https://github.com/beregond/super_state_machine/archive/{{ version }}.tar.gz
+  fn: suitcase-{{ version }}.tar.gz
+  sha256: a4aac93307f381c64e25b24de347b0527608cc551b66f41c34b2f2df80b445b3
   patches:
     - nuke_enum34.patch [py3k]
 
 build:
   number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
@@ -31,4 +35,3 @@ about:
   home: https://github.com/beregond/super_state_machine
   license: BSD License
   summary: 'Super State Machine gives you utilities to build finite state machines.'
-
