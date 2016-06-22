@@ -1,13 +1,16 @@
+{% set version = "0.3.0" %}
 package:
   name: trackpy
-  version: 0.3.0
+  version: {{ version }}
 
 source:
-  git_url: https://github.com/soft-matter/trackpy
-  git_rev: v0.3.0
+  url: https://github.com/soft-matter/trackpy/archive/v{{ version }}.tar.gz
+  fn: v{{ version }}.tar.gz
+  sha256: 1b587a8b1b97484b1c85335593cdbd858dbea347a97678e7acb9404ee0e4fbcd
 
 build:
   number: 3
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
@@ -37,7 +40,15 @@ requirements:
 test:
   imports:
     - trackpy
+
 about:
   home: https://github.com/soft-matter/trackpy
   license: BSD
   summary: 'particle-tracking toolkit'
+
+extra:
+  recipe-maintainers:
+    - danielballan
+    - ericdill
+    - licode
+    - tacaswell
