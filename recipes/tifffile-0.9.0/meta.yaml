@@ -1,0 +1,39 @@
+{% set version = "0.9.0" %}
+
+package:
+  name: tifffile
+  version: {{ version }}
+
+source:
+  fn: tifffile-{{ version }}.tar.gz
+  url: https://github.com/blink1073/tifffile/archive/v{{ version }}.tar.gz
+  sha256: 218f9c0640eff4d464c5619b1db57f049e92ff6cd2360d146332577f0ec2f312
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy x.x
+
+  run:
+    - python
+    - numpy x.x
+
+test:
+  imports:
+    - tifffile
+
+about:
+  home: https://github.com/blink1073/tifffile
+  license:  BSD License
+  summary: 'Read and write image data from and to TIFF files.'
+
+extra:
+  recipe-maintainers:
+    - blink1073
+    - ocefpaf
+    - jakirkham
