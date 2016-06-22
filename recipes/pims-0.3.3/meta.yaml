@@ -61,7 +61,7 @@ about:
   summary: 'Python Image Sequence'
 
 extra:
-  maintainers:
+  recipe-maintainers:
     - danielballan
     - ericdill
     - licode
