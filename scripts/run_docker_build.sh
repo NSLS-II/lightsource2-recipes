@@ -4,14 +4,16 @@
 
 env
 
+if [ "${UPLOAD_CHANNEL}" ];then
+    export UPLOAD_CHANNEL=lightsource2
+fi
+
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 IMAGE_NAME="nsls2/debian-with-miniconda:latest"
-docker pull $IMAGE_NAME
-upload_channel=lightsource2
 config=$(cat <<CONDARC
 
 channels:
- - $upload_channel
+ - $UPLOAD_CHANNEL
  - conda-forge
  - defaults
 
@@ -22,6 +24,8 @@ track_features:
 
 CONDARC
 )
+
+docker pull $IMAGE_NAME
 
 cat << EOF | docker run -i \
                         -v ${REPO_ROOT}:/repo \
@@ -50,9 +54,10 @@ conda info
 set -e
 
 # pushd /repo
-# build_from_yaml build-directive.yaml -u $upload_channel --no-upload $NO_UPLOAD
+# build_from_yaml build-directive.yaml -u $UPLOAD_CHANNEL --no-upload $NO_UPLOAD
 # popd
-devbuild /repo/recipes -u $upload_channel --python 2.7 3.4 3.5 --numpy 1.10 1.11 -t $BINSTAR_TOKEN
+devbuild /repo/config -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 -t $BINSTAR_TOKEN
+devbuild /repo/recipes -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 -t $BINSTAR_TOKEN
 # These are some standard tools. But they aren't available to a recipe at this point (we need to figure out how a recipe should define OS level deps)
 #yum install -y expat-devel git autoconf libtool texinfo check-devel
 #
@@ -61,44 +66,44 @@ devbuild /repo/recipes -u $upload_channel --python 2.7 3.4 3.5 --numpy 1.10 1.11
 # ===== BUILDING SCIKIT-BEAM RECIPES =====
 #
 # "
-# conda-build-all /tmp/skbeam-recipes/recipes --upload-channels $upload_channel --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels $upload_channel
+# conda-build-all /tmp/skbeam-recipes/recipes --upload-channels $UPLOAD_CHANNEL --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels $UPLOAD_CHANNEL
 #
 # echo "
 #
 # ===== BUILDING NONPY =====
 #
 # "
-# conda-build-all /nonpy-recipes --upload-channels $upload_channel --inspect-channels $upload_channel --matrix-conditions "python >=3.5"
+# conda-build-all /nonpy-recipes --upload-channels $UPLOAD_CHANNEL --inspect-channels $UPLOAD_CHANNEL --matrix-conditions "python >=3.5"
 #
 # echo "
 #
 # ===== BUILDING PY2 =====
 #
 # "
-# conda-build-all /py2-recipes --upload-channels $upload_channel --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3" --inspect-channels $upload_channel
+# conda-build-all /py2-recipes --upload-channels $UPLOAD_CHANNEL --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3" --inspect-channels $UPLOAD_CHANNEL
 #
 # echo "
 #
 # ===== BUILDING PY2&PY3 =====
 #
 # "
-# conda-build-all /pyall-recipes --upload-channels $upload_channel --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels $upload_channel
+# conda-build-all /pyall-recipes --upload-channels $UPLOAD_CHANNEL --matrix-conditions "numpy >=1.10,<1.11" "python >=2.7,<3|>=3.4" --inspect-channels $UPLOAD_CHANNEL
 #
 # echo "
 #
 # ===== BUILDING PY3 =====
 #
 # "
-# conda-build-all /py3-recipes --upload-channels $upload_channel --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels $upload_channel
+# conda-build-all /py3-recipes --upload-channels $UPLOAD_CHANNEL --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels $UPLOAD_CHANNEL
 #
 # echo "
 #
 # ===== BUILDING PY3 =====
 #
 # "
-# conda-build-all /py3-recipes --upload-channels $upload_channel --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels $upload_channel
+# conda-build-all /py3-recipes --upload-channels $UPLOAD_CHANNEL --matrix-conditions "numpy >=1.10,<1.11" "python >=3.4" --inspect-channels $UPLOAD_CHANNEL
 #
 # echo "========== Running sort-of-dev-but-actually-tag builds =========="
-# devbuild /py3-dev --username $upload_channel --pyver 3.4 3.5
+# devbuild /py3-dev --username $UPLOAD_CHANNEL --pyver 3.4 3.5
 #
 EOF
