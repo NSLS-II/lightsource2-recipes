@@ -1,0 +1,45 @@
+{% set version = "0.4.1" %}
+package:
+  name: filestore
+  version: {{ version }}
+
+source:
+  url: https://github.com/NSLS-II/filestore/archive/v{{ version }}.tar.gz
+  fn: filestore-v{{ version }}.tar.gz
+  sha256: ff579fa66b5bd9d22eaae622502dfac7b018166c81b2d7b8c2035f42b81b5aec
+  patches:
+    - config.patch
+build:
+  number: 0
+  script: |
+    sed -i 's|__CONDA_BUILD_PLACEHOLDER__|'$PREFIX'/etc|' filestore/conf.py && \
+    python setup.py install --single-version-externally-managed --record=record.txt
+
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - boltons
+    - doct
+    - h5py
+    - jsonschema
+    - numpy
+    - pims
+    - pymongo
+    - python
+    - pyyaml
+    - six
+    - tifffile
+
+test:
+  requires:
+    - nslsii_dev_configuration
+  imports:
+    - filestore
+
+about:
+  home: https://github.com/NSLS-II/filestore
+  license: BSD

@@ -1,4 +1,4 @@
-diff --git a/metadatastore/conf.py b/metadatastore/conf.py
+diff --git a/filestore/conf.py b/filestore/conf.py
 index 5637dc7..10badef 100644
 --- filestore/conf.py
 +++ filestore/conf.py
