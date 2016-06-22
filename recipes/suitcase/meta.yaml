@@ -1,0 +1,41 @@
+{% set version = "0.3.0" %}
+package:
+  name: suitcase
+  version: {{ version }}
+
+source:
+  url: https://github.com/NSLS-II/suitcase/archive/v{{ version }}.tar.gz
+  fn: suitcase-v{{ version }}.tar.gz
+  sha256: 975792e196a76d83b58d4bfefd7f969e11db4da23f2f145e0683cf76e6f69116
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+
+  run:
+    - databroker
+    - h5py
+    - metadatastore
+    - numpy
+    - python
+
+test:
+  requires:
+    - nslsii_dev_configuration
+  imports:
+    - suitcase
+
+about:
+  home: https://github.com/nsls-ii/suitcase
+  license:  BSD 3-Clause
+  summary: data export facilities for NSLS-II
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
