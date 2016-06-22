@@ -32,3 +32,9 @@ about:
   home: https://github.com/jmoiron/humanize
   license: MIT License
   summary: 'python humanize utilities'
+
+extra:
+  maintainers:
+    - ericdill
+    - licode
+    - tacaswell
