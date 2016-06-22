@@ -1,0 +1,42 @@
+{% set version = "3.2.5" %}
+package:
+    name: pyepics
+    version: {{ version }}
+
+source:
+    url: https://github.com/pyepics/pyepics/archive/{{ version }}.tar.gz
+    fn: pyepics-{{ version }}.tar.gz
+    sha256: 435668d049e7bd1a65b6699fc3c95cb7df522412457102cd0b484948cf07b83d
+
+build:
+    number: 0
+    script: |
+      export PYEPICS_LIBCA=$PREFIX/lib/libca.so
+      echo "Using LIBCA from $PYEPICS_LIBCA"
+      python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - python
+        - setuptools
+        - numpy
+        - epics-base
+    run:
+        - python
+        - numpy
+        - epics-base
+
+test:
+    imports:
+        - epics
+
+about:
+    home: http://pyepics.github.io/pyepics/
+    license: Epics Open License
+    summary: Python interface to Epics Channel Access
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
