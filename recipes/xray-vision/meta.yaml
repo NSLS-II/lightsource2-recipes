@@ -1,0 +1,48 @@
+{% set version = "0.0.5" %}
+package:
+  name: xray-vision
+  version: {{ version }}
+
+source:
+  url: https://github.com/Nikea/xray-vision/archive/v{{ version }}.tar.gz
+  fn: xray-vision-v{{ version }}.tar.gz
+  sha256: 3c91340c356c9a20062b91f7781e440e92fdc5a1fe55833c5005008c99e2fce9
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+  run:
+    - python
+    - matplotlib
+    - numpy
+    - pandas
+    - pyqt
+    - scipy
+    - six
+
+test:
+  imports:
+    - xray_vision
+    - xray_vision.backend
+    - xray_vision.backend.mpl
+    - xray_vision.mask
+    - xray_vision.messenger
+    - xray_vision.messenger.mpl
+    - xray_vision.mpl_plotting
+    - xray_vision.qt_widgets
+    - xray_vision.utils
+
+about:
+  home: https://github.com/Nikea/xray-vision
+  license: BSD 3-Clause
+  summary: Visualization widgets and plotting helpers targeted at X-Ray Sciences
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
