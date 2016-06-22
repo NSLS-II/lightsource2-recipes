@@ -4,10 +4,6 @@
 
 env
 
-if [ "${UPLOAD_CHANNEL}" ];then
-    export UPLOAD_CHANNEL=lightsource2
-fi
-
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 IMAGE_NAME="nsls2/debian-with-miniconda:latest"
 config=$(cat <<CONDARC
