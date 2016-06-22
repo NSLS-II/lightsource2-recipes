@@ -1,13 +1,16 @@
+{% set version = "0.3.3" %}
 package:
   name: pims
-  version: "0.3.3"
+  version: {{ version }}
 
 source:
-  git_url: https://github.com/soft-matter/pims
-  git_tag: v0.3.3
+  url: https://github.com/soft-matter/pims/archive/v{{ version }}.tar.gz
+  fn: pims-v{{ version }}.tar.gz
+  sha256: b764c53bfa43863f9909d7bed6fcc95008edc4e6eedb979d78a2702531282a46
 
 build:
   number: 1
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
@@ -44,8 +47,22 @@ test:
     - pims.utils
     - pims.utils.misc
     - pims.utils.sort
+  requires:
+    - nose
+    - jinja2
+    - tifffile
+    - libtiff
+  commands:
+    - nosetests {{ environ.SRC_DIR }}/pims -v
 
 about:
   home: https://github.com/soft-matter/pims
   license: BSD
   summary: 'Python Image Sequence'
+
+extra:
+  maintainers:
+    - danielballan
+    - ericdill
+    - licode
+    - tacaswell
