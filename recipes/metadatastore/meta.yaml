@@ -1,6 +1,6 @@
 package:
   name: metadatastore
-  version: {{ GIT_DESCRIBE_TAG }}.post{{ GIT_DESCRIBE_NUMBER }}
+  version: {{ environ.GIT_DESCRIBE_TAG }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
   git_url: https://github.com/NSLS-II/metadatastore.git
@@ -9,7 +9,7 @@ source:
     - config.patch
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
@@ -31,9 +31,16 @@ requirements:
 test:
   requires:
     - nslsii_dev_configuration
-  # Python imports
   imports:
     - metadatastore
+    - metadatastore.api
+    - metadatastore.commands
+    - metadatastore.conf
+    - metadatastore.examples
+    - metadatastore.examples.sample_data
+    - metadatastore.examples.sample_data.common
+    - metadatastore.examples.sample_data.multisource_event
+    - metadatastore.examples.sample_data.temperature_ramp
 
 about:
   home: https://github.com/NSLS-II/metadatastore
