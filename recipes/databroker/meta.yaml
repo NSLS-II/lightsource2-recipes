@@ -1,6 +1,6 @@
 package:
   name: databroker
-  version: {{ environ.GIT_DESCRIBE_TAG }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
   git_url: https://github.com/NSLS-II/databroker
@@ -17,7 +17,7 @@ requirements:
     - setuptools
   run:
     - boltons
-    - channelarchiver  # Not actually used in this project...
+    - channelarchiver
     - cytoolz
     - doct
     - filestore >=0.2.0
@@ -32,24 +32,23 @@ requirements:
     - tzlocal
 
 test:
-  requires:
-    - nslsii_dev_configuration
-    - h5py
-  imports:
-    - databroker
-    - databroker.handler_registration
-    - databroker.pims_readers
-    - databroker.pivot
-    - databroker.examples
-    - databroker.examples.hdf_io
-    - databroker.examples.sample_data
-    - databroker.examples.sample_data.common_nonscalar
-    - databroker.examples.sample_data.frame_generators
-    - databroker.examples.sample_data.image_and_scalar
-    - databroker.examples.sample_data.step_scan
-    - databroker.utils
-    - databroker.utils.diagnostics
+  commands:
+    - |
+      export FS_PORT=27017
+      export FS_HOST=localhost
+      export FS_DATABASE=filestore
+      export MDS_PORT=27017
+      export MDS_HOST=localhost
+      export MDS_DATABASE=metadatastore
+      export MDS_TIMEZONE="US/EASTERN"
+      python -c "import databroker"
 
 about:
   home: https://github.com/NSLS-II/databroker
   license: BSD
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell

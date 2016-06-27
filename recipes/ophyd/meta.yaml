@@ -1,6 +1,6 @@
 package:
     name: ophyd
-    version: {{ environ.GIT_DESCRIBE_TAG }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+    version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
     git_url: https://github.com/NSLS-II/ophyd.git

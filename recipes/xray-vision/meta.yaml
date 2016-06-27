@@ -1,17 +1,19 @@
 package:
   name: xray-vision
-  version: {{ GIT_DESCRIBE_TAG }}.post{{ GIT_DESCRIBE_NUMBER }}
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
   git_url: https://github.com/Nikea/xray-vision
   git_rev: master
 
 build:
-  number: 1
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
     - python
+    - setuptools
   run:
     - python
     - numpy
@@ -20,18 +22,15 @@ requirements:
     - six
 
 test:
-  requires:
-    - nose
-
   imports:
     - xray_vision
-    - xray_vision.qt_widgets
-    - xray_vision.messenger
-    - xray_vision.messenger.mpl
-    - xray_vision.backend
-    - xray_vision.backend.mpl
-
 
 about:
   home: https://github.com/Nikea/xray-vision
   license: 3-Clause BSD
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
