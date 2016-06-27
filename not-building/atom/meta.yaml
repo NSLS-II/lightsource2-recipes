@@ -1,6 +1,6 @@
 package:
   name: atom
-  version: {{ GIT_DESCRIBE_TAG }}
+  version: {{ GIT_DESCRIBE_TAG }}.post{{ GIT_DESCRIBE_NUMBER }}
 
 source:
   git_rev: master
@@ -9,7 +9,7 @@ source:
    - setup.py.patch
 
 build:
-  number: 0
+  # number: 0
   skip: True  # [py3k]
 
 requirements:
