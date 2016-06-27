@@ -1,17 +1,19 @@
 package:
   name: historydict
-  version: {{ GIT_DESCRIBE_TAG }}.post{{ GIT_DESCRIBE_NUMBER }}
+  version: {{ environ.GIT_DESCRIBE_TAG }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
   git_url: https://github.com/Nikea/historydict.git
   git_rev: master
 
 build:
-  number: 1
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
     - python
+    - setuptools
 
   run:
     - python
@@ -20,3 +22,13 @@ requirements:
 test:
   imports:
     - historydict
+
+about:
+  home: https://github.com/Nikea/historydict
+  license: BSD 3-Clause
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
