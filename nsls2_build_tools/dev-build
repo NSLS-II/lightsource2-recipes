@@ -202,21 +202,21 @@ run_tag_build() {
 run_dev_build |& tee -a $DEV_LOG
 run_tag_build |& tee -a $TAG_LOG
 
-echo "Removing download trash from logs"
-sed '/% |/d' $DEV_LOG > /tmp/$LOGNAME/devlog
-sed '/% |/d' $TAG_LOG > /tmp/$LOGNAME/taglog
+# echo "Removing download trash from logs"
+# sed '/% |/d' $DEV_LOG > /tmp/$LOGNAME/devlog
+# sed '/% |/d' $TAG_LOG > /tmp/$LOGNAME/taglog
 
-echo "Emailing logs"
-echo "Build status for $DATE
-=============================================
-DEV LOG SUMMARY
-
-`cat $DEV_LOG.summary`
-
-=============================================
-TAG LOG SUMMARY
-`cat $TAG_LOG.summary`
-" | mutt -s "log test" $EMAIL -y -a /tmp/$LOGNAME/devlog /tmp/$LOGNAME/taglog --
+# echo "Emailing logs"
+# echo "Build status for $DATE
+# =============================================
+# DEV LOG SUMMARY
+#
+# `cat $DEV_LOG.summary`
+#
+# =============================================
+# TAG LOG SUMMARY
+# `cat $TAG_LOG.summary`
+# " | mutt -s "log test" $EMAIL -y -a /tmp/$LOGNAME/devlog /tmp/$LOGNAME/taglog --
 
 echo "Removing the lock file."
 rm $LOCK_FILE
