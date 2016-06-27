@@ -669,6 +669,9 @@ def safe_run_build(metas_to_build, username, metas_to_skip,
             logging.info('Packages that were built and uploaded')
             logging.info(pformat(results['uploaded']))
 
+        if results['upload_failed'] or results['build_or_test_failed']:
+            # exit with a failed status code
+            sys.exit(1)
 
 if __name__ == "__main__":
     init_logging(None, loglevel=logging.DEBUG)
