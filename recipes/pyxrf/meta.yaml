@@ -1,6 +1,6 @@
 package:
   name: pyxrf
-  version: {{ GIT_DESCRIBE_TAG }}.post{{ GIT_DESCRIBE_NUMBER }}
+  version: {{ environ.GIT_DESCRIBE_TAG }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
   git_url: https://github.com/NSLS-II/pyxrf
@@ -8,6 +8,7 @@ source:
 
 build:
   number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
   entry_points:
     - pyxrf = pyxrf.gui:run
   skip: True  # [py3k]
@@ -28,6 +29,16 @@ requirements:
     - pandas
     - scikit-beam
 
+test:
+  imports:
+    - pyxrf
+
 about:
   home: https://github.com/NSLS-II/pyxrf
   license: 3-Clause BSD
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
