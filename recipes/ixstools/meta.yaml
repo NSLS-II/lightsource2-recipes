@@ -1,13 +1,14 @@
 package:
   name: ixstools
-  version: {{ GIT_DESCRIBE_TAG }}.post{{ GIT_DESCRIBE_NUMBER }}
+  version: {{ environ.GIT_DESCRIBE_TAG }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
   git_url: https://github.com/NSLS-II-IXS/ixstools
   git_rev: master
 
 build:
-  number: 1
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
   entry_points:
     - align = ixstools.align:main
 
@@ -34,5 +35,11 @@ test:
     - ixstools.io
 
 about:
-  home: http://scikit-beam.github.io/scikit-beam/
-  license: 3-Clause BSD
+  home: http://github.com/nsls-ii-ixs/ixstools
+  license: BSD 3-Clause
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
