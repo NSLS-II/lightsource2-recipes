@@ -5,10 +5,11 @@ package:
 source:
   git_url: https://github.com/NSLS-II/filestore
   git_rev: master
+  patches:
+    - config.patch
 
 build:
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
@@ -16,23 +17,21 @@ requirements:
     - six
 
   run:
-    - boltons
-    - doct
+    - python
     - h5py
+    - six
+    - pyyaml
     - jsonschema
     - pims
-    - pymongo
-    - python
-    - pyyaml
-    - six
     - tifffile
+    - boltons
+    - pymongo
+    - doct
 
 test:
   imports:
     - filestore
-    - filestore.test
-    - filestore.readers
 
 about:
   home: https://github.com/NSLS-II/filestore
-  license: BSD 3-Clause
+  license: BSD
