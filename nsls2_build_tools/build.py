@@ -642,6 +642,8 @@ def safe_run_build(metas_to_build, username, metas_to_skip,
         logging.error(e)
         logging.error("Full stack trace")
         logging.error(traceback.format_exc())
+        # exit with a failed status code
+        sys.exit(1)
     else:
         logging.info("Build summary")
         logging.info('Expected {} packages'.format(len(metas_to_build)))
