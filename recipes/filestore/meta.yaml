@@ -1,15 +1,14 @@
 package:
   name: filestore
-  version: {{ GIT_DESCRIBE_TAG }}.post{{ GIT_DESCRIBE_NUMBER }}
+  version: {{ environ.GIT_DESCRIBE_TAG }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
   git_url: https://github.com/NSLS-II/filestore
   git_rev: master
-  patches:
-    - config.patch
 
 build:
-  number: 1
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
@@ -17,27 +16,23 @@ requirements:
     - six
 
   run:
-    - python
+    - boltons
+    - doct
     - h5py
-    - six
-    - pyyaml
     - jsonschema
     - pims
-    - tifffile
-    - boltons
     - pymongo
-    - doct
+    - python
+    - pyyaml
+    - six
+    - tifffile
 
 test:
-  requires:
-    - nslsii_dev_configuration
   imports:
     - filestore
-    - filestore.api
-    - filestore.conf
-    - filestore.file_writers
-    - filestore.handlers
+    - filestore.test
+    - filestore.readers
 
 about:
   home: https://github.com/NSLS-II/filestore
-  license: BSD
+  license: BSD 3-Clause
