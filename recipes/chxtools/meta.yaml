@@ -5,7 +5,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/NSLS-II-CHX/chxtools/archive/{{ version }}.tar.gz
+  url: https://github.com/NSLS-II-CHX/chxtools/archive/v{{ version }}.tar.gz
   fn: chxtools-v{{ version }}.tar.gz
   sha256: 504bf0f92ae7d83d3ba5e38a718b67ccdae5887c9d28e8a0bf169754745bd45c
 

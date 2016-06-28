@@ -17,10 +17,10 @@ build:
 
 requirements:
   build:
-    - readline 6.2.5
+    - readline 6.2*
 
   run:
-    - readline 6.2.5
+    - readline 6.2*
 
 about:
     home: http://www.aps.anl.gov/epics

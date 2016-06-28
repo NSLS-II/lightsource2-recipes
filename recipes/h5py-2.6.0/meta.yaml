@@ -5,13 +5,14 @@ package:
     version: {{ version }}
 
 source:
-    fn: h5py-{{ version }}
+    fn: h5py-{{ version }}.tar.gz
     url: https://github.com/h5py/h5py/archive/{{ version }}.tar.gz
     sha256: 7fec1d6f19418b3a624bbb90c7baa105952c0bb6cfbb6676f436fac44fc6ccfb
 
 build:
     number: 0
     skip: True  # [py2k]
+    script: HDF5_DIR={{ environ.PREFIX }} python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
     build:

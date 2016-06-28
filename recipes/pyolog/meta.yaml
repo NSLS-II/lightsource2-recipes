@@ -24,9 +24,10 @@ requirements:
         - six
         - ipython
 
-test:
-  imports:
-        - pyOlog
+# don't import pyolog because it looks for config info on import...
+# test:
+#   imports:
+#         - pyOlog
 
 about:
     home: http://olog.github.io/
