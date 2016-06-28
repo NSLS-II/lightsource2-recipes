@@ -1,30 +1,56 @@
-from argparse import ArgumentParser
-import pdb
-import yaml
-import sys
-import traceback
-import subprocess
-import os
-import time
-import logging
-import yaml
-import networkx as nx
-import copy
-from conda_build.metadata import MetaData
-import signal
-from pprint import pformat, pprint
-# create the anaconda cli
-import binstar_client
-from argparse import Namespace
-import itertools
-import tempfile
+#!/usr/bin/env conda-execute
+"""
+CLI to build a folder full of recipes.
+
+Example usage:
+
+build.py /folder/of/recipes --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token <your anaconda token>
+
+build.py --help
+"""
+
+# conda execute
+# env:
+# - conda-build
+# - anaconda-client
+# - networkx
+# run_with: python
+
 import getpass
+import itertools
+import logging
+import os
+import pdb
+import signal
+import subprocess
+import sys
+import tempfile
+import time
+import traceback
+from argparse import ArgumentParser
+from contextlib import contextmanager
+from pprint import pformat
+
+import binstar_client
+import yaml
+from conda_build.metadata import MetaData
 
 current_subprocs = set()
 shutdown = False
 
 DEFAULT_PY = '3.5'
 DEFAULT_NP_VER = '1.11'
+
+
+@contextmanager
+def env_var(key, value):
+    old_val = os.environ.get(key)
+    os.environ[key] = value
+    yield
+    if old_val:
+        os.environ[key] = old_val
+    else:
+        del os.environ[key]
 
 
 def handle_signal(signum, frame):
@@ -202,10 +228,9 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
                                          numpy_build_versions):
             logging.debug("Checking py={} and npy={}".format(py, npy))
             try:
-                os.environ['CONDA_NPY'] = npy
-                path_to_built_package, build_cmd = determine_build_name(
-                    recipe_dir, '--python', py, '--numpy', npy)
-                del os.environ['CONDA_NPY']
+                with env_var('CONDA_NPY', npy):
+                    path_to_built_package, build_cmd = determine_build_name(
+                        recipe_dir, '--python', py, '--numpy', npy)
             except RuntimeError as re:
                 logging.error(re)
                 continue
@@ -351,7 +376,7 @@ def resolve_dependencies(package_dependencies):
                          ''.format(remaining_dependencies))
 
 
-def run_build(metas, username, token=None, upload=True):
+def run_build(metas, username, token=None, upload=True, allow_failures=False):
     """Build and upload packages that do not already exist at {{ username }}
 
     Parameters
@@ -371,6 +396,8 @@ def run_build(metas, username, token=None, upload=True):
         The reason why there is this additional flag is that sometimes you need
         a token to authenticate to a channel to see if packages already exist
         but you might not want to upload that package.
+    allow_failures : bool, optional
+
     """
     if token is None:
         token = get_binstar_token()
@@ -402,26 +429,26 @@ def run_build(metas, username, token=None, upload=True):
         # stdout, stderr, returncode = Popen(build_command + ['--output'])
         # output the build command
         print("Build cmd: %s" % ' '.join(build_command))
-        np = None
+        np = ''
         try:
             np_idx = build_command.index('--numpy')
         except ValueError:
             # --numpy is not in build_command
             pass
         else:
+            # get the numpy version as the argument following the `--numpy`
+            # flag
             np = build_command[np_idx+1]
-        if np:
-            os.environ['CONDA_NPY'] = np
-        stdout, stderr, returncode = Popen(build_command)
-        if np:
-            del os.environ['CONDA_NPY']
+        with env_var('CONDA_NPY', np):
+            stdout, stderr, returncode = Popen(build_command)
         if returncode != 0:
             build_or_test_failed.append(build_name)
             logging.error('\n\n========== STDOUT ==========\n')
             logging.error(pformat(stdout))
             logging.error('\n\n========== STDERR ==========\n')
             logging.error(pformat(stderr))
-            continue
+            if not allow_failures:
+                sys.exit(1)
         if token and upload:
             print("UPLOAD START")
             cmd = UPLOAD_CMD + [full_build_path]
@@ -543,6 +570,7 @@ already exist are built.
         nargs='?',
         help='Name of the log file to write'
     )
+    # TODO Verify that `--site` actually works...
     p.add_argument(
         "-s", "--site",
         nargs='?',
@@ -571,6 +599,11 @@ already exist are built.
     )
     p.add_argument(
         '--pdb', help="Enable PDB debugging on exception",
+        default=False, action="store_true"
+    )
+    p.add_argument(
+        '--allow-failures', help=("Enable build.py to continue building conda "
+                                  "packages if one of them fails"),
         default=False, action="store_true"
     )
     args = p.parse_args()
@@ -607,19 +640,41 @@ def init_logging(log_file=None, loglevel=logging.INFO):
 
 
 def run(recipes_path, python, site, username, numpy, token=None,
-        no_upload=False):
+        upload=True, allow_failures=False):
+    """
+    Run the build for all recipes listed in recipes_path
+
+    Parameters
+    ----------
+    recipes_path : str
+        Folder that contains conda recipes
+    python : iterable
+        Iterable of python versions to build conda packages for
+    site : str
+        Anaconda server API url.
+    username : str
+        The username to check for packages and to upload built packages to
+    numpy : iterable
+        Iterable of numpy versions to build conda packages for
+    token : str, optional
+        Token used to authenticate against `site` so that packages can be
+        uploaded. If no token is provided, os.environ['BINSTAR_TOKEN'] will be
+        looked for. If that is not set, this script will likely error out.
+    upload : bool, optional
+        False: Don't upload built packages.
+        Defaults to True
+    allow_failures : bool, optional
+        True: Continue building packages after one has failed.
+        Defaults to False
+    """
     # check to make sure that the recipes_path exists
     if not os.path.exists(recipes_path):
         logging.error("The recipes_path: '%s' does not exist." % recipes_path)
         sys.exit(1)
-    # print('token={}'.format(token))
     # just disable binstar uploading whenever this script is running.
     print('Disabling binstar upload. If you want to turn it back on, '
           'execute: `conda config --set binstar_upload true`')
     set_binstar_upload(False)
-
-    # site = 'https://pergamon.cs.nsls2.local:8443/api'
-    # os.environ['REQUESTS_CA_BUNDLE'] = '/etc/certificates/ca_cs_nsls2_local.crt'
 
     anaconda_cli = get_anaconda_cli(token, site)
     if numpy is None:
@@ -629,18 +684,16 @@ def run(recipes_path, python, site, username, numpy, token=None,
     # get all file names that are in the channel I am interested in
     packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
 
-    to_build, dont_build = decide_what_to_build(recipes_path, python, packages,
+    metas_to_build, metas_to_skip = decide_what_to_build(recipes_path, python, packages,
                                                 numpy)
-    safe_run_build(to_build, username, dont_build, token, not no_upload)
+    if metas_to_build == []:
+        print('No recipes to build!. Exiting 0')
+        sys.exit(0)
 
-
-def safe_run_build(metas_to_build, username, metas_to_skip,
-                   token=None, upload=True):
+    # Run the actual build
     try:
-        if metas_to_build == []:
-            print('No recipes to build!. Exiting 0')
-            sys.exit(0)
-        results = run_build(metas_to_build, username, token=token, upload=upload)
+        results = run_build(metas_to_build, username, token=token,
+                            upload=upload, allow_failures=allow_failures)
         results['alreadybuilt'] = sorted([skip.build_name
                                           for skip in metas_to_skip])
     except Exception as e:
@@ -681,6 +734,4 @@ def safe_run_build(metas_to_build, username, metas_to_skip,
             sys.exit(1)
 
 if __name__ == "__main__":
-    init_logging(None, loglevel=logging.DEBUG)
-    run('../staged-recipes-dev/pyall/xray-vision', ['2.7'], None,
-        'ericdill', None)
+    cli()
