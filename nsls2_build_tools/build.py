@@ -280,6 +280,7 @@ def build_dependency_graph(metas):
     """
     run_deps = {}
     build_deps = {}
+    test_deps = {}
     logging.debug("Building dependency graph for %s libraries", len(metas))
 
     for meta in metas:
@@ -295,9 +296,11 @@ def build_dependency_graph(metas):
             meta.meta.get('test', {}).get('requires', []))
         logging.debug('test_deps=%s', test_deps)
     # pdb.set_trace()
-    union = copy.deepcopy(build_deps)
-    for package, deps in run_deps.items():
-        union[package] = set(build_deps.get(package) + run_deps.get(package))
+    # union = copy.deepcopy(build_deps)
+    union = {k: set(build_deps.get(k, []) + run_deps.get(k, []) +
+                    test_deps.get(k, []))
+             for k in set(list(run_deps.keys()) + list(build_deps.keys()) +
+                          list(test_deps.keys()))}
     # logging.debug()
     # drop all extra packages that I do not have conda recipes for
     for name, items in union.items():
