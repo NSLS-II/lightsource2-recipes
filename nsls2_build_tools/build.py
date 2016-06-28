@@ -638,7 +638,8 @@ def safe_run_build(metas_to_build, username, metas_to_skip,
                    token=None, upload=True):
     try:
         if metas_to_build == []:
-            raise Exception("No recipes to build! Exiting...")
+            print('No recipes to build!. Exiting 0')
+            sys.exit(0)
         results = run_build(metas_to_build, username, token=token, upload=upload)
         results['alreadybuilt'] = sorted([skip.build_name
                                           for skip in metas_to_skip])
