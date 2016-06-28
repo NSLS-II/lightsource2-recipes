@@ -291,6 +291,9 @@ def build_dependency_graph(metas):
         run_deps[name] = sanitize_names(
             meta.meta.get('requirements', {}).get('run', []))
         logging.debug('run_deps=%s', run_deps)
+        test_deps[name] = sanitize_names(
+            meta.meta.get('test', {}).get('requires', []))
+        logging.debug('test_deps=%s', test_deps)
     # pdb.set_trace()
     union = copy.deepcopy(build_deps)
     for package, deps in run_deps.items():
