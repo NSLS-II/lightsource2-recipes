@@ -16,13 +16,15 @@ requirements:
   build:
     - python
   run:
-    - python
+    # icu is needed until https://github.com/conda-forge/staged-recipes/issues/907 is resolved
+    - icu  # [py34]
     - lmfit
     - matplotlib
     - numpy
     - pandas
-    - scipy
+    - python
     - pyyaml
+    - scipy
 
 test:
   requires:

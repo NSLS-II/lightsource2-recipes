@@ -15,10 +15,12 @@ requirements:
     - python
     - setuptools
   run:
-    - python
+    # icu is needed until https://github.com/conda-forge/staged-recipes/issues/907 is resolved
+    - icu  # [py34]
     - numpy
     - matplotlib
     - pyqt
+    - python
     - six
 
 test:
