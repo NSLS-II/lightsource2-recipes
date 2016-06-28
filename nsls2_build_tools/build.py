@@ -617,7 +617,7 @@ already exist are built.
     loglevel = logging.DEBUG if args_dct.pop('verbose') else logging.INFO
     log = args_dct.pop('log')
     init_logging(log_file=log, loglevel=loglevel)
-
+    args_dct['upload'] = not args_dct.pop('no_upload')
     args_dct['recipes_path'] = os.path.abspath(args.recipes_path)
     print(args)
     run(**args_dct)
