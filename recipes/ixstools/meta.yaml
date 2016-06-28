@@ -20,6 +20,7 @@ requirements:
     build:
         - python
     run:
+        # icu is needed until https://github.com/conda-forge/staged-recipes/issues/907 is resolved
         - icu  # [py34]
         - lmfit
         - matplotlib
