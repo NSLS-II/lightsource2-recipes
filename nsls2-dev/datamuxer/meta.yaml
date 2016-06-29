@@ -1,0 +1,40 @@
+package:
+  name: datamuxer
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+
+source:
+  git_url: https://github.com/NSLS-II/datamuxer
+  git_rev: master
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - python
+    - pandas
+    - six
+    - scipy
+    - tzlocal
+
+test:
+  requires:
+    - nslsii_dev_configuration
+    - databroker
+  imports:
+    - datamuxer
+
+about:
+  home: https://github.com/NSLS-II/datamuxer
+  license: BSD
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell

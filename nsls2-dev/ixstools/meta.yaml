@@ -1,0 +1,47 @@
+package:
+  name: ixstools
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+
+source:
+  git_url: https://github.com/NSLS-II-IXS/ixstools
+  git_rev: master
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  entry_points:
+    - align = ixstools.align:main
+
+requirements:
+  build:
+    - python
+  run:
+    # icu is needed until https://github.com/conda-forge/staged-recipes/issues/907 is resolved
+    - icu  # [py34]
+    - lmfit
+    - matplotlib
+    - numpy
+    - pandas
+    - python
+    - pyyaml
+    - scipy
+
+test:
+  requires:
+    - nose
+    - coverage
+  imports:
+    - ixstools
+    - ixstools.align
+    - ixstools.fit
+    - ixstools.io
+
+about:
+  home: http://github.com/nsls-ii-ixs/ixstools
+  license: BSD 3-Clause
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell

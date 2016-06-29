@@ -1,0 +1,48 @@
+package:
+  name: bluesky
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+
+source:
+  git_url: https://github.com/NSLS-II/bluesky
+  git_rev: master
+
+build:
+  number: 0
+  skip: True  # [py2k]
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+
+  run:
+    - python
+    - jsonschema
+    - super_state_machine
+    - numpy
+    - metadatastore
+    - databroker
+    - matplotlib
+    - prettytable
+    - cycler
+    - traitlets
+    - lmfit
+    - ipython
+    - historydict
+    - tifffile
+    - event-model
+    - boltons
+
+
+test:
+  requires:
+    - nslsii_dev_configuration
+  imports:
+    - bluesky
+    - bluesky.examples
+    - bluesky.callbacks
+    - bluesky.register_mds
+
+about:
+  home: https://github.com/NSLS-II/bluesky
+  license: BSD

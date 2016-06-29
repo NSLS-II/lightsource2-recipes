@@ -1,0 +1,38 @@
+package:
+  name: xray-vision
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+
+source:
+  git_url: https://github.com/Nikea/xray-vision
+  git_rev: master
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    # icu is needed until https://github.com/conda-forge/staged-recipes/issues/907 is resolved
+    - icu  # [py34]
+    - numpy
+    - matplotlib
+    - pyqt
+    - python
+    - six
+
+test:
+  imports:
+    - xray_vision
+
+about:
+  home: https://github.com/Nikea/xray-vision
+  license: 3-Clause BSD
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell

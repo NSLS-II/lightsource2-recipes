@@ -1,0 +1,54 @@
+package:
+  name: databroker
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+
+source:
+  git_url: https://github.com/NSLS-II/databroker
+  git_rev: master
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - boltons
+    - channelarchiver
+    - cytoolz
+    - doct
+    - filestore >=0.2.0
+    # - h5py  # h5py is a dep in databroker/examples/hdf_io.py
+    - metadatastore >=0.3.1
+    - pandas
+    - pims
+    - python
+    - requests
+    - singledispatch [py27]
+    - six
+    - tzlocal
+
+test:
+  commands:
+    - |
+      export FS_PORT=27017
+      export FS_HOST=localhost
+      export FS_DATABASE=filestore
+      export MDS_PORT=27017
+      export MDS_HOST=localhost
+      export MDS_DATABASE=metadatastore
+      export MDS_TIMEZONE="US/EASTERN"
+      python -c "import databroker"
+
+about:
+  home: https://github.com/NSLS-II/databroker
+  license: BSD
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell

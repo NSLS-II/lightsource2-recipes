@@ -1,0 +1,37 @@
+package:
+  name: doct
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+
+source:
+  git_url: https://github.com/NSLS-II/doct
+  git_rev: master
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - six
+
+  run:
+    - python
+    - six
+    - humanize
+    - prettytable
+
+test:
+  imports:
+    - doct
+
+about:
+  home: https://github.com/NSLS-II/document
+  license: BSD
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
