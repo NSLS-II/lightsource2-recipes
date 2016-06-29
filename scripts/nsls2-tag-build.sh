@@ -10,8 +10,12 @@ if [ $ANACONDA_SERVER_URL == "https://api.anaconda.org" ]; then
   CONDA_FORGE="conda-forge"
 fi;
 
+LOGDIR=/home/$LOGNAME/build-logs/`date +%Y`/`date +%m`/`date +%d`
+mkdir -p $LOGDIR
+
 cat << EOF | docker run -i \
                         -v ${REPO_ROOT}:/repo \
+                        -v ${LOGDIR}:/logs
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
                         bash || exit $?
@@ -44,6 +48,7 @@ cat ~/.condarc
 
 conda install conda-build anaconda-client
 
+LOGFILE="tag-`date +%H.%M`"
 
 echo UPLOAD_CHANNEL=$UPLOAD_CHANNEL
 
@@ -58,6 +63,6 @@ export PYTHONUNBUFFERED=1
 # COMMAND="conda-execute ~/build.py"
 pip install https://github.com/nsls-ii/conda-build-utils/zipball/master#egg=conda_build_utils
 COMMAND="devbuild"
-devbuild /repo/config -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11
-devbuild /repo/recipes -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11
+devbuild /repo/config -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --log /logs/$LOGFILE
+devbuild /repo/recipes -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --log /logs/$LOGFILE
 EOF

@@ -1,4 +1,4 @@
-#!/usr/bin/env conda-execute
+#!/usr/bin/env python
 """
 CLI to mirror all files in a package from one conda channel to another
 
@@ -10,11 +10,13 @@ CLI to mirror all files in a package from one conda channel to another
 # run_with: python
 import os
 from argparse import ArgumentParser
-from pprint import pprint
+from pprint import pformat
 import re
 import sys
 import subprocess
 import tempfile
+import logging
+logger = logging.getLogger('mirror.py')
 
 import binstar_client
 
@@ -32,9 +34,12 @@ def Popen(cmd, *args, **kwargs):
     stdout : """
     # capture the output with subprocess.Popen
     try:
-        proc = subprocess.Popen(cmd, stderr=subprocess.PIPE, *args, **kwargs)
+        proc = subprocess.Popen(cmd,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                *args, **kwargs)
     except subprocess.CalledProcessError as cpe:
-        print(cpe)
+        logger.error(cpe)
     stdout, stderr = proc.communicate()
     if stdout:
         stdout = stdout.decode()
@@ -136,24 +141,38 @@ def cli():
               "'win-64'.  Defaults to 'linux-64'"),
         default=["linux-64"]
     )
-
+    p.add_argument(
+        '--log',
+        nargs="?",
+        action="store",
+        help="File to log to",
+    )
     args = p.parse_args()
     args.to_channel = 'main'
     args.from_channel = 'main'
-
-    print("\nSummary"
-          "\n-------")
-    print("Mirroring from", args.from_owner, "at", args.from_domain)
-    print("Mirroring to", args.to_owner, "at", args.to_domain)
-    print("\nPlatforms"
-          "\n---------")
-    pprint(args.platform)
-    print("\nPackages list"
-          "\n-------------")
+    if args.log:
+        # init some logging
+        stream = logging.StreamHandler()
+        filehandler = logging.FileHandler(args.log, mode='w')
+        stream.setLevel(logging.INFO)
+        filehandler.setLevel(logging.INFO)
+        logger.addHandler(stream)
+        logger.addHandler(filehandler)
+        logger.setLevel(logging.INFO)
+        logger.info("Logging to {}".format(args.log))
+    logger.info("\nSummary")
+    logger.info("-------")
+    logger.info("Mirroring from {} at {}".format(args.from_owner, args.from_domain))
+    logger.info("Mirroring to {} at {}".format(args.to_owner, args.to_domain))
+    logger.info("\nPlatforms")
+    logger.info("---------")
+    logger.info(pformat(args.platform))
+    logger.info("\nPackages list")
+    logger.info("-------------")
     if args.all:
-        print("**all packages**")
+        logger.info("**all packages**")
     else:
-        pprint(args.packages)
+        logger.info(pformat(args.packages))
     try:
         args.from_owner, args.from_channel = args.from_owner.split('/')
     except ValueError:
@@ -168,20 +187,20 @@ def cli():
                                       domain=args.from_domain,
                                       verify=args.from_disable_verify)
     to_cli = binstar_client.Binstar(token=args.to_token,
-                                    domain=args.to_domain, 
+                                    domain=args.to_domain,
                                     verify=args.to_disable_verify)
 
     # Get the package metadata from the specified anaconda channel
     from_packages = from_cli.show_channel(args.from_channel,
                                           args.from_owner)
-    from_files = {f['basename']: f for f in from_packages['files'] 
+    from_files = {f['basename']: f for f in from_packages['files']
                   if f['attrs']['subdir'] in args.platform}
     if args.list:
         # print out the list of all files on the source channel and exit
-        print("""
-    Listing all files on {}/{}/{}
-""".format(args.from_domain, args.from_owner, args.from_channel))
-        pprint(list(from_files.keys()))
+        logger.info("\nComplete files list on {} at {}:".format(
+            args.from_owner, args.from_domain))
+        logger.info("-------------------")
+        logger.info(pformat(list(from_files.keys())))
         sys.exit(0)
 
     # Find the packages on the source channel that match the packages specified
@@ -192,104 +211,56 @@ def cli():
         matched = [f for f in from_files.keys()
                    for p in args.packages if p in f]
     # and print them out
-    print("""
-    Packages that match {} on {}/{}/{}
-""".format(args.packages, args.from_domain, args.from_owner, args.from_channel))
-    pprint(matched)
+    logger.info("\nFiles that exist on {} at {}:".format(args.from_owner,
+                                                         args.from_domain))
+    logger.info(pformat(matched))
 
     # get the package metadata on the target channel
     to_packages = to_cli.show_channel(args.to_channel, args.to_owner)
     to_files = {f['basename']: f for f in to_packages['files']}
+    # figure out which packages already exist
+    already_exist = [f for f in matched if f in to_files.keys()]
+    logger.info("\nFiles that already exist on {} at {}:".format(
+        args.to_owner, args.to_domain))
+    logger.info(pformat(already_exist))
     # figure out which of these packages actually need to be copied
     to_copy = [f for f in matched if f not in to_files.keys()]
-
     # print out the packages that need to be copied
-    print("""
-    Packages that match {} and do not already exist on {}/{}/{}
-""".format(args.packages, args.to_domain, args.to_owner, args.to_channel))
-    pprint(to_copy)
+    logger.info("\nFiles to be uploaded to {} at {}:".format(args.to_owner,
+                                                             args.to_domain))
+    logger.info(pformat(to_copy))
 
     if args.dry_run:
         # don't upload anything.  Print out why we are quitting and then quit
-        print("""
-    Exiting because --dry-run flag is set
-""")
+        logger.info("\nExiting because --dry-run flag is set")
         sys.exit(0)
     download_dir = tempfile.TemporaryDirectory(prefix='mirror')
 
     upload_cmd = ['anaconda',
                   '--site', args.to_domain,
                   '-t', args.to_token,
-                  'upload', 
+                  'upload',
                   '-u', args.to_owner,]
     for copy_filename in to_copy:
         # get the full metadata
         md = from_files[copy_filename]
         login, package_name, version, platform, filename = md['full_name'].split('/')
         destination = os.path.join(download_dir.name, filename)
-        print("Downloading {} to {}".format(md['basename'], destination))
+        logger.info("Downloading {} to {}".format(md['basename'],
+                                                  destination))
         ret = from_cli.download(login, package_name, md['version'], md['basename'])
         with open(destination, 'wb') as f:
             f.write(ret.content)
         assert os.stat(destination).st_size == md['size']
-    
-        stdout, stderr, returncode = Popen(upload_cmd + [destination], cwd=download_dir.name)
+        logger.info('Uploading {} to {} at {}\n'.format(filename,
+                                                      args.to_owner,
+                                                      args.to_domain))
+        stdout, stderr, returncode = Popen(upload_cmd + [destination])
         if returncode != 0:
-            print("""
-    stderr from {}
-""".format(upload_cmd))
-            pprint(stderr)
+            logger.error("stderr from {}".format(upload_cmd))
+            logger.info(pformat(stderr))
             sys.exit(1)
-    sys.exit(0) 
-    upload_cmd = ['anaconda',
-                  '--site', args.to_domain,
-                  'upload', 
-                  '-u', args.to_owner,
-                  '-t', args.to_token,
-                  '*'] 
-
-    stdout, stderr, returncode = Popen(upload_cmd, cwd=download_dir.name)
-    if returncode != 0:
-        print("""
-    stderr from {}
-""".format(upload_cmd))
-        pprint(stderr)
-        sys.exit(1)
-    sys.exit(0)
-  
-    # now grab the full file names, which anaconda upload needs.  This is the
-    # 'spec' portion of the `anaconda upload` command
-    # download_files =
-    full_names = [f['full_name'] for f in from_packages['files']
-                  if f['basename'] in to_copy]
-    print("Actual package names to be uploaded")
-    pprint(full_names)
-    # loop over all packages that need to be copied
-    for full_name in full_names:
-        cmd = ['anaconda', 'copy',
-               '--to-owner', args.to_owner,
-               '--to-label', args.to_channel,
-               full_name]
-
-        printable_cmd = cmd
-        if args.to_token is not None:
-            # insert the token argument only if it exists. Also scrub it
-            # for printing
-            cmd.insert(1, args.to_token)
-            cmd.insert(1, '--token')
-            printable_cmd = cmd.copy()
-            printable_cmd[2] = 'SCRUBBED_TOKEN'
-        print('Upload command: {}'.format(' '.join(printable_cmd)))
-        # actually do the upload
-        stdout, stderr, returncode = Popen(cmd)
-        # print(stdout)
-        if returncode != 0:
-            print("""
-    stderr from {}
-""".format(cmd))
-            pprint(stderr)
-            sys.exit(1)
-
+    logger.info("Script complete.")
 
 if __name__ == "__main__":
     cli()
