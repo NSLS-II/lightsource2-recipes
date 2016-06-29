@@ -1,0 +1,213 @@
+#!/bin/bash
+# This is a script that can be used on any workstation to build the full stack
+# without docker.  It is suggested to add a "bootstrapping" script in the home
+# directory of the user and add that bootstrap script to the crontab.
+#
+# e.g. make the following file in your home directory and call it 'bootstrap-build.sh'
+# IMPORTANT: ADD YOUR BINSTAR TOKEN TO THIS FILE OR IT WON'T UPLOAD!
+#
+# #!/bin/bash
+# # bootstrap-build.sh
+# target=/tmp/$LOGNAME-dev-build
+# rm -f $target
+# wget https://raw.githubusercontent.com/nsls2/lightsource2-recipes/master/scripts/dev-build -O $target
+# BINSTAR_TOKEN=your_binstar_token bash $target
+#
+# Then edit the crontab (`crontab -e`) and add the following line
+#
+# 0 * * * * bash ~/boostrap-build.sh
+#
+# and save the crontab.  This file will then be run every hour at the top of
+# the hour
+
+set -e
+LOCK_FILE=/tmp/$LOGNAME.builder.lock
+if [[ -f $LOCK_FILE ]];
+then
+  echo "Build aborting. Lock file is present"
+  echo "Build aborting. Lock file is present" | mutt -s "log test" $EMAIL -y
+  exit 1
+else
+  echo "Making lock file at $LOCK_FILE"
+  touch $LOCK_FILE
+fi;
+
+rm -rf /tmp/$LOGNAME
+if [ "$RAMDISK_DIR" == "" ]; then
+  RAMDISK_DIR="/tmp/$LOGNAME/ramdisk"
+  mkdir -p $RAMDISK_DIR
+  echo "RAMDISK_DIR set to $RAMDISK_DIR"
+else
+  echo "RAMDISK_DIR already exists at $RAMDISK_DIR"
+fi
+
+# if the ramdisk dir does not already exist, then create a ramdisk!
+if [ ! -d "$RAMDISK_DIR" ]; then
+  chmod 777 "$RAMDISK_DIR"
+  sudo mount -t tmpfs -o size=10G tmpfs "$RAMDISK_DIR"
+fi
+
+if [ "$CONDA_DIR" == "" ]; then
+  CONDA_DIR="$RAMDISK_DIR/mc"
+fi
+if [ ! -d "$CONDA_DIR" ]; then
+  # check and if we have a miniconda bash script available and run it if we do
+  find ~/Downloads -iname *miniconda* -print | head -n 1 | xargs -I {} bash {} -b -p $CONDA_DIR
+  # if conda dir still doesn't exist, download and install
+  if [ ! -d "$CONDA_DIR" ]; then
+    MC_PATH=/tmp/$LOGNAME/miniconda.sh
+    echo Dowloading miniconda to $MC_PATH
+    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $MC_PATH
+    bash "$MC_PATH" -b -p "$CONDA_DIR"
+  fi
+fi
+# add some setup/teardown scripts
+mkdir -p $CONDA_DIR/etc/conda/activate.d
+echo "source $RAMDISK_DIR/.condabuildrc
+mkdir -p ~/.config/binstar
+echo 'url: https://pergamon.cs.nsls2.local:8443/api' > ~/.config/binstar/config.yaml" > $CONDA_DIR/etc/conda/activate.d/setup.sh
+mkdir -p $CONDA_DIR/etc/conda/deactivate.d
+echo "
+unset RAMDISK_DIR
+unset CONDA_DIR
+unset CONDARC
+unset HTTPS_PROXY
+unset HTTP_PROXY
+unset BINSTAR_TOKEN
+source ~/.bashrc" > $CONDA_DIR/etc/conda/deactivate.d/teardown.sh
+# set up a condabuildrc file
+echo "
+export RAMDISK_DIR=$RAMDISK_DIR
+export CONDA_DIR=$CONDA_DIR
+export CONDARC=$RAMDISK_DIR/.condarc
+export no_proxy=cs.nsls2.local
+export HTTP_PROXY=http://proxy:8888
+export HTTPS_PROXY=http://proxy:8888
+export CONDA_NPY=1.10
+" > "$RAMDISK_DIR/.condabuildrc"
+# set up a custom condarc for the ramdisk env
+echo "
+channels:
+- https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
+- https://pergamon.cs.nsls2.local:8443/conda/anaconda
+always_yes: true
+ssl_verify: false
+show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
+
+# Init the logs
+LOG_DIR=/home/$LOGNAME/auto-build-logs/`date +%Y`/`date +%m`/`date +%d`
+DEV_DIR=$LOG_DIR/dev
+TAG_DIR=$LOG_DIR/tag
+mkdir -p $LOG_DIR
+mkdir -p $DEV_DIR
+mkdir -p $TAG_DIR
+
+logname=`date +%H.%M`
+DEV_LOG="$DEV_DIR/$logname"
+TAG_LOG="$TAG_DIR/$logname"
+
+# init the conda directory
+echo "CONDA_DIR=$CONDA_DIR"
+source $CONDA_DIR/bin/activate $CONDA_DIR
+conda install anaconda-client patchelf conda-build
+conda remove conda-build anaconda-client --force
+set +e
+pip uninstall conda-build --yes
+pip uninstall conda-build --yes
+set -e
+install ()
+{
+    url="https://github.com/$1"
+    target="/tmp/$LOGNAME/$1"
+    git clone $url /tmp/$LOGNAME/$1
+    pushd $target
+    if [ ! -z "$2" ]; then
+      git checkout "$2"
+    fi;
+    python setup.py develop
+    popd
+}
+
+echo "Install conda 4.0.4"
+CONDA_DIR=/tmp/$LOGNAME/conda
+rm -rf $CONDA_DIR
+git clone https://github.com/conda/conda $CONDA_DIR
+cd $CONDA_DIR
+git checkout 4.0.4
+pip uninstall conda --yes
+CONDA_DEFAULT_ENV='' python setup.py install
+# conda remove anaconda-client --yes
+
+echo "Install a dev build of anaconda-client"
+install anaconda-platform/anaconda-client 1.4.0
+echo "Install a dev build of conda-build"
+install conda/conda-build 1.20.1
+echo "Install dev build of conda-build-all"
+conda install mock --yes
+install SciTools/conda-build-all
+echo "Install dev build of conda-build-utils"
+install ericdill/conda-build-utils
+
+CLONE_DIR=/tmp/$LOGNAME/nsls2-recipes
+rm -rf /tmp/$LOGNAME/nsls2-recipes
+git clone https://github.com/NSLS-II/nsls2-recipes $CLONE_DIR
+
+run_dev_build () {
+  echo "
+
+  Logging to $DEV_LOG
+
+  "
+  # set up a custom condarc for the dev builds
+  echo "
+  channels:
+  - https://pergamon.cs.nsls2.local:8443/conda/nsls2-dev
+  - https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
+  - https://pergamon.cs.nsls2.local:8443/conda/anaconda
+  always_yes: true
+  show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
+  echo `date`
+  # allow failures on the conda-build commands
+  USERNAME=lightsource2-dev
+  devbuild $CLONE_DIR/dev-recipes -u $USERNAME -t $BINSTAR_TOKEN --python 2.7 3.4 3.5 --numpy 1.10 1.11
+}
+
+
+echo "
+username: lightsource2
+numpy:
+  - '1.10'
+sources:
+  - url: https://github.com/nsls-ii/auto-build-tagged-recipes
+    folders:
+      - name: sort-of-dev-but-actually-tag/py3
+        python:
+          - 3.4
+          - 3.5
+" > /tmp/$LOGNAME/tag-build.yaml
+
+run_tag_build() {
+  echo "
+
+  Logging to $TAG_LOG
+
+  "
+  # set up a custom condarc for the dev builds
+  echo "
+  channels:
+  - https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
+  - https://pergamon.cs.nsls2.local:8443/conda/anaconda
+  always_yes: true
+  show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
+  # run the tagged builds
+  echo `date`
+
+  USERNAME=lightsource2-tag
+  devbuild $CLONE_DIR/config-recipes -u $USERNAME -t $BINSTAR_TOKEN --python 2.7 3.4 3.5 --numpy 1.10 1.11
+  devbuild $CLONE_DIR/tag-recipes -u $USERNAME -t $BINSTAR_TOKEN --python 2.7 3.4 3.5 --numpy 1.10 1.11
+}
+run_dev_build |& tee -a $DEV_LOG
+run_tag_build |& tee -a $TAG_LOG
+
+echo "Removing the lock file."
+rm $LOCK_FILE
