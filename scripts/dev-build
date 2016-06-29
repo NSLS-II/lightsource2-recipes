@@ -1,7 +1,26 @@
 #!/bin/bash
+# This is a script that can be used on any workstation to build the full stack
+# without docker.  It is suggested to add a "bootstrapping" script in the home
+# directory of the user and add that bootstrap script to the crontab.
+#
+# e.g. make the following file in your home directory and call it 'bootstrap-build.sh'
+# IMPORTANT: ADD YOUR BINSTAR TOKEN TO THIS FILE OR IT WON'T UPLOAD!
+#
+# #!/bin/bash
+# # bootstrap-build.sh
+# target=/tmp/$LOGNAME-dev-build
+# rm -f $target
+# wget https://raw.githubusercontent.com/nsls2/lightsource2-recipes/master/scripts/dev-build -O $target
+# BINSTAR_TOKEN=your_binstar_token bash $target
+#
+# Then edit the crontab (`crontab -e`) and add the following line
+#
+# 0 * * * * bash ~/boostrap-build.sh
+#
+# and save the crontab.  This file will then be run every hour at the top of
+# the hour
 
 set -e
-EMAIL=edill@bnl.gov
 LOCK_FILE=/tmp/$LOGNAME.builder.lock
 if [[ -f $LOCK_FILE ]];
 then
@@ -129,6 +148,10 @@ install SciTools/conda-build-all
 echo "Install dev build of conda-build-utils"
 install ericdill/conda-build-utils
 
+CLONE_DIR=/tmp/$LOGNAME/nsls2-recipes
+rm -rf /tmp/$LOGNAME/nsls2-recipes
+git clone https://github.com/NSLS-II/nsls2-recipes $CLONE_DIR
+
 run_dev_build () {
   echo "
 
@@ -145,13 +168,8 @@ run_dev_build () {
   show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
   echo `date`
   # allow failures on the conda-build commands
-  USERNAME=nsls2-dev
-  rm -rf /tmp/$LOGNAME/staged-recipes-dev
-  CLONE_DIR=/tmp/$LOGNAME/staged-recipes-dev
-  rm -rf $CLONE_DIR
-
-  git clone https://github.com/NSLS-II/staged-recipes-dev $CLONE_DIR
-  devbuild $CLONE_DIR -u $USERNAME -t $BINSTAR_TOKEN --python 2.7 3.4 3.5 --numpy 1.10 1.11
+  USERNAME=lightsource2-dev
+  devbuild $CLONE_DIR/dev-recipes -u $USERNAME -t $BINSTAR_TOKEN --python 2.7 3.4 3.5 --numpy 1.10 1.11
 }
 
 
@@ -183,39 +201,13 @@ run_tag_build() {
   show_channel_urls: true" > "$RAMDISK_DIR/.condarc"
   # run the tagged builds
   echo `date`
-  USERNAME=nsls2-tag
-  CLONE_DIR=/tmp/$LOGNAME/tagged-recipes
-  rm -rf $CLONE_DIR
-  git clone https://github.com/NSLS-II/auto-build-tagged-recipes $CLONE_DIR
-  # CONDA_NPY=1.10 conda-build-all $CLONE_DIR/x.x --upload-channels $USERNAME --inspect-channels $USERNAME --matrix-conditions "python >=3.4"
-  # # hack the upload because conda-build-all is *not* uploading for some reason...
-  # anaconda upload -u $USERNAME --force $CONDA_DIR/conda-bld/linux-64/*.tar.bz2
-  # now build most of the rest of the stack in one-shot
-  devbuild $CLONE_DIR -u $USERNAME -t $BINSTAR_TOKEN --python 2.7 3.4 3.5 --numpy 1.10 1.11
-  # pushd $CLONE_DIR
-  # build_from_yaml build-directive.yaml -u $USERNAME
-  # popd
-  # build_from_yaml /tmp/$LOGNAME/tag-build.yaml -u $USERNAME
+
+  USERNAME=lightsource2-tag
+  devbuild $CLONE_DIR/config-recipes -u $USERNAME -t $BINSTAR_TOKEN --python 2.7 3.4 3.5 --numpy 1.10 1.11
+  devbuild $CLONE_DIR/tag-recipes -u $USERNAME -t $BINSTAR_TOKEN --python 2.7 3.4 3.5 --numpy 1.10 1.11
 }
-#LOG=/tmp/build.log
 run_dev_build |& tee -a $DEV_LOG
 run_tag_build |& tee -a $TAG_LOG
-
-# echo "Removing download trash from logs"
-# sed '/% |/d' $DEV_LOG > /tmp/$LOGNAME/devlog
-# sed '/% |/d' $TAG_LOG > /tmp/$LOGNAME/taglog
-
-# echo "Emailing logs"
-# echo "Build status for $DATE
-# =============================================
-# DEV LOG SUMMARY
-#
-# `cat $DEV_LOG.summary`
-#
-# =============================================
-# TAG LOG SUMMARY
-# `cat $TAG_LOG.summary`
-# " | mutt -s "log test" $EMAIL -y -a /tmp/$LOGNAME/devlog /tmp/$LOGNAME/taglog --
 
 echo "Removing the lock file."
 rm $LOCK_FILE

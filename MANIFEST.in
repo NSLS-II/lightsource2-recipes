@@ -1,3 +1,0 @@
-include versioneer.py
-include nsls2_build_tools/versioneer.py
-include nsls2_build_tools/_version.py
