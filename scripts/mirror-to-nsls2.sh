@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# requires you to set the "FROM_OWNER" and "TO_OWNER" flags
-: ${FROM_OWNER?"Need to set FROM_OWNER"}
-: ${TO_OWNER?"Need to set TO_OWNER"}
+# requires you to set the "OWNER" environmental variable
+: ${OWNER?"Need to set OWNER"}
+: ${FROM_TOKEN?"Need to set FROM_TOKEN"}
+: ${TO_TOKEN?"Need to set TO_TOKEN"}
 
-from_token=`cat ~/dev/dotfiles/tokens/lightsource2-testing.token`
+# token from nsls2builder on anaconda.org
 from_domain="https://api.anaconda.org"
 
-# to_token=`cat ~/dev/dotfiles/tokens/edill.anaconda.nsls2.token`
-to_token=`cat /home/edill/dev/dotfiles/tokens/edill.anaconda.nsls2.token`
-to_domain="https://pergamon.cs.nsls2.local/api:8443"
+# token from edill on anaconda.nsls2.bnl.gov
+to_domain="https://pergamon.cs.nsls2.local:8443/api"
 
-LOGDIR=/home/$LOGNAME/mirror-logs/`date +%Y`/`date +%m`/`date +%d`
+LOGDIR=~/mirror-logs/`date +%Y`/`date +%m`/`date +%d`
 mkdir -p $LOGDIR
-LOGFILE="$LOGDIR/mirror-`date +%H.%M`"
+LOGFILE="$LOGDIR/`date +%H.%M`-mirror-$OWNER"
 
-./mirror.py conda-execute --from-token $from_token --from-owner $FROM_OWNER --from-domain $from_domain --to-token $to_token --to-owner $TO_OWNER --to-domain $to_domain --platform linux-64 --to-disable-verify --log $LOGFILE
+mirror.py --from-token $FROM_TOKEN --from-owner $OWNER --from-domain $from_domain --to-token $TO_TOKEN --to-owner $OWNER --to-domain $to_domain --platform linux-64 --to-disable-verify --log $LOGFILE --all
