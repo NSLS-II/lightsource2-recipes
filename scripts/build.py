@@ -345,6 +345,9 @@ def resolve_dependencies(package_dependencies):
     >>> list(deps)
     ['d', 'c', 'b', 'a']
 
+    Notes
+    -----
+    copied from conda-build-all. Thanks @pelson!
     """
     remaining_dependencies = package_dependencies.copy()
     completed_packages = []
