@@ -15,4 +15,4 @@ LOGDIR=~/mirror-logs/`date +%Y`/`date +%m`/`date +%d`
 mkdir -p $LOGDIR
 LOGFILE="$LOGDIR/`date +%H.%M`-mirror-$OWNER"
 
-mirror.py --from-token $FROM_TOKEN --from-owner $OWNER --from-domain $from_domain --to-token $TO_TOKEN --to-owner $OWNER --to-domain $to_domain --platform linux-64 --to-disable-verify --log $LOGFILE --all
+./mirror.py --from-token $FROM_TOKEN --from-owner $OWNER --from-domain $from_domain --to-token $TO_TOKEN --to-owner $OWNER --to-domain $to_domain --platform linux-64 --to-disable-verify --log $LOGFILE --all
