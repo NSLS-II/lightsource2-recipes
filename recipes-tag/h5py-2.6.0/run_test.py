@@ -21,4 +21,4 @@ import h5py.h5z
 import h5py.utils
 
 from sys import exit
-exit(0) if h5py.run_tests().wasSuccessful() else exit(1)
+exit(0) if h5py.run_tests(verbose=True).wasSuccessful() else exit(1)
