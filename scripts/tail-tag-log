@@ -1,0 +1,4 @@
+#!/bin/bash
+DIR="/home/$LOGNAME/builds/`date +%Y`/`date +%m`/`date +%d`/"
+FILE="`ls -t -1 $DIR/*tag | head -n1`"
+tail -f $FILE
