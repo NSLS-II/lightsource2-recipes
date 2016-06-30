@@ -14,6 +14,7 @@ build.py --help
 # - conda-build
 # - anaconda-client
 # - networkx
+# - slacker
 # run_with: python
 
 import getpass
@@ -30,17 +31,19 @@ import traceback
 from argparse import ArgumentParser
 from contextlib import contextmanager
 from pprint import pformat
-
+import slacker
 import binstar_client
 import yaml
 from conda_build.metadata import MetaData
-
+logger = logging.getLogger('build.py')
 current_subprocs = set()
 shutdown = False
 
 DEFAULT_PY = '3.5'
 DEFAULT_NP_VER = '1.11'
-
+slack_channel = 'bob-the-builder'
+slack_api = None
+anaconda_cli = None
 
 @contextmanager
 def env_var(key, value):
@@ -72,7 +75,7 @@ signal.signal(signal.SIGTERM, handle_signal)
 def get_anaconda_cli(token=None, site=None):
     if token is None:
         token = get_binstar_token()
-    return binstar_client.utils.get_server_api(token=token, site=site)
+    return binstar_client.Binstar(token=token, domain=site)
 
 
 def get_file_names_on_anaconda_channel(username, anaconda_cli,
@@ -156,13 +159,13 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     """
     conda_build_args = [] if conda_build_args is None else list(
         conda_build_args)
-    logging.debug('conda_build_args=%s', conda_build_args)
+    logger.debug('conda_build_args=%s', conda_build_args)
     cmd = ['conda', 'build', path_to_recipe, '--output'] + conda_build_args
-    logging.debug('cmd=%s', cmd)
+    logger.debug('cmd=%s', cmd)
     ret = check_output(cmd)
-    logging.debug('ret=%s', ret)
+    logger.debug('ret=%s', ret)
     # if len(ret) > 1:
-    #     logging.debug('recursing...')
+    #     logger.debug('recursing...')
     #     # Then this is the first time we are getting the build name and conda
     #     # has to check out the source. Call it a second time and you get the4
     #     # full path to the file that will be spit out by conda-build
@@ -171,7 +174,7 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     # Obviously drop the `--output` flag so that conda-build actually builds
     # the package.
     cmd.remove('--output')
-    logging.debug('cmd=%s', cmd)
+    logger.debug('cmd=%s', cmd)
     return ret[-1], cmd
 
 
@@ -203,18 +206,18 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
 
     metas_not_to_build = []
     metas_to_build = []
-    # logging.info("Build Plan")
-    # logging.info("Determining package build names...")
-    # logging.info('{: <8} | {}'.format('to build', 'built package name'))
+    # logger.info("Build Plan")
+    # logger.info("Determining package build names...")
+    # logger.info('{: <8} | {}'.format('to build', 'built package name'))
     recipes_path = os.path.abspath(recipes_path)
-    logging.info("recipes_path = {}".format(recipes_path))
+    logger.info("recipes_path = {}".format(recipes_path))
     for folder in sorted(os.listdir(recipes_path)):
         recipe_dir = os.path.join(recipes_path, folder)
         if os.path.isfile(recipe_dir):
             continue
         if 'meta.yaml' not in os.listdir(recipe_dir):
             continue
-        logging.debug('Evaluating recipe: {}'.format(recipe_dir))
+        logger.debug('Evaluating recipe: {}'.format(recipe_dir))
         build, run, test = get_deps_from_metadata(recipe_dir)
         # only need to do multiple numpy builds if the meta.yaml pins the numpy
         # version in build and run.
@@ -226,13 +229,13 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
             python_build_versions = [DEFAULT_PY]
         for py, npy in itertools.product(python_build_versions,
                                          numpy_build_versions):
-            logging.debug("Checking py={} and npy={}".format(py, npy))
+            logger.debug("Checking py={} and npy={}".format(py, npy))
             try:
                 with env_var('CONDA_NPY', npy):
                     path_to_built_package, build_cmd = determine_build_name(
                         recipe_dir, '--python', py, '--numpy', npy)
             except RuntimeError as re:
-                logging.error(re)
+                logger.error(re)
                 continue
             if '.tar.bz' not in path_to_built_package:
                 on_anaconda_channel = True
@@ -253,7 +256,7 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
                 else:
                     metas_to_build.append(meta)
 
-            logging.info('{:<8} | {:<5} | {:<5} | {}'.format(
+            logger.info('{:<8} | {:<5} | {:<5} | {}'.format(
                 str(not bool(on_anaconda_channel)), py, npy, name_on_anaconda))
 
     return metas_to_build, metas_not_to_build
@@ -306,27 +309,27 @@ def build_dependency_graph(metas):
     run_deps = {}
     build_deps = {}
     test_deps = {}
-    logging.debug("Building dependency graph for %s libraries", len(metas))
+    logger.debug("Building dependency graph for %s libraries", len(metas))
 
     for meta in metas:
         name = meta.meta['package']['name']
-        logging.debug('name=%s', name)
+        logger.debug('name=%s', name)
         build_deps[name] = sanitize_names(
             meta.meta.get('requirements', {}).get('build', []))
-        logging.debug('build_deps=%s', build_deps)
+        logger.debug('build_deps=%s', build_deps)
         run_deps[name] = sanitize_names(
             meta.meta.get('requirements', {}).get('run', []))
-        logging.debug('run_deps=%s', run_deps)
+        logger.debug('run_deps=%s', run_deps)
         test_deps[name] = sanitize_names(
             meta.meta.get('test', {}).get('requires', []))
-        logging.debug('test_deps=%s', test_deps)
+        logger.debug('test_deps=%s', test_deps)
     # pdb.set_trace()
     # union = copy.deepcopy(build_deps)
     union = {k: set(build_deps.get(k, []) + run_deps.get(k, []) +
                     test_deps.get(k, []))
              for k in set(list(run_deps.keys()) + list(build_deps.keys()) +
                           list(test_deps.keys()))}
-    # logging.debug()
+    # logger.debug()
     # drop all extra packages that I do not have conda recipes for
     for name, items in union.items():
         union[name] = [item for item in items if item in union]
@@ -412,9 +415,9 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
                    if meta.meta['package']['name'] == name]
     # print('metas_order = {}'.format(metas_order))
     # build_order = builder.sort_dependency_order(metas)
-    logging.info("Build Order.")
+    logger.info("Build Order.")
     for meta in build_order:
-        logging.info(meta.build_name)
+        logger.info(meta.build_name)
 
     no_token = []
     uploaded = []
@@ -446,10 +449,12 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
             stdout, stderr, returncode = Popen(build_command)
         if returncode != 0:
             build_or_test_failed.append(build_name)
-            logging.error('\n\n========== STDOUT ==========\n')
-            logging.error(pformat(stdout))
-            logging.error('\n\n========== STDERR ==========\n')
-            logging.error(pformat(stderr))
+            message = ('\n\n========== STDOUT ==========\n'
+                       '\n{}'
+                       '\n\n========== STDERR ==========\n'
+                       '\n{}',format(pformat(stdout), pformat(stderr)))
+            logger.error(message)
+            message_slack(message, username, is_error=True)
             if not allow_failures:
                 sys.exit(1)
         if token and upload:
@@ -460,12 +465,15 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
             print("Upload command={}".format(cleaned_cmd))
             stdout, stderr, returncode = Popen(cmd)
             if returncode != 0:
-                logging.error('\n\n========== STDOUT ==========\n')
-                logging.error(pformat(stdout))
-                logging.error('\n\n========== STDERR ==========\n')
-                logging.error(pformat(stderr))
+                message = ('\n\n========== STDOUT ==========\n'
+                           '\n{}'
+                           '\n\n========== STDERR ==========\n'
+                           '\n{}',format(pformat(stdout), pformat(stderr)))
+                logger.error(message)
+                message_slack(message, username, is_error=True)
                 upload_failed.append(build_name)
                 continue
+            message_slack("Uploaded {}".format(build_name), username)
             uploaded.append(build_name)
             continue
 
@@ -497,7 +505,7 @@ def clone(git_url, git_rev=None):
     """
     if git_rev is None:
         git_rev = 'master'
-    logging.info("Cloning url={}. rev={}".format(git_url, git_rev))
+    logger.info("Cloning url={}. rev={}".format(git_url, git_rev))
     tempdir = tempfile.gettempdir()
     sourcedir = os.path.join(tempdir, getpass.getuser(), git_url.strip('/').split('/')[-1])
     if not os.path.exists(sourcedir):
@@ -545,6 +553,8 @@ def pdb_hook(exctype, value, traceback):
 
 
 def cli():
+    global slack_channel
+    global slack_api
     p = ArgumentParser(
         description="""
 Tool for building a folder of conda recipes where only the ones that don't
@@ -609,6 +619,19 @@ already exist are built.
                                   "packages if one of them fails"),
         default=False, action="store_true"
     )
+    p.add_argument(
+        '--slack-token',
+        action='store',
+        nargs='?',
+        help=("Slack authentication token"),
+    )
+    p.add_argument(
+        '--slack-channel',
+        action='store',
+        nargs='?',
+        help=("Slack channel to post to"),
+        default=slack_channel,
+    )
     args = p.parse_args()
     if not args.python:
         args.python = [DEFAULT_PY]
@@ -622,7 +645,28 @@ already exist are built.
     init_logging(log_file=log, loglevel=loglevel)
     args_dct['upload'] = not args_dct.pop('no_upload')
     args_dct['recipes_path'] = os.path.abspath(args.recipes_path)
-    print(args)
+    # set up slack integration
+    slack_token = args_dct.pop('slack_token')
+    slack_channel = args_dct.pop('slack_channel', slack_channel)
+    slack_api = slacker.Slacker(slack_token)
+    try:
+        ret = slack_api.auth.test()
+    except Error as e:
+        slack_api = None
+        if slack_token is None:
+            logger.info('No slack token provided. Not sending messages to '
+                        'slack')
+        else:
+            logger.error('slack_token {} does grant access to the {} channel'
+                         ''.format(slack_token, slack_channel))
+            logger.error(traceback.format_exc())
+            logger.error(e)
+    else:
+        logger.info("Slack authentication successful.")
+        logger.info("Authenticating as the %s user", ret.body['user'])
+        logger.info("Authenticating to the %s team", ret.body['team'])
+
+    print(args_dct)
     run(**args_dct)
 
 
@@ -635,15 +679,48 @@ def init_logging(log_file=None, loglevel=logging.INFO):
         log = os.path.join(log_dirname, log_filename)
     # set up logging
     print('Logging summary to %s' % log)
-    FORMAT = "%(levelname)s | %(asctime)-15s | %(message)s"
     stream_handler = logging.StreamHandler()
     file_handler = logging.FileHandler(log)
-    logging.basicConfig(level=loglevel, format=FORMAT,
-                        handlers=[stream_handler, file_handler])
+
+    file_handler.setLevel(loglevel)
+    stream_handler.setLevel(loglevel)
+    logger.setLevel(loglevel)
+
+    # FORMAT = "%(levelname)s | %(asctime)-15s | %(message)s"
+    # file_handler.setFormatter(FORMAT)
+    # stream_handler.setFormatter(FORMAT)
+
+    logger.addHandler(stream_handler)
+    logger.addHandler(file_handler)
+
+
+def message_slack(message, username, is_error=False):
+    extra_info = (' to {} on {}'.format(username, anaconda_cli.domain))
+    if is_error:
+        file_handler, = [handler for handler in logger.handlers
+                         if isinstance(handler, logging.FileHandler)]
+        log_file_name = file_handler.stream.name
+        extra_info += (
+            '\n\ntarget anaconda username: {}'
+            '\n\ntarget anaconda url: {}'
+            '\n\nos.uname(): {}'
+            '\n\nsys.version: {}'
+            '\n\nlog file: {}'
+            ''.format(username,
+                      anaconda_cli.domain,
+                      os.uname(),
+                      sys.version,
+                      log_file_name))
+
+    message += extra_info
+    logger.info("Sending the following message to slack")
+    logger.info(message)
+    slack_api.chat.post_message(slack_channel, message)
 
 
 def run(recipes_path, python, site, username, numpy, token=None,
-        upload=True, allow_failures=False):
+        upload=True, allow_failures=False,
+        slack_channel=None):
     """
     Run the build for all recipes listed in recipes_path
 
@@ -669,16 +746,18 @@ def run(recipes_path, python, site, username, numpy, token=None,
     allow_failures : bool, optional
         True: Continue building packages after one has failed.
         Defaults to False
+    slack_channel : str, optional
+        Slack channel to post to. Defaults to 'bob-the-builder'
     """
     # check to make sure that the recipes_path exists
     if not os.path.exists(recipes_path):
-        logging.error("The recipes_path: '%s' does not exist." % recipes_path)
+        logger.error("The recipes_path: '%s' does not exist." % recipes_path)
         sys.exit(1)
     # just disable binstar uploading whenever this script is running.
     print('Disabling binstar upload. If you want to turn it back on, '
           'execute: `conda config --set binstar_upload true`')
     set_binstar_upload(False)
-
+    global anaconda_cli
     anaconda_cli = get_anaconda_cli(token, site)
     if numpy is None:
         numpy = os.environ.get("CONDA_NPY", "1.11")
@@ -700,37 +779,43 @@ def run(recipes_path, python, site, username, numpy, token=None,
         results['alreadybuilt'] = sorted([skip.build_name
                                           for skip in metas_to_skip])
     except Exception as e:
-        logging.error("Major error encountered in attempt to build")
-        logging.error("Error in run_build!")
-        logging.error(e)
-        logging.error("Full stack trace")
-        logging.error(traceback.format_exc())
+        tb = traceback.format_exc()
+        message = ("Major error encountered in attempt to build\n{}\n{}"
+                   "".format(tb, e))
+        logger.error(message)
+        message_slack(message, username, is_error=True)
         # exit with a failed status code
         sys.exit(1)
     else:
-        logging.info("Build summary")
-        logging.info('Expected {} packages'.format(len(metas_to_build)))
+        logger.info("Build summary")
+        logger.info('Expected {} packages'.format(len(metas_to_build)))
         num_builds = {k: len(v) for k, v in results.items()}
-        logging.info('Got {} packages.'.format(
+        logger.info('Got {} packages.'.format(
             sum([n for n in num_builds.values()])))
-        logging.info('Breakdown is as follows')
+        logger.info('Breakdown is as follows')
         for k, v in num_builds.items():
-            logging.info('section: {:<25}. number build: {}'.format(k, v))
+            logger.info('section: {:<25}. number build: {}'.format(k, v))
         if results['build_or_test_failed']:
-            logging.error("Some packages failed to build")
-            logging.error(pformat(results['build_or_test_failed']))
+            message = ("Some packages failed to build\n{}"
+                       "\n{}".format(pformat(results['build_or_test_failed'])))
+            logger.error(message)
+            message_slack(message, username, is_error=True)
         if results['no_token']:
-            logging.error("No anaconda token. Cannot upload these packages")
-            logging.error(pformat(results['no_token']))
+            logger.error("No anaconda token. Cannot upload these packages")
+            logger.error(pformat(results['no_token']))
         if results['upload_failed']:
-            logging.error('Upload failed for these packages')
-            logging.error(pformat(results['upload_failed']))
+            message = ('Upload failed for these packages'
+                       '\n{}'.format(pformat(results['upload_failed'])))
+            logger.error(message)
+            message_slack(message, username, is_error=True)
         if results['alreadybuilt']:
-            logging.info('Packages that already exist in {}'.format(username))
-            logging.info(pformat(results['alreadybuilt']))
+            logger.info('Packages that already exist in {}'.format(username))
+            logger.info(pformat(results['alreadybuilt']))
         if results['uploaded']:
-            logging.info('Packages that were built and uploaded')
-            logging.info(pformat(results['uploaded']))
+            message = ('Packages that were built and uploaded to the {} user '
+                       'on {}\n{}'.format(username, anaconda_cli.domain,
+                                          pformat(results['uploaded'])))
+            logger.info(message)
 
         if results['upload_failed'] or results['build_or_test_failed']:
             # exit with a failed status code

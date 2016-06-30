@@ -35,7 +35,7 @@ channels:
 echo "Exporting CONDARC=$CONDARC_PATH"
 export CONADRC=$CONDARC_PATH
 
-# show the conda info and make sure that the $CONDARC_PATH is what is shown 
+# show the conda info and make sure that the $CONDARC_PATH is what is shown
 # under "config file:" in the output of "conda info"
 echo "showing conda info"
 conda info
@@ -51,7 +51,7 @@ conda install conda-build anaconda-client conda-execute
 export PYTHONUNBUFFERED=1
 
 # execute the dev build
-./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN
-./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN
+./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN --slack-channel "bob-the-builder" --slack-token $SLACK_TOKEN
+./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN --slack-channel "bob-the-builder" --slack-token $SLACK_TOKEN
 
 EOF
