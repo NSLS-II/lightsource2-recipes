@@ -1,6 +1,11 @@
 # nsls2-recipes
 The recipes that are needed at nsls2 but are not on `conda-forge` yet.
 
+## Mirroring channels `scripts/mirror.py`
+This script is used to mirror packages from one owner to another. There are
+a number of command line arguments that can be used for full granular control
+of which owner on which anaconda server. Consider using this script with the
+`scripts/do-mirror.sh` script that sets up the call for you.
 ## Building the stack from scratch
 
 ### If you can see `anaconda.org`
