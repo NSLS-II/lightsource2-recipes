@@ -298,7 +298,7 @@ def cli():
                                             args.to_domain)
         logger.info('Uploading {}'.format(message))
         stdout, stderr, returncode = Popen(upload_cmd + [destination])
-        if returncode == 0 && slack_api:
+        if returncode == 0 and slack_api:
             slack_api.chat.post_message(
                 slack_channel, "Uploaded {}".format(message))
         else:
