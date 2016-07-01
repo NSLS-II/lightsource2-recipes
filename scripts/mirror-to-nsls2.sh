@@ -5,6 +5,11 @@
 : ${FROM_TOKEN?"Need to set FROM_TOKEN"}
 : ${TO_TOKEN?"Need to set TO_TOKEN"}
 
+if [ -z ${SLACK_TOKEN+x} ]; then
+  slack_arg="--slack-token $SLACK_TOKEN"
+else
+  slack_arg=""
+fi;
 # token from nsls2builder on anaconda.org
 from_domain="https://api.anaconda.org"
 
@@ -15,4 +20,4 @@ LOGDIR=~/mirror-logs/`date +%Y`/`date +%m`/`date +%d`
 mkdir -p $LOGDIR
 LOGFILE="$LOGDIR/`date +%H.%M`-mirror-$OWNER"
 
-conda-execute mirror.py --from-token $FROM_TOKEN --from-owner $OWNER --from-domain $from_domain --to-token $TO_TOKEN --to-owner $OWNER --to-domain $to_domain --platform linux-64 --to-disable-verify --log $LOGFILE --all
+conda-execute mirror.py --from-token $FROM_TOKEN --from-owner $OWNER --from-domain $from_domain --to-token $TO_TOKEN --to-owner $OWNER --to-domain $to_domain --platform linux-64 --to-disable-verify --log $LOGFILE --all $slack_arg
