@@ -10,6 +10,7 @@ if [ -z ${SLACK_TOKEN+x} ]; then
 else
   slack_arg=""
 fi;
+echo slack_arg=$slack_arg
 # token from nsls2builder on anaconda.org
 from_domain="https://api.anaconda.org"
 
