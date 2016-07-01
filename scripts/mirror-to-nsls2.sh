@@ -4,7 +4,7 @@
 : ${OWNER?"Need to set OWNER"}
 : ${FROM_TOKEN?"Need to set FROM_TOKEN"}
 : ${TO_TOKEN?"Need to set TO_TOKEN"}
-: ${SLACK_TOKEN?"Need to set TO_TOKEN"}
+: ${SLACK_TOKEN?"Need to set SLACK_TOKEN"}
 
 # token from nsls2builder on anaconda.org
 from_domain="https://api.anaconda.org"
