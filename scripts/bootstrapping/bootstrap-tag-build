@@ -11,4 +11,8 @@ pushd $CLONE_DIR/scripts
 # nsls2builder's token for anaconda.org. This has admin access to anaconda.org/lightsource2-dev
 # and anaconda.org/lightsource2-tag
 echo logging to $LOGFILE
-SLACK_TOKEN="your token goes here" BINSTAR_TOKEN="your token goes here" ./nsls2-tag-build.sh > $LOGFILE 2>&1
+export SLACK_TOKEN="your token goes here"
+export BINSTAR_TOKEN="your token goes here"
+export SLACK_CHANNEL="bob-the-builder"
+
+./nsls2-tag-build.sh > $LOGFILE 2>&1

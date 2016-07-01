@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+: ${BINSTAR_TOKEN?"Need to set BINSTAR_TOKEN"}
+: ${SLACK_TOKEN?"Need to set SLACK_TOKEN"}
+: ${SLACK_CHANNEL?:-bob-the-builder}
 # Set up the environmental variables
 # Set the path to the condarc
 CONDARC_PATH="/root/.condarc"
@@ -52,6 +55,6 @@ conda install conda-build anaconda-client conda-execute
 export PYTHONUNBUFFERED=1
 
 # execute the dev build
-./repo/scripts/build.py /repo/recipes-dev -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN  --slack-channel "bob-the-builder" --slack-token $SLACK_TOKEN
+./repo/scripts/build.py /repo/recipes-dev -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN  --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN
 
 EOF
