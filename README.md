@@ -12,12 +12,18 @@ Bootstrap | Description
 `bootstrap-dev-build` | Execute this script after filling in your authentication tokens for Slack and anaconda.org and it will pull down the latest copy of this repo, build the dev recipes and upload to anaconda.org/lightsource2-dev. Uses `nsls2-dev-build.sh` and `build.py` under the hood.
 `bootstrap-tag-build` | Execute this script after filling in your authentication tokens for Slack and anaconda.org and it will pull down the latest copy of this repo, build the tag recipes and upload to anaconda.org/lightsource2-tag. Uses `nsls2-dev-build.sh` and `build.py` under the hood.
 `bootstrap-mirror` | Execute this script after filling in your authentication tokens for Slack and anaconda.org and it will pull down the latest copy of this repo and run the mirroring for `https://anaconda.org/conda-forge{conda-forge,lightsource2-dev,lightsource2-tag}` to `https://anaconda.nsls2.bnl.gov/{conda-forge,lightsource2-dev,lightsource2-tag}`
-To use these scripts with cron, your crontab should look like this:
+
+To use the bootstrap build scripts with cron every 15 minutes, your crontab should look like this on freyja:
 ```
 $ crontab -l
-05 * * * * bash ~/bootstrap-tag-build
-05 * * * * bash ~/bootstrap-dev-build
+*/15 * * * * bash ~/bootstrap-tag-build
+*/15 * * * * bash ~/bootstrap-dev-build
 ```
+
+To use the mirroring script with cron every 15 minutes, your crontab should look like this on bcart
+```
+$ crontab -l
+*/15 * * * * bash ~/mirror > ~/mirrorcronlog 2>&1
 
 ### All other scripts
 
