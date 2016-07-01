@@ -234,7 +234,7 @@ def cli():
         logger.info("\nComplete files list on {} at {}:".format(
             args.from_owner, args.from_domain))
         logger.info("-------------------")
-        logger.info(pformat(list(from_files.keys())))
+        logger.info(pformat(sorted(list(from_files.keys()))))
         sys.exit(0)
 
     # Find the packages on the source channel that match the packages specified
@@ -247,7 +247,7 @@ def cli():
     # and print them out
     logger.info("\nFiles that exist on {} at {}:".format(args.from_owner,
                                                          args.from_domain))
-    logger.info(pformat(matched))
+    logger.info(pformat(sorted(matched)))
 
     # get the package metadata on the target channel
     to_packages = to_cli.show_channel(args.to_channel, args.to_owner)
@@ -256,13 +256,13 @@ def cli():
     already_exist = [f for f in matched if f in to_files.keys()]
     logger.info("\nFiles that already exist on {} at {}:".format(
         args.to_owner, args.to_domain))
-    logger.info(pformat(already_exist))
+    logger.info(pformat(sorted(already_exist)))
     # figure out which of these packages actually need to be copied
     to_copy = [f for f in matched if f not in to_files.keys()]
     # print out the packages that need to be copied
     logger.info("\nFiles to be uploaded to {} at {}:".format(args.to_owner,
                                                              args.to_domain))
-    logger.info(pformat(to_copy))
+    logger.info(pformat(sorted(to_copy)))
 
     if args.dry_run:
         # don't upload anything.  Print out why we are quitting and then quit
@@ -295,7 +295,7 @@ def cli():
         stdout, stderr, returncode = Popen(upload_cmd + [destination])
         if returncode == 0 and slack_api:
             slack_api.chat.post_message(
-                slack_channel, "Uploaded {}".format(message))
+                slack_channel, "Mirrored {}".format(message))
         else:
             message = "Upload failed for " + message
             message += "\n" + "stderr from {}".format(upload_cmd)
