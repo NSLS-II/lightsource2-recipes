@@ -28,8 +28,9 @@ Script | Description
 `nsls2-tag-build.sh` | Script that is run as a cron job on `freyja.nsls2.bnl.gov` under the `edill` account. Is used inside of `bootstrap-tag-build`. See that bootstrap script for the proper invocation of `nsls2-tag-build.sh`
 `mirror.py` | Generic mirroring script that can go across anaconda servers.  There are tons of command line options.  See its usage in `mirror-to-nsls2.sh` for how it is properly localized to nsls2. This script is used to mirror packages from one owner to another. There are a number of command line arguments that can be used for full granular control of which owner on which anaconda server. Consider using this script with the `do-mirror.sh` script that sets up the call for you. This script might be moved to its own repo on conda-forge, but that will come later. (probably much later)
 `mirror-to-nsls2.sh` | Localization of `mirror.py` for nsls2.
-`tail-dev-log` | Script that will ssh to freyja.nsls2.bnl.gov and tail the most recent dev build log
-`tail-tag-log` | Script that will ssh to freyja.nsls2.bnl.gov and tail the most recent tag build log
+`tail-dev-log` | Script that will tail the most recent build log for the dev builds. If this is placed in `/usr/bin/` on freyja.nsls2.bnl.gov, then you can do neat things like save the following in a script: `ssh freyja.nsls2.bnl.gov tail-dev-log` and you can have a one-liner that will let you view the most recent build script
+`tail-tag-log` | Same as above, but for the tag logs
+
 ### anaconda channel management scripts
 
 Script | Description
@@ -40,58 +41,51 @@ Script | Description
 `clean-nsls2-channel.py` | Invoke the same as `clean-public-channel.py` and uses the nsls2 anaconda server instead of the public one. NOTE: This script has not been used in a while, so I'm not sure if it still works.
 
 ## Building the stack from scratch
-### If you can see `anaconda.org`
 
-Navigate to the root of this git repository.
-Decide what channel you want to upload to, `UPLOAD_CHANNEL`.
-Have your anaconda token ready, `BINSTAR_TOKEN`.
-Invoke the build script.
+Look at the `bootstrap-tag-build` script, fill in your tokens and execute that script.
 
-```
-export BINSTAR_TOKEN=your_binstar_token
-export UPLOAD_CHANNEL=lightsource2-tag
-bash scripts/run_docker_build.sh
-```
-
-or, as a one-liner
-```
-BINSTAR_TOKEN=your_binstar_token UPLOAD_CHANNEL=lightsource2-tag bash scripts/run_docker_build.sh
-```
+Then look at the `bootstrap-dev-build` script, fill in your tokens and execute that script.  Then you will have the stack!
 
 
-### If you are at nsls2 and can see `anaconda.nsls2.bnl.gov`
+## Questions
 
-Navigate to the root of this git repository.
-Decide what channel you want to upload to, `UPLOAD_CHANNEL`.
-Have your anaconda token ready, `BINSTAR_TOKEN`.
-Get the current url of anaconda.nsls2.bnl.gov for uploading, `ANACONDA_SERVER_URL`
-Invoke the build script.
+### How do I add a new package?
 
-```
-export ANACONDA_SERVER_URL="https://pergamon.cs.nsls2.local:8443/api"
-export BINSTAR_TOKEN=your_binstar_token
-export UPLOAD_CHANNEL=lightsource2-tag
-bash scripts/run_docker_build.sh
-```
+#### To conda-forge
 
-or, as a one-liner
-```
-ANACONDA_SERVER_URL="https://pergamon.cs.nsls2.local:8443/api" BINSTAR_TOKEN=your_binstar_token UPLOAD_CHANNEL=lightsource2-tag bash scripts/run_docker_build.sh
-```
+1. fork github.com/conda-forge/staged-recipes
+1. checkout a new branch
+1. add your recipe into the `recipes/` folder
+1. make sure it builds locally with conda-build
+1. open up a PR against conda-forge/staged-recipes
 
+#### To this repo
 
-## Set up with crontab
+**dev recipe**
 
-Edit the crontab
-```
-EDITOR=vim crontab -e
-```
+1. Add to lightsource2-recipes/recipes-dev
+1. `conda build <recipe>` locally so you know it works
+1. commit and push to master
+1. The cron jobs will pick it up the next time they run, build the new recipe
+   and push to anaconda.org/lightsource2-dev
 
-add this line to run scripts every two hours
-```
-0 * * * * bash ~/path/to/nsls2-recipes/scripts/nsls2-tag-build.sh > /tmp/auto-dev-builds.sh
-```
+**tag recipe**
 
-protip: If you want to make sure it runs, replace the `0 *` with a minute or
-two in the future and the current hour, so if it is 10:04 AM, replace
-`0 *` with `5 10`
+1. Add to lightsource2-recipes/recipes-tag
+1. `conda build <recipe>` locally so you know it works
+1. commit and push to master
+1. The cron jobs will pick it up the next time they run, build the new recipe
+   and push to anaconda.org/lightsource2-tag
+1. Strongly consider moving the recipe to conda-forge because they are the true
+   experts regarding conda recipes and can help you make your recipe better.
+   As an added bonus, you might even get osx-64, win-32 and win-64 builds too!
+
+**config recipe**
+1. Edit the config yaml in lightsource2-recipes/recipes-config
+1. Navigate to the recipes-config directory in the terminal
+1. Execute the `regenerate.py` script: `conda execute regenerate.py` Note that
+   `regenerate.py` auto-commits the changes to the git repo
+1. Push to master.
+
+### How do you debug a package that is failing to build?
+Get help from the folks at conda-forge. There is a gitter at gitter.im/conda-forge/conda-forge.github.io
