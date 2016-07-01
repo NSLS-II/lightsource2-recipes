@@ -30,7 +30,7 @@ echo "binstar_upload: false
 always_yes: true
 show_channel_urls: true
 channels:
-- lightsource2-dev
+- $UPLOAD_CHANNEL
 - lightsource2-tag
 - conda-forge
 - defaults" > $CONDARC_PATH

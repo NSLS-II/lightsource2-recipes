@@ -12,7 +12,6 @@ REPO_DIR="/repo"
 # define the docker container to use
 IMAGE_NAME="nsls2/debian-with-miniconda:latest"
 # Set the channel to upload the built packages to
-UPLOAD_CHANNEL="lightsource2-tag"
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
 
