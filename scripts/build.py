@@ -17,7 +17,6 @@ build.py --help
 # - slacker
 # run_with: python
 
-import getpass
 import itertools
 import logging
 import os
@@ -25,7 +24,6 @@ import pdb
 import signal
 import subprocess
 import sys
-import tempfile
 import time
 import traceback
 from argparse import ArgumentParser
@@ -488,35 +486,6 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
         'upload_failed': sorted(upload_failed),
         'build_or_test_failed': sorted(build_or_test_failed),
     }
-
-
-def clone(git_url, git_rev=None):
-    """Clone a `git_url` to temp dir and check out `git_rev`
-
-    Parameters
-    ----------
-    git_url : str
-        Git repo to clone
-    git_rev : str, optional
-        Branch to check out
-        Defaults to whatever the repo thinks is the master branch
-
-    Returns
-    -------
-    path : str
-        Full path to root of newly cloned git repo
-    """
-    if git_rev is None:
-        git_rev = 'master'
-    logger.info("Cloning url={}. rev={}".format(git_url, git_rev))
-    tempdir = tempfile.gettempdir()
-    sourcedir = os.path.join(tempdir, getpass.getuser(),
-                             git_url.strip('/').split('/')[-1])
-    if not os.path.exists(sourcedir):
-        # clone the git repo to the target directory
-        print('Cloning to %s', sourcedir)
-        subprocess.call(['git', 'clone', git_url, sourcedir])
-    return sourcedir
 
 
 def set_binstar_upload(on=False):
