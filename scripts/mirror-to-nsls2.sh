@@ -5,7 +5,7 @@
 : ${FROM_TOKEN?"Need to set FROM_TOKEN"}
 : ${TO_TOKEN?"Need to set TO_TOKEN"}
 : ${SLACK_TOKEN?"Need to set SLACK_TOKEN"}
-: ${SLACK_CHANNEL?-"bob-the-builder"}
+: ${SLACK_CHANNEL?"Need to set SLACK_CHANNEL"}
 
 # token from nsls2builder on anaconda.org
 from_domain="https://api.anaconda.org"
