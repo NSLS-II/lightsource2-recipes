@@ -148,7 +148,7 @@ def cli():
     )
     p.add_argument(
         '--slack-token',
-        nargs="?"
+        nargs="?",
         action="store",
         help="Authentication token for Slack"
     )
@@ -168,6 +168,17 @@ def cli():
     args = p.parse_args()
     args.to_channel = 'main'
     args.from_channel = 'main'
+
+    # init some logging
+    if args.log:
+        stream = logging.StreamHandler()
+        filehandler = logging.FileHandler(args.log, mode='w')
+        stream.setLevel(logging.INFO)
+        filehandler.setLevel(logging.INFO)
+        logger.addHandler(stream)
+        logger.addHandler(filehandler)
+        logger.setLevel(logging.INFO)
+        logger.info("Logging to {}".format(args.log))
 
     # set up slack integration
     slack_token = args_dct.pop('slack_token')
@@ -190,16 +201,6 @@ def cli():
         logger.info("Authenticating as the %s user", ret.body['user'])
         logger.info("Authenticating to the %s team", ret.body['team'])
 
-    # init some logging
-    if args.log:
-        stream = logging.StreamHandler()
-        filehandler = logging.FileHandler(args.log, mode='w')
-        stream.setLevel(logging.INFO)
-        filehandler.setLevel(logging.INFO)
-        logger.addHandler(stream)
-        logger.addHandler(filehandler)
-        logger.setLevel(logging.INFO)
-        logger.info("Logging to {}".format(args.log))
     logger.info("\nSummary")
     logger.info("-------")
     logger.info("Mirroring from {} at {}".format(args.from_owner, args.from_domain))
