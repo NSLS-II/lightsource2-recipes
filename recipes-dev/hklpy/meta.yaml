@@ -1,0 +1,38 @@
+package:
+    name: hklpy
+    version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+
+source:
+  git_url: https://github.com/NSLS-II/hklpy.git
+  git_rev: master
+
+build:
+    number: 0
+    skip: True  # [py2k]
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - python
+        - setuptools
+    run:
+        - hkl
+        - numpy
+        - ophyd
+        - python
+
+test:
+    imports:
+        - hkl
+
+about:
+    home: https://github.com/NSLS-II/hklpy
+    license: BSD 3-Clause
+    summary: >
+        Diffractometer computation library with ophyd pseudopositioner support
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
