@@ -6,19 +6,23 @@ CLI to mirror all files in a package from one conda channel to another
 # conda execute
 # env:
 #  - anaconda-client
+#  - slacker
 #
 # run_with: python
 import os
 from argparse import ArgumentParser
 from pprint import pformat
-import re
 import sys
 import subprocess
 import tempfile
 import logging
-logger = logging.getLogger('mirror.py')
+import traceback
 
 import binstar_client
+import slacker
+
+logger = logging.getLogger('mirror.py')
+
 
 def Popen(cmd, *args, **kwargs):
     """Returns stdout and stderr
@@ -181,12 +185,12 @@ def cli():
         logger.info("Logging to {}".format(args.log))
 
     # set up slack integration
-    slack_token = args_dct.pop('slack_token')
-    slack_channel = args_dct.pop('slack_channel', slack_channel)
+    slack_token = args.slack_token
+    slack_channel = args.slack_channel
     slack_api = slacker.Slacker(slack_token)
     try:
         ret = slack_api.auth.test()
-    except Error as e:
+    except slacker.Error as e:
         slack_api = None
         if slack_token is None:
             logger.info('No slack token provided. Not sending messages to '
@@ -203,7 +207,8 @@ def cli():
 
     logger.info("\nSummary")
     logger.info("-------")
-    logger.info("Mirroring from {} at {}".format(args.from_owner, args.from_domain))
+    logger.info("Mirroring from {} at {}".format(args.from_owner,
+                                                 args.from_domain))
     logger.info("Mirroring to {} at {}".format(args.to_owner, args.to_domain))
     logger.info("\nPlatforms")
     logger.info("---------")
@@ -281,15 +286,17 @@ def cli():
                   '--site', args.to_domain,
                   '-t', args.to_token,
                   'upload',
-                  '-u', args.to_owner,]
+                  '-u', args.to_owner]
     for copy_filename in to_copy:
         # get the full metadata
         md = from_files[copy_filename]
-        login, package_name, version, platform, filename = md['full_name'].split('/')
+        (login, package_name,
+            version, platform, filename) = md['full_name'].split('/')
         destination = os.path.join(download_dir.name, filename)
         logger.info("Downloading {} to {}".format(md['basename'],
                                                   destination))
-        ret = from_cli.download(login, package_name, md['version'], md['basename'])
+        ret = from_cli.download(
+            login, package_name, md['version'], md['basename'])
         with open(destination, 'wb') as f:
             f.write(ret.content)
         assert os.stat(destination).st_size == md['size']
@@ -303,7 +310,7 @@ def cli():
                 slack_channel, "Uploaded {}".format(message))
         else:
             message = "Upload failed for " + message
-            message += "\n" + "stderr from {}".format(upload_cmd))
+            message += "\n" + "stderr from {}".format(upload_cmd)
             message += "\n" + pformat(stderr)
             logger.error(message)
             if slack_api:

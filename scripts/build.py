@@ -45,6 +45,7 @@ slack_channel = 'bob-the-builder'
 slack_api = None
 anaconda_cli = None
 
+
 @contextmanager
 def env_var(key, value):
     old_val = os.environ.get(key)
@@ -96,8 +97,9 @@ def get_file_names_on_anaconda_channel(username, anaconda_cli,
         The file names of all files on an anaconda channel.
         Something like 'linux-64/album-0.0.2.post0-0_g6b05c00_py27.tar.bz2'
     """
-    return set([f['basename']
-                for f in anaconda_cli.show_channel(channel, username)['files']])
+    return set(
+        [f['basename']
+         for f in anaconda_cli.show_channel(channel, username)['files']])
 
 
 def Popen(cmd):
@@ -272,6 +274,7 @@ def get_deps_from_metadata(path):
     build = meta.meta.get('requirements', {}).get('build', [])
     return build or [], run or [], test or []
 
+
 def sanitize_names(list_of_names):
     list_of_names = [name.split(' ')[0] for name in list_of_names]
     list_of_names = [name for name in
@@ -431,7 +434,7 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
         build_command = meta.build_command
         # output the package build name
         print("Building: %s" % build_name)
-        # # need to run the build command with --output again or conda freaks out
+        # need to run the build command with --output again or conda freaks out
         # stdout, stderr, returncode = Popen(build_command + ['--output'])
         # output the build command
         print("Build cmd: %s" % ' '.join(build_command))
@@ -452,7 +455,7 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
             message = ('\n\n========== STDOUT ==========\n'
                        '\n{}'
                        '\n\n========== STDERR ==========\n'
-                       '\n{}',format(pformat(stdout), pformat(stderr)))
+                       '\n{}'.format(pformat(stdout), pformat(stderr)))
             logger.error(message)
             message_slack(message, username, is_error=True)
             if not allow_failures:
@@ -468,7 +471,7 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
                 message = ('\n\n========== STDOUT ==========\n'
                            '\n{}'
                            '\n\n========== STDERR ==========\n'
-                           '\n{}',format(pformat(stdout), pformat(stderr)))
+                           '\n{}'.format(pformat(stdout), pformat(stderr)))
                 logger.error(message)
                 message_slack(message, username, is_error=True)
                 upload_failed.append(build_name)
@@ -507,7 +510,8 @@ def clone(git_url, git_rev=None):
         git_rev = 'master'
     logger.info("Cloning url={}. rev={}".format(git_url, git_rev))
     tempdir = tempfile.gettempdir()
-    sourcedir = os.path.join(tempdir, getpass.getuser(), git_url.strip('/').split('/')[-1])
+    sourcedir = os.path.join(tempdir, getpass.getuser(),
+                             git_url.strip('/').split('/')[-1])
     if not os.path.exists(sourcedir):
         # clone the git repo to the target directory
         print('Cloning to %s', sourcedir)
@@ -651,7 +655,7 @@ already exist are built.
     slack_api = slacker.Slacker(slack_token)
     try:
         ret = slack_api.auth.test()
-    except Error as e:
+    except slacker.Error as e:
         slack_api = None
         if slack_token is None:
             logger.info('No slack token provided. Not sending messages to '
@@ -768,8 +772,8 @@ def run(recipes_path, python, site, username, numpy, token=None,
     # get all file names that are in the channel I am interested in
     packages = get_file_names_on_anaconda_channel(username, anaconda_cli)
 
-    metas_to_build, metas_to_skip = decide_what_to_build(recipes_path, python, packages,
-                                                numpy)
+    metas_to_build, metas_to_skip = decide_what_to_build(
+        recipes_path, python, packages, numpy)
     if metas_to_build == []:
         print('No recipes to build!. Exiting 0')
         sys.exit(0)
