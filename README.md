@@ -23,7 +23,7 @@ $ crontab -l
 To use the mirroring script with cron every 15 minutes, your crontab should look like this on bcart
 ```
 $ crontab -l
-*/15 * * * * bash ~/mirror > ~/mirrorcronlog 2>&1
+*/15 * * * * bash ~/bootstrap-mirror > ~/mirrorcronlog 2>&1
 ```
 
 ### All other scripts
