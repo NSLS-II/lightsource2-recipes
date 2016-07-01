@@ -20,7 +20,6 @@ logger = logging.getLogger('mirror.py')
 
 import binstar_client
 
-
 def Popen(cmd, *args, **kwargs):
     """Returns stdout and stderr
 
@@ -147,11 +146,52 @@ def cli():
         action="store",
         help="File to log to",
     )
+    p.add_argument(
+        '--slack-token',
+        nargs="?"
+        action="store",
+        help="Authentication token for Slack"
+    )
+    p.add_argument(
+        '--slack-token',
+        action='store',
+        nargs='?',
+        help=("Slack authentication token"),
+    )
+    p.add_argument(
+        '--slack-channel',
+        action='store',
+        nargs='?',
+        help=("Slack channel to post to"),
+        default="bob-the-builder",
+    )
     args = p.parse_args()
     args.to_channel = 'main'
     args.from_channel = 'main'
+
+    # set up slack integration
+    slack_token = args_dct.pop('slack_token')
+    slack_channel = args_dct.pop('slack_channel', slack_channel)
+    slack_api = slacker.Slacker(slack_token)
+    try:
+        ret = slack_api.auth.test()
+    except Error as e:
+        slack_api = None
+        if slack_token is None:
+            logger.info('No slack token provided. Not sending messages to '
+                        'slack')
+        else:
+            logger.error('slack_token {} does grant access to the {} channel'
+                         ''.format(slack_token, slack_channel))
+            logger.error(traceback.format_exc())
+            logger.error(e)
+    else:
+        logger.info("Slack authentication successful.")
+        logger.info("Authenticating as the %s user", ret.body['user'])
+        logger.info("Authenticating to the %s team", ret.body['team'])
+
+    # init some logging
     if args.log:
-        # init some logging
         stream = logging.StreamHandler()
         filehandler = logging.FileHandler(args.log, mode='w')
         stream.setLevel(logging.INFO)
@@ -252,14 +292,23 @@ def cli():
         with open(destination, 'wb') as f:
             f.write(ret.content)
         assert os.stat(destination).st_size == md['size']
-        logger.info('Uploading {} to {} at {}\n'.format(filename,
-                                                      args.to_owner,
-                                                      args.to_domain))
+        message = '{} to {} at {}\n'.format(filename,
+                                            args.to_owner,
+                                            args.to_domain))
+        logger.info('Uploading {}'.format(message))
         stdout, stderr, returncode = Popen(upload_cmd + [destination])
-        if returncode != 0:
-            logger.error("stderr from {}".format(upload_cmd))
-            logger.info(pformat(stderr))
+        if returncode == 0 && slack_api:
+            slack_api.chat.post_message(
+                slack_channel, "Uploaded {}".format(message))
+        else:
+            message = "Upload failed for " + message
+            message += "\n" + "stderr from {}".format(upload_cmd))
+            message += "\n" + pformat(stderr)
+            logger.error(message)
+            if slack_api:
+                slack_api.chat.post_message(slack_channel, message)
             sys.exit(1)
+
     logger.info("Script complete.")
 
 if __name__ == "__main__":
