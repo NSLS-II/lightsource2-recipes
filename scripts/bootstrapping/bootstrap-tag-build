@@ -1,29 +1,36 @@
 #!/bin/bash
 
-export SLACK_TOKEN="your token goes here"
-export BINSTAR_TOKEN="your token goes here"
+# nsls2builder's token for anaconda.org. This has admin access to anaconda.org/lightsource2-tag
+# and anaconda.org/lightsource2-tag
 export SLACK_CHANNEL="bob-the-builder"
+export SLACK_TOKEN="your slack token goes here"
+export BINSTAR_TOKEN="your anaconda.org token goes here"
 export UPLOAD_CHANNEL="lightsource2-tag"
 
-$LOCKFILE="/tmp/$LOGNAME/tagbuild.lock"
+LOCKFILE="/tmp/$LOGNAME/tagbuild.lock"
 mkdir -p "/tmp/$LOGNAME"
 if [ -e $LOCKFILE ]; then
-  python -c "import slacker; slacker.Slacker($SLACK_TOKEN).chat.post_message('lock file exists at $LOCKFILE. Tag build aborting')"
+  python -c "import slacker; slacker.Slacker('$SLACK_TOKEN').chat.post_message('$SLACK_CHANNEL', 'lock file exists at $LOCKFILE. Tag build aborting')"
+  exit 1
 else
   touch $LOCKFILE
 fi;
 
 LOGDIR="/home/$LOGNAME/builds/`date +%Y`/`date +%m`/`date +%d`"
+echo LOGDIR=$LOGDIR
 mkdir $LOGDIR -p
 LOGFILE="$LOGDIR/`date +%H.%M`-tag"
 CLONE_DIR="/tmp/$LOGNAME/tag/recipes"
+echo LOGFILE=$LOGFILE
+echo CLONE_DIR=$CLONE_DIR
 rm -rf $CLONE_DIR
 git clone https://github.com/nsls-ii/lightsource2-recipes $CLONE_DIR
+echo pushd
 pushd $CLONE_DIR/scripts
+pwd
 
-# nsls2builder's token for anaconda.org. This has admin access to anaconda.org/lightsource2-dev
-# and anaconda.org/lightsource2-tag
 echo logging to $LOGFILE
+#exit 1
 ./nsls2-tag-build.sh > $LOGFILE 2>&1
 
 rm $LOCKFILE
