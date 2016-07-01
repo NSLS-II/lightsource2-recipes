@@ -28,7 +28,8 @@ Script | Description
 `nsls2-tag-build.sh` | Script that is run as a cron job on `freyja.nsls2.bnl.gov` under the `edill` account. Is used inside of `bootstrap-tag-build`. See that bootstrap script for the proper invocation of `nsls2-tag-build.sh`
 `mirror.py` | Generic mirroring script that can go across anaconda servers.  There are tons of command line options.  See its usage in `mirror-to-nsls2.sh` for how it is properly localized to nsls2. This script is used to mirror packages from one owner to another. There are a number of command line arguments that can be used for full granular control of which owner on which anaconda server. Consider using this script with the `do-mirror.sh` script that sets up the call for you. This script might be moved to its own repo on conda-forge, but that will come later. (probably much later)
 `mirror-to-nsls2.sh` | Localization of `mirror.py` for nsls2.
-
+`tail-dev-log` | Script that will ssh to freyja.nsls2.bnl.gov and tail the most recent dev build log
+`tail-tag-log` | Script that will ssh to freyja.nsls2.bnl.gov and tail the most recent tag build log
 ### anaconda channel management scripts
 
 Script | Description
