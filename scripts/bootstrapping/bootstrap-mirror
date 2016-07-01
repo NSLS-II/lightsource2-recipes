@@ -1,0 +1,21 @@
+#!/bin/bash
+export PATH=/opt/conda/bin:$PATH
+export https_proxy=http://proxy:8888
+export http_proxy=http://proxy:8888
+export no_proxy=cs.nsls2.local,localhost,127.0.0.1
+
+pip install slacker
+conda install anaconda-client --yes
+env
+CLONE_DIR="/tmp/root/recipes"
+rm -rf $CLONE_DIR
+git clone https://github.com/nsls-ii/lightsource2-recipes $CLONE_DIR
+pushd $CLONE_DIR/scripts
+
+export FROM_TOKEN="anaconda.org token"
+export TO_TOKEN="anaconda.nsls2.bnl.gov token"
+export SLACK_TOKEN="slack token"
+
+OWNER="conda-forge" ./mirror-to-nsls2.sh
+OWNER="lightsource2-tag" ./mirror-to-nsls2.sh
+OWNER="lightsource2-dev" ./mirror-to-nsls2.sh
