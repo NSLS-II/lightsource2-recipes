@@ -24,6 +24,7 @@ To use the mirroring script with cron every 15 minutes, your crontab should look
 ```
 $ crontab -l
 */15 * * * * bash ~/mirror > ~/mirrorcronlog 2>&1
+```
 
 ### All other scripts
 
