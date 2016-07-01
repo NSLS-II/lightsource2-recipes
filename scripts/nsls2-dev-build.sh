@@ -37,7 +37,7 @@ channels:
 
 # And set the correct environmental variable that lets us use it
 echo "Exporting CONDARC=$CONDARC_PATH"
-export CONADRC=$CONDARC_PATH
+export CONDARC=$CONDARC_PATH
 
 # show the conda info and make sure that the $CONDARC_PATH is what is shown
 # under "config file:" in the output of "conda info"
