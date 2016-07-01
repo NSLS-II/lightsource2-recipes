@@ -1,4 +1,4 @@
-{% set version = "0.3.0" %}
+{% set version = "0.4.0" %}
 package:
   name: suitcase
   version: {{ version }}
@@ -6,7 +6,7 @@ package:
 source:
   url: https://github.com/NSLS-II/suitcase/archive/v{{ version }}.tar.gz
   fn: suitcase-v{{ version }}.tar.gz
-  sha256: 975792e196a76d83b58d4bfefd7f969e11db4da23f2f145e0683cf76e6f69116
+  sha256: 671e309472f4a9a32e7bd7357253a5c9fe32e7fa1cf046f30936ca573f7896b0
 
 build:
   number: 0
