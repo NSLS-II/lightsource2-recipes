@@ -476,7 +476,7 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
                 message_slack(message, username, is_error=True)
                 upload_failed.append(build_name)
                 continue
-            message_slack("Uploaded {}".format(build_name), username)
+            message_slack("Built and Uploaded {}".format(build_name), username)
             uploaded.append(build_name)
             continue
 
