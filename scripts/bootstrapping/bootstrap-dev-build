@@ -1,0 +1,14 @@
+#!/bin/bash
+
+LOGDIR="/home/$LOGNAME/builds/`date +%Y`/`date +%m`/`date +%d`"
+mkdir $LOGDIR -p
+LOGFILE="$LOGDIR/`date +%H.%M`-dev"
+CLONE_DIR="/tmp/$LOGNAME/dev/recipes"
+rm -rf $CLONE_DIR
+git clone https://github.com/nsls-ii/lightsource2-recipes $CLONE_DIR
+pushd $CLONE_DIR/scripts
+
+# nsls2builder's token for anaconda.org. This has admin access to anaconda.org/lightsource2-dev
+# and anaconda.org/lightsource2-tag
+echo logging to $LOGFILE
+SLACK_TOKEN="your token goes here" BINSTAR_TOKEN="your token goes here" ./nsls2-dev-build.sh > $LOGFILE 2>&1
