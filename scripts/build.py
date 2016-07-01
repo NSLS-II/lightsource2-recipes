@@ -695,6 +695,8 @@ def init_logging(log_file=None, loglevel=logging.INFO):
 
 
 def message_slack(message, username, is_error=False):
+    if slack_api is None:
+        logger.info("Message to slack not posted. `slack_api` is None.")
     extra_info = (' to {} on {}'.format(username, anaconda_cli.domain))
     if is_error:
         file_handler, = [handler for handler in logger.handlers
