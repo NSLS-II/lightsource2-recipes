@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOGDIR="/home/$LOGNAME/builds/`date +%Y`/`date +%m`/`date +%d`"
+LOGDIR="~/builds/`date +%Y`/`date +%m`/`date +%d`"
 mkdir $LOGDIR -p
 LOGFILE="$LOGDIR/`date +%H.%M`-dev"
 CLONE_DIR="/tmp/$LOGNAME/dev/recipes"
