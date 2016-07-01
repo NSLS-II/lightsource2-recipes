@@ -14,5 +14,6 @@ echo logging to $LOGFILE
 export SLACK_TOKEN="your token goes here"
 export BINSTAR_TOKEN="your token goes here"
 export SLACK_CHANNEL="bob-the-builder"
+export UPLOAD_CHANNEL="lightsource2-tag"
 
 ./nsls2-dev-build.sh > $LOGFILE 2>&1

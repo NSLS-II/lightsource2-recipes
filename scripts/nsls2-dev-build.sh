@@ -3,6 +3,7 @@
 : ${BINSTAR_TOKEN?"Need to set BINSTAR_TOKEN"}
 : ${SLACK_TOKEN?"Need to set SLACK_TOKEN"}
 : ${SLACK_CHANNEL?"Need to set SLACK_CHANNEL"}
+: ${UPLOAD_CHANNEL?"Need to set UPLOAD_CHANNEL"}
 # Set up the environmental variables
 # Set the path to the condarc
 CONDARC_PATH="/root/.condarc"
@@ -11,7 +12,6 @@ REPO_DIR="/repo"
 # define the docker container to use
 IMAGE_NAME="nsls2/debian-with-miniconda:latest"
 # Set the channel to upload the built packages to
-UPLOAD_CHANNEL="lightsource2-dev"
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
 
