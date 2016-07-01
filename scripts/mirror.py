@@ -3,12 +3,6 @@
 CLI to mirror all files in a package from one conda channel to another
 
 """
-# conda execute
-# env:
-#  - anaconda-client
-#  - slacker
-#
-# run_with: python
 import os
 from argparse import ArgumentParser
 from pprint import pformat
@@ -149,12 +143,6 @@ def cli():
         nargs="?",
         action="store",
         help="File to log to",
-    )
-    p.add_argument(
-        '--slack-token',
-        nargs="?",
-        action="store",
-        help="Authentication token for Slack"
     )
     p.add_argument(
         '--slack-token',
