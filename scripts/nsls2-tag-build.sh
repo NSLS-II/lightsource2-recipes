@@ -2,7 +2,7 @@
 
 : ${BINSTAR_TOKEN?"Need to set BINSTAR_TOKEN"}
 : ${SLACK_TOKEN?"Need to set SLACK_TOKEN"}
-: ${SLACK_CHANNEL?:-"bob-the-builder"}
+: ${SLACK_CHANNEL?-"bob-the-builder"}
 # Set up the environmental variables
 # Set the path to the condarc
 CONDARC_PATH="/root/.condarc"
