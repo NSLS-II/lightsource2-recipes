@@ -295,7 +295,7 @@ def cli():
         assert os.stat(destination).st_size == md['size']
         message = '{} to {} at {}\n'.format(filename,
                                             args.to_owner,
-                                            args.to_domain))
+                                            args.to_domain)
         logger.info('Uploading {}'.format(message))
         stdout, stderr, returncode = Popen(upload_cmd + [destination])
         if returncode == 0 && slack_api:
