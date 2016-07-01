@@ -302,6 +302,8 @@ def cli():
             message += "\n" + pformat(stderr)
             logger.error(message)
             if slack_api:
+                message = message + ('\n\nCheck the log at {} on {}'
+                                     ''.format(args.log, os.uname()))
                 slack_api.chat.post_message(slack_channel, message)
             sys.exit(1)
 
