@@ -4,6 +4,6 @@ echo "channels:
 - lightsource2-tag
 - conda-forge
 - anaconda
-always_yes: true
+always_yes: false
 ssl_verify: false
 show_channel_urls: true" > ~/.condarc
