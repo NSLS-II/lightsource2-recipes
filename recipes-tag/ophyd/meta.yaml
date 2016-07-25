@@ -7,7 +7,7 @@ package:
 source:
     url: https://github.com/NSLS-II/ophyd/archive/v{{ version }}.tar.gz
     fn: ophyd-v{{ version }}.tar.gz
-    sha256: 08aaee2eeac8be43acbf24cabd9ff6504ff6504c27552e04268778a15f5ce67a
+    sha256: f91c4726cb5f9ac6caeca03fe1722a51a92ae504fff7fc230c9b5dc16479e678
 
 build:
     number: 1

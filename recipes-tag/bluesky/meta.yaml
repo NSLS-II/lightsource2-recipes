@@ -7,7 +7,7 @@ package:
 source:
     url: https://github.com/NSLS-II/bluesky/archive/v{{ version }}.tar.gz
     fn: bluesky-v{{ version }}.tar.gz
-    sha256: 42133480004cba07bb138de374badef7c209639ee0c5b4d54f7ab0dabdf3f46f
+    sha256: 063046923781088805a09ac28fe11a7ad0c7b402e79201fc125b4f8484c0a201
 
 build:
     number: 0
