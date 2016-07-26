@@ -20,7 +20,7 @@ requirements:
     - channelarchiver
     - cytoolz
     - doct
-    - filestore >=0.2.0
+    - filestore >=0.5.0
     # - h5py  # h5py is a dep in databroker/examples/hdf_io.py
     - metadatastore >=0.3.1
     - pandas
