@@ -1,4 +1,4 @@
-{% set version = "0.6.0" %}
+{% set version = "0.6.2" %}
 
 package:
     name: bluesky
@@ -7,7 +7,7 @@ package:
 source:
     url: https://github.com/NSLS-II/bluesky/archive/v{{ version }}.tar.gz
     fn: bluesky-v{{ version }}.tar.gz
-    sha256: 063046923781088805a09ac28fe11a7ad0c7b402e79201fc125b4f8484c0a201
+    sha256: 58b225cce55dd406347736b07e5af6b764d68be5d78e7129ccaec978ced9e9d6
 
 build:
     number: 0
