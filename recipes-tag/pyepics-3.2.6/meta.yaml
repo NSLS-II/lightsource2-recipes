@@ -1,4 +1,4 @@
-{% set version = "3.2.5" %}
+{% set version = "3.2.6" %}
 package:
     name: pyepics
     version: {{ version }}
@@ -6,7 +6,7 @@ package:
 source:
     url: https://github.com/pyepics/pyepics/archive/{{ version }}.tar.gz
     fn: pyepics-{{ version }}.tar.gz
-    sha256: 435668d049e7bd1a65b6699fc3c95cb7df522412457102cd0b484948cf07b83d
+    sha256: 630ac60bf9362a758211cfd3af4e62c9a0a394af6e5674aababdf6c857ad34a5
 
 build:
     number: 0
