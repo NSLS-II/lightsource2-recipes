@@ -16,7 +16,6 @@ requirements:
     - python
     - setuptools
   run:
-    - boltons
     - channelarchiver
     - cytoolz
     - doct

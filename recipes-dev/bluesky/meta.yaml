@@ -31,8 +31,6 @@ requirements:
     - historydict
     - tifffile
     - event-model
-    - boltons
-
 
 test:
   requires:
