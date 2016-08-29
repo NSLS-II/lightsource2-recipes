@@ -36,6 +36,7 @@ requirements:
         - tifffile
         - traitlets
         - xray-vision
+        - boltons
 
 test:
     requires:
