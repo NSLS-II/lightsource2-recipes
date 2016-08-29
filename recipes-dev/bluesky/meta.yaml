@@ -16,6 +16,7 @@ requirements:
     - python
 
   run:
+    - boltons
     - python
     - jsonschema
     - super_state_machine
@@ -31,7 +32,6 @@ requirements:
     - historydict
     - tifffile
     - event-model
-    - boltons
 
 test:
   requires:

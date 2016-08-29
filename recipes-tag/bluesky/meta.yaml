@@ -19,6 +19,7 @@ requirements:
         - python
 
     run:
+        - boltons
         - cycler
         - databroker
         - doct
@@ -36,7 +37,6 @@ requirements:
         - tifffile
         - traitlets
         - xray-vision
-        - boltons
 
 test:
     requires:

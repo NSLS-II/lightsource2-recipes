@@ -17,6 +17,7 @@ requirements:
     - six
 
   run:
+    - boltons
     - python
     - h5py
     - six
