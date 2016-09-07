@@ -1,7 +1,7 @@
 echo "url: https://anaconda.nsls2.bnl.gov/api" > ~/.config/binstar/config.yaml
 echo "channels:
-- lightsource2-dev
-- lightsource2-tag
+- nsls2-dev
+- nsls2-tag
 - conda-forge
 - anaconda
 always_yes: false
