@@ -32,8 +32,8 @@ show_channel_urls: true
 channels:
 - $UPLOAD_CHANNEL
 - lightsource2-tag
-- conda-forge
-- defaults" > $CONDARC_PATH
+- defaults
+- conda-forge" > $CONDARC_PATH
 
 # And set the correct environmental variable that lets us use it
 echo "Exporting CONDARC=$CONDARC_PATH"
@@ -55,6 +55,6 @@ conda install conda-build anaconda-client conda-execute
 export PYTHONUNBUFFERED=1
 
 # execute the dev build
-./repo/scripts/build.py /repo/recipes-dev -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN  --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN
+./repo/scripts/build.py /repo/recipes-dev -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN  --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
 
 EOF

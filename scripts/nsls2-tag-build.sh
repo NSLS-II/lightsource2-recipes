@@ -31,8 +31,8 @@ always_yes: true
 show_channel_urls: true
 channels:
 - $UPLOAD_CHANNEL
-- conda-forge
-- defaults" > $CONDARC_PATH
+- defaults
+- conda-forge" > $CONDARC_PATH
 
 # And set the correct environmental variable that lets us use it
 echo "Exporting CONDARC=$CONDARC_PATH"
@@ -48,13 +48,13 @@ echo "contents of condarc at $CONDARC_PATH"
 cat $CONDARC_PATH
 
 # install some required dependencies
-conda install conda-build anaconda-client conda-execute
+conda install conda-build=2.0 anaconda-client conda-execute
 
 # not sure why this is here, but I'm reasonably certain it is important
 export PYTHONUNBUFFERED=1
 
 # execute the dev build
-./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN
-./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --slack-channel $SLACK_CHANNEL
+./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
+./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --slack-channel $SLACK_CHANNEL --allow-failures
 
 EOF
