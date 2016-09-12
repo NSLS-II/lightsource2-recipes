@@ -7,7 +7,7 @@ package:
 source:
   url: https://github.com/NSLS-II/pyxrf/archive/v{{ version }}.tar.gz
   fn: pyxrf-v{{ version }}.tar.gz
-  sha256: c3d88e9d538cbe4566683fa1bff57fea56f8ecf6285f91d594f38f38d9cf7af7
+  sha256: 50f8adbd9ae8c81e4419a208bfb2718f9f9aba467785c3679cbef3c58e25fde2
 
 build:
   number: 1

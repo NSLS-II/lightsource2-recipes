@@ -7,8 +7,7 @@ package:
 source:
     url: https://github.com/NSLS-II/bluesky/archive/v{{ version }}.tar.gz
     fn: bluesky-v{{ version }}.tar.gz
-    sha256: 58b225cce55dd406347736b07e5af6b764d68be5d78e7129ccaec978ced9e9d6
-
+    sha256: e34afe83710d4114e1fbdd24aba6f1c55f232bcd33c647e09d4147e5941c609a
 build:
     number: 0
     script: python setup.py install --single-version-externally-managed --record=record.txt
