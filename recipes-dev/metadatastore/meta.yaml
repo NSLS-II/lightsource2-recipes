@@ -32,8 +32,6 @@ test:
     - nslsii_dev_configuration
   imports:
     - metadatastore
-    - metadatastore.api
-    - metadatastore.commands
     - metadatastore.conf
     - metadatastore.examples
     - metadatastore.examples.sample_data

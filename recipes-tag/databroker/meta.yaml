@@ -7,7 +7,7 @@ package:
 source:
   url: https://github.com/NSLS-II/databroker/archive/v{{ version }}.tar.gz
   fn: databroker-v{{ version }}.tar.gz
-  sha256: a53c55e304c096029540a5b238d97a78246a9b42deaf3bd2d9ad9a9dc9788114
+  sha256: e08d9e7fc53524de693ac040be236583a6abf0d61f2ebc93de2f7411e2e0941c
 
 build:
   number: 0

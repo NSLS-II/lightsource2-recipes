@@ -455,7 +455,7 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
                        '\n\n========== STDERR ==========\n'
                        '\n{}'.format(pformat(stdout), pformat(stderr)))
             logger.error(message)
-            message_slack(message, username, is_error=True)
+            #message_slack(message, username, is_error=True)
             if not allow_failures:
                 sys.exit(1)
         if token and upload:
@@ -471,7 +471,7 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
                            '\n\n========== STDERR ==========\n'
                            '\n{}'.format(pformat(stdout), pformat(stderr)))
                 logger.error(message)
-                message_slack(message, username, is_error=True)
+                #message_slack(message, username, is_error=True)
                 upload_failed.append(build_name)
                 continue
             message_slack("Built and Uploaded {}".format(build_name), username)
