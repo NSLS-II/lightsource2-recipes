@@ -1,4 +1,4 @@
-{% set version = "0.0.5" %}
+{% set version = "0.0.6" %}
 package:
   name: xray-vision
   version: {{ version }}
@@ -6,7 +6,6 @@ package:
 source:
   url: https://github.com/Nikea/xray-vision/archive/v{{ version }}.tar.gz
   fn: xray-vision-v{{ version }}.tar.gz
-  sha256: 3c91340c356c9a20062b91f7781e440e92fdc5a1fe55833c5005008c99e2fce9
 
 build:
   number: 0

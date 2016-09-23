@@ -1,4 +1,4 @@
-{% set version = "0.6.0" %}
+{% set version = "0.6.1" %}
 
 package:
   name: databroker
@@ -7,7 +7,6 @@ package:
 source:
   url: https://github.com/NSLS-II/databroker/archive/v{{ version }}.tar.gz
   fn: databroker-v{{ version }}.tar.gz
-  sha256: e08d9e7fc53524de693ac040be236583a6abf0d61f2ebc93de2f7411e2e0941c
 
 build:
   number: 0

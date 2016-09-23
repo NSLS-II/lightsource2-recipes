@@ -7,7 +7,6 @@ package:
 source:
   url: https://github.com/NSLS-II/datamuxer/archive/v{{ version }}.tar.gz
   fn: datamuxer-v{{ version }}.tar.gz
-  sha256: 6fc7cb8226ab216960a424303d28389e95b238929e626a1bd14578df90d207e8
 
 build:
   number: 0

@@ -1,4 +1,4 @@
-{% set version = "4.0.2" %}
+{% set version = "4.0.3" %}
 package:
     name: pyolog
     version: {{ version }}
@@ -6,7 +6,6 @@ package:
 source:
     url: https://github.com/NSLS-II/pyOlog/archive/v{{ version }}.tar.gz
     fn: pyolog-v{{ version }}.tar.gz
-    sha256: 2fbb544117f5beabdc6ae73320199b071b039a044085997f3f802be242573aff
 
 build:
     number: 0

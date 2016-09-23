@@ -1,4 +1,4 @@
-{% set version = "0.3.0" %}
+{% set version = "0.3.1" %}
 
 package:
     name: ophyd
@@ -7,7 +7,6 @@ package:
 source:
     url: https://github.com/NSLS-II/ophyd/archive/v{{ version }}.tar.gz
     fn: ophyd-v{{ version }}.tar.gz
-    sha256: f91c4726cb5f9ac6caeca03fe1722a51a92ae504fff7fc230c9b5dc16479e678
 
 build:
     number: 1
