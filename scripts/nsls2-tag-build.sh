@@ -48,13 +48,15 @@ echo "contents of condarc at $CONDARC_PATH"
 cat $CONDARC_PATH
 
 # install some required dependencies
-conda install conda-build=2.0 anaconda-client conda-execute
+echo "start installation"
+conda install conda-build=2.0 anaconda-client conda-execute conda-env=2.5.1
+
 
 # not sure why this is here, but I'm reasonably certain it is important
 export PYTHONUNBUFFERED=1
 
 # execute the dev build
 ./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
-./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --slack-channel $SLACK_CHANNEL --allow-failures
+./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.4 3.5 --numpy 1.10 1.11 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
 
 EOF

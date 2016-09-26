@@ -49,7 +49,7 @@ echo "contents of condarc at $CONDARC_PATH"
 cat $CONDARC_PATH
 
 # install some required dependencies
-conda install conda-build anaconda-client conda-execute
+conda install conda-build=2.0 anaconda-client conda-execute conda-env=2.5.1
 
 # not sure why this is here, but I'm reasonably certain it is important
 export PYTHONUNBUFFERED=1
