@@ -3,6 +3,7 @@ echo "channels:
 - nsls2-dev
 - nsls2-tag
 - anaconda
+- conda-forge
 always_yes: yes
 ssl_verify: false
 show_channel_urls: true" > ~/.condarc
