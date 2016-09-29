@@ -31,7 +31,7 @@ always_yes: true
 show_channel_urls: true
 channels:
 - $UPLOAD_CHANNEL
-- defaults
+- anaconda
 - conda-forge" > $CONDARC_PATH
 
 # And set the correct environmental variable that lets us use it
