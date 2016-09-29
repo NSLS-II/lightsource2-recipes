@@ -8,7 +8,7 @@ source:
 
 
 build:
-    number: 0
+    number: 1 
     script: python setup.py install --single-version-externally-managed --record=record.txt
     skip: True   # [py2k]
 
@@ -30,8 +30,6 @@ test:
 about:
     home: https://nsls-ii.github.io/amostra
     license: BSD 3-Clause
-    summary: "amostra is a collection of light-weight sample management classes"
-
 extra:
     recipe-maintainers:
         - ericdill
