@@ -1,0 +1,24 @@
+{% set version = "2016-09-29.0" %}
+
+package:
+  name: analysis
+  version: {{ version }}
+
+requirements:
+  run:
+    - python==3.5.1
+    - ipython==5.1
+    - ipywidgets==5.2.2
+    - jupyter
+    - bluesky==0.6.4
+    - filestore==0.6.0
+    - suitcase==0.5.1
+    - databroker==0.6.2
+    - historydict==1.2.0
+    - doct==1.0.3
+    - metadatastore==0.6.3
+    - metadataclient==0.2.0
+    - datamuxer==0.3.0
+    - scikit-beam==0.0.9
+    - xray-vision==0.0.6
+    - amostra==0.1.5
