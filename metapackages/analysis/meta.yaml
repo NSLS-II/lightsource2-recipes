@@ -1,4 +1,4 @@
-{% set version = "2016-09-29.0" %}
+{% set version = "16Q4.0" %}
 
 package:
   name: analysis
