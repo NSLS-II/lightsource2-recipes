@@ -1,0 +1,12 @@
+{% set version = "16Q4.0" %}
+
+package:
+  name: collection
+  version: {{ version }}
+
+requirements:
+  run:
+    - analysis==2016-09-29.0
+    - ophyd==0.3.1
+    - pyepics==3.2.6
+    - pyolog==4.0.3
