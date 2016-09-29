@@ -1,4 +1,4 @@
-{% set version = "0.2.2" %}
+{% set version = "0.2.3" %}
 
 package:
   name: hxntools
@@ -27,7 +27,6 @@ requirements:
 test:
   requires:
     - nslsii_dev_configuration
-
   imports:
     - hxntools
 
