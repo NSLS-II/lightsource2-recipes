@@ -20,6 +20,7 @@ requirements:
 
     run:
         - doct
+        - metadatastore
         - jsonschema
         - pymongo
         - python
