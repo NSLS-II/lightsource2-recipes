@@ -1,13 +1,12 @@
-{% set version = "0.0.5" %}
+{% set version = "0.0.6" %}
 
 package:
   name: pyxrf
   version: {{ version }}
 
 source:
-  url: https://github.com/NSLS-II/pyxrf/archive/v{{ version }}.tar.gz
-  fn: pyxrf-v{{ version }}.tar.gz
-  sha256: 50f8adbd9ae8c81e4419a208bfb2718f9f9aba467785c3679cbef3c58e25fde2
+  git_url: https://github.com/nsls-ii/pyxrf
+  git_rev: v{{ version }}
 
 build:
   number: 1
