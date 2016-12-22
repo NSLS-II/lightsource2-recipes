@@ -1,4 +1,4 @@
-{% set version = "4.0.3" %}
+{% set version = "4.1.0" %}
 package:
     name: pyolog
     version: {{ version }}
