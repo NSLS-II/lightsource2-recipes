@@ -9,7 +9,7 @@ source:
     git_rev: v{{ version }}
 
 build:
-    number: 0
+    number: 1
     skip: True  # [py2k]
 
 requirements:
@@ -29,7 +29,9 @@ requirements:
         - pygobject  # [py2k]
         - pygobject3  # [py3k]
         - python
-
+        - gsl
+        - pcre
+        - libiconv
 about:
     home: http://repo.or.cz/w/hkl.git/
     license: LGPL
