@@ -17,7 +17,7 @@ requirements:
     - channelarchiver
     - databroker ==0.7.0
     - datamuxer ==0.3.0
-    - doct ==1.0.3  # [py3k]
+    - doct ==1.0.3
     - filestore ==0.7.0
     - historydict ==1.2.0
     - ipython ==5.1
