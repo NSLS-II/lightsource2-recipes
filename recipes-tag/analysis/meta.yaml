@@ -12,19 +12,19 @@ build:
 requirements:
   run:
     - album
-    - amostra ==0.2
-    - bluesky ==0.8.0
+    - amostra ==0.2  # [py3k]
+    - bluesky ==0.8.0  # [py3k]
     - channelarchiver
     - databroker ==0.7.0
     - datamuxer ==0.3.0
-    - doct ==1.0.3
+    - doct ==1.0.3  # [py3k]
     - filestore ==0.7.0
     - historydict ==1.2.0
     - ipython ==5.1
     - ipywidgets ==5.2.2
     - jupyter
     - metadatastore ==0.6.4
-    - metadataclient ==0.3.0
+    - metadataclient ==0.3.0  # [py3k]
     - openpyxl
     - pymongo
     - python ==3.5.1
