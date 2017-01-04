@@ -1,5 +1,5 @@
-{% set year = "2016" %}
-{% set cycle = "02" %}
+{% set year = "2017" %}
+{% set cycle = "01" %}
 
 package:
   name: analysis
