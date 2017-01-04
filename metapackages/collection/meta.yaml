@@ -1,4 +1,4 @@
-{% set version = "16Q4.1" %}
+{% set version = "17Q1.0" %}
 
 package:
   name: collection
@@ -6,7 +6,8 @@ package:
 
 requirements:
   run:
-    - analysis ==16Q4.0
-    - ophyd ==0.3.1
+    - analysis ==17Q1.0
+    - ophyd ==0.4.0
     - pyepics ==3.2.6
-    - pyolog ==4.0.3
+    - pyolog ==4.1.0
+    - pyqt ==4.11
