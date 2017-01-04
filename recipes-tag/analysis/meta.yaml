@@ -11,19 +11,23 @@ build:
 
 requirements:
   run:
-    - python ==3.5.1
+    - album
+    - amostra ==0.2
+    - bluesky ==0.8.0
+    - channelarchiver
+    - databroker ==0.7.0
+    - datamuxer ==0.3.0
+    - doct ==1.0.3
+    - filestore ==0.7.0
+    - historydict ==1.2.0
     - ipython ==5.1
     - ipywidgets ==5.2.2
     - jupyter
-    - bluesky ==0.8.0
-    - filestore ==0.7.0
-    - suitcase ==0.5.2
-    - databroker ==0.7.0
-    - historydict ==1.2.0
-    - doct ==1.0.3
     - metadatastore ==0.6.4
     - metadataclient ==0.3.0
-    - datamuxer ==0.3.0
+    - openpyxl
+    - pymongo
+    - python ==3.5.1
+    - suitcase ==0.5.2
     - scikit-beam ==0.0.9
     - xray-vision ==0.0.6
-    - amostra ==0.2
