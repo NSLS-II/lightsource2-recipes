@@ -7,11 +7,10 @@ package:
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
-    - album
     - amostra ==0.2  # [py3k]
     - bluesky ==0.8.0  # [py3k]
     - channelarchiver
