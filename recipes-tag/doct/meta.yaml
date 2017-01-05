@@ -1,0 +1,35 @@
+{% set version = "1.0.3" %}
+
+package:
+  name: doct
+  version: {{ version }}
+
+source:
+  url: https://github.com/NSLS-II/doct/archive/v{{ version }}.tar.gz
+  fn: doct-v{{ version }}.tar.gz
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+
+  run:
+    - python
+    - six
+
+test:
+  requires:
+    - nose
+    - six
+  commands:
+    - nosetests ../work/doct-{{ version }} -sv
+  imports:
+    - doct
+
+about:
+  home: https://github.com/NSLS-II/document
+  license: BSD 3-Clause
+  summary: A read-only dottable dictionary
