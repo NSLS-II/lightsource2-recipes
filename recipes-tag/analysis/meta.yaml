@@ -27,6 +27,7 @@ requirements:
     - openpyxl
     - pymongo
     - pyqt ==4.11.4
+    - qt ==4.8*
     - python
     - suitcase ==0.5.2
     - scikit-beam ==0.0.9
