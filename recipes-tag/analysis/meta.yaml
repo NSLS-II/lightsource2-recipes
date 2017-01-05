@@ -26,6 +26,7 @@ requirements:
     - metadataclient ==0.3.0  # [py3k]
     - openpyxl
     - pymongo
+    - pyqt ==4.11.4
     - python ==3.5.1
     - suitcase ==0.5.2
     - scikit-beam ==0.0.9
