@@ -1,6 +1,10 @@
 # lightsource2-recipes
 The recipes that are needed at nsls2 but are not on `conda-forge` yet.
 
+Here is a
+[link to the conda package version matching specifications](http://conda.pydata.org/docs/spec.html#package-match-specifications)
+for convenience.
+
 ## lightsource2-recipes/scripts
 
 ### cron/bootstrapping scripts
