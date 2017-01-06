@@ -1,0 +1,16 @@
+{% set year = "17" %}
+{% set cycle = "Q1" %}
+{% set version ="0" %}
+
+package:
+  name: 16-ID-LIX-analysis
+  version: {{ year }}{{ cycle }}.{{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - python=3.4
+    - opencv
+    - fabio

@@ -1,0 +1,18 @@
+{% set year = "17" %}
+{% set cycle = "Q1" %}
+{% set version ="0" %}
+
+package:
+  name: 04-ID-ISR-collection
+  version: {{ year }}{{ cycle }}.{{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - gsl
+    - libiconv
+    - pcre
+    - hkl
+    - hklpy

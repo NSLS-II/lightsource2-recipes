@@ -1,0 +1,16 @@
+{% set year = "17" %}
+{% set cycle = "Q1" %}
+{% set version ="0" %}
+
+package:
+  name: 03-ID-HXN-collection
+  version: {{ year }}{{ cycle }}.{{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - hxntools
+    - tqdm
+    - ppmac

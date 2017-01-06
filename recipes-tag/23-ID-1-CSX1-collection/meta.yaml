@@ -1,0 +1,19 @@
+{% set year = "17" %}
+{% set cycle = "Q1" %}
+{% set version ="0" %}
+
+package:
+  name: 23-ID-1-CSX1-collection
+  version: {{ year }}{{ cycle }}.{{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - gsl
+    - libiconv
+    - pcre
+    - hkl
+    - hklpy
+    - 23-ID-1-CSX1-analysis
