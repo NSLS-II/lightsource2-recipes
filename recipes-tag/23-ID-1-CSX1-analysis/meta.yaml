@@ -1,0 +1,14 @@
+{% set year = "17" %}
+{% set cycle = "Q1" %}
+{% set version ="0" %}
+
+package:
+  name: 23-ID-1-CSX1-analysis
+  version: {{ year }}{{ cycle }}.{{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - csxtools
