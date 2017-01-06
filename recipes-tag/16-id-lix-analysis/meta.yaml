@@ -11,6 +11,4 @@ build:
 
 requirements:
   run:
-    - python=3.4
-    - opencv
     - fabio
