@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 03-ID-HXN-collection
+  name: 23-id-1-csx1-collection
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
@@ -11,6 +11,9 @@ build:
 
 requirements:
   run:
-    - hxntools
-    - tqdm
-    - ppmac
+    - gsl
+    - libiconv
+    - pcre
+    - hkl
+    - hklpy
+    - 23-ID-1-CSX1-analysis

@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 16-ID-LIX-analysis
+  name: 11-id-chx-analysis
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
@@ -11,6 +11,6 @@ build:
 
 requirements:
   run:
-    - python=3.4
-    - opencv
-    - fabio
+    - chxtools
+    - eiger-io
+    - hdf5-lz4

@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 23-ID-1-CSX1-analysis
+  name: 16-id-lix-analysis
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
@@ -11,4 +11,6 @@ build:
 
 requirements:
   run:
-    - csxtools
+    - python=3.4
+    - opencv
+    - fabio

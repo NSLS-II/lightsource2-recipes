@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 23-ID-2-CSX2-analysis
+  name: 04-id-isr-collection
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
@@ -11,4 +11,8 @@ build:
 
 requirements:
   run:
-    - csxtools
+    - gsl
+    - libiconv
+    - pcre
+    - hkl
+    - hklpy

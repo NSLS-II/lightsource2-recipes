@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 11-ID-CHX-analysis
+  name: 03-id-hxn-collection
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
@@ -11,6 +11,6 @@ build:
 
 requirements:
   run:
-    - chxtools
-    - eiger-io
-    - hdf5-lz4
+    - hxntools
+    - tqdm
+    - ppmac

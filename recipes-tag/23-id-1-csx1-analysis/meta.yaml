@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 23-ID-1-CSX1-collection
+  name: 23-id-1-csx1-analysis
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
@@ -11,9 +11,4 @@ build:
 
 requirements:
   run:
-    - gsl
-    - libiconv
-    - pcre
-    - hkl
-    - hklpy
-    - 23-ID-1-CSX1-analysis
+    - csxtools
