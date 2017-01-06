@@ -7,7 +7,7 @@ package:
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
@@ -16,4 +16,4 @@ requirements:
     - pcre
     - hkl
     - hklpy
-    - 23-ID-1-CSX1-analysis
+    - 23-id-1-csx1-analysis
