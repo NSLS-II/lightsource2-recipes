@@ -25,7 +25,6 @@ requirements:
     - pyqt 4*
     - bluesky
     - pexpect
-    - ftplib
     - pysmbc
     - netcdf4
     - pyparsing
