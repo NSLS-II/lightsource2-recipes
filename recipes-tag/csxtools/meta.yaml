@@ -6,7 +6,7 @@ package:
 
 source:
   git_url: https://github.com/NSLS-II-CSX/csxtools/
-  git_rev: {{ version }}
+  git_rev: v{{ version }}
 
 build:
   number: 1
@@ -17,7 +17,7 @@ requirements:
   build:
     - pytest
     - python
-    - numpy x.x
+    - numpy
     - setuptools
 
   run:
@@ -25,7 +25,7 @@ requirements:
     - ipython
     - ipywidgets
     - matplotlib
-    - numpy x.x
+    - numpy
     - pims >=0.3.3
     - python
     - tzlocal
