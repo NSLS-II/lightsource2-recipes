@@ -5,7 +5,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/kif/fabio/archive/v{{ version }}.tar.gz
+  url: https://github.com/silx-kit/fabio/archive/v{{ version }}.tar.gz
   fn: fabio-v{{ version }}.tar.gz
 
 build:
