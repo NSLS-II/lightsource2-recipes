@@ -1,0 +1,27 @@
+{% set version = "0.5.0" %}
+
+package:
+  name: xpdacq
+  version: {{ version }}
+
+source:
+  url: https://github.com/xpdacq/xpdacq/archive/v{{ version }}.tar.gz
+  fn: xpdacq-v{{ version }}.tar.gz
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - python
+    - numpy
+    - matplotlib
+
+test:
+  imports:
+    - xpdacq
