@@ -1,13 +1,12 @@
-{% set version = "0.3.0" %}
+{% set version = "0.4.0" %}
 
 package:
   name: fabio
   version: {{ version }}
 
 source:
-  url: https://github.com/kif/fabio/archive/v{{ version }}.tar.gz
+  url: https://github.com/silx-kit/fabio/archive/v{{ version }}.tar.gz
   fn: fabio-v{{ version }}.tar.gz
-  sha256: ec4586a676dab02931bed2f1e0ef227c43259b4f60c0cfb603c30e02876164e8
 
 build:
   number: 1
