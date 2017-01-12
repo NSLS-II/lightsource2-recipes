@@ -1,0 +1,47 @@
+{% set version = "0.0.1" %}
+
+package:
+    name: chxanalys
+    version: {{ version }}
+
+source:
+    url: https://github.com/NSLS-II-CHX/chxanalys/archive/v{{ version }}.tar.gz
+    fn: chxanalys-v{{ version }}.tar.gz
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+    skip: True  # [py2k]
+
+requirements:
+    build:
+        - python
+
+    run:
+        - chxtools
+        - databroker
+        - filestore
+        - h5py
+        - metadatastore
+        - matplotlib
+        - numpy
+        - pandas
+        - pillow
+        - pyolog
+        - python
+        - reportlab
+        - scikit-image
+        - scipy
+        - scikit-beam
+        - tqdm
+        - xray-vision
+
+test:
+    imports:
+        - chxanalys
+
+about:
+    home: https://github.com/NSLS-II-CHX/chxanalys
+    license: BSD
+
+
