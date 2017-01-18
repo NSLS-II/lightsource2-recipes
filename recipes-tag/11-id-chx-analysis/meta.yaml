@@ -15,3 +15,8 @@ requirements:
     - eiger-io
     - hdf5-lz4
     - chxanalys
+    - dask
+    - theano
+    - graphviz
+    - boto3
+    - reportlab
