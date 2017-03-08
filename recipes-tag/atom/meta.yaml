@@ -1,0 +1,35 @@
+package:
+  name: atom
+  version: {{ environ.get('GIT_DESCRIBE_TAG') }}.post{{ environ.get('GIT_DESCRIBE_NUMBER') }}
+
+source:
+  git_tag: dev
+  git_url: https://github.com/MatthieuDartiailh/atom
+
+build:
+  number: {{ environ.get('GIT_DESCRIBE_NUMBER', 1) }}
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - future	
+
+  run:
+    - python
+
+test:
+  # Python imports
+  imports:
+    - atom
+    - atom.datastructures
+    - tests
+
+about:
+  home: https://github.com/nucleic/atom
+  license: Modified BSD
+  summary: 'Memory efficient Python objects'
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
