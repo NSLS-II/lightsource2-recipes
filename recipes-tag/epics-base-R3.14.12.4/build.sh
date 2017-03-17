@@ -12,7 +12,7 @@ EPICS_HOST_ARCH=$(startup/EpicsHostArch)
 cp -av $PREFIX/epics/lib/$EPICS_HOST_ARCH/lib*so* $PREFIX/lib
 
 # Setup symlinks for utilities
-BINS="caget caput camonitor softIoc"
+BINS="caget caput camonitor softIoc caRepeater"
 cd $PREFIX/bin
 for file in $BINS ; do
 	ln -s ../epics/bin/$EPICS_HOST_ARCH/$file .
