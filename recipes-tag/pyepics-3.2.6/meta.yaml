@@ -9,7 +9,7 @@ source:
     sha256: 630ac60bf9362a758211cfd3af4e62c9a0a394af6e5674aababdf6c857ad34a5
 
 build:
-    number: 0
+    number: 1
     script: |
       export PYEPICS_LIBCA=$PREFIX/lib/libca.so
       echo "Using LIBCA from $PYEPICS_LIBCA"
