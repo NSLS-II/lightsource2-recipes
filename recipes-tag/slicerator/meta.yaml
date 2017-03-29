@@ -1,0 +1,47 @@
+{% set version = "0.9.8" %}
+
+package:
+    name: slicerator
+    version: {{ version }}
+
+source:
+    fn: slicerator-v{{ version }}.tar.gz
+    url: https://github.com/soft-matter/slicerator/archive/v{{ version }}.tar.gz
+    sha256: 5f2622aa4fa59b4e41434342780af64220f39c25a99db95967e915f4e624e465
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - python
+        - setuptools
+        - six
+
+    run:
+        - python
+        - six
+
+test:
+    imports:
+        - slicerator
+    requires:
+        - nose
+        - six
+        - numpy
+    commands:
+        - python {{ environ.SRC_DIR }}/tests.py -vs
+
+about:
+    home: http://github.com/soft-matter/slicerator
+    license: BSD 3-Clause
+    summary: 'A lazy-loading, fancy-sliceable iterable.'
+
+extra:
+    recipe-maintainers:
+        - danielballan
+        - ericdill
+        - licode
+        - tacaswell
+        - caspervdw
