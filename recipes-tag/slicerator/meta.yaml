@@ -30,8 +30,6 @@ test:
         - nose
         - six
         - numpy
-    commands:
-        - python {{ environ.SRC_DIR }}/tests.py -vs
 
 about:
     home: http://github.com/soft-matter/slicerator
