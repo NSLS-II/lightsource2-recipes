@@ -52,8 +52,8 @@ test:
     - jinja2
     - tifffile
     - libtiff
-  commands:
-    - nosetests {{ environ.SRC_DIR }}/pims -v
+  #commands:
+  #  - nosetests {{ environ.SRC_DIR }}/pims -v
 
 about:
   home: https://github.com/soft-matter/pims
