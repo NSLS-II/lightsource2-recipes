@@ -7,7 +7,7 @@ source:
   git_rev: master
 
 build:
-  number: 1
+  number: 2
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 
@@ -20,8 +20,7 @@ requirements:
     - cytoolz
     - doct
     - filestore >=0.5.0
-    # - h5py  # h5py is a dep in databroker/examples/hdf_io.py
-    - metadatastore >=0.3.1
+    - metadatastore >=0.5.1
     - pandas
     - pims
     - python
@@ -31,16 +30,10 @@ requirements:
     - tzlocal
 
 test:
-  commands:
-    - |
-      export FS_PORT=27017
-      export FS_HOST=localhost
-      export FS_DATABASE=filestore
-      export MDS_PORT=27017
-      export MDS_HOST=localhost
-      export MDS_DATABASE=metadatastore
-      export MDS_TIMEZONE="US/EASTERN"
-      python -c "import databroker"
+  requires:
+    - nslsii_dev_configuration
+  imports:
+    - databroker
 
 about:
   home: https://github.com/NSLS-II/databroker
