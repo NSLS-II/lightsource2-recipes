@@ -16,6 +16,7 @@ requirements:
     - python
     - setuptools
   run:
+    - attrs
     - boltons
     - cytoolz
     - doct
