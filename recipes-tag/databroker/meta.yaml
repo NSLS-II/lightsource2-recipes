@@ -9,7 +9,7 @@ source:
   fn: databroker-v{{ version }}.tar.gz
 
 build:
-  number: 2
+  number: 3
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -17,6 +17,7 @@ requirements:
     - python
     - setuptools
   run:
+    - attrs
     - boltons
     - cytoolz
     - doct
