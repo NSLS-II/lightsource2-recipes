@@ -10,7 +10,7 @@ source:
   sha256: 939de4cf9535f61a5c1a99f34a447e3992f8046fd1bedeac9ec7892b419cf963
 
 build:
-  number: 1
+  number: 2
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -26,8 +26,8 @@ requirements:
 test:
   imports:
     - tzlocal
-  commands:
-    - cd {{ environ.SRC_DIR }} && python setup.py test
+  #commands:
+  #  - cd {{ environ.SRC_DIR }} && python setup.py test
 
 about:
   home: https://github.com/regebro/tzlocal
