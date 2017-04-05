@@ -1,0 +1,39 @@
+diff --git a/enaml/qt/qt_mpl_canvas.py b/enaml/qt/qt_mpl_canvas.py
+index 6805de2..ca3ed49 100644
+--- a/enaml/qt/qt_mpl_canvas.py
++++ b/enaml/qt/qt_mpl_canvas.py
+@@ -9,18 +9,26 @@ from atom.api import Typed
+ 
+ from enaml.widgets.mpl_canvas import ProxyMPLCanvas
+ 
+-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
+-try:
+-    from matplotlib.backends.backend_qt4agg import (NavigationToolbar2QTAgg
+-                                                    as NavigationToolbar2QT)
+-except ImportError:
+-    from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT
+-
+-from .QtCore import Qt
++from qtpy import QT_VERSION
++from .QtCore import Qt, PYQT_VERSION_STR
+ from .QtWidgets import QFrame, QVBoxLayout
+ 
+ from .qt_control import QtControl
+ 
++if QT_VERSION[0] == '4':
++    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
++    try:
++        from matplotlib.backends.backend_qt4agg import (NavigationToolbar2QTAgg
++                                                        as NavigationToolbar2QT)
++    except ImportError:
++        from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT
++elif QT_VERSION[0] == '5':
++    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
++    from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
++else:
++    raise RuntimeError('Using qtpy.QT_VERSION == {} which we do not know how '
++                       'to map to a Matplotlib backend'.format(QT_VERSION))
++
+ 
+ class QtMPLCanvas(QtControl, ProxyMPLCanvas):
+     """ A Qt implementation of an Enaml ProxyMPLCanvas.
