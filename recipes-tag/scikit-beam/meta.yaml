@@ -1,0 +1,63 @@
+{% set version = "0.0.9" %}
+
+package:
+    name: scikit-beam
+    version: {{ version }}
+
+source:
+    url: https://github.com/scikit-beam/scikit-beam/archive/v{{ version }}.tar.gz
+    fn: scikit-beam-v{{ version }}.tar.gz
+
+build:
+  number: 0
+  script:
+    - python setup.py build_ext -i
+    - python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - toolchain
+        - python
+        - setuptools
+        - numpy x.x
+        - six
+        - cython
+        - autoconf    # [osx]
+    run:
+        - python
+        - numpy x.x
+        - scipy
+        - six
+        - xraylib    # [not win]
+        - scikit-image
+        - lmfit 0.8.3
+
+test:
+    imports:
+        - skbeam
+        - skbeam.io
+        - skbeam.core
+        - skbeam.core.accumulators
+        - skbeam.core.constants
+        - skbeam.core.fitting
+        - skbeam.core.fitting.base
+        - skbeam.ext
+        # xraylib is not conda installable on windows yet  # [not win]
+        - skbeam.core.fitting    # [not win]
+        - skbeam.core.constants.xrf    # [not win]
+        # has linux native library imports  # [not win]
+        - skbeam.ext.ctrans    # [not win]
+    commands:
+        # Don't need to specify path due to the CONDA_DEFAULT_ENV env var being set inside of conda-build
+        # which is pointing to the test environment
+        # These next two lines are currently failing due to an API change from conda-build 1.21.* -> 2.0.*
+        #- conda inspect linkages scikit-beam  # [not win]
+        #- conda inspect objects scikit-beam  # [osx]
+
+about:
+    home: http://scikit-beam.github.io/scikit-beam/
+    license: BSD 3-Clause
+    summary: Data analysis algorithms for X-Ray, Neutron and Electron sciences
+    # Need to add LICENSE to the manifest
+    # license_file: LICENSE
+    license_family: BSD
