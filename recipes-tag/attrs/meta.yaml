@@ -22,16 +22,13 @@ requirements:
   run:
     - python
     - zope
+    - zope.interface
     - pympler
     - hypothesis
 
 test:
-  requires:
-    - pytest
-  source_files:
-    - tests/*
-  command:
-    - py.test
+  imports:
+    - attr
 
 about:
   home: https://attrs.readthedocs.io/en/stable/
@@ -55,3 +52,4 @@ about:
 extra:
   recipe-maintainers:
     - CJ-Wright
+    - licode
