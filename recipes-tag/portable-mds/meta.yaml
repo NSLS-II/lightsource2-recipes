@@ -28,7 +28,7 @@ requirements:
         - python
         - pytz
         - tzlocal
-        - pyyaml
+        
 test:
     imports:
         - portable_mds
