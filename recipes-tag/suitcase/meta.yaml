@@ -1,11 +1,11 @@
-{% set version = "0.5.2" %}
+{% set version = "0.6.0" %}
 package:
   name: suitcase
   version: {{ version }}
 
 source:
-  url: https://github.com/NSLS-II/suitcase/archive/v{{ version }}.tar.gz
-  fn: suitcase-v{{ version }}.tar.gz
+  git_url: https://github.com/nsls-ii/suitcase
+  git_rev: v{{ version }}
 
 build:
   number: 0
@@ -32,9 +32,3 @@ about:
   home: https://github.com/nsls-ii/suitcase
   license:  BSD 3-Clause
   summary: data export facilities for NSLS-II
-
-extra:
-  recipe-maintainers:
-    - ericdill
-    - licode
-    - tacaswell
