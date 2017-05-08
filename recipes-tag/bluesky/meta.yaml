@@ -1,12 +1,12 @@
-{% set version = "0.8.0" %}
+{% set version = "0.9.0" %}
 
 package:
     name: bluesky
     version: {{ version }}
 
 source:
-    url: https://github.com/NSLS-II/bluesky/archive/v{{ version }}.tar.gz
-    fn: bluesky-v{{ version }}.tar.gz
+    git_url: https://github.com/nsls-ii/bluesky
+    git_rev: v{{ version }}
 
 build:
     number: 0
