@@ -6,7 +6,7 @@
 : ${UPLOAD_CHANNEL?"Need to set UPLOAD_CHANNEL"}
 # Set up the environmental variables
 # Set the path to the condarc
-#CONDARC_PATH="/Users/lili/.condarc"
+CONDARC_PATH="$HOME/.condarc"
 # set the location of the repo
 REPO_DIR="/repo"
 

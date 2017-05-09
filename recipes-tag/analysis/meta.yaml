@@ -1,5 +1,5 @@
 {% set year = "17" %}
-{% set cycle = "Q1" %}
+{% set cycle = "Q2" %}
 {% set version ="0" %}
 
 package:
@@ -7,28 +7,30 @@ package:
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
-  number: 6
+  number: 0
 
 requirements:
   run:
     - amostra ==0.2  # [py3k]
-    - bluesky ==0.8.0  # [py3k]
+    - bluesky ==0.9.0  # [py3k]
     - channelarchiver
-    - databroker ==0.7.0
+    - controls-doctor
+    - databroker ==0.8.0
+    - databroker-browser
     - datamuxer ==0.3.0
     - doct ==1.0.3
-    - filestore ==0.7.0
+    - filestore ==0.8.0
     - historydict ==1.2.0
     - ipython ==5.1
     - ipywidgets ==5.2.2
     - jupyter
-    - metadatastore ==0.6.4
-    - metadataclient ==0.3.0  # [py3k]
+    - metadatastore ==0.7.0
+    - metadataclient ==0.4.0  # [py3k]
     - openpyxl
     - pymongo
     - pyqt ==4.11.4
     - qt ==4.8.7
     - python
-    - suitcase ==0.5.2
-    - scikit-beam ==0.0.9
+    - suitcase ==0.6.0
+    - scikit-beam ==0.0.10
     - xray-vision ==0.0.6
