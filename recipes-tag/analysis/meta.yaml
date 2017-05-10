@@ -7,7 +7,7 @@ package:
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
-  number: 3
+  number: 4
 
 requirements:
   run:
@@ -20,8 +20,8 @@ requirements:
     - doct ==1.0.3
     - filestore ==0.8.0
     - historydict ==1.2.0
-    - ipython ==5.1
-    - ipywidgets ==5.2.2
+    - ipython
+    - ipywidgets
     - jupyter
     - metadatastore ==0.7.0
     - metadataclient ==0.4.0  # [py3k]
