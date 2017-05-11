@@ -1,0 +1,45 @@
+{% set version = "3.6.1" %}
+{% set sha = "d4a0aa584ee4654819b8bfc8b5791669ad229eb1db949716543d7c31219cb35b" %}
+{% set pkgname = "hypothesis" %}
+
+package:
+  name: {{ pkgname }}
+  version: {{ version }}
+
+source:
+  fn: {{ pkgname }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ pkgname[0] }}/{{ pkgname }}/{{ pkgname }}-{{ version }}.tar.gz
+  sha256: {{ sha }}
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+    - enum34  # [py<34]
+
+test:
+  imports:
+    - hypothesis
+    - hypothesis.extra
+    - hypothesis.internal
+    - hypothesis.internal.conjecture
+    - hypothesis.searchstrategy
+    - hypothesis.tools
+    - hypothesis.utils
+    - hypothesis.vendor
+
+about:
+  home: https://github.com/HypothesisWorks/hypothesis-python
+  license: MPL 2.0
+  summary: 'A library for property based testing'
+
+extra:
+  recipe-maintainers:
+    - ericmjl
+    - jochym

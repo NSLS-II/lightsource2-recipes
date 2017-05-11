@@ -1,4 +1,4 @@
-{% set version = "0.2.4" %}
+{% set version = "0.3.0" %}
 
 package:
   name: hxntools
@@ -20,7 +20,7 @@ requirements:
 
   run:
     - numpy
-    - filestore
+    - filestore >0.7.0
     - h5py >=2.5.0
     - python
 
