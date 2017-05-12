@@ -9,7 +9,7 @@ source:
   git_rev: v{{ version }}
 
 build:
-  number: 3
+  number: 4
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -17,7 +17,7 @@ requirements:
     - python
     - setuptools
   run:
-    - attrs
+    - attrs >=16.3.0
     - boltons
     - cytoolz
     - doct
