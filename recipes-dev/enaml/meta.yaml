@@ -1,17 +1,12 @@
-{% set version = "0.10.0.dev" %}
-
 package:
   name: enaml
-  version: {{ version }}
-
+  version: {{ environ.get('GIT_DESCRIBE_TAG') }}.post{{ environ.get('GIT_DESCRIBE_NUMBER') }}
 source:
+  git_tag: dev
   git_url: https://github.com/MatthieuDartiailh/enaml.git
-  git_rev: {{ version }}
-  patches:
-    - mpl_qt5.patch
 
 build:
-  number: 0
+  number: {{ environ.get('GIT_DESCRIBE_NUMBER', 1) }}
   entry_points:
     - enaml-run = enaml.runner:main
   osx_is_app: True
@@ -21,8 +16,8 @@ build:
 requirements:
   build:
     - python
-    - atom #>=0.4.0.dev
-    - kiwisolver #>=0.2.0.dev
+    - atom >=0.4.0.dev
+    - kiwisolver >=0.2.0.dev
     - ply
   run:
     - python
