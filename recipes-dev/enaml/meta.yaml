@@ -1,0 +1,53 @@
+package:
+  name: enaml
+  version: {{ environ.get('GIT_DESCRIBE_TAG') }}.post{{ environ.get('GIT_DESCRIBE_NUMBER') }}
+source:
+  git_tag: dev
+  git_url: https://github.com/MatthieuDartiailh/enaml.git
+
+build:
+  number: {{ environ.get('GIT_DESCRIBE_NUMBER', 1) }}
+  entry_points:
+    - enaml-run = enaml.runner:main
+  osx_is_app: True
+  skip_compile_pyc:
+    - enaml/core/byteplay/*.py
+
+requirements:
+  build:
+    - python
+    - atom >=0.4.0.dev
+    - kiwisolver >=0.2.0.dev
+    - ply
+  run:
+    - python
+    - python.app       [osx]
+    - atom >=0.4.0.dev
+    - pyqt
+    - qtpy
+    - kiwisolver >=0.2.0.dev
+    - ply
+    - future
+
+test:
+  commands:
+    - enaml-run --help
+  imports:
+    - enaml
+    - enaml.callableref
+    - enaml.colorext
+    - enaml.core.alias
+    - enaml.core.dynamicscope
+    - enaml.core.funchelper
+    - enaml.fontext
+    - enaml.signaling
+    - enaml.weakmethod
+    - enaml.core.api
+    - enaml.widgets.api
+    - enaml.layout.api
+
+about:
+  home: https://github.com/nucleic/enaml
+  license: BSD
+  license_file: COPYING.txt
+  summary: Declarative DSL for building rich user interfaces in Python
