@@ -7,11 +7,11 @@ package:
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
     - analysis >=17Q2.0
-    - ophyd ==0.6.0
+    - ophyd ==0.6.1
     - pyepics ==3.2.6
     - pyolog ==4.1.0
