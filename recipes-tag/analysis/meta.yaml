@@ -7,7 +7,7 @@ package:
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
-  number: 6
+  number: 7
 
 requirements:
   run:
@@ -32,4 +32,4 @@ requirements:
     - python
     - suitcase ==0.6.0
     - scikit-beam ==0.0.10
-    - xray-vision ==0.0.6
+    - xray-vision ==0.0.7
