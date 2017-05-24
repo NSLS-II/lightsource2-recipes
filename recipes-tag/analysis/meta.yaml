@@ -14,7 +14,7 @@ requirements:
     - amostra ==0.2  # [py3k]
     - bluesky ==0.9.0  # [py3k]
     - controls-doctor
-    - databroker ==0.8.2
+    - databroker ==0.8.3
     - databroker-browser
     - datamuxer ==0.3.0
     - doct ==1.0.3
