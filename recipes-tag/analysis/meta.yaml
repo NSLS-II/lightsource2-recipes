@@ -7,15 +7,15 @@ package:
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
-  number: 7
+  number: 8
 
 requirements:
   run:
     - amostra ==0.2  # [py3k]
     - bluesky ==0.9.0  # [py3k]
     - controls-doctor
-    - databroker ==0.8.3
-    - databroker-browser
+    - databroker ==0.8.4
+    - databroker-browser ==0.2.0
     - datamuxer ==0.3.0
     - doct ==1.0.3
     - filestore ==0.8.0
