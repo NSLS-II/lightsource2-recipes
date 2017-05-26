@@ -21,6 +21,7 @@ requirements:
     - python
     - numpy
     - matplotlib
+    - pyfai
 
 test:
   imports:
