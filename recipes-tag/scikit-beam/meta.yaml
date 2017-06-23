@@ -1,4 +1,4 @@
-{% set version = "0.0.10" %}
+{% set version = "0.0.11" %}
 
 package:
     name: scikit-beam
@@ -19,13 +19,13 @@ requirements:
         - toolchain
         - python
         - setuptools
-        - numpy x.x
+        - numpy
         - six
         - cython
         - autoconf    # [osx]
     run:
         - python
-        - numpy x.x
+        - numpy
         - scipy
         - six
         - xraylib    # [not win]
