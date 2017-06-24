@@ -9,7 +9,7 @@ source:
     fn: scikit-beam-v{{ version }}.tar.gz
 
 build:
-  number: 0
+  number: 1
   script:
     - python setup.py build_ext -i
     - python setup.py install --single-version-externally-managed --record=record.txt
@@ -19,13 +19,13 @@ requirements:
         - toolchain
         - python
         - setuptools
-        - numpy
+        - numpy x.x
         - six
         - cython
         - autoconf    # [osx]
     run:
         - python
-        - numpy
+        - numpy x.x
         - scipy
         - six
         - xraylib    # [not win]
