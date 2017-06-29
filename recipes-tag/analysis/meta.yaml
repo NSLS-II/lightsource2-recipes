@@ -28,8 +28,10 @@ requirements:
     - openpyxl
     - pymongo
     - pyqt >=5.6.0
-    - qt >=5.6.0
     - python
-    - suitcase ==0.6.0
+    - qt >=5.6.0
     - scikit-beam ==0.0.10
+    - suitcase ==0.6.0
+    - sympy
+    - tqdm
     - xray-vision ==0.0.7
