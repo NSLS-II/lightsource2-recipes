@@ -49,6 +49,7 @@ echo "contents of condarc at $CONDARC_PATH"
 cat $CONDARC_PATH
 
 # install some required dependencies
+rm -rf /conda/pkgs
 conda install conda-build=2.0 anaconda-client conda-execute conda-env=2.5.1
 
 # not sure why this is here, but I'm reasonably certain it is important
