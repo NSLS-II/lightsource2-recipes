@@ -49,6 +49,7 @@ cat $CONDARC_PATH
 
 # install some required dependencies
 echo "start installation"
+conda install python=3.5 -y
 conda install conda=4.3 conda-build=3.0 anaconda-client conda-execute conda-env
 
 

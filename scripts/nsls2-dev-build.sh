@@ -49,11 +49,18 @@ echo "contents of condarc at $CONDARC_PATH"
 cat $CONDARC_PATH
 
 # install some required dependencies
-rm -rf /conda/pkgs
-conda install conda=4.3 conda-build=3.0 anaconda-client conda-execute conda-env
+
+rm -rf /conda/pkgs  #magic line, needs to be figured out later
+
+conda install python=3.5 conda=4.1.12 -y 
+conda install conda-build=2.0.9 anaconda-client conda-execute conda-env=2.5.1
+
 
 # not sure why this is here, but I'm reasonably certain it is important
 export PYTHONUNBUFFERED=1
+
+echo "repo contents: $repo"
+ls /repo/recipes-dev
 
 # execute the dev build
 ./repo/scripts/build.py /repo/recipes-dev -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN  --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
