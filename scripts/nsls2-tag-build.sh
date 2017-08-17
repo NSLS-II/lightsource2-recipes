@@ -49,14 +49,14 @@ cat $CONDARC_PATH
 
 # install some required dependencies
 echo "start installation"
-conda install conda-build=3.0 anaconda-client conda-execute conda-env=2.5.1
+conda install conda=4.3 conda-build=3.0 anaconda-client conda-execute conda-env
 
 
 # not sure why this is here, but I'm reasonably certain it is important
 export PYTHONUNBUFFERED=1
 
 # execute the dev build
-./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.10 1.11 1.12 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
-./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.10 1.11 1.12 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
+./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
+./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
 
 EOF
