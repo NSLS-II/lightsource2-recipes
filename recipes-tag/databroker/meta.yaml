@@ -1,5 +1,5 @@
 
-{% set version = "0.8.4" %}
+{% set version = "0.9.0" %}
 
 package:
   name: databroker
@@ -20,19 +20,21 @@ requirements:
   run:
     - attrs >=16.3.0
     - boltons
-    - cytoolz
     - doct
-    - filestore >=0.5.0
-    - metadatastore >=0.5.1
+    - h5py
     - numpy
     - pandas
     - pims
+    - pymongo
     - python
     - pytz
-    - six
     - requests
     - singledispatch [py27]
+    - six
+    - tifffile
+    - tornado
     - tzlocal
+    - ujson
 
 test:
   requires:
