@@ -1,4 +1,4 @@
-{% set version = "0.9.0" %}
+{% set version = "0.10.0rc1" %}
 
 package:
     name: bluesky
@@ -23,25 +23,20 @@ requirements:
         - databroker
         - doct
         - event-model
-        - filestore
         - historydict
         - jinja2
         - jsonschema
-        - metadatastore
         - matplotlib
         - numpy
         - python
         - scipy
         - super_state_machine
+        - tqdm
         - tifffile
         - traitlets
         - xray-vision
 
 test:
-    requires:
-        - nslsii_dev_configuration
-        - databroker
-        - pyepics
     imports:
         - bluesky
 
