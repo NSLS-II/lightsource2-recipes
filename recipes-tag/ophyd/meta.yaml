@@ -1,4 +1,4 @@
-{% set version = "0.6.1" %}
+{% set version = "0.7.0rc1" %}
 
 package:
     name: ophyd
@@ -18,10 +18,8 @@ requirements:
         - python
         - setuptools
     run:
-        - filestore
         - ipython
         - networkx
-        - prettytable
         - pyepics
         - python
 

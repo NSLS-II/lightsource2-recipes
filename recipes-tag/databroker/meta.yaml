@@ -20,6 +20,7 @@ requirements:
   run:
     - attrs >=16.3.0
     - boltons
+    - cytoolz
     - doct
     - h5py
     - numpy
@@ -34,6 +35,8 @@ requirements:
     - tifffile
     - tornado
     - tzlocal
+    - pyyaml
+    - jinja2
     - ujson
 
 test:
