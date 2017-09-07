@@ -14,9 +14,8 @@ build:
 
 requirements:
   build:
-    - humanize
-    - prettytable
     - python
+    - setuptools
     - six
 
   run:
