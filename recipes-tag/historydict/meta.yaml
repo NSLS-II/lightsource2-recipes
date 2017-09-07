@@ -1,4 +1,4 @@
-{% set version = "1.2.0" %}
+{% set version = "1.2.1" %}
 
 package:
   name: historydict
@@ -19,7 +19,6 @@ requirements:
 
   run:
     - python
-    - six
 
 test:
   imports:

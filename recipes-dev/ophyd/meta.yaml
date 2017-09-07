@@ -16,11 +16,8 @@ requirements:
     - python
     - setuptools
   run:
-    - filestore
-    - ipython
     - networkx
     - numpy
-    - prettytable
     - pyepics
     - python
 

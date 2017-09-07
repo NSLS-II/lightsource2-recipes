@@ -16,19 +16,29 @@ requirements:
     - python
     - setuptools
   run:
-    - attrs
+    - attrs >=16.3.0
     - boltons
     - cytoolz
     - doct
-    - filestore >=0.5.0
-    - metadatastore >=0.5.1
+    - h5py
+    - humanize
+    - jsonschema
+    - jinja2
+    - mongoquery
+    - numpy
     - pandas
     - pims
+    - pymongo
     - python
+    - pytz
+    - pyyaml
     - requests
     - singledispatch [py27]
     - six
+    - tifffile
+    - tornado
     - tzlocal
+    - ujson
 
 test:
   requires:

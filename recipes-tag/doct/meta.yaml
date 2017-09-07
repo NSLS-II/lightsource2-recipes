@@ -1,4 +1,4 @@
-{% set version = "1.0.3" %}
+{% set version = "1.0.5" %}
 
 package:
   name: doct
@@ -14,9 +14,8 @@ build:
 
 requirements:
   build:
-    - humanize
-    - prettytable
     - python
+    - setuptools
     - six
 
   run:
