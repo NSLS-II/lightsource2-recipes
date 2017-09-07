@@ -18,23 +18,20 @@ requirements:
         - python
 
     run:
-        - boltons
         - cycler
         - databroker
-        - doct
         - event-model
         - historydict
-        - jinja2
+        - ipython
         - jsonschema
+        - lmfit
         - matplotlib
         - numpy
         - python
-        - scipy
         - super_state_machine
+        - toolz
         - tqdm
-        - tifffile
-        - traitlets
-        - xray-vision
+        - zmq
 
 test:
     imports:

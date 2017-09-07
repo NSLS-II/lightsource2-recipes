@@ -18,8 +18,8 @@ requirements:
         - python
         - setuptools
     run:
-        - ipython
         - networkx
+        - numpy
         - pyepics
         - python
 

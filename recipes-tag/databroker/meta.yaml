@@ -23,20 +23,23 @@ requirements:
     - cytoolz
     - doct
     - h5py
+    - humanize
+    - jsonschema
+    - jinja2
+    - mongoquery
     - numpy
     - pandas
     - pims
     - pymongo
     - python
     - pytz
+    - pyyaml
     - requests
     - singledispatch [py27]
     - six
     - tifffile
     - tornado
     - tzlocal
-    - pyyaml
-    - jinja2
     - ujson
 
 test:

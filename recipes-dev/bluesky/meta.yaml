@@ -16,22 +16,20 @@ requirements:
     - python
 
   run:
-    - boltons
-    - python
-    - jsonschema
-    - super_state_machine
-    - numpy
-    - metadatastore
-    - databroker
-    - matplotlib
-    - prettytable
     - cycler
-    - traitlets
-    - lmfit
-    - ipython
-    - historydict
-    - tifffile
+    - databroker
     - event-model
+    - historydict
+    - ipython
+    - jsonschema
+    - lmfit
+    - matplotlib
+    - numpy
+    - python
+    - super_state_machine
+    - toolz
+    - tqdm
+    - zmq
 
 test:
   requires:
