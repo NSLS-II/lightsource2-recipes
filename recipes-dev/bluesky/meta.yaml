@@ -29,7 +29,7 @@ requirements:
     - super_state_machine
     - toolz
     - tqdm
-    - zmq
+    - pyzmq
 
 test:
   requires:
