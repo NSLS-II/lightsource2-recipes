@@ -1,5 +1,5 @@
 {% set year = "17" %}
-{% set cycle = "Q2" %}
+{% set cycle = "Q3" %}
 {% set version ="0" %}
 
 package:
@@ -7,11 +7,11 @@ package:
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
-  number: 3
+  number: 1
 
 requirements:
   run:
-    - analysis >=17Q2.0
-    - ophyd ==0.6.1
-    - pyepics ==3.2.6
+    - analysis
+    - ophyd
+    - pyepics
     - pyolog
