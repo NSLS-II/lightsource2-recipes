@@ -5,13 +5,13 @@ dependencies:
 - analysis=17Q3.0=h4412163_2
 - attrs=16.3.0=py36hd595072_1
 - bleach=1.5.0=py36_0
-- bluesky=0.10.2=py36_0
+- bluesky=0.10.3=py36_0
 - boltons=16.3.1=py36h0547106_0
 - clyent=1.2.2=py36_0
 - controls-doctor=0.0.1=py36hbf8a85b_0
 - cycler=0.10.0=py36_0
 - cytoolz=0.8.2=py36_0
-- databroker=0.9.2=py36_0
+- databroker=0.9.3=py36_0
 - databroker-browser=0.2.0=py36hd6b55f3_0
 - datamuxer=0.3.0=py36h0c47390_0
 - dbus=1.10.20=0
