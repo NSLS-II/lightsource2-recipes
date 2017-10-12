@@ -1,0 +1,48 @@
+{% set name = "oscars" %}
+{% set version = "2.0.2" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "b159fba768604ed6d00afdef9cdfb4ce570a0c11bce7dcbee43556aecd189ba6" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  script: python setup.py install  --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - scipy
+    - matplotlib
+    - mpi4py
+    - numpy
+    - python
+    - scipy
+    
+test:
+  imports:
+    - oscars.sr
+    - oscars.plots_mpl
+
+about:
+  home: http://oscars.bnl.gov/
+  license: LICENSE.txt
+  license_family: OTHER
+  license_file: ''
+  summary: Open Source Code for Advanced Radiation Simulation
+  description: The OSCARS Package.
+  doc_url: ''
+  dev_url: ''
+
+extra:
+  recipe-maintainers: ''
