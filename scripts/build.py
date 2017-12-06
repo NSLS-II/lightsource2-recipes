@@ -178,6 +178,19 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     return ret[-1], cmd
 
 
+def remove_hash_string(name):
+    hash_len = 8
+    py_pos = name.find('-py')
+    #standard format like "py36_1.tar.bz2", get loose bound, not 4+2+8
+    len_limit = 4+2+4
+    len_limit += hash_len # also consider hash_len
+    if len(name) - py_pos > len_limit:
+        name_new = name[:py_pos + 5] + name[py_pos + 5 + hash_len:]
+    else:
+        name_new = name
+    return name_new
+
+
 def decide_what_to_build(recipes_path, python, packages, numpy):
     """Figure out which packages need to be built
 
@@ -206,6 +219,9 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
 
     metas_not_to_build = []
     metas_to_build = []
+    # remove hash string for comparison
+    packages_no_hash = [remove_hash_string(name) for name in packages]
+
     # logger.info("Build Plan")
     # logger.info("Determining package build names...")
     # logger.info('{: <8} | {}'.format('to build', 'built package name'))
@@ -245,9 +261,14 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
             else:
                 name_on_anaconda = os.sep.join(
                     path_to_built_package.split(os.sep)[-2:])
+
+                # choose which package to build without hash name
+                name_no_hashstring = remove_hash_string(name_on_anaconda)
                 # pdb.set_trace()
+                #on_anaconda_channel = name_on_anaconda in packages
+                on_anaconda_channel = name_no_hashstring in packages_no_hash
+
                 meta = MetaData(recipe_dir)
-                on_anaconda_channel = name_on_anaconda in packages
                 meta.full_build_path = path_to_built_package
                 meta.build_name = name_on_anaconda
                 meta.build_command = build_cmd
