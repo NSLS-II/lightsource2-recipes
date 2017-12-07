@@ -1,5 +1,5 @@
-{% set year = "17" %}
-{% set cycle = "Q3" %}
+{% set year = "18" %}
+{% set cycle = "Q1" %}
 {% set version ="0" %}
 
 package:
@@ -14,14 +14,17 @@ requirements:
     - amostra  # [py3k]
     - bluesky  # [py3k]
     - controls-doctor
+    - dask
     - databroker
     - databroker-browser
     - datamuxer
+    - distributed
     - ipython
     - ipywidgets
     - jupyter
     - openpyxl
     - pyqt >=5.6.0
+    - oscars
     - python
     - qt >=5.6.0
     - scikit-beam
