@@ -33,6 +33,7 @@ import slacker
 import binstar_client
 import yaml
 from conda_build.metadata import MetaData
+
 logger = logging.getLogger('build.py')
 current_subprocs = set()
 shutdown = False
@@ -120,9 +121,9 @@ def Popen(cmd):
         # pdb.set_trace()
     stdout, stderr = proc.communicate()
     if stdout:
-        stdout = stdout.decode()
+        stdout = stdout.decode('utf-8')
     if stderr:
-        stderr = stderr.decode()
+        stderr = stderr.decode('utf-8')
     current_subprocs.remove(proc)
     return stdout, stderr, proc.returncode
 
@@ -132,11 +133,11 @@ def check_output(cmd):
         ret = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as cpe:
         print(cmd)
-        print(cpe.output.decode())
+        print(cpe.output.decode('utf-8'))
         raise RuntimeError("{} raised with check_output comand {}".format(
-            cpe.output.decode(), cmd))
+            cpe.output.decode('utf-8'), cmd))
     else:
-        name = ret.decode().strip().split('\n')
+        name = ret.decode('utf-8').strip().split('\n')
         return name
 
 
@@ -179,16 +180,44 @@ def determine_build_name(path_to_recipe, *conda_build_args):
 
 
 def remove_hash_string(name):
+    """Remove hash string to avoid duplicated package building.
+    """
     hash_len = 8
-    py_pos = name.find('-py')
+    strlist = ['py27', 'py34', 'py35', 'py36']
+    for v in strlist:
+        py_pos = name.find(v)
+        if py_pos != -1:
+            break
+    if py_pos == -1:
+        logger.debug('hash string can not be removed')
+        return name
+    
     #standard format like "py36_1.tar.bz2", get loose bound, not 4+2+8
     len_limit = 4+2+4
     len_limit += hash_len # also consider hash_len
     if len(name) - py_pos > len_limit:
-        name_new = name[:py_pos + 5] + name[py_pos + 5 + hash_len:]
+        name_new = name[:py_pos + 4] + name[py_pos + 4 + hash_len:]
     else:
         name_new = name
     return name_new
+
+
+def get_simplified_name(name):
+    "get package name without version number, only simplified name."
+    return name.split(os.sep)[1].split('-')[0]
+
+
+def group_packages(packages):
+    "group packages based on simplified name."
+    pkgs = list(packages)
+    pkgs_dict = {}
+    for v in pkgs:
+        core_name = get_simplified_name(v) 
+        if core_name not in pkgs_dict:
+            pkgs_dict[core_name] = [v]
+        else:
+            pkgs_dict[core_name].append(v)
+    return pkgs_dict
 
 
 def decide_what_to_build(recipes_path, python, packages, numpy):
@@ -219,8 +248,11 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
 
     metas_not_to_build = []
     metas_to_build = []
+
     # remove hash string for comparison
-    packages_no_hash = [remove_hash_string(name) for name in packages]
+    packages_tmp = list(packages)
+    packages_no_hash = [remove_hash_string(name) for name in packages_tmp]
+    pkgs_dict = group_packages(packages_no_hash)
 
     # logger.info("Build Plan")
     # logger.info("Determining package build names...")
@@ -261,13 +293,21 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
             else:
                 name_on_anaconda = os.sep.join(
                     path_to_built_package.split(os.sep)[-2:])
-
+                
                 # choose which package to build without hash name
                 name_no_hashstring = remove_hash_string(name_on_anaconda)
+                
                 # pdb.set_trace()
                 #on_anaconda_channel = name_on_anaconda in packages
-                on_anaconda_channel = name_no_hashstring in packages_no_hash
-
+                #on_anaconda_channel = name_no_hashstring in packages_no_hash
+                
+                # quick way to search packages
+                on_anaconda_channel = False
+                simple_name = get_simplified_name(name_no_hashstring)
+                if simple_name in pkgs_dict:
+                    if name_no_hashstring in pkgs_dict[simple_name]:
+                        on_anaconda_channel = True
+                
                 meta = MetaData(recipe_dir)
                 meta.full_build_path = path_to_built_package
                 meta.build_name = name_on_anaconda
@@ -482,7 +522,7 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
         if token and upload:
             print("UPLOAD START")
             cmd = UPLOAD_CMD + [full_build_path]
-            cleaned_cmd = cmd.copy()
+            cleaned_cmd = list(cmd)
             cleaned_cmd[2] = 'SCRUBBED'
             print("Upload command={}".format(cleaned_cmd))
             stdout, stderr, returncode = Popen(cmd)
@@ -668,7 +708,9 @@ def init_logging(log_file=None, loglevel=logging.INFO):
     if not log_file:
         log_dirname = os.path.join(os.path.expanduser('~'),
                                    'auto-build-logs')
-        os.makedirs(log_dirname, exist_ok=True)
+        #os.makedirs(log_dirname, exist_ok=True)
+        if not os.path.exists(log_dirname):
+            os.makedirs(log_dirname)
         log_filename = time.strftime("%m.%d-%H.%M")
         log = os.path.join(log_dirname, log_filename)
     # set up logging

@@ -21,13 +21,13 @@ requirements:
         - libtool
         - m4
         - pkg-config
-        - pygobject  # [py2k]
-        - pygobject3  # [py3k]
+          #- pygobject  # [py2k]
+          #- pygobject3  # [py3k]
         - python
     run:
         - numpy
-        - pygobject  # [py2k]
-        - pygobject3  # [py3k]
+          #- pygobject  # [py2k]
+          #- pygobject3  # [py3k]
         - python
         - gsl
         - pcre
