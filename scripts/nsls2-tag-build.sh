@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "Starting time :"
+date -u
+
 : ${BINSTAR_TOKEN?"Need to set BINSTAR_TOKEN"}
 : ${SLACK_TOKEN?"Need to set SLACK_TOKEN"}
 : ${SLACK_CHANNEL?"Need to set SLACK_CHANNEL"}
@@ -59,5 +62,8 @@ export PYTHONUNBUFFERED=1
 # execute the dev build
 ./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
 ./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
+
+echo "Ending time :"
+date -u
 
 EOF
