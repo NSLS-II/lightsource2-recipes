@@ -1,4 +1,4 @@
-{% set version = "0.9.3" %}
+{% set version = "0.9.4" %}
 
 package:
   name: databroker
@@ -21,6 +21,7 @@ requirements:
     - boltons
     - cytoolz
     - doct
+    - glueviz
     - h5py
     - humanize
     - jsonschema
