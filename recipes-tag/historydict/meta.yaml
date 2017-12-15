@@ -1,35 +1,44 @@
 {% set version = "1.2.1" %}
 
 package:
-  name: historydict
-  version: {{ version }}
+    name: historydict
+    version: {{ version }}
 
 source:
-    git_url: https://github.com/Nikea/historydict
-    git_rev: v{{ version }}
+    url: https://github.com/Nikea/historydict/archive/v{{ version }}.tar.gz
+    fn: historydict-v{{ version }}.tar.gz
+    sha256: 1a3aa662ccc01a92f3ca5f1bf285dffb78738a9d14c470e91c7f076720acd2b4
 
 build:
-  number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+    noarch: python
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
-  build:
-    - python
-    - setuptools
-
-  run:
-    - python
+    build:
+        - python
+        - setuptools
+    run:
+        - python
 
 test:
-  imports:
-    - historydict
+    imports:
+        - historydict
+    requires:
+        - pytest
+    source_files:
+        - test*.py
+    commands:
+        - py.test -vrxs
 
 about:
-  home: https://github.com/Nikea/historydict
-  license: BSD 3-Clause
+    home: https://github.com/Nikea/historydict
+    license: BSD 3-Clause
+    summary: A persistent dictionary with history backed by sqlite
 
 extra:
-  recipe-maintainers:
-    - ericdill
-    - licode
-    - tacaswell
+    recipe-maintainers:
+        - ericdill
+        - licode
+        - tacaswell
+        - CJ-Wright
