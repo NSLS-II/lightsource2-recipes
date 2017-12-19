@@ -1,32 +1,36 @@
-{% set version = "0.3.3" %}
+{% set name = "PIMS" %}
+{% set version = "0.4.1" %}
+
 package:
-  name: pims
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://github.com/soft-matter/pims/archive/v{{ version }}.tar.gz
-  fn: pims-v{{ version }}.tar.gz
-  sha256: b764c53bfa43863f9909d7bed6fcc95008edc4e6eedb979d78a2702531282a46
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 6a53a155e900b44e71127a1e1fccbfbaed7eec3c2b52497c40c23a05f334c9dd
 
 build:
   number: 1
+  noarch: python
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
     - python
     - setuptools
-    - slicerator >=0.9.4
-    - six >=1.8
-    - numpy >=1.7
 
   run:
     - python
-    - slicerator >=0.9.4
+    - slicerator >=0.9.7
     - six >=1.8
     - numpy >=1.7
-    - scikit-image  # one of { scikit-image | matplotlib | scipy }
-    - pillow  # optional, but necessary for ipython rich display
+# The following dependencies are only required for rich IPython display
+    - jinja2
+    - pillow
+# The following dependencies are optional (for specific readers)
+    - scipy  # one of { scikit-image | matplotlib | scipy }
+    - tifffile
 
 test:
   imports:
@@ -38,7 +42,10 @@ test:
     - pims.display
     - pims.ffmpeg_reader
     - pims.frame
+    - pims.image_reader
     - pims.image_sequence
+    - pims.imageio_reader
+    - pims.moviepy_reader
     - pims.norpix_reader
     - pims.pyav_reader
     - pims.spe_stack
@@ -47,22 +54,20 @@ test:
     - pims.utils
     - pims.utils.misc
     - pims.utils.sort
-  requires:
-    - nose
-    - jinja2
-    - tifffile
-    - libtiff
-  #commands:
-  #  - nosetests {{ environ.SRC_DIR }}/pims -v
 
 about:
   home: https://github.com/soft-matter/pims
-  license: BSD
-  summary: 'Python Image Sequence'
+  license: BSD 3-Clause
+  license_file: license.txt
+  summary: >
+      Python Image Sequence. Load video and sequential images in many formats 
+      with a simple, consistent interface.
 
 extra:
   recipe-maintainers:
     - danielballan
     - ericdill
+    - jakirkham
     - licode
     - tacaswell
+    - caspervdw
