@@ -17,6 +17,8 @@ requirements:
   build:
     - python
     - six
+    - numexpr
+    - pysmbc
 
   run:
     - numpy
