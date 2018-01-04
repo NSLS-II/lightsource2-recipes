@@ -1,12 +1,12 @@
-{% set version = "0.0.1" %}
+{% set version = "2.0.1" %}
 
 package:
-    name: chxanalys
+    name: pyCHX
     version: {{ version }}
 
 source:
-    url: https://github.com/NSLS-II-CHX/chxanalys/archive/v{{ version }}.tar.gz
-    fn: chxanalys-v{{ version }}.tar.gz
+    url: https://github.com/NSLS-II-CHX/pyCHX/archive/v{{ version }}.tar.gz
+    fn: pyCHX-v{{ version }}.tar.gz
 
 build:
     number: 0
@@ -38,10 +38,10 @@ requirements:
 
 test:
     imports:
-        - chxanalys
+        - pyCHX
 
 about:
-    home: https://github.com/NSLS-II-CHX/chxanalys
+    home: https://github.com/NSLS-II-CHX/pyCHX
     license: BSD
 
 
