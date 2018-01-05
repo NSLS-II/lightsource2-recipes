@@ -57,8 +57,8 @@ rm -rf /conda/pkgs  #magic line, needs to be figured out later
 
 #conda install python=3.5 conda=4.1.12 -y 
 #conda install conda-build=3.0 anaconda-client conda-execute conda-env=2.5.1
-conda install python=3.5 -y
-conda install conda=4.3 conda-build=3.0 anaconda-client conda-execute conda-env
+conda install python=3.6 -y
+conda install conda=4.3 conda-build>=3.1 anaconda-client conda-execute conda-env
 
 
 # not sure why this is here, but I'm reasonably certain it is important
