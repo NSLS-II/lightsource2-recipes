@@ -301,10 +301,10 @@ def cli():
             message += "\n" + "stderr from {}".format(upload_cmd)
             message += "\n" + pformat(stderr)
             logger.error(message)
-            if slack_api:
-                message = message + ('\n\nCheck the log at {} on {}'
-                                     ''.format(args.log, os.uname()))
-                slack_api.chat.post_message(slack_channel, message)
+            #if slack_api:
+            #    message = message + ('\n\nCheck the log at {} on {}'
+            #                         ''.format(args.log, os.uname()))
+            #    slack_api.chat.post_message(slack_channel, message)
             #sys.exit(1)
 
     logger.info("Script complete.")
