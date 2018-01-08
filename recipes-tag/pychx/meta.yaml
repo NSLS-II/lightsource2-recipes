@@ -1,7 +1,7 @@
 {% set version = "2.0.1" %}
 
 package:
-    name: pyCHX
+    name: pychx
     version: {{ version }}
 
 source:
