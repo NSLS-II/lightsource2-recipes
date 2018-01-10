@@ -18,19 +18,28 @@ requirements:
     - setuptools
 
   run:
+    - atom
+    - cython
+    - databroker
+    - enaml
     - fabio
     - h5py
     - hdf5-lz4
     - python
     - matplotlib
+    - eiger-io
     - numpy
-    - pims >0.2.2
+    - pandas
     - prettytable
+    - pyepics
+    - pymongo
+    - scikit-beam
+    - scikit-image
+    - scipy
 
 test:
   imports:
     - chxtools
-    - chxtools.pims_readers
 
 about:
   home: https://github.com/NSLS-II-CHX/chxtools
