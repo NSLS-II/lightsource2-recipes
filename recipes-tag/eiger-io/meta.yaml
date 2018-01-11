@@ -1,4 +1,4 @@
-{% set version = "1.0.0" %}
+{% set version = "2.0.0" %}
 package:
   name: eiger-io
   version: {{ version }}
@@ -32,5 +32,5 @@ test:
     - eiger_io
 
 about:
-  home: https://github.com/CHX-NSLS-II/eiger-io
+  home: https://github.com/NSLS-II-CHX/eiger-io
   license: BSD
