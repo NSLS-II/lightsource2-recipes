@@ -12,7 +12,7 @@ source:
     md5: f62700cdd7919b5afbc1de54569df648
 
 build:
-    number: 2
+    number: 3
     detect_binary_files_with_prefix: true
     skip: True  # [py2k]
 
