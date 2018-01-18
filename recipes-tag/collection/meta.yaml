@@ -1,10 +1,10 @@
-{% set year = "18" %}
-{% set cycle = "Q1" %}
+{% set year = "2018" %}
+{% set cycle = "1" %}
 {% set version ="0" %}
 
 package:
   name: collection
-  version: {{ year }}{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 2
