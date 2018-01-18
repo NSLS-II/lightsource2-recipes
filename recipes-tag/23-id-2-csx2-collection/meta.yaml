@@ -1,9 +1,9 @@
-{% set year = "17" %}
-{% set cycle = "Q1" %}
+{% set year = "2018" %}
+{% set cycle = "1" %}
 {% set version ="0" %}
 
 package:
-  name: 23-id-2-csx2-analysis
+  name: 23-id-2-csx2-collection
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
@@ -11,5 +11,4 @@ build:
 
 requirements:
   run:
-    - csxtools
     - amostra
