@@ -11,4 +11,11 @@ build:
 
 requirements:
   run:
-    - streamz
+    - xpdacq
+    - databroker
+    - ophyd
+    - bluesky
+    - numpy
+    - lmfit
+    - scipy
+    - matplotlib

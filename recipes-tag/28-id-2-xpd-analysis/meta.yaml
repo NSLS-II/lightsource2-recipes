@@ -11,5 +11,6 @@ build:
 
 requirements:
   run:
-    - streamz
-    - shed
+    - xpdan
+    - bluesky
+    - databroker
