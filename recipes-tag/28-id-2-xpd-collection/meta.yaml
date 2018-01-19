@@ -4,7 +4,7 @@
 
 package:
   name: 28-id-2-xpd-collection
-  version: {{ year }}-{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 0
