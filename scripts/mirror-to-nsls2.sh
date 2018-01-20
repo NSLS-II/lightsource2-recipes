@@ -16,6 +16,6 @@ to_domain="https://pergamon.cs.nsls2.local:8443/api"
 
 LOGDIR=~/mirror-logs/`date +%Y`/`date +%m`/`date +%d`
 mkdir -p $LOGDIR
-LOGFILE="$LOGDIR/`date +%H.%M`-mirror-$OWNER"
+LOGFILE="$LOGDIR/`date +%H.%M`-mirror-$TO_OWNER"
 
-./mirror.py --from-token $FROM_TOKEN --from-owner $FROM_OWNER --from-domain $from_domain --to-token $TO_TOKEN --to-owner $TO_OWNER --to-domain $to_domain --platform linux-64 --to-disable-verify --log $LOGFILE --all --slack-token $SLACK_TOKEN --slack-channel $SLACK_CHANNEL
+./mirror.py --from-token $FROM_TOKEN --from-owner $FROM_OWNER --from-domain $from_domain --to-token $TO_TOKEN --to-owner $TO_OWNER --to-domain $to_domain --platform linux-64,osx-64,noarch --to-disable-verify --log $LOGFILE --all --slack-token $SLACK_TOKEN --slack-channel $SLACK_CHANNEL

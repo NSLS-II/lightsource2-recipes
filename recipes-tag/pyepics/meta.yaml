@@ -1,4 +1,4 @@
-{% set version = "3.2.6" %}
+{% set version = "3.3.0" %}
 package:
     name: pyepics
     version: {{ version }}
@@ -6,12 +6,12 @@ package:
 source:
     url: https://github.com/pyepics/pyepics/archive/{{ version }}.tar.gz
     fn: pyepics-{{ version }}.tar.gz
-    sha256: 630ac60bf9362a758211cfd3af4e62c9a0a394af6e5674aababdf6c857ad34a5
 
 build:
     number: 1
     script: |
       export PYEPICS_LIBCA=$PREFIX/lib/libca.so
+      export NOLIBCA=1
       echo "Using LIBCA from $PYEPICS_LIBCA"
       python setup.py install --single-version-externally-managed --record=record.txt
 

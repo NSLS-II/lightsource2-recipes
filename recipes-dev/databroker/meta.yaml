@@ -20,6 +20,7 @@ requirements:
     - boltons
     - cytoolz
     - doct
+    - glueviz
     - h5py
     - humanize
     - jsonschema

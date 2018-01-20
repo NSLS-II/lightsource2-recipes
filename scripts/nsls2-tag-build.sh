@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "Starting time :"
+date -u
+
 : ${BINSTAR_TOKEN?"Need to set BINSTAR_TOKEN"}
 : ${SLACK_TOKEN?"Need to set SLACK_TOKEN"}
 : ${SLACK_CHANNEL?"Need to set SLACK_CHANNEL"}
@@ -49,15 +52,18 @@ cat $CONDARC_PATH
 
 # install some required dependencies
 echo "start installation"
-conda install python=3.5 -y
-conda install conda=4.3 conda-build=3.0 anaconda-client conda-execute conda-env
+conda install python=3.6 -y
+conda install conda=4.3 conda-build=3.1 anaconda-client conda-execute conda-env
 
 
 # not sure why this is here, but I'm reasonably certain it is important
 export PYTHONUNBUFFERED=1
 
 # execute the dev build
-./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
+#./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
 ./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
+
+echo "Ending time :"
+date -u
 
 EOF

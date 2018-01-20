@@ -1,0 +1,35 @@
+{% set base_version = "5.20.3" %}
+{% set version = base_version + ".1" %}
+
+
+package:
+  name: perl
+  version: {{ version }}
+
+source:
+  fn: perl-{{ base_version }}.tar.gz                                                                       # [unix]
+  fn:  strawberry-perl-{{ version }}-32bit-portable.zip                                                    # [win]
+  url: http://www.cpan.org/src/5.0/perl-{{ base_version }}.tar.gz                                          # [unix]
+  url:  http://strawberryperl.com/download/{{ version }}/strawberry-perl-{{ version }}-32bit-portable.zip  # [win]
+#   sha1: 2b84a711694be9a10e558c38c9aa43d86c7329a9                                                           # [unix]
+#   sha1: 6c750c56a4eccf3b5f77af56e4cee572c360a1c2                                                           # [win]
+
+build:
+  number: 0
+
+test:
+  commands:
+    - perl --help
+
+about:
+  home: http://www.perl.org/
+  license: Artistic License
+  license_family: Other
+  license: Perl
+  summary: "The Perl programming language interpreter."
+
+
+extra:
+  recipe-maintainers:
+    - jakirkham
+    - msarahan

@@ -3,15 +3,19 @@
 {% set version ="0" %}
 
 package:
-  name: collection
+  name: 28-id-2-xpd-collection
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 2
+  number: 0
 
 requirements:
   run:
-    - analysis
+    - xpdacq
+    - databroker
     - ophyd
-    - pyepics
-    - pyolog
+    - bluesky
+    - numpy
+    - lmfit
+    - scipy
+    - matplotlib

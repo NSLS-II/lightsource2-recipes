@@ -1,10 +1,10 @@
-{% set year = "17" %}
-{% set cycle = "Q3" %}
+{% set year = "2018" %}
+{% set cycle = "1" %}
 {% set version ="0" %}
 
 package:
   name: analysis
-  version: {{ year }}{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 2
@@ -14,15 +14,21 @@ requirements:
     - amostra  # [py3k]
     - bluesky  # [py3k]
     - controls-doctor
+    - dask
     - databroker
     - databroker-browser
     - datamuxer
+    - distributed
+    - fabio
+    - graphviz
     - ipython
     - ipywidgets
     - jupyter
     - openpyxl
     - pyqt >=5.6.0
+    - oscars
     - python
+    - python-graphviz
     - qt >=5.6.0
     - scikit-beam
     - suitcase

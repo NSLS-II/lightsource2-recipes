@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "Starting time :"
+date -u
+
 : ${BINSTAR_TOKEN?"Need to set BINSTAR_TOKEN"}
 : ${SLACK_TOKEN?"Need to set SLACK_TOKEN"}
 : ${SLACK_CHANNEL?"Need to set SLACK_CHANNEL"}
@@ -54,8 +57,8 @@ rm -rf /conda/pkgs  #magic line, needs to be figured out later
 
 #conda install python=3.5 conda=4.1.12 -y 
 #conda install conda-build=3.0 anaconda-client conda-execute conda-env=2.5.1
-conda install python=3.5 -y
-conda install conda=4.3 conda-build=3.0 anaconda-client conda-execute conda-env
+conda install python=3.6 -y
+conda install conda=4.3 conda-build>=3.1 anaconda-client conda-execute conda-env
 
 
 # not sure why this is here, but I'm reasonably certain it is important
@@ -66,5 +69,8 @@ ls /repo/recipes-dev
 
 # execute the dev build
 ./repo/scripts/build.py /repo/recipes-dev -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN  --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
+
+echo "Ending time :"
+date -u
 
 EOF

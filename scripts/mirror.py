@@ -227,8 +227,13 @@ def cli():
     # Get the package metadata from the specified anaconda channel
     from_packages = from_cli.show_channel(args.from_channel,
                                           args.from_owner)
+    if ',' in args.platform[0]:
+        pt = args.platform[0].split(',')
+    else:
+        pt = args.platform
+
     from_files = {f['basename']: f for f in from_packages['files']
-                  if f['attrs']['subdir'] in args.platform}
+                  if f['attrs']['subdir'] in pt}
     if args.list:
         # print out the list of all files on the source channel and exit
         logger.info("\nComplete files list on {} at {}:".format(
@@ -301,11 +306,11 @@ def cli():
             message += "\n" + "stderr from {}".format(upload_cmd)
             message += "\n" + pformat(stderr)
             logger.error(message)
-            if slack_api:
-                message = message + ('\n\nCheck the log at {} on {}'
-                                     ''.format(args.log, os.uname()))
-                slack_api.chat.post_message(slack_channel, message)
-            sys.exit(1)
+            #if slack_api:
+            #    message = message + ('\n\nCheck the log at {} on {}'
+            #                         ''.format(args.log, os.uname()))
+            #    slack_api.chat.post_message(slack_channel, message)
+            #sys.exit(1)
 
     logger.info("Script complete.")
 

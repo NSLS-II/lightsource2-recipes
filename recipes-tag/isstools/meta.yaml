@@ -1,4 +1,4 @@
-{% set version = "0.3" %}
+{% set version = "1.3" %}
 
 package:
   name: isstools
@@ -17,6 +17,8 @@ requirements:
   build:
     - python
     - six
+    - numexpr
+    - pysmbc
 
   run:
     - numpy
