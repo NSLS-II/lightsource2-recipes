@@ -12,4 +12,3 @@ build:
 requirements:
   run:
     - isstools
-    - netcdf4
