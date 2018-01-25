@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 04-id-isr-collection
+  name: 04-id-isr-analysis
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
