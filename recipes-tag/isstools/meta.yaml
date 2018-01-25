@@ -24,7 +24,7 @@ requirements:
     - numpy
     - scipy
     - matplotlib
-    - pyqt 4*
+    - pyqt 5*
     - bluesky
     - pexpect
     - pysmbc
