@@ -1,4 +1,4 @@
-{% set version = "0.6.0" %}
+{% set version = "0.7.0" %}
 package:
   name: suitcase
   version: {{ version }}
@@ -8,7 +8,7 @@ source:
   git_rev: v{{ version }}
 
 build:
-  number: 2
+  number: 0
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
