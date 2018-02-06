@@ -22,6 +22,7 @@ requirements:
         - pims
         - python
         - six
+        - hdf5-lz4
 
 test:
     requires:
