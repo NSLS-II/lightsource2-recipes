@@ -1,0 +1,40 @@
+{% set version = "0.0.1" %}
+
+package:
+    name: conftrak
+    version: {{ version }}
+
+source:
+    git_url: https://github.com/nsls-ii/conftrak
+    git_rev: v{{ version }}
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+    skip: True   # [py2k]
+
+requirements:
+    build:
+        - python
+        - setuptools
+
+    run:
+        - doct
+        - jsonschema
+        - mongoquery
+        - pymongo
+        - python
+        - requests
+        - tornado
+        - ujson
+        - pyyaml
+test:
+    imports:
+        - conftrak
+        - conftrak.client
+        - conftrak.server
+
+about:
+    home: https://github.com/NSLS-ii/conftrak
+    license: BSD 3-Clause
+    summary: "Analysisstore is a Mongo backed data analysis tracker service."
