@@ -37,4 +37,4 @@ test:
 about:
     home: https://github.com/NSLS-ii/conftrak
     license: BSD 3-Clause
-    summary: "Analysisstore is a Mongo backed data analysis tracker service."
+    summary: "conftrak is a light-weight beamline configuration and parameters storage and tracker."
