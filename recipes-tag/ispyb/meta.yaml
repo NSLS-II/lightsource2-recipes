@@ -1,8 +1,8 @@
 {% set name = "ispyb" %}
-{% set version = "4.1.0" %}
+{% set version = "4.3.0" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "6e096ca5a4e2a834d7add46614557ee412002409ad7541dd19365f6766c1020d" %}
+{% set hash_value = "f3ebaca5b3f5ae3f149c29d8d6cfcdf059ec41cedd8ead74ee5cd62a4148aa3a" %}
 
 package:
   name: '{{ name|lower }}'
@@ -58,3 +58,4 @@ about:
 extra:
   recipe-maintainers:
     - stuartcampbell
+    - KarlLevik
