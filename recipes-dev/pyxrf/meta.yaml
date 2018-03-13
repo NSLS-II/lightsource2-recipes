@@ -11,23 +11,27 @@ build:
   script: python setup.py install --single-version-externally-managed --record=record.txt
   entry_points:
     - pyxrf = pyxrf.gui:run
-  skip: True  # [py3k]
 
 requirements:
   build:
     - python
-    - numpy
-    - enaml
     - setuptools
 
   run:
-    - python
+    - atom
     - enaml
     - h5py
+    - ipywidgets
+    - jupyter
     - matplotlib
     - numpy
     - pandas
+    - pillow
+    - python
+    - scipy
+    - six
     - scikit-beam
+    - scikit-image
 
 test:
   imports:
