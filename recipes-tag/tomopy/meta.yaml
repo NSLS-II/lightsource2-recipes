@@ -1,0 +1,60 @@
+{% set version = "1.1.2" %}
+
+package:
+    name: tomopy
+    version: {{ version }}
+
+source:
+    url: https://github.com/tomopy/tomopy/archive/{{ version }}.tar.gz
+    fn: tomopy-{{ version }}.tar.gz
+    sha256: 4a0990e5729e270729db21c219b238825e224a6cbe172ee17bf7a90d543f5a2f
+
+build:
+    number: 0
+    script: C_INCLUDE_PATH=$PREFIX/include python setup.py install --single-version-externally-managed --record=record.txt
+    skip: True  # [win]
+
+requirements:
+    build:
+        - mkl-devel
+        - python
+        - setuptools
+
+    run:
+        - dxchange
+        - futures # [py2k]
+        - numexpr
+        - mkl
+        - mkl_fft
+        - python
+        - pywavelets
+        - numpy
+        - scikit-image
+        - scipy
+        - six
+
+test:
+    imports:
+        - tomopy
+        - tomopy.misc
+        - tomopy.prep
+        - tomopy.recon
+        - tomopy.sim
+        - tomopy.util
+
+app:
+    own_environment: True
+
+about:
+    home: http://tomopy.readthedocs.io
+    license: BSD 3-Clause
+    summary: Tomographic reconstruction in Python.
+
+extra:
+    recipe-maintainers:
+        - dgursoy
+        - decarlof
+        - licode
+        - ravescovi
+        - tacaswell
+        - oleksandr-pavlyk
