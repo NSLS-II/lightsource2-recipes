@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 11-id-chx-collection
+  name: 11-bm-cms-collection
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
@@ -11,6 +11,4 @@ build:
 
 requirements:
   run:
-    - chxtools
-    - eiger-io
     - natsort
