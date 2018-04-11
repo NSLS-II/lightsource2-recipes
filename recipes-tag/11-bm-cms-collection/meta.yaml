@@ -1,0 +1,16 @@
+{% set year = "2018" %}
+{% set cycle = "1" %}
+{% set version ="0" %}
+
+package:
+  name: 11-id-chx-collection
+  version: {{ year }}C{{ cycle }}.{{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - chxtools
+    - eiger-io
+    - natsort
