@@ -1,0 +1,46 @@
+{% set version = "1.1.1" %}
+
+package:
+  name: peakutils
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/P/PeakUtils/PeakUtils-{{ version }}.tar.gz
+  sha256: 8e06b7a2f793fffd8ab144b15c218097072f07285f567c8c021e35d9d96d6de1
+
+build:
+  number: 0
+  noarch: python
+  script: python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  build:
+    - python
+    - pip
+  run:
+    - python
+    - numpy >=1.8
+    - scipy >=0.14
+
+test:
+  imports:
+    - peakutils
+
+about:
+  home: https://bitbucket.org/lucashnegri/peakutils
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE.txt
+  summary: 'Peak detection utilities for 1D data'
+
+  description: |
+    This package provides utilities related to the detection of peaks on 
+    1D data. Includes functions to estimate baselines, finding the 
+    indexes of peaks in the data and performing Gaussian fitting or centroid 
+    computation to further increase the resolution of the peak detection.
+  doc_url: http://pythonhosted.org/PeakUtils/
+  dev_url: https://bitbucket.org/lucashnegri/peakutils/
+
+extra:
+  recipe-maintainers:
+    - xmnlab
