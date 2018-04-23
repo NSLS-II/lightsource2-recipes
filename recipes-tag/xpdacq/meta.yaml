@@ -1,6 +1,6 @@
 {% set name = "xpdacq" %}
-{% set version = "0.7.1" %}
-{% set sha256 = "68452fcad430fc815411763975044a1271800d74df5dba5bae3163575ab4ed9e" %}
+{% set version = "0.8.0rc2" %}
+{% set sha256 = "101c31816a9b7452aded3f1233f2c31a401fbd8004822d46d4602d28be749c3a" %}
 
 package:
   name: {{ name|lower }}
@@ -33,6 +33,7 @@ requirements:
     - xpdsim
     - databroker
     - ophyd
+    - xpdconf
  
 
 test:

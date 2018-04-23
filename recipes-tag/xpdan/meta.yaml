@@ -1,6 +1,6 @@
 {% set name = "xpdan" %}
-{% set version = "0.2.2" %}
-{% set sha256 = "348b0bd93064727e72a413319a5df9136c378643b841f8ab773cba5716ca072e" %}
+{% set version = "0.2.3rc" %}
+{% set sha256 = "71f3c0d60bb4ff0913d8a30d8f8a61effd66752ba365d474ada45c7e4c79a80a" %}
 
 package:
   name: {{ name|lower }}
@@ -37,7 +37,7 @@ requirements:
     - shed
     - xpdview
     - ophyd
-
+    - xpdconf
 
 test:
   imports:
