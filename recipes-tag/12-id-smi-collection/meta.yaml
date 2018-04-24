@@ -4,7 +4,7 @@
 
 package:
   name: 12-id-smi-collection
-  version: {{ year }}-{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 0
