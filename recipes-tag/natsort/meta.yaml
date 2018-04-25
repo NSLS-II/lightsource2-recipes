@@ -1,0 +1,27 @@
+{% set version = "5.2.0" %}
+
+package:
+    name: natsort
+    version: {{ version }}
+
+source:
+    git_url: https://github.com/SethMMorton/natsort
+    git_rev: {{ version }}
+
+build:
+  number: 0
+  script:
+    - python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - python
+        - setuptools
+    run:
+        - python
+
+about:
+    home: http://natsort.readthedocs.io
+    license: BSD 3-Clause
+    summary: Simple yet flexible natural sorting in Python
+    license_family: MIT
