@@ -20,7 +20,7 @@ docker pull $IMAGE_NAME
 
 echo "Running the docker container"
 
-cat << EOF | docker run -i \
+cat << EOF | docker run -i --rm \
                         -v $REPO_ROOT:/repo \
                         -a stdin -a stdout -a stderr \
                         $IMAGE_NAME \
