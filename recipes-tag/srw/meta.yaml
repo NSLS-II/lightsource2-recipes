@@ -31,7 +31,6 @@ test:
 about:
     home: https://github.com/ochubar/SRW
     license: Custom
-    license_file: https://github.com/ochubar/SRW/blob/master/COPYRIGHT.txt 
     summary: Synchrotron Radiation Workshop
 
 extra:
