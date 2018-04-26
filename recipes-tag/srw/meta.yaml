@@ -1,0 +1,38 @@
+{% set version = "0.0.1" %}
+
+package:
+    name: srw
+    version: {{ version }}
+
+source:
+    git_url: https://github.com/radiasoft/SRW-light
+    git_rev: v{{ version }}
+
+build:
+    number: 0
+    skip: True  # [win]
+
+requirements:
+    build:
+        - python
+
+    run:
+        - python
+        - numpy
+        - scipy
+        - matplotlib
+
+test:
+    imports:
+        - srwl_bl
+        - srwlib
+        - srwlpy
+
+about:
+    home: https://github.com/ochubar/SRW
+    license: Custom
+    summary: Synchrotron Radiation Workshop
+
+extra:
+    recipe-maintainers:
+        - mrakitin
