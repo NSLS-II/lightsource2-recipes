@@ -1,13 +1,13 @@
-{% set year = "17" %}
-{% set cycle = "Q1" %}
+{% set year = "2018" %}
+{% set cycle = "1" %}
 {% set version ="0" %}
 
 package:
   name: 11-id-chx-analysis
-  version: {{ year }}{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   run:
