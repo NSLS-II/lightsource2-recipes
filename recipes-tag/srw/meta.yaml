@@ -9,7 +9,7 @@ source:
     git_rev: v{{ version }}
 
 build:
-    number: 0
+    number: 1
     skip: True  # [win]
 
 requirements:
@@ -31,6 +31,7 @@ test:
 about:
     home: https://github.com/ochubar/SRW
     license: Custom
+    license_url: https://github.com/ochubar/SRW/blob/master/COPYRIGHT.txt
     summary: Synchrotron Radiation Workshop
 
 extra:
