@@ -17,7 +17,7 @@ requirements:
         - autoconf
         - automake
         - gobject-introspection
-        - gsl
+        - gsl==2.2.1
         - libtool
         - m4
         - pkg-config
@@ -29,7 +29,7 @@ requirements:
           #- pygobject  # [py2k]
           #- pygobject3  # [py3k]
         - python
-        - gsl
+        - gsl==2.2.1
         - pcre
         - libiconv
 about:
