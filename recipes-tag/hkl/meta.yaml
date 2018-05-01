@@ -9,7 +9,7 @@ source:
     git_rev: v{{ version }}
 
 build:
-    number: 2
+    number: 3
     skip: True  # [py2k]
 
 requirements:
@@ -17,7 +17,8 @@ requirements:
         - autoconf
         - automake
         - gobject-introspection
-        - gsl
+        - pygobject3==3.18.2
+        - gsl==2.2.1
         - libtool
         - m4
         - pkg-config
@@ -27,9 +28,9 @@ requirements:
     run:
         - numpy
           #- pygobject  # [py2k]
-          #- pygobject3  # [py3k]
+        - pygobject3==3.18.2  # [py3k]
         - python
-        - gsl
+        - gsl==2.2.1
         - pcre
         - libiconv
 about:
