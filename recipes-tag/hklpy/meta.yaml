@@ -1,4 +1,4 @@
-{% set version = "0.3.11" %}
+{% set version = "0.3.12" %}
 
 package:
     name: hklpy
@@ -7,10 +7,10 @@ package:
 source:
     url: https://github.com/NSLS-II/hklpy/archive/v{{ version }}.tar.gz
     fn: hklpy-v{{ version }}.tar.gz
-    sha256: 854e18af3aa8d057e76bcc2b7294c859fc032f4440d0203e312210d26a96ae1a
+    sha256: 38196fe55bc2feb267a4bafad6c813c3ffd9301472c172695bf2974e7798c101
 
 build:
-    number: 2
+    number: 0
     skip: True  # [py2k]
     script: python setup.py install --single-version-externally-managed --record=record.txt
 
