@@ -1,4 +1,4 @@
-{% set version = "1.10.2" %}
+{% set version = "1.11.0" %}
 
 package:
     name: lightflow
@@ -17,10 +17,10 @@ requirements:
     build:
         - python
         - setuptools
-        - numpy x.x
+        - numpy
     run:
         - python
-        - numpy x.x
+        - numpy
 
 test:
     imports:
