@@ -1,0 +1,36 @@
+{% set version = "1.11.0" %}
+
+package:
+    name: lightflow
+    version: {{ version }}
+
+source:
+    git_url: https://github.com/australiansynchrotron/lightflow
+    git_rev: v{{ version }}
+
+build:
+  number: 0
+  script:
+    - python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - python
+        - setuptools
+        - numpy
+    run:
+        - python
+        - numpy
+
+test:
+    imports:
+        - lightflow
+
+about:
+    home: http://australiansynchrotron.github.io/lightflow/
+    license: BSD 3-Clause
+    summary: Lightflow is a Python 3.5+ library and command-line tool for
+        executing workflows, composed of individual tasks, in a distributed
+        fashion. It is based on Celery and provides task dependencies, data
+        exchange between tasks and an intuitive description of workflows.
+    license_family: BSD
