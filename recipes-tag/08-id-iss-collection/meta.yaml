@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 08-id-iss-analysis
+  name: 08-id-iss-collection
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
