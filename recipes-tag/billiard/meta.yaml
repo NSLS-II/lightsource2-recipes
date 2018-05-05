@@ -1,0 +1,41 @@
+{% set name = "billiard" %}
+{% set version = "3.5.0.2" %}
+{% set sha256 = "3eb01a8fe44116aa6d63d2010515ef1526e40caee5f766f75b2d28393332dcaa" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+
+test:
+  imports:
+    - billiard
+    - billiard.dummy
+
+about:
+  home: https://github.com/celery/billiard
+  license: BSD 3-Clause
+  license_family: BSD
+  license_file: LICENSE.txt
+  summary: Python multiprocessing fork with improvements and bugfixes
+  dev_url: https://github.com/celery/billiard
+
+extra:
+  recipe-maintainers:
+    - jakirkham
+    - kwilcox

@@ -1,0 +1,49 @@
+{% set name = "redis-py" %}
+{% set version = "2.10.6" %}
+{% set build = 0 %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  fn: redis-{{ version }}.tar.gz
+  url: https://github.com/andymccurdy/redis-py/archive/{{ version }}.tar.gz
+  sha256: e28e24539d6590a8b88498f2d30f7fe3e2be1171d7a91fe1fa6c5b6982519015
+
+build:
+  noarch: python
+  number: {{ build }}
+  script: python setup.py install --single-version-externally-managed --record record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+
+test:
+  imports:
+    - redis
+  requires:
+    - pytest >=2.5.0
+
+about:
+  home: https://github.com/andymccurdy/redis-py/
+  license: MIT
+  license_url: https://github.com/andymccurdy/redis-py/blob/master/LICENSE
+  license_family: MIT
+  license_file: LICENSE
+  summary: Python client for Redis key-value store
+  description: |
+    The Python interface to the Redis key-value store. Requires a running
+    Redis server.
+  doc_url: https://pypi.python.org/pypi/redis
+  doc_source_url: https://github.com/andymccurdy/redis-py/blob/master/README.rst
+  dev_url: https://github.com/andymccurdy/redis-py/
+
+extra:
+  recipe-maintainers:
+    - kwilcox
+    - daf
