@@ -1,13 +1,13 @@
 {% set year = "2018" %}
-{% set cycle = "1" %}
-{% set version ="0" %}
+{% set cycle = "2" %}
+{% set version ="rc1" %}
 
 package:
   name: collection
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 2
+  number: 0
 
 requirements:
   run:
