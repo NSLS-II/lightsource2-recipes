@@ -1,0 +1,47 @@
+{% set version = "3.6.1" %}
+
+package:
+  name: pymongo
+  version: {{ version }}
+
+source:
+  url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
+  fn: pymongo-{{ version }}.tar.gz
+  sha256: 8165814e490129047bb92a3e36d857bf4110318920e98cf6d494f294c35ca9c7
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script_env:  # [osx]
+    - TRAVIS   # [osx]
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+
+test:
+  source_files:
+    - .
+  imports:
+    - bson
+    - gridfs
+    - pymongo
+  requires:  # [not win]
+    - mongodb  # [not win]
+    - setuptools  # [not win]
+
+about:
+  home: https://github.com/mongodb/mongo-python-driver
+  license: Apache 2.0
+  license_file: LICENSE
+  summary: Python driver for MongoDB http://www.mongodb.org
+
+extra:
+  recipe-maintainers:
+    - licode
+    - jakirkham
+    - tacaswell
+    - CJ-Wright

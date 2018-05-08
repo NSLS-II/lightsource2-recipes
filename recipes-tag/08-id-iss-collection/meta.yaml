@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 07-bm-qas-collection
+  name: 08-id-iss-collection
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
@@ -12,4 +12,5 @@ build:
 requirements:
   run:
     - isstools
+    - netcdf4
     - lightflow

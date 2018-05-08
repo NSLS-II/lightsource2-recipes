@@ -1,0 +1,51 @@
+{% set name = "kombu" %}
+{% set version = "4.1.0" %}
+{% set sha256 = "4249d9dd9dbf1fcec471d1c2def20653c9310dd1a217272d77e4844f9d5273cb" %}
+{% set build = 0 %}
+
+package:
+    name: {{ name|lower }}
+    version: {{ version }}
+
+source:
+    fn: {{ name }}-{{ version }}.tar.gz
+    url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+    sha256: {{ sha256 }}
+
+build:
+    number: {{ build }}
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - python
+        - setuptools
+
+    run:
+        - python
+        - simplejson
+        - amqp >=2.1.4,<3.0
+
+test:
+    imports:
+        - kombu
+        - kombu.async
+        - kombu.async.aws
+        - kombu.async.http
+        - kombu.transport
+        - kombu.transport.virtual
+        - kombu.utils
+
+about:
+    home: https://kombu.readthedocs.org
+    license_file: LICENSE
+    license: BSD 3-Clause
+    summary: 'Messaging library for Python'
+    dev_url: https://github.com/celery/kombu
+    doc_url: https://kombu.readthedocs.org
+
+extra:
+    recipe-maintainers:
+        - anguslees
+        - kwilcox
+        - pmlandwehr
