@@ -1,10 +1,10 @@
-{% set year = "17" %}
-{% set cycle = "Q1" %}
+{% set year = "2018" %}
+{% set cycle = "1" %}
 {% set version ="0" %}
 
 package:
   name: 23-id-1-csx1-collection
-  version: {{ year }}{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 1
@@ -15,6 +15,6 @@ requirements:
     - libiconv
     - pcre
     - hkl
-    - hklpy
+    - hklpy>=0.3.12
     - 23-id-1-csx1-analysis
     - hxntools
