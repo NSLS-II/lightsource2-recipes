@@ -1,0 +1,37 @@
+{% set version = "0.1.5" %}
+
+package:
+    name: pyzbar
+    version: {{ version }}
+
+source:
+    git_url: https://github.com/NaturalHistoryMuseum/pyzbar
+    git_rev: v{{ version }}
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+    skip: True  # [win]
+
+requirements:
+    build:
+        - python
+    run:
+        - zbar
+        - python
+        - numpy >=1.8.2
+        - pillow >=3.2.0
+
+test:
+    imports:
+        - pyzbar.pyzbar
+        - PIL
+
+about:
+    home: https://github.com/NaturalHistoryMuseum/pyzbar
+    license: MIT
+    summary: Read one-dimensional barcodes and QR codes using the zbar library
+
+extra:
+    recipe-maintainers:
+        - mrakitin
