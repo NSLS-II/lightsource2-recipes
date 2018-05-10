@@ -1,0 +1,22 @@
+{% set version = "0.10" %}
+
+package:
+    name: zbar
+    version: {{ version }}
+
+source:
+    fn: zbar-{{ version }}.tar.bz2
+    url: https://svwh.dl.sourceforge.net/project/zbar/zbar/{{ version }}/zbar-{{ version }}.tar.bz2
+
+build:
+    number: 0
+    skip: True  # [win]
+
+about:
+    license: GNU LGPL 2.1
+    home: http://zbar.sourceforge.net/
+    summary: ZBar bar code reader
+
+extra:
+    recipe-maintainers:
+        - mrakitin
