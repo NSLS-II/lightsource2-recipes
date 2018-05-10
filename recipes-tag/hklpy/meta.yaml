@@ -16,13 +16,13 @@ build:
 
 requirements:
     build:
-        - python==3.6
+        - python>=3.6
         - setuptools
     run:
         - hkl
         - numpy
         - ophyd
-        - python==3.6
+        - python>=3.6
         - pygobject3
 
 test:
