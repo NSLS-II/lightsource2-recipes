@@ -15,3 +15,4 @@ requirements:
     - ophyd
     - pyepics
     - pyolog
+    - pyserial
