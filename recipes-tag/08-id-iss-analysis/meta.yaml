@@ -1,5 +1,5 @@
-{% set year = "17" %}
-{% set cycle = "Q1" %}
+{% set year = "2018" %}
+{% set cycle = "2" %}
 {% set version ="0" %}
 
 package:
@@ -13,3 +13,5 @@ requirements:
   run:
     - isstools
     - netcdf4
+    - kafka
+    - lightflow
