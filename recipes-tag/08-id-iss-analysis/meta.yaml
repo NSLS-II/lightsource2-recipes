@@ -13,5 +13,5 @@ requirements:
   run:
     - isstools
     - netcdf4
-    - kafka
+    - pykafka
     - lightflow
