@@ -23,7 +23,7 @@ requirements:
 
 test:
     imports:
-        - bluesky
+        - bluesky_kafka
 
 about:
     home: https://github.com/NSLS-II/bluesky-kafka
