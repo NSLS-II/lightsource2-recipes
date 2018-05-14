@@ -4,7 +4,7 @@
 
 package:
   name: 08-id-iss-analysis
-  version: {{ year }}{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 0
