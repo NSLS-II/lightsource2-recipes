@@ -38,8 +38,8 @@ logger = logging.getLogger('build.py')
 current_subprocs = set()
 shutdown = False
 
-DEFAULT_PY = '3.5'
-DEFAULT_NP_VER = '1.11'
+DEFAULT_PY = '3.6'
+DEFAULT_NP_VER = '1.14'
 slack_channel = 'bob-the-builder'
 slack_api = None
 anaconda_cli = None
@@ -798,7 +798,7 @@ def run(recipes_path, python, site, username, numpy, token=None,
     global anaconda_cli
     anaconda_cli = get_anaconda_cli(token, site)
     if numpy is None:
-        numpy = os.environ.get("CONDA_NPY", "1.11")
+        numpy = os.environ.get("CONDA_NPY", DEFAULT_NP_VER)
         if not isinstance(numpy, list):
             numpy = [numpy]
     # get all file names that are in the channel I am interested in
