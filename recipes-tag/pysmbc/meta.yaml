@@ -1,15 +1,14 @@
-{% set version = "1.0.14" %}
+{% set version = "1.0.15.8" %}
 package:
   name: pysmbc
   version: {{ version }}
-
 source:
-  git_url: https://github.com/hamano/pysmbc.git
-  git_rev: {{ version }}
+  url: https://files.pythonhosted.org/packages/44/6b/02724b54de3543718ccc6ac841ce0c17aa9851b3e77162d70f7d78edff2a/pysmbc-{{ version }}.tar.bz2
+  sha256: 0567c1789a911500b83c64becdaa0015c135cce0bcf59ec593df48859bebbf1d
 
 build:
   number: 1
-  script: python setup.py install
+  script: python setup.py install #--single-version-externally-managed --record=record.txt
 
 requirements:
   build:
