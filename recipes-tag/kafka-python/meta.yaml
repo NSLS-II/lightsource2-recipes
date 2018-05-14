@@ -1,0 +1,54 @@
+{% set name = "kafka-python" %}
+{% set version = "1.4.2" %}
+{% set bundle = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash = "6a5c516f540f4b13b78c64a85dd42dc38fe29257e2fae6393fc5daff9106389b" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.{{ bundle }}
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ bundle }}
+  {{ hash_type }}: {{ hash }}
+
+build:
+  noarch: python
+  number: 0
+  script: python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  build:
+    - python
+    - pip
+
+  run:
+    - python
+
+test:
+  imports:
+    - kafka
+    - kafka.consumer
+    - kafka.coordinator
+    - kafka.coordinator.assignors
+    - kafka.metrics
+    - kafka.metrics.stats
+    - kafka.partitioner
+    - kafka.producer
+    - kafka.protocol
+    - kafka.serializer
+    - kafka.vendor
+
+about:
+  home: https://github.com/dpkp/kafka-python
+  license_file: LICENSE
+  license: Apache 2.0
+  license_family: Apache
+  summary: 'Pure Python client for Apache Kafka'
+  dev_url: https://github.com/dpkp/kafka-python
+  doc_url: https://kafka-python.readthedocs.io/en/master/
+
+extra:
+  recipe-maintainers:
+    - pmlandwehr
