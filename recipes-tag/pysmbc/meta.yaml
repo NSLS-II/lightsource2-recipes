@@ -1,14 +1,17 @@
+{% set name = "pysmbc" %}
 {% set version = "1.0.15.8" %}
+
 package:
-  name: pysmbc
+  name: {{ name|lower }}
   version: {{ version }}
+
 source:
-    url: https://pypi.io/packages/source/p/pysmbc/pysmbc-{{ version }}.tar.bz2
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.bz2
   sha256: 0567c1789a911500b83c64becdaa0015c135cce0bcf59ec593df48859bebbf1d
 
 build:
-  number: 1
-  script: python setup.py install #--single-version-externally-managed --record=record.txt
+  number: 2
+  script: python setup.py install
 
 requirements:
   build:
@@ -17,7 +20,3 @@ requirements:
   run:
     - python
     - xattr
-
-test:
-  imports:
-    - smbc
