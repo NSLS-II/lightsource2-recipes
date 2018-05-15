@@ -1,7 +1,7 @@
 {% set version = "0.9.37" %}
 
 package:
-    name: larch
+    name: xraylarch
     version: {{ version }}
 
 source:
@@ -9,7 +9,7 @@ source:
     git_rev: {{ version }}
 
 build:
-    number: 0
+    number: 1
     script: python setup.py install --single-version-externally-managed --record=record.txt
     skip: True  # [py2k]
 
@@ -31,9 +31,6 @@ requirements:
         - lmfit>=0.9.9
         - psutil
 
-test:
-    imports:
-        - larch
 
 about:
     home: https://github.com/xraypy/xraylarch
