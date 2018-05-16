@@ -12,6 +12,7 @@ build:
 requirements:
   run:
     - analysis
+    - caproto
     - ophyd
     - pyepics
     - pyolog
