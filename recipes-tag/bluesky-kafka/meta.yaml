@@ -1,11 +1,12 @@
 {% set version = "0.1" %}
+{% set name= "bluesky-kafka" %}
 
 package:
-    name: bluesky-kafka
+    name: {{ name }}
     version: {{ version }}
 
 source:
-    git_url: https://github.com/nsls-ii/bluesky-kafka
+    git_url: https://github.com/nsls-ii/{{ name }}
     git_rev: v{{ version }}
 
 build:
@@ -19,12 +20,12 @@ requirements:
 
     run:
         - bluesky
-        - pykafka
+        - kafka-python
 
 test:
     imports:
         - bluesky_kafka
 
 about:
-    home: https://github.com/NSLS-II/bluesky-kafka
+    home: https://github.com/NSLS-II/{{ name }}
     license: BSD
