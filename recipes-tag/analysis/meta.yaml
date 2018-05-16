@@ -13,6 +13,7 @@ requirements:
   run:
     - amostra  # [py3k]
     - bluesky  # [py3k]
+    - bluesky-kafka  # [py3k]
     - controls-doctor
     - dask
     - databroker
