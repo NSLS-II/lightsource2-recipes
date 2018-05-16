@@ -15,3 +15,5 @@ requirements:
     - hxntools
     - tqdm
     - ppmac
+    - pypdf2
+    - reportlab
