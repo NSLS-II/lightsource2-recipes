@@ -1,0 +1,41 @@
+{% set name = "netifaces" %}
+{% set version = "0.10.7" %}
+{% set bundle = "tar.gz" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.{{ bundle }}
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ bundle }}
+
+build:
+  number: 0
+  script: python -m pip install --no-deps --ignore-installed .
+
+
+requirements:
+  build:
+    - python
+    - pip
+    - toolchain
+
+  run:
+    - python
+
+test:
+  imports:
+    - netifaces
+
+about:
+  home: https://github.com/al45tair/netifaces
+  license: MIT
+  license_family: MIT
+  summary: 'Portable network interface information.'
+  dev_url: https://github.com/al45tair/netifaces
+
+extra:
+  recipe-maintainers:
+    - anguslees
+    - pmlandwehr
