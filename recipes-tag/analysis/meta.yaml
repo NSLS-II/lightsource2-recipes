@@ -1,5 +1,5 @@
 {% set year = "2018" %}
-{% set cycle = "1" %}
+{% set cycle = "2" %}
 {% set version ="0" %}
 
 package:
@@ -7,12 +7,13 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 2
+  number: 0
 
 requirements:
   run:
     - amostra  # [py3k]
     - bluesky  # [py3k]
+    - bluesky-kafka  # [py3k]
     - controls-doctor
     - dask
     - databroker
