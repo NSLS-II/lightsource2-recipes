@@ -9,28 +9,44 @@ source:
     git_rev: {{ version }}
 
 build:
-    number: 1
-    script: python setup.py install --single-version-externally-managed --record=record.txt
+    number: 2
+    script: python setup.py install  # --single-version-externally-managed --record=record.txt
     skip: True  # [py2k]
 
 requirements:
     build:
         - python
-
-    run:
-        - six>=1.10
-        - scipy>=0.17
-        - numpy>=1.7
-        - matplotlib>=1.5.1
-        - sqlalchemy>=0.9
-        - h5py>=2.2
-        - pillow>=3.4
-        - peakutils>=1.0.0
-        - requests>=2.1
-        - asteval>=0.9.12
-        - lmfit>=0.9.9
+        - asteval >=0.9.12
+        - h5py >=2.2
+        - lmfit >=0.9.9
+        - matplotlib >=1.5.1
+        - numpy >=1.7
+        - peakutils >=1.0.0
         - psutil
+        - requests >=2.1
+        - scipy >=0.17
+        - six >=1.10
+        - sqlalchemy >=0.9
+        - termcolor
+    run:
+        - python
+        - asteval >=0.9.12
+        - h5py >=2.2
+        - lmfit >=0.9.9
+        - matplotlib >=1.5.1
+        - numpy >=1.7
+        - peakutils >=1.0.0
+        - pillow >=3.4
+        - psutil
+        - requests >=2.1
+        - scipy >=0.17
+        - six >=1.10
+        - sqlalchemy >=0.9
+        - termcolor
 
+test:
+    imports:
+        - larch
 
 about:
     home: https://github.com/xraypy/xraylarch
