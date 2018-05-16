@@ -12,7 +12,7 @@ build:
 requirements:
   run:
     - analysis >=2018C2.0
-    - caproto >=0.1.0a2
+    - caproto >=0.1.0a1
     - ophyd >=1.2.0a2
     - pyepics >=3.3.0
     - pyolog >=4.4.0
