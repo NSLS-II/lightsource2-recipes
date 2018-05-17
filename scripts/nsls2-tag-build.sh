@@ -18,11 +18,22 @@ IMAGE_NAME="nsls2/debian-with-miniconda:latest"
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
 
-echo "Running the docker container"
+last_updated="$(git log --pretty=format: --name-only --since="2 days ago" | grep recipes-tag/ | sort -u | cut -d/ -f1-2)"
+len=$(echo "${last_updated}" | wc -l | awk '{print $1}')
+for ((i=0; i<len; i++)); do
+    pkg_name=$(echo "${last_updated}" | head -i | tail -1)
+    echo "Package name: ${pkg_name}"
+done
+
+exit 9999
+
+
+echo "Running the docker container ${pkg_name}"
 
 cat << EOF | docker run -i --rm \
                         -v $REPO_ROOT:/repo \
                         -a stdin -a stdout -a stderr \
+                        --name ${pkg_name}
                         $IMAGE_NAME \
                         bash || exit $?
 
@@ -61,7 +72,7 @@ export PYTHONUNBUFFERED=1
 
 # execute the dev build
 #./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
-./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 3.6 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
+./repo/scripts/build.py /repo/${pkg_name} -u $UPLOAD_CHANNEL --python 3.6 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
 
 echo "Ending time :"
 date -u
