@@ -18,7 +18,7 @@ fi;
 
 LOGDIR="/home/$LOGNAME/builds/`date +%Y`/`date +%m`/`date +%d`"
 echo LOGDIR=$LOGDIR
-mkdir $LOGDIR -p
+mkdir -p $LOGDIR
 LOGFILE="$LOGDIR/`date +%H.%M`-dev"
 CLONE_DIR="/tmp/$LOGNAME/dev/recipes"
 echo LOGFILE=$LOGFILE
