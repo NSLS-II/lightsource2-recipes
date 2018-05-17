@@ -19,27 +19,24 @@ REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
 
 how_long="2 days ago"
-last_updated="$(git log --pretty=format: --name-only --since="${how_long}" | grep recipes-tag/ | sort -u | cut -d/ -f1-2)"
+last_updated="$(git log --pretty=format: --name-only --since="${how_long}" | grep recipes-tag/ | sort -u | cut -d/ -f2)"
 echo "Last updated files since ${how_long}:"
 echo "${last_updated}"
 
 len=$(echo "${last_updated}" | wc -l | awk '{print $1}')
 for ((i=1; i<=len; i++)); do
     pkg_name=$(echo "${last_updated}" | head -${i} | tail -1)
+    random_cpt=$(date +%Y%m%d%H%M%S)
     echo "Package name: ${pkg_name}"
-done
 
-exit 9999
+    echo "Running the docker container: ${pkg_name}"
 
-
-echo "Running the docker container ${pkg_name}"
-
-cat << EOF | docker run -i --rm \
-                        -v $REPO_ROOT:/repo \
-                        -a stdin -a stdout -a stderr \
-                        --name ${pkg_name}
-                        $IMAGE_NAME \
-                        bash || exit $?
+    cat << EOF | docker run -i --rm \
+                            -v $REPO_ROOT:/repo \
+                            -a stdin -a stdout -a stderr \
+                            --name ${pkg_name}-${random_cpt} \
+                            $IMAGE_NAME \
+                            bash || exit $?
 
 echo "CONDARC_PATH=$CONDARC_PATH"
 
@@ -76,9 +73,11 @@ export PYTHONUNBUFFERED=1
 
 # execute the dev build
 #./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
-./repo/scripts/build.py /repo/${pkg_name} -u $UPLOAD_CHANNEL --python 3.6 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
+./repo/scripts/build.py /repo/recipes-tag/${pkg_name} -u $UPLOAD_CHANNEL --python 3.6 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
 
 echo "Ending time :"
 date -u
 
 EOF
+
+done
