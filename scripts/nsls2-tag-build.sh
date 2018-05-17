@@ -24,7 +24,7 @@ echo "Last updated files since ${how_long}:"
 echo "${last_updated}"
 
 len=$(echo "${last_updated}" | wc -l | awk '{print $1}')
-for ((i=0; i<len; i++)); do
+for ((i=1; i<=len; i++)); do
     pkg_name=$(echo "${last_updated}" | head -${i} | tail -1)
     echo "Package name: ${pkg_name}"
 done
