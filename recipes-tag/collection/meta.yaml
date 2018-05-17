@@ -7,7 +7,7 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
@@ -16,4 +16,5 @@ requirements:
     - ophyd >=1.2.0a2
     - pyepics >=3.3.0
     - pyolog >=4.4.0
+    - nslsii >=0.0.2
     - pyserial
