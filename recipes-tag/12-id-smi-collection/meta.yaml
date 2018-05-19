@@ -7,7 +7,7 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 4
+  number: 0
 
 requirements:
   run:
