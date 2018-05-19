@@ -18,21 +18,20 @@ IMAGE_NAME="nsls2/debian-with-miniconda:latest"
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
 
-# how_long="2 days ago"
-how_long="2 hours ago"
-last_updated="$(git log --pretty=format: --name-only --since="${how_long}" | grep recipes-tag/ | sort -u | cut -d/ -f2)"
+how_long="2 days ago"
+last_updated="$(git log --pretty=format: --name-only --since="${how_long}" | grep recipes-tag/ | cut -d/ -f2 | sort -u)"
 echo "Last updated files since ${how_long}:"
+echo ""
 echo "${last_updated}"
 echo ""
 
-len=$(echo "${last_updated}" | wc -l | awk '{print $1}')
-for ((i=1; i<=len; i++)); do
-    pkg_name=$(echo "${last_updated}" | head -${i} | tail -1)
+for pkg_name in ${last_updated}; do
     timestamp=$(date +%Y%m%d%H%M%S)
     container_name=${pkg_name}-${timestamp}
 
     echo "Package name: ${pkg_name}"
     echo "Running the docker container: ${container_name}"
+    echo ""
 
     cat << EOF | docker run -i --rm \
                             -v $REPO_ROOT:/repo \
