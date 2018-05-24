@@ -25,6 +25,7 @@ requirements:
     - h5py
     - ipywidgets
     - jupyter
+    - lmfit 0.8.3
     - matplotlib
     - numpy
     - pandas
