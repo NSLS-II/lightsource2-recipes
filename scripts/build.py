@@ -260,9 +260,14 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
     recipes_path = os.path.abspath(recipes_path)
     logger.info("recipes_path = {}".format(recipes_path))
     for folder in sorted(os.listdir(recipes_path)):
+        print(f'\n{"="*80}\n{os.path.basename(recipes_path)}\n{"="*80}\n')
         recipe_dir = os.path.join(recipes_path, folder)
         if os.path.isfile(recipe_dir):
-            continue
+            # Add support for single-package builds:
+            if folder == 'meta.yaml':
+                recipe_dir = recipes_path
+            else:
+                continue
         if 'meta.yaml' not in os.listdir(recipe_dir):
             continue
         logger.debug('Evaluating recipe: {}'.format(recipe_dir))

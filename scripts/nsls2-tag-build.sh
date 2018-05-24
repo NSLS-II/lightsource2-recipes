@@ -18,13 +18,27 @@ IMAGE_NAME="nsls2/debian-with-miniconda:latest"
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
 
-echo "Running the docker container"
+how_long="2 days ago"
+last_updated="$(git log --pretty=format: --name-only --since="${how_long}" | grep recipes-tag/ | cut -d/ -f2 | sort -u)"
+echo "Last updated files since ${how_long}:"
+echo ""
+echo "${last_updated}"
+echo ""
 
-cat << EOF | docker run -i --rm \
-                        -v $REPO_ROOT:/repo \
-                        -a stdin -a stdout -a stderr \
-                        $IMAGE_NAME \
-                        bash || exit $?
+for pkg_name in ${last_updated}; do
+    timestamp=$(date +%Y%m%d%H%M%S)
+    container_name=${pkg_name}-${timestamp}
+
+    echo "Package name: ${pkg_name}"
+    echo "Running the docker container: ${container_name}"
+    echo ""
+
+    cat << EOF | docker run -i --rm \
+                            -v $REPO_ROOT:/repo \
+                            -a stdin -a stdout -a stderr \
+                            --name ${container_name} \
+                            $IMAGE_NAME \
+                            bash || exit $?
 
 echo "CONDARC_PATH=$CONDARC_PATH"
 
@@ -59,11 +73,11 @@ conda install conda=4.3 conda-build=3.1 anaconda-client conda-execute conda-env
 # not sure why this is here, but I'm reasonably certain it is important
 export PYTHONUNBUFFERED=1
 
-# execute the dev build
-#./repo/scripts/build.py /repo/recipes-config -u $UPLOAD_CHANNEL --python 2.7 3.5 3.6 --numpy 1.11 1.12 1.13 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN --allow-failures
-./repo/scripts/build.py /repo/recipes-tag -u $UPLOAD_CHANNEL --python 3.6 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
+./repo/scripts/build.py /repo/recipes-tag/${pkg_name} -u $UPLOAD_CHANNEL --python 3.6 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
 
 echo "Ending time :"
 date -u
 
 EOF
+
+done
