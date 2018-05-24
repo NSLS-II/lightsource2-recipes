@@ -1,20 +1,20 @@
 {% set year = "2018" %}
 {% set cycle = "2" %}
-{% set version ="0" %}
+{% set version ="1" %}
 
 package:
   name: collection
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   run:
-    - analysis >=2018C2.0
+    - analysis >=2018C2.1
     - caproto >=0.1.0a1
-    - nslsii >=0.0.2
-    - ophyd >=1.2.0a2
+    - nslsii >=0.0.4
+    - ophyd >=1.2.0a3
     - pyepics >=3.3.0
     - pyolog >=4.4.0
     - pyserial
