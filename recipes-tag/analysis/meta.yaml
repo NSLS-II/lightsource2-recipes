@@ -1,6 +1,6 @@
 {% set year = "2018" %}
 {% set cycle = "2" %}
-{% set version ="0" %}
+{% set version ="1" %}
 
 package:
   name: analysis
@@ -12,11 +12,11 @@ build:
 requirements:
   run:
     - amostra  # [py3k]
-    - bluesky >=1.3.0  # [py3k]
+    - bluesky >=1.3.2  # [py3k]
     - bluesky-kafka  # [py3k]
     - controls-doctor
     - dask
-    - databroker >=0.11.0
+    - databroker >=0.11.1
     - databroker-browser
     - datamuxer
     - distributed
