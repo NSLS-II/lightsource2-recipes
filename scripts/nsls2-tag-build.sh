@@ -18,7 +18,7 @@ IMAGE_NAME="nsls2/debian-with-miniconda:latest"
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
 
-how_long="2 days ago"
+how_long="30 minutes ago"
 last_updated="$(git log --pretty=format: --name-only --since="${how_long}" | grep recipes-tag/ | cut -d/ -f2 | sort -u)"
 echo "Last updated files since ${how_long}:"
 echo ""
