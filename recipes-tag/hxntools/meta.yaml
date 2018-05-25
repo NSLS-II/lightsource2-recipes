@@ -1,4 +1,4 @@
-{% set version = "0.3.5" %}
+{% set version = "0.4.0" %}
 
 package:
   name: hxntools
@@ -19,7 +19,7 @@ requirements:
     - six
 
   run:
-    - databroker
+    - databroker >=0.11.1
     - numpy
     - h5py >=2.5.0
     - python
