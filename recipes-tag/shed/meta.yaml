@@ -1,6 +1,6 @@
 {% set name = "shed" %}
-{% set version = "0.2.1" %}
-{% set sha256 = "68f9f5c00c423ab03d851d87c524a90c06770d0bd3914f6e8ecfc4155a7dc267" %}
+{% set version = "0.3.0" %}
+{% set sha256 = "df4a7fec70955fbf807e8a1956dd46cc1317e6dd77c91105b337bf61b17eb996" %}
 
 package:
   name: {{ name|lower }}
@@ -14,14 +14,14 @@ source:
 build:
   noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
   build:
-    - python
-    - setuptools
+    - python >=3
+    - pip
   run:
-    - python
+    - python >=3
     - streamz_ext
     - numpy
     - scipy
@@ -29,7 +29,7 @@ requirements:
     - databroker
     - bluesky
     - event-model
-    - networkx
+    - networkx >=2.0
 
 test:
   imports:
