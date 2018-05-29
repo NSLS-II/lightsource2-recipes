@@ -1,6 +1,6 @@
 {% set name = "xpdan" %}
-{% set version = "0.2.3rc" %}
-{% set sha256 = "71f3c0d60bb4ff0913d8a30d8f8a61effd66752ba365d474ada45c7e4c79a80a" %}
+{% set version = "0.3.0" %}
+{% set sha256 = "103d04a8a603bcc7ab3e4f474244c81f93d3943f6c37789dd6c58b5e42e50961" %}
 
 package:
   name: {{ name|lower }}
@@ -8,20 +8,20 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://github.com/xpdAcq/{{ name }}/archive/{{ version }}.tar.gz
+  url: https://github.com/xpdAcq/{{ name }}/releases/download/{{ version }}/{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
   noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
   build:
-    - python
-    - setuptools
+    - python >=3
+    - pip
   run:
-    - python
+    - python >=3
     - numpy
     - scipy
     - matplotlib
@@ -42,7 +42,6 @@ requirements:
 test:
   imports:
     - xpdan
-    - xpdan.tools
     - xpdan.pipelines
 
 about:

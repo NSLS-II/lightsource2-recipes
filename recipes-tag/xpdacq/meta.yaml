@@ -1,6 +1,6 @@
 {% set name = "xpdacq" %}
-{% set version = "0.8.0rc2" %}
-{% set sha256 = "101c31816a9b7452aded3f1233f2c31a401fbd8004822d46d4602d28be749c3a" %}
+{% set version = "0.8.1" %}
+{% set sha256 = "4b713915c69f74ea2bd206d5cb0349d259ae87112208d87640d0ad0d8e2812bd" %}
 
 package:
   name: {{ name|lower }}
@@ -8,20 +8,20 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://github.com/xpdAcq/{{ name }}/archive/{{ version }}.tar.gz
+  url: https://github.com/xpdAcq/{{ name }}/releases/download/{{ version }}/{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
   noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
   build:
-    - python
-    - setuptools
+    - python >=3
+    - pip
   run:
-    - python
+    - python >=3
     - numpy
     - pyyaml
     - pandas

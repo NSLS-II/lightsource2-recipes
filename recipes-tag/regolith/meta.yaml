@@ -1,0 +1,50 @@
+{% set name = "regolith" %}
+{% set version = "0.2.0" %}
+{% set sha256 = "d278f44373d27abc858ded0e6f06b7dc35189dbe737f87025703b0982ae10a20" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://github.com/scopatz/{{ name }}/releases/download/{{ version }}/{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: 0 
+  script: python -m pip install --no-deps --ignore-installed .
+  noarch: python
+
+requirements:
+  build:
+    - python >=3.5
+    - pip
+  run:
+    - python >=3.5
+    - flask
+    - jinja2
+    - docutils
+    - bibtexparser
+    - ruamel.yaml
+    - cerberus
+
+test:
+  commands:
+    - regolith -h
+    - regolith build -h
+    - regolith validate -h
+  imports:
+    - regolith
+
+about:
+  home: http://scopatz.github.io/regolith-docs/
+  license: CC0
+  license_file: LICENSE
+  summary: 'Research Group Content Managment System'
+  dev_url: https://github.com/scopatz/regolith
+
+extra:
+  recipe-maintainers:
+    - scopatz
+    - CJ-Wright
