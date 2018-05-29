@@ -13,7 +13,7 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
@@ -34,7 +34,7 @@ requirements:
     - databroker
     - ophyd
     - xpdconf
- 
+
 
 test:
   imports:
@@ -45,7 +45,7 @@ test:
 about:
   home: https://github.com/xpdAcq/xpdAcq
   license: BSD-3-Clause
-  license_family: BSD 
+  license_family: BSD
   license_file: LICENSE
   summary: 'Acquisition packages for XPD-28 beamline at BNL'
 
@@ -54,4 +54,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - CJ-Wright 
+    - CJ-Wright
