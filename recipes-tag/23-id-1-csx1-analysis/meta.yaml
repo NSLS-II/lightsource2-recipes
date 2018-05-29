@@ -1,10 +1,10 @@
-{% set year = "17" %}
-{% set cycle = "Q1" %}
+{% set year = "2018" %}
+{% set cycle = "2" %}
 {% set version ="0" %}
 
 package:
   name: 23-id-1-csx1-analysis
-  version: {{ year }}{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 0
