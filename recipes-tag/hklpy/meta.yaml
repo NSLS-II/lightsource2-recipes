@@ -10,19 +10,19 @@ source:
     sha256: 38196fe55bc2feb267a4bafad6c813c3ffd9301472c172695bf2974e7798c101
 
 build:
-    number: 0
+    number: 1
     skip: True  # [py2k]
     script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
     build:
-        - python>=3.6
+        - python
         - setuptools
     run:
         - hkl
         - numpy
         - ophyd
-        - python>=3.6
+        - python
         - pygobject3
 
 test:
