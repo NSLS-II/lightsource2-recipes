@@ -1,6 +1,6 @@
 {% set name = "xpdtools" %}
-{% set version = "0.2.0" %}
-{% set sha256 = "34877a645f8a2562ba69071dcdd19ddae562fdd1ba91e3692bb2a666faadf008" %}
+{% set version = "0.3.0" %}
+{% set sha256 = "6dfe71bc8a86afd8b96aeb33eced8a87e40c3c9e14e282f3712fed17823a3f09" %}
 
 package:
   name: {{ name|lower }}
@@ -8,12 +8,12 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: http://github.com/xpdAcq/{{ name }}/archive/{{ version }}.tar.gz
+  url: http://github.com/xpdAcq/{{ name }}/releases/download/{{ version }}/{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
   noarch: python
-  number: 1 
+  number: 0
   script: python -m pip install --no-deps --ignore-installed . 
   entry_points:
     - image_to_iq = xpdtools.cli.process_tiff:run_main

@@ -1,6 +1,6 @@
 {% set name = "shed" %}
-{% set version = "0.3.0" %}
-{% set sha256 = "df4a7fec70955fbf807e8a1956dd46cc1317e6dd77c91105b337bf61b17eb996" %}
+{% set version = "0.4.0" %}
+{% set sha256 = "ec95f86cf341084629467574e31a01f6df7170ed8048063aefac0aeb3fa6b9c4" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://github.com/xpdAcq/{{ name }}/archive/{{ version }}.tar.gz
+  url: https://github.com/xpdAcq/{{ name }}/releases/download/{{ version }}/{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
@@ -30,6 +30,7 @@ requirements:
     - bluesky
     - event-model
     - networkx >=2.0
+    - regolith
 
 test:
   imports:

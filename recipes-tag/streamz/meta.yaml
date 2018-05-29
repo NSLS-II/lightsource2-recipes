@@ -1,7 +1,7 @@
 {% set org = "mrocklin" %}
 {% set name = "streamz" %}
-{% set version = "0.2.0" %}
-{% set sha256 = "d0a06290183f491443a359bef86e859ade3ecafcd67b930824658abd034abfcc" %}
+{% set version = "0.3.0" %}
+{% set sha256 = "6c59be1d09c0b666eb32548b6e6e6252ec460593e55859780b3e982a27cdb324" %}
 
 package:
   name: {{ name|lower }}
@@ -50,3 +50,4 @@ extra:
     - CJ-Wright
     - mrocklin
     - jrmlhermitte
+    - mariusvniekerk
