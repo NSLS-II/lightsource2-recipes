@@ -1,5 +1,5 @@
-{% set year = "17" %}
-{% set cycle = "Q1" %}
+{% set year = "18" %}
+{% set cycle = "C2" %}
 {% set version ="0" %}
 
 package:
@@ -7,12 +7,12 @@ package:
   version: {{ year }}{{ cycle }}.{{ version }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   run:
     - hxnfly >=0.0.2
-    - hxntools
+    - hxntools  >=0.0.4
     - tqdm
     - ppmac
     - pypdf2
