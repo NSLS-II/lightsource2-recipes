@@ -1,50 +1,76 @@
 {% set name = "pyfai" %}
-{% set version = "0.13.0" %}
-{% set sha256 = "b5137238c75cc7aa3bd7d9d7ebcdd2200ae8a74cad89ca903bf7f449bd0c2d3c" %}
+{% set version = "0.15.0" %}
+{% set sha256 = "d72ae3b81ee4350e3768fd9ddc7a03ede4e33dbccddcba449cf1d563757c4726" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: master.tar.gz
+  fn: v{{ version }}.tar.gz
   url: https://github.com/silx-kit/pyFAI/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
-  number: 0
-  script: python setup.py install --record record.txt
-  skip: True  # [not linux]
+  number: 1 
+  script: python setup.py build install  # [linux or win]
+  script: python setup.py build --no-openmp  && python setup.py install  # [osx]
+  entry_points:
+    - check_calib = pyFAI.app.check_calib:main
+    - detector2nexus = pyFAI.app.detector2nexus:main
+    - diff_map = pyFAI.app.diff_map:main
+    - diff_tomo = pyFAI.app.diff_tomo:main
+    - eiger-mask = pyFAI.app.eiger_mask:main
+    - MX-calibrate = pyFAI.app.mx_calibrate:main
+    - pyFAI-average = pyFAI.app.average:main
+    - pyFAI-benchmark = pyFAI.app.benchmark:main
+    - pyFAI-calib = pyFAI.app.calib:main
+    - pyFAI-calib2 = pyFAI.app.calib2:main
+    - pyFAI-drawmask = pyFAI.app.drawmask:main
+    - pyFAI-integrate = pyFAI.app.integrate:main
+    - pyFAI-recalib = pyFAI.app.recalib:main
+    - pyFAI-saxs = pyFAI.app.saxs:main
+    - pyFAI-waxs = pyFAI.app.waxs:main
 
 requirements:
   build:
     - python
     - setuptools
-    - numpy x.x
+    - numpy 1.11.*
     - cython
     - scipy
-    - matplotlib
     - fabio
     - h5py
+    - toolchain
+    - vc 9  # [win and py27]
+    - vc 10  # [win and py34]
+    - vc 14  # [win and py>=35]
 
   run:
     - python
-    - numpy x.x
+    - numpy >=1.11
     - fabio
     - scipy
     - h5py
     - pillow
     - lxml
     - matplotlib
+    - silx
+    - vc 9  # [win and py27]
+    - vc 10  # [win and py34]
+    - vc 14  # [win and py>=35]
 
 test:
   imports:
     - pyFAI
     - pyFAI.test
     - pyFAI.third_party
+    - pyFAI.gui
+  commands:
+    - pyFAI-calib -h
 
 about:
-  home: https://github.com/kif/pyFAI
+  home: https://github.com/silx-kit/pyFAI/
   license: GPL-3
   license_file: LICENSES.txt
   summary: 'Python implementation of fast azimuthal integration'
@@ -59,7 +85,7 @@ about:
     tools to calibrate the experimental setup using Debye-Scherrer rings of a
     reference compound.
   doc_url: http://pythonhosted.org/pyFAI/
-  dev_url: https://github.com/kif/pyFAI
+  dev_url: https://github.com/silx-kit/pyFAI/
 
 extra:
   recipe-maintainers:
