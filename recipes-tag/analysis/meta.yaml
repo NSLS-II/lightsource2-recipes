@@ -23,6 +23,7 @@ requirements:
     - fabio
     - graphviz
     - h5py >=2.8.0
+    - ipympl
     - ipython
     - ipywidgets
     - jupyter
