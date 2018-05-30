@@ -1,14 +1,14 @@
-{% set year = "17" %}
-{% set cycle = "Q1" %}
+{% set year = "2018" %}
+{% set cycle = "2" %}
 {% set version ="0" %}
 
 package:
   name: 05-id-srx-collection
-  version: {{ year }}{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 0
 
 requirements:
   run:
-    - hxntools
+    - hxntools >=0.4.0

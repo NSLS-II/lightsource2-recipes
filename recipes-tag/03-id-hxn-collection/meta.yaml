@@ -1,10 +1,10 @@
-{% set year = "18" %}
-{% set cycle = "C2" %}
+{% set year = "2018" %}
+{% set cycle = "2" %}
 {% set version ="0" %}
 
 package:
   name: 03-id-hxn-collection
-  version: {{ year }}{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 0
@@ -12,7 +12,7 @@ build:
 requirements:
   run:
     - hxnfly >=0.0.2
-    - hxntools  >=0.0.4
+    - hxntools >=0.0.4
     - tqdm
     - ppmac
     - pypdf2
