@@ -1,6 +1,6 @@
 {% set name = "streamz_ext" %}
-{% set version = "0.0.2" %}
-{% set sha256 = "82caa2558c49992d49bd582e9b2ca0deeec799dcf4d05e0cf246f7fbe3ec44b6" %}
+{% set version = "0.1.0" %}
+{% set sha256 = "110256c72aefb9229315d433dc4dd5599ee85486ff416f87433dc3da1042c549" %}
 
 package:
   name: {{ name|lower }}
@@ -14,12 +14,12 @@ source:
 build:
   noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  script: python -m pip install --no-deps --ignore-installed . 
 
 requirements:
   build:
     - python
-    - setuptools
+    - pip
   run:
     - python
     - toolz
