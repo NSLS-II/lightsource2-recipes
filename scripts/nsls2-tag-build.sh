@@ -18,8 +18,8 @@ IMAGE_NAME="nsls2/debian-with-miniconda:latest"
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
 
-how_long="30 minutes ago"
-last_updated="$(git log --pretty=format: --name-only --since="${how_long}" | grep recipes-tag/ | cut -d/ -f2 | sort -u)"
+how_long="3 day ago"
+last_updated="$(git log --pretty=format: --name-only --since="${how_long}" | grep recipes-tag/ | cut -d/ -f2 | sort -uR)"
 echo "Last updated files since ${how_long}:"
 echo ""
 echo "${last_updated}"
@@ -67,7 +67,7 @@ cat $CONDARC_PATH
 # install some required dependencies
 echo "start installation"
 conda install python=3.6 -y
-conda install conda=4.3 conda-build=3.1 anaconda-client conda-execute conda-env
+conda install conda=4.3 conda-build anaconda-client conda-execute conda-env
 
 
 # not sure why this is here, but I'm reasonably certain it is important
