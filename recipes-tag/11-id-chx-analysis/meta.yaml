@@ -7,14 +7,15 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
     - chxtools
     - eiger-io
     - hdf5-lz4
-    - chxanalys
+    - pyCHX
+    - pyolog
     - dask
     - theano
     - graphviz
