@@ -38,4 +38,6 @@ requirements:
     - suitcase
     - sympy
     - tornado <5.0.0
+    - xlrd
+    - xlwt
     - xray-vision
