@@ -73,7 +73,7 @@ conda install conda=4.3 conda-build anaconda-client conda-execute conda-env
 # not sure why this is here, but I'm reasonably certain it is important
 export PYTHONUNBUFFERED=1
 
-./repo/scripts/build.py /repo/recipes-tag/${pkg_name} -u $UPLOAD_CHANNEL --python 3.5 3.6 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
+./repo/scripts/build.py /repo/recipes-tag/${pkg_name} -u $UPLOAD_CHANNEL --python 3.6 3.7 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
 
 echo "Ending time :"
 date -u
