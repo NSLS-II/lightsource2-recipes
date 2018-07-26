@@ -98,3 +98,5 @@ generated/
 /skbeam/**/*.c
 
 .tags
+
+dask-worker-space/
