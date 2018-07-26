@@ -7,7 +7,7 @@ from pathlib import Path
 def run_container(*, pkg_name,
                   docker_image='mrakitin/debian-with-miniconda:latest',
                   pythons=('3.5', '3.6', '3.7'),
-                  numpy_version='1.14'):
+                  numpy_versions=('1.14',)):
     """
     Run a Docker container with supplied commands.
 
@@ -16,11 +16,11 @@ def run_container(*, pkg_name,
     pkg_name : str
         the name of a package to build
     docker_image : str, optional
-        the name of the docker image to use for building
+        the name of a docker image to use for building
     pythons : tuple, optional
-        versions of Python to build the package with
-    numpy_version : str, optional
-        the version of NumPy to build the package with
+        versions of Python to build the package for
+    numpy_versions : tuple, optional
+        versions of NumPy to build the package for
     """
 
     # Date-time vars
@@ -36,11 +36,12 @@ def run_container(*, pkg_name,
     # Docker run options
     container_name = f'{pkg_name}-{timestamp}'
     pythons_str = ' '.join(pythons)
+    numpy_str = ' '.join(numpy_versions)
     command = ['./repo/scripts/build.py',
                f' /repo/recipes-tag/{pkg_name}',
                f'-u {upload_channel}',
                f'--python {pythons_str}',
-               f'--numpy {numpy_version}',
+               f'--numpy {numpy_str}',
                f'--token {binstar_token}',
                f'--slack-channel {slack_channel}',
                f'--slack-token {slack_token}',
@@ -66,5 +67,3 @@ def run_container(*, pkg_name,
     print(f'Output:\n{"=" * 80}\n{output}\n')
     print(f'Duration: {end_time - start_time}')
     return output
-
-

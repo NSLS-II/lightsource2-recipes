@@ -607,6 +607,7 @@ already exist are built.
     )
     p.add_argument(
         '-p', "--python",
+        dest='python',
         action='store',
         nargs='*',
         help="Python version to build conda packages for",
