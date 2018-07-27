@@ -1,6 +1,6 @@
 {% set name = "streamz_ext" %}
-{% set version = "0.1.0" %}
-{% set sha256 = "110256c72aefb9229315d433dc4dd5599ee85486ff416f87433dc3da1042c549" %}
+{% set version = "0.2.0" %}
+{% set sha256 = "e8054418130ecb28272181f626f0c65d7596be73462f97ffa2e584ee75720b49" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://github.com/xpdAcq/{{ name }}/archive/{{ version }}.tar.gz
+  url: https://github.com/xpdAcq/{{ name }}/releases/download/{{ version }}/{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
