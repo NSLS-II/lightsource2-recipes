@@ -5,7 +5,6 @@ from pathlib import Path
 
 
 def run_container(*, pkg_name,
-                  docker_image='mrakitin/debian-with-miniconda:latest',
                   pythons=('3.5', '3.6', '3.7'),
                   numpy_versions=('1.14',)):
     """
@@ -15,13 +14,16 @@ def run_container(*, pkg_name,
     ----------
     pkg_name : str
         the name of a package to build
-    docker_image : str, optional
-        the name of a docker image to use for building
     pythons : tuple, optional
         versions of Python to build the package for
     numpy_versions : tuple, optional
         versions of NumPy to build the package for
     """
+
+    # Hard-code it for now to avoid typing it every time.
+    # See https://github.com/NSLS-II/lightsource2-recipes/pull/390
+    # for the discussion.
+    docker_image='mrakitin/debian-with-miniconda:latest',
 
     # Date-time vars
     start_time = datetime.datetime.now()
