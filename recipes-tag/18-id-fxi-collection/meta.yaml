@@ -11,5 +11,6 @@ build:
 
 requirements:
   run:
-    - tomopy
+    - pypdf2
     - reportlab
+    - tomopy
