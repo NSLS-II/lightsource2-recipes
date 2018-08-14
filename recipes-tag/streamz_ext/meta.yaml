@@ -1,6 +1,6 @@
 {% set name = "streamz_ext" %}
-{% set version = "0.2.0" %}
-{% set sha256 = "e8054418130ecb28272181f626f0c65d7596be73462f97ffa2e584ee75720b49" %}
+{% set version = "0.2.1" %}
+{% set sha256 = "b8cc9549095bd76d47160438503ff886d2f5339264867b6c429fba29ae811237" %}
 
 package:
   name: {{ name|lower }}
