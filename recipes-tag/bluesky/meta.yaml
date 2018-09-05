@@ -1,4 +1,4 @@
-{% set version = "1.3.3" %}
+{% set version = "1.4.0" %}
 
 package:
     name: bluesky
@@ -29,10 +29,10 @@ requirements:
         - numpy
         - ophyd
         - python
+        - pyzmq
         - super_state_machine
         - toolz
         - tqdm
-        - pyzmq
 
 test:
     imports:
