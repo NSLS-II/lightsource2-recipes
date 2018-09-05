@@ -21,6 +21,7 @@ requirements:
     - datamuxer
     - distributed
     - fabio
+    - ffmpeg
     - graphviz
     - h5py >=2.8.0
     - ipympl
