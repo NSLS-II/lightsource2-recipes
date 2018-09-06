@@ -1,0 +1,45 @@
+{% set version = "0.2.1" %}
+{% set sha256 = "48ede51641bee78c32994cbd86b385714d61beb7d80c87f0cc1b70efb51dd5f5" %}
+
+package:
+    name: ipympl
+    version: {{ version }}
+
+source:
+    fn: ipympl-{{ version }}.tar.gz
+    url: https://pypi.io/packages/source/i/ipympl/ipympl-{{ version }}.tar.gz
+    sha256: {{ sha256 }}
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record record.txt
+
+requirements:
+    build:
+        - python
+        - setuptools
+        - jupyter
+    run:
+        - python
+        - ipywidgets >=7.0.0,<8.0
+        - ipykernel >=4.7
+        - matplotlib >=2.0.0
+        - six
+
+test:
+    imports:
+        - ipympl
+
+about:
+    home: https://github.com/matplotlib/jupyter-matplotlib
+    license: BSD 3-Clause
+    license_family: BSD
+    license_file: LICENSE
+    summary: Matplotlib Jupyter Extension
+
+extra:
+  recipe-maintainers:
+    - JasonGrout
+    - SylvainCorlay
+    - tacaswell
+    - blink1073
