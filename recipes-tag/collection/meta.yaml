@@ -1,6 +1,6 @@
 {% set year = "2018" %}
-{% set cycle = "2" %}
-{% set version ="1" %}
+{% set cycle = "3" %}
+{% set version ="0" %}
 
 package:
   name: collection
@@ -11,10 +11,10 @@ build:
 
 requirements:
   run:
-    - analysis >=2018C2.1
-    - caproto >=0.1.0a1
-    - nslsii >=0.0.4
-    - ophyd >=1.2.0a3
+    - analysis >=2018C3.0
+    - caproto >=0.1.2
+    - nslsii >=0.0.5
+    - ophyd >=1.3.0
     - pyepics >=3.3.0
     - pyolog >=4.4.0
     - pyserial
