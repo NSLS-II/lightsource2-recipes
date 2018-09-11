@@ -13,7 +13,7 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
@@ -38,6 +38,7 @@ requirements:
     - xpdview
     - ophyd
     - xpdconf
+    - xpdtools
 
 test:
   imports:
