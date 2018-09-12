@@ -1,0 +1,43 @@
+{% set version = "3.28.3" %}
+
+package:
+    name: pygobject3
+    version: {{ version }}
+
+source:
+    fn: pygobject-{{ version }}.tar.xz
+    url: http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.29/pygobject-{{ version }}.tar.xz
+    sha256: 3dd3e21015d06e00482ea665fc1733b77e754a6ab656a5db5d7f7bfaf31ad0b0
+
+build:
+    number: 0
+    detect_binary_files_with_prefix: true
+    skip: True  # [py2k]
+
+requirements:
+    build:
+        - cairo
+        - glib =2.56.* 
+        - gobject-introspection =1.56.*
+        - libffi
+        - py2cairo # [py2k]
+        - pycairo =1.17.* # [py3k]
+        - python
+        - pytest
+    run:
+        - cairo
+        - glib =2.56.*
+        - gobject-introspection =1.56.*
+        - libffi
+        - py2cairo # [py2k]
+        - pycairo =1.17.* # [py3k]
+        - python
+
+test:
+    imports:
+        - gi
+
+about:
+    home: http://www.gtk.org/
+    license: LGPL
+    summary: Access to GObject-based libraries in Python.
