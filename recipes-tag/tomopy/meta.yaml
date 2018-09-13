@@ -10,7 +10,7 @@ source:
     sha256: 4a0990e5729e270729db21c219b238825e224a6cbe172ee17bf7a90d543f5a2f
 
 build:
-    number: 0
+    number: 1
     script: C_INCLUDE_PATH=$PREFIX/include python setup.py install --single-version-externally-managed --record=record.txt
     skip: True  # [win]
 
