@@ -22,6 +22,7 @@ requirements:
         - netifaces
         - numpy
         - ophyd
+        - python
 
 test:
     imports:
