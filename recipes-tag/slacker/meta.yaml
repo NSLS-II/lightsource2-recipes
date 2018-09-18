@@ -1,0 +1,38 @@
+{% set version = "0.9.60" %}
+{% set sha = "5d54950a1956c6faff3c82cd116aed4436cf0e322a72747d77b9189d5ec7f8cb" %}
+
+package:
+    name: slacker
+    version: {{ version }}
+
+source:
+    url: https://pypi.io/packages/source/s/slacker/slacker-{{ version }}.tar.gz
+    fn: slacker-{{ version }}.tar.gz
+    sha256: {{ sha }}
+
+build:
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+    build:
+        - setuptools
+        - python
+    run:
+        - python
+        - requests
+
+test:
+    imports:
+        - slacker
+about:
+    home: https://github.com/os/slacker
+    license: Apache 2.0
+    summary: Slack API client
+
+extra:
+    recipe-maintainers:
+        - ericdill
+        - licode
+        - os
+        - tacaswell
