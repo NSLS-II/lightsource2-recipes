@@ -10,7 +10,7 @@ source:
     sha256: 023652ac8f29cf486bbcc0112d980b255c1b7b3d5e23e555b7e4b7e373117387
 
 build:
-    number: 0
+    number: 1
     script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -21,7 +21,7 @@ requirements:
     run:
         - dxfile
         - edffile
-        - h5py
+        - h5py >=2.8.0
         - netcdf4
         - numpy
         - python
