@@ -12,16 +12,16 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  noarch: python
   number: 0
   script: python -m pip install --no-deps --ignore-installed .
+  skip: True  # [py2k]
 
 requirements:
   build:
-    - python >=3
+    - python
     - pip
   run:
-    - python >=3
+    - python
     - numpy
     - pyyaml
     - pandas
@@ -39,8 +39,8 @@ requirements:
 test:
   imports:
     - xpdacq
-    - xpdacq.xpdacq
-    - xpdacq.beamtime
+#    - xpdacq.xpdacq
+#    - xpdacq.beamtime
 
 about:
   home: https://github.com/xpdAcq/xpdAcq
