@@ -1,0 +1,49 @@
+{% set version = "0.9.0" %}
+
+package:
+  name: conda-execute
+  version: {{ version }}
+
+source:
+  fn: conda-execute-{{ version }}.tar.gz
+  url: https://github.com/conda-tools/conda-execute/archive/v{{ version }}.tar.gz
+  sha256: 83a721d0387c76ead7913c5b170cc64c67a67a6ab32b747d8ae87805a5bab950
+
+build:
+  noarch: python
+  number: 1
+  script: python -m pip install --no-deps --ignore-installed .
+  entry_points:
+    - conda-execute = conda_execute.execute:main
+    - conda-tmpenv = conda_execute.tmpenv:main
+
+requirements:
+  build:
+    - python
+    - pip
+
+  run:
+    - python
+    - pyyaml
+    - conda >=4.2.0
+    - psutil
+
+test:
+  imports:
+    - conda_execute
+  commands:
+    - conda execute --help
+    - conda tmpenv --help
+
+about:
+  home: https://github.com/conda-tools/conda-execute
+  license: BSD 3-Clause
+  license_family: BSD
+  license_file: LICENSE
+  summary: 'Execute scripts in isolated temporary environments.'
+
+extra:
+  recipe-maintainers:
+    - jakirkham
+    - pelson
+    - LukeC92
