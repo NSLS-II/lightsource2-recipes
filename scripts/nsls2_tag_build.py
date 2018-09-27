@@ -58,14 +58,12 @@ def run_container(*, pkg_name,
 
     # Run Docker container
     docker_client = docker.from_env()
-    output = docker_client.containers.run(docker_image,
+    container = docker_client.containers.run(docker_image,
                                           name=container_name,
                                           command=f'sh -c "{command}"',
-                                          remove=True,
+                                          remove=False,
                                           stdout=True,
                                           stderr=True,
-                                          volumes=volumes).decode()
-    end_time = datetime.datetime.now()
-    print(f'Output:\n{"=" * 80}\n{output}\n')
-    print(f'Duration: {end_time - start_time}')
-    return output
+                                          volumes=volumes,
+                                          detach=True)
+    return container
