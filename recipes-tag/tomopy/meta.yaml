@@ -10,7 +10,7 @@ source:
     sha256: 0ababe6dec3aaf78af4bb646b3865845cf45a0884207ed9aafacca03729933d4
 
 build:
-    number: 2
+    number: 3
     script: C_INCLUDE_PATH=$PREFIX/include python setup.py install --single-version-externally-managed --record=record.txt
     skip: True  # [win]
 
@@ -19,7 +19,6 @@ requirements:
         - mkl-devel
         - python
         - setuptools
-        - fabio
 
     run:
         - dxchange
