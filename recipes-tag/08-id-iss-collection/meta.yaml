@@ -1,5 +1,5 @@
 {% set year = "2018" %}
-{% set cycle = "2" %}
+{% set cycle = "3" %}
 {% set version ="0" %}
 
 package:
@@ -12,5 +12,6 @@ build:
 requirements:
   run:
     - isstools
-    - netcdf4
     - lightflow
+    - netcdf4
+    - xraylarch
