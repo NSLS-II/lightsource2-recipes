@@ -1,0 +1,13 @@
+diff --git a/Src/utils.c b/Src/utils.c
+index 075d27241..6c79f4f9f 100644
+--- a/Src/utils.c
++++ b/Src/utils.c
+@@ -407,8 +407,6 @@ zdeleteterm(void)
+ #ifdef HAVE_SETUPTERM
+     DPUTS(term_count < 1 || !cur_term,
+ 	    "inconsistent term_count and/or cur_term");
+-    if (--term_count == 0)
+-	del_curterm(cur_term);
+ #endif
+ }
+ 
