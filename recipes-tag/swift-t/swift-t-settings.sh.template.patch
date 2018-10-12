@@ -1,0 +1,26 @@
+diff --git a/dev/build/swift-t-settings.sh.template b/dev/build/swift-t-settings.sh.template
+index 7754e10cf..eff3cdbe3 100644
+--- a/dev/build/swift-t-settings.sh.template
++++ b/dev/build/swift-t-settings.sh.template
+@@ -18,7 +18,7 @@
+ # Please fill in all of these variables
+ 
+ # Install root: change to your install location
+-export SWIFT_T_PREFIX=/tmp/swift-t-install
++export SWIFT_T_PREFIX=$PREFIX/swift-t
+ 
+ #+====================================+
+ #|| Optional configuration variables ||
+@@ -77,10 +77,10 @@ SWIFT_T_DEBUG_BUILD=0
+ SWIFT_T_TRACE_BUILD=0
+ 
+ # Enable Python integration
+-ENABLE_PYTHON=0 # Finds Python in PATH
++ENABLE_PYTHON=1 # Finds Python in PATH
+ # Specify the Python interpreter executable below;
+ # if empty, looks for python in PATH
+-PYTHON_EXE=""
++PYTHON_EXE="$PYTHON"
+ # PYTHON_EXE=$HOME/sfw/Python-2.7.10/bin/python
+ 
+ # Enable R integration

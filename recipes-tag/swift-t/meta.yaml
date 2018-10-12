@@ -1,0 +1,41 @@
+{% set name = "swift-t" %}
+{% set version = "1.4.3" %}
+{% set major = version.rpartition('.')[0] %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://swift-lang.github.io/{{ name }}-downloads/{{ major }}/{{ name }}-{{ version }}.tar.gz
+  patches:
+    - swift-t-settings.sh.template.patch
+
+build:
+  number: 0
+  skip: True  # [win]
+
+requirements:
+  build:
+    - ant
+    - autoconf
+    - make
+    - openjdk
+    - openmpi
+    - python
+    - swig
+
+  run:
+    - openmpi
+    - openjdk
+    - python
+    - zsh
+
+about:
+  home: http://swift-lang.org/Swift-T
+  license: Apache License 2.0
+  summary: Swift/T - High Performance Parallel Scripting Language
+
+extra:
+  recipe-maintainers:
+    - mrakitin
