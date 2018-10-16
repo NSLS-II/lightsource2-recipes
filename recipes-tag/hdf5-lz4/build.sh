@@ -18,7 +18,7 @@ ACTIVATE=$PREFIX/etc/conda/activate.d/plugin_path.sh
 DEACTIVATE=$PREFIX/etc/conda/deactivate.d/plugin_path.sh
 
 # set up
-echo "export HDF5_PLUGIN_PATH=\$CONDA_PREFIX/$PPATH"> $ACTIVATE
+echo "export HDF5_PLUGIN_PATH=\$CONDA_DEFAULT_ENV/$PPATH"> $ACTIVATE
 
 # tear down
 echo "unset HDF5_PLUGIN_PATH" > $DEACTIVATE
