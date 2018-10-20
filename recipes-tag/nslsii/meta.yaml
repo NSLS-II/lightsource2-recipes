@@ -1,25 +1,33 @@
-{% set version = "0.0.6" %}
+{% set name = "nslsii" %}
+{% set org = "NSLS-II" %}
+{% set version = "0.0.7" %}
 
 package:
-    name: nslsii
+    name: {{ name }}
     version: {{ version }}
 
 source:
-    git_url: https://github.com/nsls-ii/nslsii
+    git_url: https://github.com/{{ org }}/{{ name }}
     git_rev: v{{ version }}
 
 build:
-    number: 1
+    number: 0
     script: python setup.py install --single-version-externally-managed --record=record.txt
     skip: True  # [py2k]
 
 requirements:
     build:
         - python
-
     run:
         - bluesky
+        - caproto
+        - databroker
+        - ipython
+        - ipywidgets
+        - matplotlib
+        - numpy
         - ophyd
+        - psutil
         - pyolog
         - python
 
@@ -28,5 +36,5 @@ test:
         - nslsii
 
 about:
-    home: https://github.com/NSLS-II/nslsii
+    home: https://github.com/{{ org }}/{{ name }}
     license: BSD
