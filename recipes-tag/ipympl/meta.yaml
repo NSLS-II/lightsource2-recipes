@@ -1,5 +1,5 @@
-{% set version = "0.2.1" %}
-{% set sha256 = "48ede51641bee78c32994cbd86b385714d61beb7d80c87f0cc1b70efb51dd5f5" %}
+{% set version = "0.1.1" %}
+{% set sha256 = "8edd833db0fe174794893520ed257055a661c607a035df8847c54deb35f4789f" %}
 
 package:
     name: ipympl
@@ -11,7 +11,7 @@ source:
     sha256: {{ sha256 }}
 
 build:
-    number: 1
+    number: 0
     script: python setup.py install --single-version-externally-managed --record record.txt
 
 requirements:
