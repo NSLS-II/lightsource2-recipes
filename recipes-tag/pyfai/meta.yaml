@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1002
+  number: 1003
   script: python setup.py build install  # [linux or win]
   script: python setup.py build --no-openmp  && python setup.py install  # [osx]
   entry_points:
@@ -36,23 +36,23 @@ requirements:
   build:
     - {{ compiler('c') }}
   host:
-    - python
-    - setuptools
-    - numpy
     - cython
-    - scipy
     - fabio
     - h5py
+    - numpy
+    - python
+    - scipy
+    - setuptools
 
   run:
-    - python
-    - {{ pin_compatible('numpy') }}
     - fabio
-    - scipy
     - h5py
-    - pillow
     - lxml
     - matplotlib
+    - numpy
+    - pillow
+    - python
+    - scipy
     - silx
 
 test:
