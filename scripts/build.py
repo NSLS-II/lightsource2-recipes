@@ -161,7 +161,7 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     conda_build_args = [] if conda_build_args is None else list(
         conda_build_args)
     logger.debug('conda_build_args=%s', conda_build_args)
-    cmd = ['conda', 'build', path_to_recipe, '--output'] + conda_build_args
+    cmd = ['conda', 'build', path_to_recipe, '--output', '--old-build-string'] + conda_build_args
     logger.debug('cmd=%s', cmd)
     ret = check_output(cmd)
     logger.debug('ret=%s', ret)

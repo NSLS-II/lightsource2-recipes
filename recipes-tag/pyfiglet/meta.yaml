@@ -1,0 +1,47 @@
+{% set name = "pyfiglet" %}
+{% set version = "0.7.6" %}
+{% set compress_type = "tar.gz" %}
+{% set build = 0 %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.{{ compress_type }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ compress_type }}
+
+build:
+  entry_points:
+    - pyfiglet = pyfiglet:main
+  number: {{ build }}
+  script: python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  host:
+    - pip
+    - python
+    - setuptools
+
+  run:
+    - python
+    - setuptools
+
+test:
+  imports:
+    - pyfiglet
+    - pyfiglet.fonts
+
+  commands:
+    - pyfiglet --help
+
+about:
+  home: https://github.com/pwaller/pyfiglet
+  summary: 'Pure-python FIGlet implementation'
+  license: GPL2
+  license_family: GPL2
+  dev_url: https://github.com/pwaller/pyfiglet
+
+extra:
+  recipe-maintainers:
+    - pmlandwehr

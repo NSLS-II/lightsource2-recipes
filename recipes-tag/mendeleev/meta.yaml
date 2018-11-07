@@ -1,0 +1,50 @@
+{% set name = "mendeleev" %}
+{% set version = "0.4.3" %}
+{% set compress_type = "tar.gz" %}
+{% set build = "0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.{{ compress_type }}
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ compress_type }}
+
+build:
+  entry_points:
+    - element.py = mendeleev.cli:clielement
+  number: {{ build }}
+  script: python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  build:
+    - colorama
+    - numpy
+    - pandas
+    - pyfiglet
+    - python
+    - setuptools
+    - six
+    - sqlalchemy
+  run:
+    - colorama
+    - numpy
+    - pandas
+    - pyfiglet
+    - python
+    - sqlalchemy
+
+test:
+  imports:
+    - mendeleev
+  commands:
+    - element.py --help
+  requires:
+    - pytest
+
+about:
+  home: http://mendeleev.readthedocs.io/en/stable/
+  summary: 'Python API with a database of atomic properties for elements in the periodic table'
+  license: MIT License
+  license_family: MIT

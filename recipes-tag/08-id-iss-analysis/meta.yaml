@@ -1,6 +1,6 @@
 {% set year = "2018" %}
 {% set cycle = "3" %}
-{% set version ="0" %}
+{% set version ="1" %}
 
 package:
   name: 08-id-iss-analysis
@@ -12,6 +12,8 @@ build:
 requirements:
   run:
     - isstools
+    - mendeleev
     - netcdf4
     - numexpr
+    - periodictable
     - xraylarch

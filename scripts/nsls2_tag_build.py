@@ -6,7 +6,7 @@ from pathlib import Path
 
 def run_container(*, pkg_name,
                   pythons=('3.5', '3.6', '3.7'),
-                  numpy_versions=('1.14',)):
+                  numpy_versions=('1.14',), upload=True):
     """
     Run a Docker container with supplied commands.
 
@@ -48,6 +48,9 @@ def run_container(*, pkg_name,
                f'--slack-channel {slack_channel}',
                f'--slack-token {slack_token}',
                '--allow-failures']
+    if not upload:
+        command.append('--no-upload')
+
     command = ' '.join(command)
     host_dir = str(Path.cwd().parents[0])
     guest_dir = '/repo'
