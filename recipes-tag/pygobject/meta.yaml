@@ -2,42 +2,42 @@
 {% set majmin = '.'.join(version.split('.', 2)[:2]) %}
 
 package:
-    name: pygobject
-    version: {{ version }}
+  name: pygobject
+  version: {{ version }}
 
 source:
-    fn: pygobject-{{ version }}.tar.xz
-    url: http://ftp.gnome.org/pub/GNOME/sources/pygobject/{{ majmin }}/pygobject-{{ version }}.tar.xz
+  fn: pygobject-{{ version }}.tar.xz
+  url: http://ftp.gnome.org/pub/GNOME/sources/pygobject/{{ majmin }}/pygobject-{{ version }}.tar.xz
 
 build:
-    number: 0
-    script: python setup.py install --single-version-externally-managed --record=record.txt
-    skip: True  # [py2k]
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  skip: True # [py2k]
 
 requirements:
-    build:
-        - cairo
-        - glib =2.56.* 
-        - gobject-introspection =1.56.*
-        - libffi
-        - py2cairo # [py2k]
-        - pycairo =1.17.* # [py3k]
-        - python
-        - pytest
-    run:
-        - cairo
-        - glib =2.56.*
-        - gobject-introspection =1.56.*
-        - libffi
-        - py2cairo # [py2k]
-        - pycairo =1.17.* # [py3k]
-        - python
+  build:
+    - cairo
+    - glib =2.56.* 
+    - gobject-introspection =1.56.*
+    - libffi
+    - py2cairo # [py2k]
+    - pycairo =1.17.* # [py3k]
+    - python
+    - pytest
+  run:
+    - cairo
+    - glib =2.56.*
+    - gobject-introspection =1.56.*
+    - libffi
+    - py2cairo # [py2k]
+    - pycairo =1.17.* # [py3k]
+    - python
 
 test:
-    imports:
-        - gi
+  imports:
+    - gi
 
 about:
-    home: http://www.gtk.org/
-    license: LGPL
-    summary: Access to GObject-based libraries in Python.
+  home: http://www.gtk.org/
+  license: LGPL
+  summary: Access to GObject-based libraries in Python.

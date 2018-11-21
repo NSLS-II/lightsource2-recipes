@@ -1,42 +1,49 @@
 {% set version = "0.3.12" %}
 
 package:
-    name: hklpy
-    version: {{ version }}
+  name: hklpy
+  version: {{ version }}
 
 source:
-    url: https://github.com/NSLS-II/hklpy/archive/v{{ version }}.tar.gz
-    fn: hklpy-v{{ version }}.tar.gz
-    sha256: 38196fe55bc2feb267a4bafad6c813c3ffd9301472c172695bf2974e7798c101
+  url: https://github.com/NSLS-II/hklpy/archive/v{{ version }}.tar.gz
+  fn: hklpy-v{{ version }}.tar.gz
+  sha256: 38196fe55bc2feb267a4bafad6c813c3ffd9301472c172695bf2974e7798c101
 
 build:
-    number: 2
-    skip: True  # [py2k]
-    script: python setup.py install --single-version-externally-managed --record=record.txt
+  number: 3
+  skip: True # [py2k]
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
-    build:
-        - python >=3.6
-        - setuptools
-    run:
-        - hkl
-        - numpy
-        - ophyd
-        - python >=3.6
-        - pygobject3
+  build:
+    - python
+    - setuptools
+  run:
+    - hkl
+    - numpy
+    - ophyd
+    - pygobject
+    - python
 
 test:
-    imports:
-        - hkl
+  imports:
+    - hkl
+    - hkl.calc
+    - hkl.context
+    - hkl.diffract
+    - hkl.engine
+    - hkl.sample
+    - hkl.util
 
 about:
-    home: https://github.com/NSLS-II/hklpy
-    license: BSD 3-Clause
-    summary: >
-        Diffractometer computation library with ophyd pseudopositioner support
+  home: https://github.com/NSLS-II/hklpy
+  license: BSD 3-Clause
+  summary: >
+    Diffractometer computation library with ophyd pseudopositioner support
 
 extra:
-  recipe-maintainers:
-    - ericdill
-    - licode
-    - tacaswell
+ recipe-maintainers:
+  - ericdill
+  - licode
+  - mrakitin
+  - tacaswell
