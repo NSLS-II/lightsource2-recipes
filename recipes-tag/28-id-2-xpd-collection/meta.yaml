@@ -1,6 +1,6 @@
 {% set year = "2018" %}
-{% set cycle = "2" %}
-{% set version ="0" %}
+{% set cycle = "3" %}
+{% set version ="4" %}
 
 package:
   name: 28-id-2-xpd-collection
@@ -12,6 +12,8 @@ build:
 requirements:
   run:
     - xpdacq
+    - xpdan
+    - tomopy
     - databroker
     - ophyd
     - bluesky

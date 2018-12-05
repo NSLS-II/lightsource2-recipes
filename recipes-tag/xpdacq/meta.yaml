@@ -1,6 +1,6 @@
 {% set name = "xpdacq" %}
-{% set version = "0.8.2" %}
-{% set sha256 = "0d90437659d039f7da5e25110764c51341eb7c728017dea8d1910583c520b2c6" %}
+{% set version = "0.8.3" %}
+{% set sha256 = "3371a3a816c74729f553e02c6b68a03fe1f7ab1bdca17c628364a79ae20ed7a6" %}
 
 package:
   name: {{ name|lower }}
@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1 
+  number: 0
   script: python -m pip install --no-deps --ignore-installed .
   skip: True  # [py2k]
 
