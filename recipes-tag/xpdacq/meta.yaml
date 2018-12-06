@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
   script: python -m pip install --no-deps --ignore-installed .
   skip: True  # [py2k]
 
@@ -33,7 +33,7 @@ requirements:
     - xpdsim
     - databroker
     - ophyd
-    - xpdconf
+    - xpdconf >=0.2.0
  
 
 test:

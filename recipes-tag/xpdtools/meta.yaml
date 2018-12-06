@@ -13,7 +13,7 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1 
   script: python -m pip install --no-deps --ignore-installed . 
   entry_points:
     - image_to_iq = xpdtools.cli.process_tiff:run_main
@@ -28,7 +28,7 @@ requirements:
     - scipy
     - scikit-beam
     - pyyaml
-    - pyfai
+    - pyfai >=0.15
     - streamz_ext
     - fire
     - pims
