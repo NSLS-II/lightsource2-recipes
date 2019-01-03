@@ -19,7 +19,6 @@ import h5py.h5s
 import h5py.h5t
 import h5py.h5z
 import h5py.utils
-assert h5py.version.hdf5_version_tuple == (1, 10, 1)
 
 from sys import exit
 exit(0) if h5py.run_tests().wasSuccessful() else exit(1)
