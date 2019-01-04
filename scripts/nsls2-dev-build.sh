@@ -35,7 +35,7 @@ show_channel_urls: true
 channels:
 - $UPLOAD_CHANNEL
 - lightsource2-tag
-- anaconda" > $CONDARC_PATH
+- defaults" > $CONDARC_PATH
 
 # And set the correct environmental variable that lets us use it
 echo "Exporting CONDARC=$CONDARC_PATH"
@@ -54,7 +54,7 @@ cat $CONDARC_PATH
 
 rm -rf /conda/pkgs  #magic line, needs to be figured out later
 
-#conda install python=3.5 conda=4.1.12 -y 
+#conda install python=3.5 conda=4.1.12 -y
 #conda install conda-build=3.0 anaconda-client conda-execute conda-env=2.5.1
 conda install python=3.6 -y
 conda install conda=4.3 conda-build>=3.1 anaconda-client conda-execute conda-env
