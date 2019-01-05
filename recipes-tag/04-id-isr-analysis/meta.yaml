@@ -1,4 +1,4 @@
-{% set year = "2018" %}
+{% set year = "2019" %}
 {% set cycle = "1" %}
 {% set version ="0" %}
 
@@ -11,9 +11,4 @@ build:
 
 requirements:
   run:
-    - gsl
-    - libiconv
-    - pcre
-    - hkl
-    - hklpy
     - eiger-io
