@@ -1,5 +1,5 @@
-{% set year = "2018" %}
-{% set cycle = "2" %}
+{% set year = "2019" %}
+{% set cycle = "1" %}
 {% set version ="0" %}
 
 package:
@@ -7,18 +7,19 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   run:
+    - boto3
     - chxtools
+    - dask
     - eiger-io
+    - graphviz
     - hdf5-lz4
+    - line_profiler
     - pyCHX
     - pyolog
-    - dask
-    - theano
-    - graphviz
-    - boto3
-    - reportlab
     - pytables
+    - reportlab
+    - theano
