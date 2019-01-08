@@ -1,4 +1,4 @@
-{% set version = "2.0.2" %}
+{% set version = "4.0.1" %}
 
 package:
     name: pychx
@@ -18,21 +18,30 @@ requirements:
         - python
 
     run:
-        - chxtools
+        - cython
+        - dask
         - databroker
+        - dill
+        - eiger-io
         - h5py
+        - lmfit
         - matplotlib
         - numpy
         - pandas
         - pillow
         - pyolog
+        - pytables
         - python
+        - pyyaml
         - reportlab
+        - scikit-beam
         - scikit-image
         - scipy
-        - scikit-beam
+        - theano
+        - tifffile
         - tqdm
         - xray-vision
+        # mpl-modest-image should be installed manually from the GH repo
 
 test:
     imports:

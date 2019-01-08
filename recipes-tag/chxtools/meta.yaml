@@ -1,4 +1,4 @@
-{% set version = "3.0.0" %}
+{% set version = "3.0.1" %}
 
 package:
   name: chxtools
@@ -18,15 +18,15 @@ requirements:
     - setuptools
 
   run:
-    - atom
     - databroker
-    - enaml
-    - python
-    - matplotlib
     - eiger-io
+    - matplotlib
     - numpy
-    - pandas
+    - pyepics
+    - pymongo
+    - python
     - scikit-beam
+    - scikit-image
     - scipy
 
 test:
