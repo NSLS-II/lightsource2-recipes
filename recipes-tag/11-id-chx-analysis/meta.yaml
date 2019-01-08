@@ -13,13 +13,6 @@ requirements:
   run:
     - boto3
     - chxtools
-    - dask
-    - eiger-io
     - graphviz
-    - hdf5-lz4
     - line_profiler
-    - pyCHX
-    - pyolog
-    - pytables
-    - reportlab
-    - theano
+    - pychx
