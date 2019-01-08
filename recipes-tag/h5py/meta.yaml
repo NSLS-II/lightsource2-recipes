@@ -9,7 +9,7 @@ source:
   sha256: 49d593c07a3a4cb87ed421f502e34368b98282a4ac6d4388379aab80b11c7924
 
 build:
-  number: 1000
+  number: 1001
 
 requirements:
   build:
@@ -18,14 +18,14 @@ requirements:
     - python
     - pip
     - numpy
-    - hdf5
+    - hdf5 =1.10.2
     - cython
     - six
     - pkgconfig
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - hdf5
+    - hdf5 =1.10.2
     - six
     - unittest2  # [py26 or py27]
     - pyreadline  # [win]
