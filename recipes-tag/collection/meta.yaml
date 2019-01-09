@@ -1,6 +1,6 @@
 {% set year = "2019" %}
 {% set cycle = "1" %}
-{% set version ="0" %}
+{% set version ="1" %}
 
 package:
   name: collection
@@ -11,7 +11,7 @@ build:
 
 requirements:
   run:
-    - analysis >=2019C1.0
+    - analysis >=2019C1.1
     - caproto >=0.2.3
     - nslsii >=0.0.7
     - pyepics >=3.3.0

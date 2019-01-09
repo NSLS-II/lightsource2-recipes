@@ -1,6 +1,6 @@
 {% set year = "2019" %}
 {% set cycle = "1" %}
-{% set version ="0" %}
+{% set version ="1" %}
 
 package:
   name: analysis
@@ -25,6 +25,7 @@ requirements:
     - ffmpeg
     - graphviz
     - h5py >=2.9.0
+    - hdf5 =1.10.2
     - ipykernel
     - ipympl==0.1.1
     - ipython
