@@ -15,4 +15,3 @@ requirements:
     - chxtools
     - graphviz
     - line_profiler
-    - pychx
