@@ -1,6 +1,6 @@
-{% set year = "2018" %}
+{% set year = "2019" %}
 {% set cycle = "1" %}
-{% set version ="1" %}
+{% set version ="0" %}
 
 package:
   name: 18-id-fxi-collection
@@ -11,6 +11,4 @@ build:
 
 requirements:
   run:
-    - pypdf2
-    - reportlab
-    - tomopy
+    - 18-id-fxi-analysis >=2019C1.0
