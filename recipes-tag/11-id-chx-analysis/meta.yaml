@@ -15,4 +15,5 @@ requirements:
     - chxtools
     - graphviz
     - line_profiler
+    - memory_profiler
     - pychx
