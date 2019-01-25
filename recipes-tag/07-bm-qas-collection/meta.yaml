@@ -12,5 +12,6 @@ build:
 requirements:
   run:
     - isstools
-    - lightflow
     - kafka-python
+    - lightflow
+    - xraylarch
