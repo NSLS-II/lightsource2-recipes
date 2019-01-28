@@ -15,7 +15,7 @@ source:
     - setupext.patch  # [win]
 
 build:
-  number: 1001
+  number: 1002
   skip: true  # [py<35]
 
 requirements:
@@ -39,6 +39,7 @@ requirements:
     - icu  # [linux]
   run:
     - python
+    - pyqt
     - setuptools
     - {{ pin_compatible('numpy') }}
     - cycler >=0.10
@@ -52,7 +53,7 @@ requirements:
     - kiwisolver
 
 outputs:
-  - name: matplotlib-base
+  - name: matplotlib
     script: install.sh  # [not win]
     script: install.bat  # [win]
     requirements:
@@ -103,33 +104,6 @@ outputs:
         - mpl_toolkits
         - pylab
 
-  - name: matplotlib
-    requirements:
-      host:
-        - python
-        - pyqt  # [not osx]
-      run:
-        - python
-        - pyqt  # [not osx]
-        - {{ pin_subpackage('matplotlib-base', exact=True) }}
-    test:
-      imports:
-        - matplotlib
-
-  - name: mpl_sample_data
-    script: install-data.sh  # [not win]
-    script: install-data.bat  # [win]
-    requirements:
-      host:
-        - python
-      run:
-        - python
-        - {{ pin_subpackage('matplotlib-base', exact=True) }}
-    test:
-      imports:
-        - matplotlib.cbook
-      commands:
-        - python -c "import matplotlib; matplotlib.cbook.get_sample_data('msft.csv', asfileobj=False)"
 
 about:
   home: http://matplotlib.org/
