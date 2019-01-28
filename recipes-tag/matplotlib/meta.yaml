@@ -15,7 +15,7 @@ source:
     - setupext.patch  # [win]
 
 build:
-  number: 1002
+  number: 1003
   skip: true  # [py<35]
 
 requirements:
@@ -33,7 +33,7 @@ requirements:
     - cycler >=0.10
     - nose
     - pyparsing
-    - libpng
+    - libpng <=1.6.35
     - zlib  # [win]
     - tk  # [linux]
     - icu  # [linux]
