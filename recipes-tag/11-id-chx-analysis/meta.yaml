@@ -1,13 +1,13 @@
 {% set year = "2019" %}
 {% set cycle = "1" %}
-{% set version ="1" %}
+{% set version ="2" %}
 
 package:
   name: 11-id-chx-analysis
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   run:
@@ -16,4 +16,5 @@ requirements:
     - graphviz
     - line_profiler
     - memory_profiler
+    - modestimage
     - pychx
