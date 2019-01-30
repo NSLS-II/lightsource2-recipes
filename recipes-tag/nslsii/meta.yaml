@@ -1,6 +1,6 @@
 {% set name = "nslsii" %}
 {% set org = "NSLS-II" %}
-{% set version = "0.0.7" %}
+{% set version = "0.0.8" %}
 
 package:
     name: {{ name }}
