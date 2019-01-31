@@ -1,0 +1,12 @@
+{
+    "menu_name": "Anaconda${PY_VER} ${PLATFORM}",
+    "menu_items":
+    [
+        {
+            "name": "xonsh",
+            "script": "${PYTHON_SCRIPTS}/xonsh.exe",
+            "workdir": "${USERPROFILE}",
+            "icon": "${MENU_DIR}/xonsh.ico"            
+        }
+    ]
+}
