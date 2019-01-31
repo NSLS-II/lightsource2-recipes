@@ -1,4 +1,4 @@
-{% set version = "0.5.9" %}
+{% set version = "0.8.9" %}
 
 package:
   name: xonsh
@@ -6,15 +6,16 @@ package:
 
 source:
   fn: xonsh-{{ version }}.tar.gz
-  url: https://github.com/xonsh/xonsh/archive/{{ version }}.tar.gz
-  sha256: 83ed3ab9e210d2f9e492432dbeac872a40df991a0974ea633a9f3ce99937195b
+  url: https://github.com/xonsh/xonsh/releases/download/{{ version }}/{{ version }}.tar.gz
+  sha256: efa5c8b8a15f61e63478fea9c9f4b9439b735e9a21394b7f8e43d108cec1521d
 
 build:
   script: python setup.py install --single-version-externally-managed --record=record.txt  # [not win]
   entry_points:
     - xonsh = xonsh.main:main
+    - xonsh-cat = xonsh.xoreutils.cat:cat_main
   skip: True  # [py2k]
-  number: 2
+  number: 0
 
 requirements:
   build:
@@ -26,8 +27,9 @@ requirements:
     - python
     - ply
     - prompt_toolkit
-    - pygments
+    - pygments >=2.2
     - setproctitle
+    - pyreadline  # [win]
 
 test:
   requires:
@@ -38,11 +40,6 @@ test:
     - USER=test xonsh -h  # [unix]
     - xonsh -h  # [win]
 
-app:
-  entry: xonsh
-  icon: xonsh.png
-  summary: Python-powered, cross-platform, Unix-gazing shell
-  type: desk
 
 about:
   home: http://xon.sh
