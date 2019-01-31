@@ -1,6 +1,6 @@
 {% set name = "shed" %}
-{% set version = "0.4.1" %}
-{% set sha256 = "c987c2e12eceeb55d7985f9ec847444926ab63469635a1f5ba79d92173e1d770" %}
+{% set version = "0.5.1" %}
+{% set sha256 = "ebfc543aeb54dd8e026c895e0543a2f024bb4a1097bb0e70797cafacfe34f691" %}
 
 package:
   name: {{ name|lower }}
@@ -22,7 +22,7 @@ requirements:
     - pip
   run:
     - python >=3
-    - streamz_ext
+    - rapidz
     - numpy
     - scipy
     - matplotlib

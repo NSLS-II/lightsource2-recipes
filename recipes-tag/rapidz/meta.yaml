@@ -1,5 +1,5 @@
 {% set name = "rapidz" %}
-{% set version = "0.1.1" %}
+{% set version = "0.1.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/xpdAcq/rapidz/releases/download/{{ version }}/{{ version }}.tar.gz
-  sha256: d70caa49caadcaaaf32cea43f026d9be0a69aae4da7027da3d38ea0e3523b1c1
+  sha256: a313dd46e3dde840bdb44e43a7145645fc7d13da472bfad009e28652f353b1a9
 
 build:
   noarch: python

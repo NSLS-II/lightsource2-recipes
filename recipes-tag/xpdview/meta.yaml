@@ -1,6 +1,6 @@
 {% set name = "xpdview" %}
-{% set version = "0.3.2" %}
-{% set sha256 = "0d926554b52aacc78fb6edbe59d730ad987c0bd560c698c4befe8c6c17705722" %}
+{% set version = "0.4.1" %}
+{% set sha256 = "cc76cbaada7012bc08c22ef96384d6a6e4a60b579334315b5b1165b05cf2b93e" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://github.com/xpdAcq/{{ name }}/archive/{{ version }}.tar.gz
+  url: https://github.com/xpdAcq/{{ name }}/releases/download/{{ version }}/{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:

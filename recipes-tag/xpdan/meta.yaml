@@ -1,6 +1,6 @@
 {% set name = "xpdan" %}
-{% set version = "0.3.6" %}
-{% set sha256 = "0b43bdcc61934f0f57979ff2d7e2dd03fdef5d3c2d14c3e2165d0f6ec8b10683" %}
+{% set version = "0.4.0" %}
+{% set sha256 = "8e1ea639ee91fb165813dd9f2587a64243677f27a5690c3ace6d9f2328d7ab53" %}
 
 package:
   name: {{ name|lower }}
@@ -13,7 +13,7 @@ source:
 
 build:
   noarch: python
-  number: 1
+  number: 0
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
@@ -32,7 +32,7 @@ requirements:
     - xray-vision
     - databroker
     - bluesky
-    - streamz_ext
+    - rapidz
     - xpdsim
     - shed
     - xpdview
