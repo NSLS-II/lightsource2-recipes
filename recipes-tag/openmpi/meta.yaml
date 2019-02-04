@@ -1,21 +1,48 @@
-{% set name = "openmpi" %}
-{% set version = "3.1.2" %}
+# copied and pasted by Leo Fang from the following commit:
+# https://github.com/conda-forge/openmpi-feedstock/blob/1d6390794529ad80f5b3416fa2cb98882d1c95fa/recipe/meta.yaml
+
+{% set version = "3.1.3" %}
+{% set sha256 = "8be04307c00f51401d3fb9d837321781ea7c79f2a5a4a2e5d4eaedc874087ab6" %}
 {% set major = version.rpartition('.')[0] %}
 
 package:
-    name: {{ name|lower }}
+    name: openmpi
     version: {{ version }}
 
 source:
-    fn: {{ name }}-{{ version }}.tar.bz2
-    url: http://www.open-mpi.org/software/ompi/v{{ major }}/downloads/{{ name }}-{{ version }}.tar.bz2
+    fn: openmpi-{{ version }}.tar.bz2
+    url: https://www.open-mpi.org/software/ompi/v{{ major }}/downloads/openmpi-{{ version }}.tar.bz2
+    sha256: {{ sha256 }}
 
 build:
-    number: 0
+    number: 1000
+    skip: True  # [win]
+    run_exports:
+        - {{ pin_subpackage('openmpi', min_pin='x.x', max_pin='x.x') }}
 
 requirements:
     build:
-        - gcc
+        - perl 5.26.0
+        - {{ compiler('fortran') }}
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - conda-build >=3.17.0
+    run:
+        - mpi 1.0 openmpi
+
+test:
+    requires:
+        - {{ compiler('fortran') }}
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+    files:
+        - tests/helloworld.c
+        - tests/helloworld.cxx
+        - tests/helloworld.f
+        - tests/helloworld.f90
+    commands:
+        - conda inspect objects  openmpi  # [osx]
+        - conda inspect linkages openmpi  # [not win]
 
 about:
     home: https://www.open-mpi.org/
@@ -32,4 +59,9 @@ about:
 
 extra:
     recipe-maintainers:
-        - mrakitin
+        - astrofrog-conda-forge
+        - bekozi
+        - dalcinl
+        - minrk
+        - msarahan
+        - ocefpaf

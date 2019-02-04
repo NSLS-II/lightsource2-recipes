@@ -1,0 +1,10 @@
+# copied and pasted by Leo Fang from the following commit:
+# https://github.com/conda-forge/mpi4py-feedstock/blob/ff2cc11800303988538b8ce3e9707ea97d5bdd2e/recipe/conda_build_config.yaml
+
+mpi:
+  - openmpi
+  - mpich
+
+pin_run_as_build:
+  mpich: x.x
+  openmpi: x.x

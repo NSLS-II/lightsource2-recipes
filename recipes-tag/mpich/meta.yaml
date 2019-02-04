@@ -1,0 +1,64 @@
+# copied and pasted by Leo Fang from the following commit:
+# https://github.com/conda-forge/mpich-feedstock/blob/1ee1a927c03fd9653313c1cdd79bea87ef5ef16a/recipe/meta.yaml
+
+{% set version = "3.2.1" %}
+
+package:
+    name: mpich
+    version: {{ version }}
+
+source:
+    fn: mpich-{{ version }}.tar.gz
+    url: http://www.mpich.org/static/downloads/{{ version }}/mpich-{{ version }}.tar.gz
+    sha256: 5db53bf2edfaa2238eb6a0a5bc3d2c2ccbfbb1badd79b664a1a919d2ce2330f1
+
+build:
+    number: 1007
+    skip: True  # [win]
+    run_exports:
+        - {{ pin_subpackage('mpich', min_pin='x.x', max_pin='x.x') }}
+
+requirements:
+    build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ compiler('fortran') }}
+        - conda-build >=3.17.0
+    host: []
+    run:
+        - mpi 1.0 mpich
+
+test:
+    requires:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ compiler('fortran') }}
+    files:
+        - tests/helloworld.c
+        - tests/helloworld.cxx
+        - tests/helloworld.f
+        - tests/helloworld.f90
+    commands:
+        - conda inspect objects mpich  # [osx]
+        - conda inspect linkages mpich  # [not win]
+
+about:
+    home: http://www.mpich.org/
+    license: MPICH
+    license_file: COPYRIGHT
+    license_family: Other
+    summary: 'A high performance widely portable implementation of the MPI standard.'
+    description: |
+      MPICH is a high performance and widely portable implementation of the
+      Message Passing Interface (MPI) standard.
+    doc_url: http://www.mpich.org/documentation/guides
+    dev_url: https://wiki.mpich.org/mpich/index.php/Main_Page
+
+extra:
+    recipe-maintainers:
+        - astrofrog-conda-forge
+        - bekozi
+        - dalcinl
+        - minrk
+        - msarahan
+        - ocefpaf

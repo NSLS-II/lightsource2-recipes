@@ -1,0 +1,6 @@
+# Copied and pasted by Leo Fang from the following commit:
+# https://github.com/conda-forge/mpi-feedstock/blob/0d45405585f31b51d9b4957f01613ae2f336a0c0/recipe/conda_build_config.yaml
+
+mpi:
+  - openmpi
+  - mpich

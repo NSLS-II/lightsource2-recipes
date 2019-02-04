@@ -1,0 +1,54 @@
+# Copied and pasted by Leo Fang from the following commit:
+# https://github.com/conda-forge/mpi4py-feedstock/blob/ff2cc11800303988538b8ce3e9707ea97d5bdd2e/recipe/meta.yaml
+
+{% set build = 1004 %}
+{% set version = '3.0.0' %}
+{% set sha256 = 'b457b02d85bdd9a4775a097fac5234a20397b43e073f14d9e29b6cd78c68efd7' %}
+
+package:
+  name: mpi4py
+  version: {{ version }}
+
+source:
+  fn: mpi4py-{{ version }}.tar.gz
+  url: https://bitbucket.org/mpi4py/mpi4py/downloads/mpi4py-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: {{ build }}
+  script: pip install --no-deps .
+  # TODO: build with msmpi when it works
+  skip: true  # [win]
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+  host:
+    - python
+    - pip
+    - {{ mpi }}
+  run:
+    - python
+    - {{ mpi }}
+
+test: {}
+
+about:
+  home: http://mpi4py.scipy.org/
+  license: BSD 2-clause
+  license_family: BSD
+  license_file: LICENSE.rst
+  summary: Python bindings for MPI
+  description: |
+     MPI for Python provides bindings of the Message Passing Interface (MPI)
+     standard for the Python programming language, allowing any Python program
+     to exploit multiple processors.
+  doc_url: https://mpi4py.readthedocs.org/
+  dev_url: https://bitbucket.org/mpi4py/mpi4py
+
+extra:
+  recipe-maintainers:
+    - dalcinl
+    - minrk
+    - msarahan
+    - ocefpaf
