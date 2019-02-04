@@ -176,7 +176,7 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     # the package.
     cmd.remove('--output')
     logger.debug('cmd=%s', cmd)
-    return ret[-1], cmd
+    return ret, cmd
 
 
 def remove_hash_string(name):
@@ -290,40 +290,41 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
             except RuntimeError as re:
                 logger.error(re)
                 continue
-            if '.tar.bz' not in path_to_built_package:
-                on_anaconda_channel = True
-                name_on_anaconda = "Skipping {}".format(
-                    folder, py, npy
-                )
-            else:
-                name_on_anaconda = os.sep.join(
-                    path_to_built_package.split(os.sep)[-2:])
-                
-                # choose which package to build without hash name
-                name_no_hashstring = remove_hash_string(name_on_anaconda)
-                
-                # pdb.set_trace()
-                #on_anaconda_channel = name_on_anaconda in packages
-                #on_anaconda_channel = name_no_hashstring in packages_no_hash
-                
-                # quick way to search packages
-                on_anaconda_channel = False
-                simple_name = get_simplified_name(name_no_hashstring)
-                if simple_name in pkgs_dict:
-                    if name_no_hashstring in pkgs_dict[simple_name]:
-                        on_anaconda_channel = True
-                
-                meta = MetaData(recipe_dir)
-                meta.full_build_path = path_to_built_package
-                meta.build_name = name_on_anaconda
-                meta.build_command = build_cmd
-                if on_anaconda_channel:
-                    metas_not_to_build.append(meta)
+            for pkg in path_to_built_package:
+                if '.tar.bz' not in pkg:
+                    on_anaconda_channel = True
+                    name_on_anaconda = "Skipping {}".format(
+                        folder, py, npy
+                    )
                 else:
-                    metas_to_build.append(meta)
+                    name_on_anaconda = os.sep.join(
+                        pkg.split(os.sep)[-2:])
+                    
+                    # choose which package to build without hash name
+                    name_no_hashstring = remove_hash_string(name_on_anaconda)
+                    
+                    # pdb.set_trace()
+                    #on_anaconda_channel = name_on_anaconda in packages
+                    #on_anaconda_channel = name_no_hashstring in packages_no_hash
+                    
+                    # quick way to search packages
+                    on_anaconda_channel = False
+                    simple_name = get_simplified_name(name_no_hashstring)
+                    if simple_name in pkgs_dict:
+                        if name_no_hashstring in pkgs_dict[simple_name]:
+                            on_anaconda_channel = True
+                    
+                    meta = MetaData(recipe_dir)
+                    meta.full_build_path = pkg
+                    meta.build_name = name_on_anaconda
+                    meta.build_command = build_cmd
+                    if on_anaconda_channel:
+                        metas_not_to_build.append(meta)
+                    else:
+                        metas_to_build.append(meta)
 
-            logger.info('{:<8} | {:<5} | {:<5} | {}'.format(
-                str(not bool(on_anaconda_channel)), py, npy, name_on_anaconda))
+                logger.info('{:<8} | {:<5} | {:<5} | {}'.format(
+                    str(not bool(on_anaconda_channel)), py, npy, name_on_anaconda))
 
     return metas_to_build, metas_not_to_build
 
