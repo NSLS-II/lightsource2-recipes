@@ -31,6 +31,7 @@ test:
 about:
   home: https://github.com/conda-forge/mpi-feedstock
   license: BSD 3-clause
+  license_family: BSD
   license_file: {{ RECIPE_DIR if RECIPE_DIR is defined else '' }}/LICENSE.txt
   summary: Metapackage to select the MPI variant. Use conda's pinning mechanism in your environment to control which variant you want.
 
