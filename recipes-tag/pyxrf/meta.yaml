@@ -1,4 +1,4 @@
-{% set version = "0.0.9" %}
+{% set version = "0.0.9.1" %}
 
 package:
   name: pyxrf
@@ -30,10 +30,11 @@ requirements:
     - numpy
     - pandas
     - pillow
+    - pyqt >=5.9.2
     - python
     - scipy
     - six
-    - scikit-beam
+    - scikit-beam >=0.0.14
     - scikit-image
 
 test:
