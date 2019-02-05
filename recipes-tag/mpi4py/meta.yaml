@@ -16,6 +16,9 @@ source:
 
 build:
   number: {{ build }}
+  # NSLS-II hack: when we build internally we remove the hash string,
+  # so a customized build string is needed to distinguish MPI vendors
+  string: {{ 'py' + environ.get('CONDA_PY', '') }}_{{ mpi }}_{{ build }}
   script: pip install --no-deps .
   # TODO: build with msmpi when it works
   skip: true  # [win]
