@@ -1,0 +1,47 @@
+{% set name = "doi2bib" %}
+{% set version = "0.3.0" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "5b8c8b4b03461ecda926addfef39e4214ad87e6b94e1df82281ae8e3212e60c7" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - requests
+    - future
+    - bibtexparser
+  run:
+    - python
+    - requests
+    - future
+    - bibtexparser
+
+test:
+  imports:
+    - doi2bib
+  commands:
+    - doi2bib 10.1107/S1600577518010986
+
+about:
+  home: https://github.com/bibcure/doi2bib
+  license: GNU Affero General Public License v3 or later (AGPLv3+)
+  license_family: AGPL
+  summary: Generate a bibtex given a doi
+
+extra:
+  recipe-maintainers:
+    - mrakitin
