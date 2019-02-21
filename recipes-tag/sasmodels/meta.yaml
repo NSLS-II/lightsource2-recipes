@@ -1,0 +1,46 @@
+{% set name = "sasmodels" %}
+{% set version = "0.99" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "07a243b6d2cfaa16d8b5ad6f22520aae78c9bfe971b79bf2ebbb5828f493a6e1" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy
+    - scipy
+  run:
+    - python
+    - numpy
+    - scipy
+
+test:
+  imports:
+    - sasmodels
+    - sasmodels.custom
+    - sasmodels.models
+
+about:
+  home: http://www.sasview.org
+  license: ''
+  license_family: AGPL
+  license_file: ''
+  summary: sasmodels package
+
+extra:
+  recipe-maintainers:
+    - mrakitin

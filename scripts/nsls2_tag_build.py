@@ -2,7 +2,6 @@ import argparse
 import datetime
 import docker
 import os
-from pathlib import Path
 
 
 def run_container(*, pkg_name,
@@ -59,7 +58,7 @@ def run_container(*, pkg_name,
         command.append('--no-upload')
 
     command = ' '.join(command)
-    host_dir = str(Path.cwd().parents[0])
+    host_dir = os.path.dirname(os.path.dirname(__file__))
     guest_dir = '/repo'
     volumes = {host_dir: {'bind': guest_dir, 'mode': 'rw'}}
 
