@@ -1,0 +1,51 @@
+{% set name = "bumps" %}
+{% set version = "0.7.11" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "16d24a7f965592d9b02f96e68e6aa70d6fb59abe4db37bb14c4b60c509a3c2ef" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - six
+  run:
+    - python
+    - numpy
+    - scipy
+    - six
+
+test:
+  imports:
+    - bumps
+    - bumps.dream
+    - bumps.gui
+    - bumps.gui.resources
+    - bumps.mystic
+    - bumps.mystic.examples
+    - bumps.mystic.optimizer
+    - bumps.numdifftools
+
+about:
+  home: http://www.reflectometry.org/danse/software.html
+  license: ''
+  license_family: AGPL
+  license_file: ''
+  summary: Data fitting with bayesian uncertainty analysis
+
+extra:
+  recipe-maintainers:
+    - mrakitin
