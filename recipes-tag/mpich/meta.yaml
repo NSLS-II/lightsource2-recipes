@@ -10,7 +10,7 @@ package:
 
 source:
     fn: mpich-{{ version }}.tar.gz
-    url: http://www.mpich.org/static/downloads/{{ version }}/mpich-{{ version }}.tar.gz
+    url: https://www.mpich.org/static/downloads/{{ version }}/mpich-{{ version }}.tar.gz
     sha256: 5db53bf2edfaa2238eb6a0a5bc3d2c2ccbfbb1badd79b664a1a919d2ce2330f1
 
 build:
@@ -44,7 +44,7 @@ test:
         - conda inspect linkages mpich  # [not win]
 
 about:
-    home: http://www.mpich.org/
+    home: https://www.mpich.org/
     license: MPICH
     license_file: COPYRIGHT
     license_family: Other
@@ -52,7 +52,7 @@ about:
     description: |
       MPICH is a high performance and widely portable implementation of the
       Message Passing Interface (MPI) standard.
-    doc_url: http://www.mpich.org/documentation/guides
+    doc_url: https://www.mpich.org/documentation/guides
     dev_url: https://wiki.mpich.org/mpich/index.php/Main_Page
 
 extra:
