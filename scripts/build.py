@@ -32,7 +32,16 @@ from pprint import pformat
 import slacker
 import binstar_client
 import yaml
+import shutil
 from conda_build.metadata import MetaData
+from conda_build.variants import get_package_variants
+from conda_build.render import distribute_variants
+from conda_build.build import build as CondaBuild
+from conda_build.config import get_or_merge_config
+try:
+    from conda_build.api import get_output_file_paths
+except ImportError:
+    from conda_build.api import get_output_file_path as get_output_file_paths # use deprecated API
 
 logger = logging.getLogger('build.py')
 current_subprocs = set()
@@ -141,12 +150,11 @@ def check_output(cmd):
         return name
 
 
-def determine_build_name(path_to_recipe, *conda_build_args):
+def determine_build_name(metadata, *conda_build_args):
     """Figure out what conda says the output built package name is going to be
     Parameters
     ----------
-    path_to_recipe : str
-        The location of the recipe on disk
+    metadata : a MetaData instance
     *conda_build_args : list
         List of extra arguments to be appeneded to the conda build command.
         For example, this might include ['--python', '3.4'], to tell
@@ -154,16 +162,17 @@ def determine_build_name(path_to_recipe, *conda_build_args):
 
     Returns
     -------
-    package_name : str
+    package_full_path : str
         Something like:
         /home/edill/mc/conda-bld/linux-64/pims-0.3.3.post0-0_g1bea480_py27.tar.bz2
+    build_command: str (to be deprecated)
     """
     conda_build_args = [] if conda_build_args is None else list(
         conda_build_args)
     logger.debug('conda_build_args=%s', conda_build_args)
-    cmd = ['conda', 'build', path_to_recipe, '--output', '--old-build-string'] + conda_build_args
+    cmd = ['conda', 'build', metadata.path, '--old-build-string'] + conda_build_args
     logger.debug('cmd=%s', cmd)
-    ret = check_output(cmd)
+    ret = get_output_file_paths(metadata)
     logger.debug('ret=%s', ret)
     # if len(ret) > 1:
     #     logger.debug('recursing...')
@@ -174,8 +183,6 @@ def determine_build_name(path_to_recipe, *conda_build_args):
     # we want to keep track of the exact command so we can run it later.
     # Obviously drop the `--output` flag so that conda-build actually builds
     # the package.
-    cmd.remove('--output')
-    logger.debug('cmd=%s', cmd)
     return ret, cmd
 
 
@@ -238,10 +245,9 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
     Returns
     -------
     metas_to_build : list
-        the metadata for the conda build with three extra fields:
+        the metadata for the conda build with two extra fields:
             - full_build_path
             - build_name
-            - build_command
     metas_not_to_build : list
         Same as `packages_to_build`
     """
@@ -271,34 +277,23 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
         if 'meta.yaml' not in os.listdir(recipe_dir):
             continue
         logger.debug('Evaluating recipe: {}'.format(recipe_dir))
-        build, run, test = get_deps_from_metadata(recipe_dir)
-        # only need to do multiple numpy builds if the meta.yaml pins the numpy
-        # version in build and run.
-        numpy_build_versions = numpy
-        if 'numpy x.x' not in build:
-            numpy_build_versions = [DEFAULT_NP_VER]
-        python_build_versions = python
-        if 'python' not in set(build + run):
-            python_build_versions = [DEFAULT_PY]
-        for py, npy in itertools.product(python_build_versions,
-                                         numpy_build_versions):
-            logger.debug("Checking py={} and npy={}".format(py, npy))
+
+	# we are essentially looping over metadata here
+        dependencies = get_deps_and_metadata(recipe_dir, python, numpy)
+        for meta in dependencies:
             try:
-                with env_var('CONDA_NPY', npy):
-                    path_to_built_package, build_cmd = determine_build_name(
-                        recipe_dir, '--python', py, '--numpy', npy)
+                # We want to get a single path here
+                path_to_built_package, _ = determine_build_name(meta)
             except RuntimeError as re:
                 logger.error(re)
                 continue
+
             for pkg in path_to_built_package:
                 if '.tar.bz' not in pkg:
                     on_anaconda_channel = True
-                    name_on_anaconda = "Skipping {}".format(
-                        folder, py, npy
-                    )
+                    name_on_anaconda = "Skipping {}".format(folder)
                 else:
-                    name_on_anaconda = os.sep.join(
-                        pkg.split(os.sep)[-2:])
+                    name_on_anaconda = os.sep.join(pkg.split(os.sep)[-2:])
                     
                     # choose which package to build without hash name
                     name_no_hashstring = remove_hash_string(name_on_anaconda)
@@ -314,30 +309,67 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
                         if name_no_hashstring in pkgs_dict[simple_name]:
                             on_anaconda_channel = True
                     
-                    meta = MetaData(recipe_dir)
                     meta.full_build_path = pkg
                     meta.build_name = name_on_anaconda
-                    meta.build_command = build_cmd
                     if on_anaconda_channel:
                         metas_not_to_build.append(meta)
                     else:
                         metas_to_build.append(meta)
 
-                logger.info('{:<8} | {:<5} | {:<5} | {}'.format(
-                    str(not bool(on_anaconda_channel)), py, npy, name_on_anaconda))
+                logger.info('{:<8} | {}'.format(
+                    str(not bool(on_anaconda_channel)), name_on_anaconda))
 
     return metas_to_build, metas_not_to_build
 
 
-def get_deps_from_metadata(path):
+def get_deps_and_metadata(path, python=None, numpy=None):
     """
-    Extract all dependencies from a recipe. Return tuple of (build, run, test)
+    Extract all dependencies from the recipe in path.
+
+    Parameters
+    ----------
+    path: string
+        The absolute path to the recipe dir
+    python: list, optional
+        A list of python version strings, e.g ['3.6']
+    numpy: list, optional
+        A list of numpy version strings, e.g ['1.14']
+    
+    Returns
+    -------
+    deps: list
+        A list of MetaData
     """
-    meta = MetaData(path)
-    test = meta.meta.get('test', {}).get('requires', [])
-    run = meta.meta.get('requirements', {}).get('run', [])
-    build = meta.meta.get('requirements', {}).get('build', [])
-    return build or [], run or [], test or []
+    # this is how different python and numpy versions are supported internally
+    # in conda build. Note that actually "numpy" here can only be a version 
+    # string or a 1-element list, so was the old implementation (and also 
+    # conda build --numpy ...)
+    variants = {}
+    if python is not None:
+        variants['python'] = python
+    if numpy is not None:
+        variants['numpy'] = numpy
+    if variants == {}:
+        variants = None
+
+    # we want "--old-build-string" for conda build 
+    # this is how it's done internally
+    config = get_or_merge_config(None)
+    config.filename_hashing = False
+
+    # Here we need to set allow_no_other_outputs so that the outputs section
+    # does not get expanded too early, which would otherwise cause the "bug 
+    # in conda-build" error!
+    # result is a list of 3-tuple
+    meta = MetaData(path, config=config)
+    var = get_package_variants(meta, variants=variants)
+    result = distribute_variants(meta, var, allow_no_other_outputs=True)
+   
+    deps = []
+    for meta, p, q in result: # p, q are unimportant bools
+        deps.append(meta)
+
+    return deps
 
 
 def sanitize_names(list_of_names):
@@ -494,40 +526,46 @@ def run_build(metas, username, token=None, upload=True, allow_failures=False):
     UPLOAD_CMD = ['anaconda', '-t', token, 'upload', '-u', username]
     # for each package
     for meta in build_order:
+        # TODO: both full_build_path and build_name are not 100% reliable if
+        # a recipe has multiple names in its outputs section. Consider not to
+        # use them in the build process.
         full_build_path = meta.full_build_path
         build_name = meta.build_name
-        build_command = meta.build_command
         # output the package build name
         print("Building: %s" % build_name)
-        # need to run the build command with --output again or conda freaks out
-        # stdout, stderr, returncode = Popen(build_command + ['--output'])
-        # output the build command
-        print("Build cmd: %s" % ' '.join(build_command))
-        np = ''
+
         try:
-            np_idx = build_command.index('--numpy')
-        except ValueError:
-            # --numpy is not in build_command
-            pass
-        else:
-            # get the numpy version as the argument following the `--numpy`
-            # flag
-            np = build_command[np_idx+1]
-        with env_var('CONDA_NPY', np):
-            stdout, stderr, returncode = Popen(build_command)
-        if returncode != 0:
+            stats = {} # statistics for conda build internal; not needed
+            # at this point meta should know the pinned numpy version
+            CondaBuild(meta, stats)
+        except Exception as e:
             build_or_test_failed.append(build_name)
-            message = ('\n\n========== STDOUT ==========\n'
-                       '\n{}'
-                       '\n\n========== STDERR ==========\n'
-                       '\n{}'.format(pformat(stdout), pformat(stderr)))
-            logger.error(message)
+            logger.error(e)
             #message_slack(message, username, is_error=True)
             if not allow_failures:
                 sys.exit(1)
+        finally:
+            # observation: older versions of conda build do not take care of the
+            # temporary directories properly. In such cases we clean it up manually.
+            # this is mainly to work with our customized docker image
+            work_dir = meta.config.work_dir
+            if work_dir.startswith("/conda/conda-bld/"):
+                shutil.rmtree("/conda/conda-bld/work/")
+
         if token and upload:
+            # "input" metadata is different from "output" metadata in conda build:
+            # the latter is considered finalized and fully rendered, so computing
+            # the output path based on it is more accurate.
+            # output_meta is a list of 2-tuples
+            # paths is a list of absolute paths to actually generated packages
+            output_meta = meta.get_output_metadata_set()
+            paths = []
+            for _, m in output_meta:
+                paths.append(get_output_file_paths(m))
+            paths = [path for sublist in paths for path in sublist]
+
             print("UPLOAD START")
-            cmd = UPLOAD_CMD + [full_build_path]
+            cmd = UPLOAD_CMD + paths
             cleaned_cmd = list(cmd)
             cleaned_cmd[2] = 'SCRUBBED'
             print("Upload command={}".format(cleaned_cmd))

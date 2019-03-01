@@ -2,6 +2,7 @@
 # https://github.com/conda-forge/mpich-feedstock/blob/1ee1a927c03fd9653313c1cdd79bea87ef5ef16a/recipe/meta.yaml
 
 {% set version = "3.2.1" %}
+{% set build = 1008 %}
 
 package:
     name: mpich
@@ -13,7 +14,8 @@ source:
     sha256: 5db53bf2edfaa2238eb6a0a5bc3d2c2ccbfbb1badd79b664a1a919d2ce2330f1
 
 build:
-    number: 1007
+    number: {{ build }}
+    string: py{{ environ.get('CONDA_PY', '') }}_{{ build }}
     skip: True  # [win]
     run_exports:
         - {{ pin_subpackage('mpich', min_pin='x.x', max_pin='x.x') }}
