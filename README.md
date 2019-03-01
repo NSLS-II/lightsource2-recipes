@@ -2,7 +2,7 @@
 The recipes that are needed at nsls2 but are not on `conda-forge` yet.
 
 Here is a
-[link to the conda package version matching specifications](http://conda.pydata.org/docs/spec.html#package-match-specifications)
+[link to the conda package version matching specifications](https://docs.conda.io/projects/conda-build/en/latest/source/resources/package-spec.html#package-match-specifications)
 for convenience.
 
 ## lightsource2-recipes/scripts
