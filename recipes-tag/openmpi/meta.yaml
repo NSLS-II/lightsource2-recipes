@@ -17,7 +17,6 @@ source:
 
 build:
     number: {{ build }}
-    string: py{{ environ.get('CONDA_PY', '') }}_{{ build }}
     skip: True  # [win]
     run_exports:
         - {{ pin_subpackage('openmpi', min_pin='x.x', max_pin='x.x') }}
