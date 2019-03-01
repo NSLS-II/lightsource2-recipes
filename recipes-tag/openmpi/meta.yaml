@@ -2,7 +2,7 @@
 # https://github.com/conda-forge/openmpi-feedstock/blob/1d6390794529ad80f5b3416fa2cb98882d1c95fa/recipe/meta.yaml
 
 {% set version = "3.1.1" %}
-{% set sha256 = "8be04307c00f51401d3fb9d837321781ea7c79f2a5a4a2e5d4eaedc874087ab6" %}
+{% set sha256 = "3f11b648dd18a8b878d057e9777f2c43bf78297751ad77ae2cef6db0fe80c77c" %}
 {% set major = version.rpartition('.')[0] %}
 {% set build = 1000 %}
 
