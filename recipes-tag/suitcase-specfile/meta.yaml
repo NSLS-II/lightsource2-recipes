@@ -19,12 +19,12 @@ requirements:
     - jinja2
     - pip
     - python
-    - suitcase.utils >=0.1.0
+    - suitcase-utils >=0.1.0
   run:
     - event-model >=1.8.0
     - jinja2
     - python
-    - suitcase.utils >=0.1.0
+    - suitcase-utils >=0.1.0
 
 test:
   imports:

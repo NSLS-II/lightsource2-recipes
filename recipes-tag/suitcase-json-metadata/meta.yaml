@@ -18,11 +18,11 @@ requirements:
     - event-model >=1.8.0
     - pip
     - python
-    - suitcase.utils
+    - suitcase-utils
   run:
     - event-model >=1.8.0
     - python
-    - suitcase.utils
+    - suitcase-utils
 
 test:
   imports:
