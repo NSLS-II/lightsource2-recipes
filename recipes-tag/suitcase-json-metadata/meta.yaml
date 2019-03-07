@@ -1,0 +1,43 @@
+{% set name = "suitcase-json-metadata" %}
+{% set version = "0.1.1" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 736cca55e94f73f390f9928ae31f46e7057c97c5b03ce941471dcadb06e31e77
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - event-model >=1.8.0
+    - pip
+    - python
+    - suitcase.utils
+  run:
+    - event-model >=1.8.0
+    - python
+    - suitcase.utils
+
+test:
+  imports:
+    - suitcase.json_metadata
+    - suitcase.json_metadata.tests
+
+about:
+  home: https://nsls-ii.github.io/suitcase
+  license: BSD (3-clause)
+  license_family: BSD
+  license_file: 
+  summary: Export bluesky documents' metadata to JSON
+  doc_url: https://nsls-ii.github.io/suitcase
+  dev_url: https://github.com/NSLS-II/suitcase-json-metadata
+
+extra:
+  recipe-maintainers:
+    - NSLS-II

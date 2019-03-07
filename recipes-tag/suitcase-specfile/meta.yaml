@@ -1,0 +1,45 @@
+{% set name = "suitcase-specfile" %}
+{% set version = "0.1.1" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: b406f56f40b9600f7d7aeab51e866678af256fe3239124c452164047e4ca5ec7
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - event-model >=1.8.0
+    - jinja2
+    - pip
+    - python
+    - suitcase.utils >=0.1.0
+  run:
+    - event-model >=1.8.0
+    - jinja2
+    - python
+    - suitcase.utils >=0.1.0
+
+test:
+  imports:
+    - suitcase.specfile
+    - suitcase.specfile.tests
+
+about:
+  home: https://nsls-ii.github.io/suitcase
+  license: BSD (3-clause)
+  license_family: BSD
+  license_file: 
+  summary: Export bluesky documents to specfile
+  doc_url: https://nsls-ii.github.io/suitcase
+  dev_url: https://github.com/NSLS-II/suitcase-specfile
+
+extra:
+  recipe-maintainers:
+    - NSLS-II

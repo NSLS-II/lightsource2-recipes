@@ -1,0 +1,47 @@
+{% set name = "suitcase-tiff" %}
+{% set version = "0.1.1" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 719b7c5ac582a653df834501d7777c42f09ed4b24d35624c462c678eb7416cf6
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - event-model >=1.8.0
+    - pip
+    - python
+    - suitcase-utils
+    - tifffile
+  run:
+    - event-model >=1.8.0
+    - python
+    - suitcase-utils
+    - tifffile
+
+test:
+  imports:
+    - suitcase.tiff_series
+    - suitcase.tiff_series.tests
+    - suitcase.tiff_stack
+    - suitcase.tiff_stack.tests
+
+about:
+  home: https://nsls-ii.github.io/suitcase
+  license: BSD (3-clause)
+  license_family: BSD
+  license_file: 
+  summary: Export bluesky documents to TIFF
+  doc_url: https://nsls-ii.github.io/suitcase
+  dev_url: https://github.com/NSLS-II/suitcase-tiff
+
+extra:
+  recipe-maintainers:
+    - NSLS-II
