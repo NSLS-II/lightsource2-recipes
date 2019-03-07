@@ -3,7 +3,7 @@
 {% set version ="0" %}
 
 package:
-  name: 05-id-srx-collection
+  name: 05-id-srx-analysis
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
@@ -11,4 +11,4 @@ build:
 
 requirements:
   run:
-    - hxntools >=0.4.0
+    - pyxrf >=0.0.9
