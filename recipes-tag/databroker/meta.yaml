@@ -43,8 +43,6 @@ requirements:
     - ujson
 
 test:
-  requires:
-    - nslsii_dev_configuration
   imports:
     - databroker
 

@@ -1,4 +1,4 @@
-{% set version = "3.2.0" %}
+{% set version = "3.3.0" %}
 
 package:
   name: xraylib
@@ -7,7 +7,7 @@ package:
 source:
   fn: xraylib-{{ version }}.tar.gz
   url: https://github.com/tschoonj/xraylib/archive/xraylib-{{ version }}.tar.gz
-  sha256: 4f4ab07f47619fa5458efbcd5ea51cd2c76c11a474ef869432235719c5bcdb41
+  sha256: 76fde6f8398e339cd57221bb6161f6831c1312d3c5c0d930dddfd709d14f5d13
 
 build:
   number: 0
@@ -15,19 +15,20 @@ build:
 
 requirements:
   build:
-    - python
-    - setuptools
-    - numpy x.x
-    - scipy >=0.7.0
-    - cython
-    - swig
     - autoconf
-    - libtool
     - automake
+    - cython
+    - libtool
+    - python
+    - ruby
+    - scipy >=0.7.0
+    - setuptools
+    - swig
+    - {{ pin_compatible('numpy') }}
 
   run:
     - python
-    - numpy x.x
+    - {{ pin_compatible('numpy') }}
     - scipy >=0.7.0
 
 test:

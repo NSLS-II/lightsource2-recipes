@@ -17,11 +17,11 @@ requirements:
   build:
     - python
     - setuptools
-    - numpy x.x
+    - {{ pin_compatible('numpy') }}
     - msinttypes  # [win and py<35]
   run:
     - python
-    - numpy x.x
+    - {{ pin_compatible('numpy') }}
 
 test:
   imports:

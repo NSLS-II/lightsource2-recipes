@@ -17,12 +17,12 @@ requirements:
     - cython
     - python
     - setuptools
-    - numpy x.x
+    - {{ pin_compatible('numpy') }}
 
   run:
     - h5py
     - lxml
-    - numpy x.x
+    - {{ pin_compatible('numpy') }}
     - pillow
     - python
 

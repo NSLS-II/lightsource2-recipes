@@ -19,13 +19,13 @@ requirements:
         - toolchain
         - python
         - setuptools
-        - numpy x.x
+        - {{ pin_compatible('numpy') }}
         - six
         - cython
         - autoconf    # [osx]
     run:
         - python
-        - numpy x.x
+        - {{ pin_compatible('numpy') }}
         - scipy
         - six
         - xraylib    # [not win]
