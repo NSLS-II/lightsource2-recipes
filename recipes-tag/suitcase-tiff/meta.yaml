@@ -1,5 +1,5 @@
 {% set name = "suitcase-tiff" %}
-{% set version = "0.1.1" %}
+{% set version = "0.1.2" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 719b7c5ac582a653df834501d7777c42f09ed4b24d35624c462c678eb7416cf6
+  sha256: 4b02c0226324d0bdd993898d91c369e9ec6dbb6f6f8c847ff392c18e32a6c061
 
 build:
   number: 0
