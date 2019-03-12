@@ -10,7 +10,7 @@ source:
   sha256: 31324f77136d9666a0c25922edfd38af50d174386cf6661dc2dbcf2e95af67d8
 
 build:
-  number: 0
+  number: 1
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
@@ -34,9 +34,8 @@ about:
   license_family: OTHER
   license_url: https://bitbucket.org/glichtner/pystackreg/src/97eba915caf6d70618bb825802f43a7057889692/LICENSE.txt?at=master&fileviewer=file-view-default
   summary: Python implementation of the ImageJ/FIJI Plugin TurboReg/StackReg
-  doc_url: 
-  dev_url: 
 
 extra:
   recipe-maintainers:
     - danielballan
+    - mrakitin
