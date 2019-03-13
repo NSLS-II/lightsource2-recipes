@@ -9,18 +9,18 @@ source:
   git_rev: v{{ version }}
 
 build:
-  number: 0
+  number: 1
   script: python setup.py install --single-version-externally-managed --record=record.txt
   skip: True  # [py2k]
 
 requirements:
   build:
-    - python
+    - python >=3.6
 
   run:
     - jsonschema
     - numpy
-    - python
+    - python >=3.6
 
 test:
   imports:
