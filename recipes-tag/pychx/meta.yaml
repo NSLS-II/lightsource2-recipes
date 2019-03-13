@@ -1,4 +1,4 @@
-{% set version = "4.0.3" %}
+{% set version = "4.0.4" %}
 
 package:
     name: pychx
@@ -26,11 +26,11 @@ requirements:
         - h5py
         - lmfit
         - matplotlib
+        - modestimage
         - numpy
         - pandas
         - pillow
         - pyolog
-        - pytables
         - python
         - pyyaml
         - reportlab
@@ -41,7 +41,6 @@ requirements:
         - tifffile
         - tqdm
         - xray-vision
-        # mpl-modest-image should be installed manually from the GH repo
 
 test:
     imports:
