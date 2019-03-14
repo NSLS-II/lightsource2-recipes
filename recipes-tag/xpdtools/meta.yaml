@@ -1,6 +1,6 @@
 {% set name = "xpdtools" %}
-{% set version = "0.5.0" %}
-{% set sha256 = "e919b3ed1dc8b8a8b44bb6c9179261242ab01b50793c47c5b010df473784cf11" %}
+{% set version = "0.7.0" %}
+{% set sha256 = "18a6b5a5ed5ed7356a642ff6f7bed495dc723008ba49f36cec6b93c7ba6551d6" %}
 
 package:
   name: {{ name|lower }}
@@ -36,6 +36,7 @@ requirements:
     - numba
     - matplotlib
     - tqdm
+    - scikit-learn
 
 
 test:
