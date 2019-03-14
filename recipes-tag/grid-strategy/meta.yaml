@@ -14,15 +14,16 @@ source:
   '{{ hash_type }}': '{{ hash_value }}'
 
 build:
-  number: 0
+  number: 1
   script: python setup.py install --single-version-externally-managed --record=record.txt
+  skip: True  # [py<3.6]
 
 requirements:
   build:
     - python
     - setuptools
   run:
-    - python >=3.6
+    - python
     - matplotlib
     - numpy
 
