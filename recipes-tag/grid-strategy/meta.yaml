@@ -1,0 +1,37 @@
+{% set name = "grid-strategy" %}
+{% set version = "0.0.1" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "d8db1c12e6f33eb55ba56a5b19f4848aae862a9a343fea422a353c46ab6ccc23" %}
+
+package:
+  name: '{{ name|lower }}'
+  version: '{{ version }}'
+
+source:
+  fn: '{{ name }}-{{ version }}.{{ file_ext }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  '{{ hash_type }}': '{{ hash_value }}'
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python >=3.6
+    - matplotlib
+    - numpy
+
+about:
+  home: https://github.com/matplotlib/grid-strategy
+  license: Apache-2
+  license_family: Apache
+  summary: Library to facilitate the arrangement of matplotlib subplots based on the number of plots
+
+extra:
+  recipe-maintainers:
+    - mrakitin
