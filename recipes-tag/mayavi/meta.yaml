@@ -14,7 +14,7 @@ build:
   entry_points:
     - mayavi2 = mayavi.scripts.mayavi2:main
     - tvtk_doc = tvtk.tools.tvtk_doc:main
-  skip: True  # [win and py27 or py>=3.7]
+  skip: True  # [win and py27]
 
 requirements:
   build:
