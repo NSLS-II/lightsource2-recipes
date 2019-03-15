@@ -1,11 +1,11 @@
-{% set version = "3.0.0" %}
+{% set version = "0.0.1" %}
 
 package:
-  name: isstools
+  name: xas
   version: {{ version }}
 
 source:
-  git_url: https://github.com/NSLS-II-ISS/isstools
+  git_url: https://github.com/NSLS-II-ISS/xas
   git_rev: v{{ version }}
 
 build:
@@ -19,17 +19,18 @@ requirements:
     - setuptools
   run:
     - matplotlib
-    - netcdf4
+    - numexpr
     - numpy
+    - pandas
+    - pexpect
     - pyqt >=5
     - python
     - scipy
-    - xas
 
 test:
   imports:
-    - isstools
+    - xas
 
 about:
-  home: https://github.com/NSLS-II-ISS/isstools 
+  home: https://github.com/NSLS-II-ISS/xas 
   license: BSD
