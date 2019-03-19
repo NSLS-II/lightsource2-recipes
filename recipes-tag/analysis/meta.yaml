@@ -7,11 +7,12 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 4
+  number: 5
 
 requirements:
   run:
     - amostra  # [py3k]
+    - attrs >=18.0
     - bluesky >=1.5.2  # [py3k]
     - bluesky-kafka  # [py3k]
     - controls-doctor
@@ -23,6 +24,7 @@ requirements:
     - event-model >=1.8.2
     - fabio
     - ffmpeg
+    - ffmpeg >=4.0
     - flake8
     - graphviz
     - grid-strategy
@@ -40,6 +42,7 @@ requirements:
     - oscars
     - peakutils
     - pyfftw
+    - pymongo >=3.7
     - pyqt >=5.6.0
     - python >=3.6.0
     - python-graphviz
@@ -47,6 +50,7 @@ requirements:
     - scikit-beam
     - sympy
     - tornado <5.0.0
+    - tzlocal >=1.5
     - xlrd
     - xlwt
     - xray-vision
