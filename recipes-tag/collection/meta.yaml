@@ -7,11 +7,11 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   run:
-    - analysis >=2019C2.0
+    - analysis >=2019C2.0=5
     - caproto >=0.3
     - nslsii >=0.0.9
     - pyepics >=3.3.0
