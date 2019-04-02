@@ -10,7 +10,7 @@ source:
   sha256: d4da92ecd54d0f812d5161e6b06fc8578eb4b6c5641fcdc2d7d3dee1ba7e1463
 
 build:
-  number: 1
+  number: 2
   entry_points:
     - mayavi2 = mayavi.scripts.mayavi2:main
     - tvtk_doc = tvtk.tools.tvtk_doc:main
@@ -24,14 +24,14 @@ requirements:
     - python
     - numpy
     - setuptools
-    - vtk 8.1.*
+    - vtk 8.2.0
     - traitsui
     - apptools
     - sphinx  # [osx]
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - vtk 8.1.*
+    - vtk 8.2.0
     - traitsui
     - apptools
     - envisage
