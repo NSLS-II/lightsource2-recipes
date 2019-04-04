@@ -165,7 +165,7 @@ def cli():
     # init some logging
     if args.log:
         stream = logging.StreamHandler()
-        filehandler = logging.FileHandler(args.log, mode='w')
+        filehandler = logging.FileHandler(args.log, mode='a')
         stream.setLevel(logging.INFO)
         filehandler.setLevel(logging.INFO)
         logger.addHandler(stream)
