@@ -1,5 +1,5 @@
 {% set year = "2019" %}
-{% set cycle = "1" %}
+{% set cycle = "2" %}
 {% set version ="0" %}
 
 package:
@@ -11,7 +11,5 @@ build:
 
 requirements:
   run:
-    - isstools
-    - kafka-python
-    - lightflow
+    - qastools
     - xraylarch
