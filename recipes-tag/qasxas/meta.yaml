@@ -1,0 +1,36 @@
+{% set version = "0.0.1qas" %}
+
+package:
+  name: qasxas
+  version: {{ version }}
+
+source:
+  git_url: https://github.com/NSLS-II-ISS/xas
+  git_rev: v{{ version }}  # this is a specific tag from the "qas" branch
+
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  skip: True  # [py2k]
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - matplotlib
+    - numexpr
+    - numpy
+    - pandas
+    - pexpect
+    - pyqt >=5
+    - python
+    - scipy
+
+test:
+  imports:
+    - xas
+
+about:
+  home: https://github.com/NSLS-II-ISS/xas 
+  license: BSD
