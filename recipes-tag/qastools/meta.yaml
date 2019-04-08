@@ -1,4 +1,4 @@
-{% set version = "3.0.0qas" %}
+{% set version = "3.0.1qas" %}
 
 package:
   name: qastools
