@@ -1,7 +1,7 @@
 {% set version = "3.0.0qas" %}
 
 package:
-  name: isstools
+  name: qastools
   version: {{ version }}
 
 source:
