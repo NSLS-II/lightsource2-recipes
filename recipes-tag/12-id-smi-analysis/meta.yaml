@@ -1,4 +1,4 @@
-{% set year = "2018" %}
+{% set year = "2019" %}
 {% set cycle = "2" %}
 {% set version ="0" %}
 
@@ -11,4 +11,5 @@ build:
 
 requirements:
   run:
-    - peakutils
+    - pyfai
+    - sasview
