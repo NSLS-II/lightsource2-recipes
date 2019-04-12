@@ -1,4 +1,4 @@
-{% set version = "3.0.1qas" %}
+{% set version = "3.0.3qas" %}
 
 package:
   name: qastools
@@ -18,6 +18,8 @@ requirements:
     - python
     - setuptools
   run:
+    - bluesky
+    - hdf5 =1.10.2
     - matplotlib
     - netcdf4
     - numpy
@@ -26,10 +28,54 @@ requirements:
     - python
     - qasxas
     - scipy
+    - xraylarch
 
 test:
   imports:
     - isstools
+    - isstools.batch
+    - isstools.batch.batch
+    - isstools.batch.table_batch
+    - isstools.conversions.xray
+    - isstools.dialogs
+    - isstools.dialogs.BasicDialogs
+    - isstools.dialogs.MoveMotorDialog
+    - isstools.dialogs.Prepare_BL_Dialog
+    - isstools.dialogs.UpdateAngleOffset
+    - isstools.dialogs.UpdatePiezoDialog
+    - isstools.dialogs.UpdateUserDialog
+    - isstools.elements
+    - isstools.elements.EmittingStream
+    - isstools.elements.elements
+    - isstools.elements.figure_update
+    - isstools.pid
+    - isstools.pid.PID
+    - isstools.trajectory
+    - isstools.trajectory.trajectory
+    - isstools.widgets
+    - isstools.widgets.widget_batch_mode
+    - isstools.widgets.widget_beamline_setup
+    - isstools.widgets.widget_beamline_status
+    - isstools.widgets.widget_energy_selector
+    - isstools.widgets.widget_general_info
+    - isstools.widgets.widget_processing
+    # It tries to import xiaparser, the problem is described below.
+    # - isstools.widgets.widget_run
+    # - isstools.widgets.widget_sdd_manager
+    - isstools.widgets.widget_trajectory_manager
+    - isstools.xasdata
+    - isstools.xasdata.xasdata
+    - isstools.xasproject
+    # Skip it for now until we figure out how to properly import xraylarch
+    # - isstools.xasproject.xasproject
+    - isstools.xiaparser
+    # It tries to import smbc, but in our Debian 7 image the underlying image
+    # does not have the necessary symbols: undefined symbol: lp_set_cmdline
+    # So, commenting it out for now.
+    # - isstools.xiaparser.xiaparser
+    # - isstools.xlive
+    # This module needs xraylarch, and wx as a consequence. Commenting out.
+    # - isstools.xview
 
 about:
   home: https://github.com/NSLS-II-QAS/isstools 
