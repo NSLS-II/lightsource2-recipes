@@ -1,0 +1,14 @@
+{% set year = "2019" %}
+{% set cycle = "2" %}
+{% set version ="0" %}
+
+package:
+  name: 08-bm-tes-collection
+  version: {{ year }}C{{ cycle }}.{{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - hxntools >=0.4.2
