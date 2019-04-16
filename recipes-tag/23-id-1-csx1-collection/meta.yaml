@@ -1,5 +1,5 @@
 {% set year = "2019" %}
-{% set cycle = "1" %}
+{% set cycle = "2" %}
 {% set version ="0" %}
 
 package:
@@ -11,6 +11,6 @@ build:
 
 requirements:
   run:
-    - 23-id-1-csx1-analysis
+    - 23-id-1-csx1-analysis >=2019C2.0
     - hklpy >=0.3.13
     - hxntools
