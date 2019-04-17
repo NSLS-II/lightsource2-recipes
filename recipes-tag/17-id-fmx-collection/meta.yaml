@@ -1,0 +1,15 @@
+{% set year = "2019" %}
+{% set cycle = "2" %}
+{% set version ="0" %}
+
+package:
+  name: 17-id-fmx-collection
+  version: {{ year }}C{{ cycle }}.{{ version }}
+
+build:
+  number: 1
+
+requirements:
+  run:
+    - jupyterlab
+    - nodejs
