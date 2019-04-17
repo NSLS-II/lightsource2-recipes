@@ -1,0 +1,24 @@
+{% set year = "2019" %}
+{% set cycle = "2" %}
+{% set version ="0" %}
+
+package:
+  name: 28-id-2-xpdd-collection
+  version: {{ year }}C{{ cycle }}.{{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - bluesky
+    - databroker
+    - hxntools
+    - lmfit
+    - matplotlib
+    - numpy
+    - ophyd
+    - scipy
+    - tomopy
+    - xpdacq
+    - xpdan
