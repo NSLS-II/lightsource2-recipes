@@ -10,14 +10,14 @@ source:
   sha256: d9b0d8182f0d0c293673b0ec6ad3eeb507587c238df76e790dfdcabfd3dd92d9
 
 build:
-    number: 0
+    number: 1
     script: python setup.py install --single-version-externally-managed --record record.txt
 
 requirements:
   build:
     - python
     - setuptools
-    - {{ pin_compatible('numpy') }}
+    - numpy
     - msinttypes  # [win and py<35]
   run:
     - python
