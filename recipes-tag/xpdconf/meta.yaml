@@ -1,6 +1,6 @@
 {% set name = "xpdConf" %}
-{% set version = "0.2.1" %}
-{% set sha256 = "8d8e5199a2c91081484f200be458641fd42c38fc3f5cdea4200e2410d3149ca3" %}
+{% set version = "0.3.0" %}
+{% set sha256 = "365bc0ba5fc50b6ac6f617702399ed0ae97987674b7a04301b869207c4daf0e0" %}
 
 package:
   name: {{ name|lower }}

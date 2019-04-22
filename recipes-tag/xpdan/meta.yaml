@@ -1,6 +1,6 @@
 {% set name = "xpdan" %}
-{% set version = "0.6.1" %}
-{% set sha256 = "b5152e7f6223794def82e37e76b57c42407aa3a29b05f93552e0afbc9b65f50c" %}
+{% set version = "0.7.0" %}
+{% set sha256 = "c1a7cd5b429207e80214eaed2f01ca7057d477600a4da6e50aff168a054a3c16" %}
 
 package:
   name: {{ name|lower }}
@@ -39,6 +39,7 @@ requirements:
     - ophyd
     - xpdconf
     - xpdtools
+    - mayavi
 
 test:
   imports:
