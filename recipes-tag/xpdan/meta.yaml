@@ -13,7 +13,7 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1 
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
@@ -39,7 +39,6 @@ requirements:
     - ophyd
     - xpdconf
     - xpdtools
-    - mayavi
 
 test:
   imports:
