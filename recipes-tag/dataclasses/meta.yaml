@@ -1,0 +1,34 @@
+{% set version = "0.6" %}
+
+package:
+  name: dataclasses
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/d/dataclasses/dataclasses-{{ version }}.tar.gz
+  sha256: 6988bd2b895eef432d562370bb707d540f32f7360ab13da45340101bc2307d84
+
+build:
+  number: 0
+  noarch: python
+  script: python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  host:
+    - python >=3.6,<3.7
+    - pip
+  run:
+    - python >=3.6,<3.7
+
+test:
+  imports:
+    - dataclasses
+
+about:
+  home: https://github.com/ericvsmith/dataclasses
+  license: MIT
+  summary: 'An implementation of PEP 557: Data Classes'
+
+extra:
+  recipe-maintainers:
+    - ocefpaf
