@@ -10,7 +10,7 @@ source:
   sha256: 76fde6f8398e339cd57221bb6161f6831c1312d3c5c0d930dddfd709d14f5d13
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win]
 
 requirements:
@@ -19,13 +19,12 @@ requirements:
     - automake
     - cython
     - libtool
+    - numpy
     - python
     - ruby
     - scipy >=0.7.0
     - setuptools
     - swig
-    - {{ pin_compatible('numpy') }}
-
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -45,6 +44,7 @@ about:
 extra:
   recipe-maintainers:
     - ericdill
-    - tacaswell
     - licode
+    - mrakitin
+    - tacaswell
     - tschoonj
