@@ -1,6 +1,6 @@
 {% set name = "xpdan" %}
-{% set version = "0.7.0" %}
-{% set sha256 = "c1a7cd5b429207e80214eaed2f01ca7057d477600a4da6e50aff168a054a3c16" %}
+{% set version = "0.8.0" %}
+{% set sha256 = "6d3f52c2b071cea3b6ee56332fb70d93125b313060c4500badb2cd5115cc1f5d" %}
 
 package:
   name: {{ name|lower }}
@@ -13,7 +13,7 @@ source:
 
 build:
   noarch: python
-  number: 1 
+  number: 0
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:

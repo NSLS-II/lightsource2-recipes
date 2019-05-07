@@ -1,6 +1,6 @@
 {% set name = "xpdtools" %}
-{% set version = "0.8.0" %}
-{% set sha256 = "d787b888e4d0919583251de1e2769e60f525bba0bc8060a6235540bef2de7a90" %}
+{% set version = "0.8.1" %}
+{% set sha256 = "efbdc18ffacb681f2baa9a0f535dd1e9e64ded52037e1330863b98d3e181c165" %}
 
 package:
   name: {{ name|lower }}
@@ -37,6 +37,7 @@ requirements:
     - matplotlib
     - tqdm
     - scikit-learn
+    - tomopy
 
 
 test:

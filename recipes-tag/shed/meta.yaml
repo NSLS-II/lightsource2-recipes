@@ -1,6 +1,6 @@
 {% set name = "shed" %}
-{% set version = "0.7.0" %}
-{% set sha256 = "fe7206ffdaa14e1c00c35ff82570e244420ab6a1f617930615395a92bfb2d71c" %}
+{% set version = "0.7.1" %}
+{% set sha256 = "09c866f767815d1f0a9259abd2bf214821fd9646af51c79d649b03c4d49c1731" %}
 
 package:
   name: {{ name|lower }}
