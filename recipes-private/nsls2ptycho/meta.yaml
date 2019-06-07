@@ -1,0 +1,52 @@
+{% set token = environ.get('GH_TOKEN') %}
+
+package:
+  name: nsls2ptycho
+  version: "1.1.1"
+
+source:
+  git_rev: v1.1.1
+  git_url: https://{{ token }}@github.com/leofang/ptycho_gui.git
+
+build:
+  number: 1
+  skip: True # [not py36 or win]
+
+requirements:
+  build:
+    - numpy
+    - pip
+    - python 
+    - setuptools
+  run:
+    - attrs >=17.4.0 # needed because anaconda messed up the pytest dependency...see pytest-dev/pytest/pull/3228
+    - databroker
+    - fftw >=3
+    - h5py
+    - matplotlib
+    - mpi4py 
+    - numba >=0.41.0
+    - numpy
+    - openmpi
+    - pillow
+    - posix_ipc
+    - pyfftw
+    - pyqt >=5
+    - python
+    - qt >=5
+    - scipy
+
+test:
+  imports:
+    - nsls2ptycho.ptycho_gui
+    - nsls2ptycho.core.ptycho.recon_ptycho_gui
+
+about:
+  home: https://github.com/leofang/ptycho_gui
+  license: MIT
+  license_file: LICENSE
+  summary: NSLS-II in-house ptychography software
+
+extra:
+  recipe-maintainers:
+    - leofang
