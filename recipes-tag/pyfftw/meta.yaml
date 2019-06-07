@@ -33,11 +33,3 @@ about:
   license: BSD or GPL 2
   license_file: LICENSE.txt
   summary: A pythonic wrapper around FFTW, the FFT library, presenting a unified interface for all the supported transforms.
-
-extra:
-  recipe-maintainers:
-    - grlee77
-    - hgomersall
-    - jakirkham
-    - jjhelmus
-    - beckermr
