@@ -1,4 +1,4 @@
-{% set version = "1.9.0" %}
+{% set version = "1.10.0" %}
 
 package:
   name: event-model
@@ -18,9 +18,9 @@ requirements:
     - python
 
   run:
-    - jsonschema
+    - jsonschema >=3.0.0
     - numpy
-    - python 
+    - python
 
 test:
   imports:
