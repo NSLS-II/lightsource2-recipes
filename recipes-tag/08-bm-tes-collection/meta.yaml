@@ -1,5 +1,5 @@
 {% set year = "2019" %}
-{% set cycle = "2" %}
+{% set cycle = "3" %}
 {% set version ="0" %}
 
 package:
@@ -12,3 +12,4 @@ build:
 requirements:
   run:
     - hxntools >=0.4.2
+    - pyxrf
