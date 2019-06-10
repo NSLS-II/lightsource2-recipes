@@ -1,5 +1,5 @@
 {% set year = "2019" %}
-{% set cycle = "2" %}
+{% set cycle = "3" %}
 {% set version ="0" %}
 
 package:
@@ -7,13 +7,15 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 2
+  number: 0
 
 requirements:
   run:
-    - analysis >=2019C2.0=5
-    - caproto >=0.3
-    - nslsii >=0.0.9
+    - analysis >=2019C3.0
+    - caproto >=0.4.0
+    - python-confluent-kafka
+    - nslsii >=0.0.10
     - pyepics >=3.3.0
+    - pykafka
     - pyolog >=4.4.0
     - pyserial
