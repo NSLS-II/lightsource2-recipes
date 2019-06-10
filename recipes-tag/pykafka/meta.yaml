@@ -1,0 +1,61 @@
+{% set name = "pykafka" %}
+{% set version = "2.8.0" %}
+{% set sha256 = "f0bbd394ae6970042a587c99fe4dc0966e67787249d963d4ce2f810dc9490577" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: 1000
+  script: python setup.py install --single-version-externally-managed --record record.txt
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+  host:
+    - python
+    - setuptools
+    - librdkafka              # [not win]
+  run:
+    - python
+    - setuptools
+    - six >=1.5
+    - kazoo >=2.5.0
+    - tabulate
+    - gevent
+    - librdkafka              # [not win]
+
+test:
+  imports:
+    - pykafka
+    - pykafka.rdkafka  # [not win]
+
+about:
+  home: http://github.com/parsely/pykafka
+  license: Apache-2.0
+  license_family: Apache
+  license_file: LICENSE
+  summary: 'Apache Kafka client for Python; high-level & low-level consumer/producer, with great performance'
+
+  description: |
+      PyKafka is a cluster-aware Kafka>=0.8.2 client for Python. It includes
+      Python implementations of Kafka producers and consumers, which are
+      optionally backed by a C extension built on librdkafka, and runs under
+      Python 2.7+, Python 3.4+, and PyPy.
+
+      PyKafka’s primary goal is to provide a similar level of abstraction to
+      the JVM Kafka client using idioms familiar to Python programmers and
+      exposing the most Pythonic API possible.
+  doc_url: http://pykafka.readthedocs.org/
+  dev_url: https://github.com/parsely/pykafka
+
+extra:
+  recipe-maintainers:
+    - mrocklin
+    - emmett9001
