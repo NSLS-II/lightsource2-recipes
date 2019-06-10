@@ -21,7 +21,7 @@ requirements:
     - suitcase-utils
   run:
     - event-model >=1.8.0
-    - msgpack
+    - msgpack-python
     - msgpack-numpy
     - python
     - suitcase-utils
