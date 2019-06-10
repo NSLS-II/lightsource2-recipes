@@ -22,7 +22,7 @@ requirements:
   run:
     - event-model >=1.8.0
     - msgpack
-    - msgpack_numpy
+    - msgpack-numpy
     - python
     - suitcase-utils
 
@@ -35,7 +35,7 @@ about:
   home: https://nsls-ii.github.io/suitcase
   license: BSD (3-clause)
   license_family: BSD
-  license_file: 
+  license_file:
   summary: Export bluesky documents to msgpack
   doc_url: https://blueskyproject.io/suitcase
   dev_url: https://github.com/bluesky/suitcase-msgpack
