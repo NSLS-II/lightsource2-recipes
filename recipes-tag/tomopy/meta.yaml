@@ -1,46 +1,64 @@
-{% set version = "1.1.2" %}
+{% set version = "1.5.0" %}
 
 package:
     name: tomopy
     version: {{ version }}
 
 source:
-    url: https://github.com/tomopy/tomopy/archive/{{ version }}.tar.gz
-    fn: tomopy-{{ version }}.tar.gz
-    sha256: 0ababe6dec3aaf78af4bb646b3865845cf45a0884207ed9aafacca03729933d4
+  # Switched to git checkout because of PTL submodule
+  git_url: https://github.com/tomopy/tomopy.git
+  git_rev: {{ version }}
 
 build:
-    number: 3
-    script: C_INCLUDE_PATH=$PREFIX/include python setup.py install --single-version-externally-managed --record=record.txt
-    skip: True  # [win]
+  number: 0
+  skip: true  # [win and py2k]
+  merge_build_host: True  # [win]
+  script:
+    - {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv --install-option="-GNinja"
+  ignore_run_exports:
+    - blas
 
 requirements:
-    build:
-        - mkl-devel
-        - python
-        - setuptools
-
-    run:
-        - dxchange
-        - futures # [py2k]
-        - numexpr
-        - mkl
-        - mkl_fft
-        - python
-        - pywavelets
-        - numpy
-        - scikit-image
-        - scipy
-        - six
+  build:
+    - {{ compiler('cxx') }}
+    - git
+  host:
+    - pip
+    - python
+    - libopencv
+    - mkl-devel
+    - scikit-build
+    - setuptools
+    - setuptools_scm
+    - setuptools_scm_git_archive
+  run:
+    - futures  # [py2k]
+    - mkl
+    - mkl_fft
+    - numexpr
+    - numpy
+    - libopencv
+    - pywavelets
+    - python
+    - scikit-image
+    - scipy<1.3
+    - six
+    - tifffile
 
 test:
-    imports:
-        - tomopy
-        - tomopy.misc
-        - tomopy.prep
-        - tomopy.recon
-        - tomopy.sim
-        - tomopy.util
+  requires:
+    - nose
+  imports:
+    - tomopy
+    - tomopy.misc
+    - tomopy.prep
+    - tomopy.recon
+    - tomopy.sim
+    - tomopy.util
+  source_files:
+    - test/*
+  commands:
+    - nosetests test
 
 app:
     own_environment: True
@@ -48,7 +66,14 @@ app:
 about:
     home: http://tomopy.readthedocs.io
     license: BSD 3-Clause
-    summary: Tomographic reconstruction in Python.
+    license_family: BSD
+    license_file: LICENSE.txt
+    summary: 'Tomographic reconstruction in Python.'
+    description: |
+      TomoPy is an open-source Python package for tomographic data processing
+      and image reconstruction.
+    doc_url: http://tomopy.readthedocs.io
+    dev_url: https://github.com/tomopy/tomopy
 
 extra:
     recipe-maintainers:
@@ -58,3 +83,4 @@ extra:
         - ravescovi
         - tacaswell
         - oleksandr-pavlyk
+        - carterbox
