@@ -12,3 +12,5 @@ build:
 requirements:
   run:
     - fabio
+    - py4xs
+    - lmfit >=0.9.9
