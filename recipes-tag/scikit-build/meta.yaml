@@ -1,0 +1,74 @@
+{% set name = "scikit-build" %}
+{% set version = "0.9.0" %}
+{% set sha256 = "b7ac5a574ca5a4b0891aeaf5b0340de9fdc88d0081669dca494cef5b9fa760b0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://github.com/scikit-build/scikit-build/archive/{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
+
+requirements:
+  build:
+    - cmake
+    - ninja
+    - pip
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - packaging
+    - pip
+    - python
+    - setuptools
+    - wheel
+  run:
+    - cmake
+    - packaging
+    - python
+    - ninja
+    - setuptools
+    - wheel
+
+test:
+  imports:
+    - skbuild
+  source_files:
+    - tests/*
+  requires:
+    - {{ compiler('c') }}  # [linux]
+    - {{ compiler('cxx') }}  # [linux]
+    - mock
+    - path.py
+    - pytest
+    - pytest-mock
+    - pytest-cov
+    - pytest-runner
+    - six
+    - git
+    - cmake
+    - ninja
+    - cython
+    - requests
+
+about:
+  home: http://github.com/scikit-build/scikit-build
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: 'Improved build system generator for CPython C extensions.'
+  doc_url: http://scikit-build.readthedocs.org
+  dev_url: http://github.com/scikit-build/scikit-build
+
+extra:
+  recipe-maintainers:
+    - isuruf
+    - scopatz
+    - jcfr
+    - msarahan
