@@ -1,4 +1,4 @@
-{% set version = "3.3.0" %}
+{% set version = "3.4.0" %}
 package:
     name: pyepics
     version: {{ version }}
@@ -6,13 +6,14 @@ package:
 source:
     url: https://github.com/pyepics/pyepics/archive/{{ version }}.tar.gz
     fn: pyepics-{{ version }}.tar.gz
-
+    patches:
+      - libca.patch
 build:
     number: 1
     script: |
-      export PYEPICS_LIBCA=$PREFIX/lib/libca.so
       export NOLIBCA=1
       echo "Using LIBCA from $PYEPICS_LIBCA"
+      rm -rf epics/clibs
       python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -20,7 +21,6 @@ requirements:
         - python
         - setuptools
         - numpy
-        - epics-base
     run:
         - python
         - numpy
@@ -29,6 +29,10 @@ requirements:
 test:
     imports:
         - epics
+        - epics.ca
+
+    commands:
+      - python -c "import epics.ca; libca = epics.ca.find_libca(); assert 'lib' in libca; import os; assert epics.ca.find_libca().startswith(os.environ['CONDA_PREFIX']); assert 'clibs' not in epics.ca.find_libca()"
 
 about:
     home: http://pyepics.github.io/pyepics/
