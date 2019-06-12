@@ -1,9 +1,8 @@
 --- configure/CONFIG_SITE	2013-12-16 16:56:27.000000000 -0500
 +++ configure/CONFIG_SITE	2015-01-28 07:59:09.784000000 -0500
-@@ -171,7 +171,7 @@
- #  Installation directory
- # If you don't want to install into $(TOP) dir then
- # define INSTALL_LOCATION here
+@@ -171,3 +171,3 @@
+ # Installation directory, if you want Base to be installed into a
+ #  different location then uncomment and set this.
 -#INSTALL_LOCATION=<fullpathname>
 +INSTALL_LOCATION=$(PREFIX)/epics
 

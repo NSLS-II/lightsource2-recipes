@@ -1,18 +1,17 @@
-{% set version = "3.14.12.8" %}
-{% set sha256 = "b11eab2fdd01c60219be48954631f22230107380961e0df7c356f7cc8bb5f24e" %}
+{% set version = "3.15.6" %}
+{% set sha256 = "537e5249011ce90bdffae057994daedd89ae6351667f0aa89ab6918935caf5bc" %}
 
 package:
   name: epics-base
   version: {{ version }}
 
 source:
-  fn: baseR{{ version }}.tar.gz
-  url: https://epics.anl.gov/download/base/baseR{{ version }}.tar.gz
+  fn: base-{{ version }}.tar.gz
+  url: https://epics.anl.gov/download/base/base-{{ version }}.tar.gz
   sha256: {{ sha256 }}
   patches:
     - config_site.diff  # [not win]
     - config_common.diff  # [not win]
-    - rules_build.diff
     - config_readline.diff  # [linux]
 
 build:
