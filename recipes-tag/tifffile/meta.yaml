@@ -1,27 +1,32 @@
-{% set version = "0.11.1" %}
+{% set version = "0.15.1" %}
 
 package:
   name: tifffile
   version: {{ version }}
 
 source:
-  fn: tifffile-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/t/tifffile/tifffile-{{ version }}.tar.gz
-  sha256: d9b0d8182f0d0c293673b0ec6ad3eeb507587c238df76e790dfdcabfd3dd92d9
+  sha256: 1fbb2cfd57fd8e42e417bc29001a17f319701f1be00e0b8a0004a52da93f1b08
 
 build:
-    number: 1
-    script: python setup.py install --single-version-externally-managed --record record.txt
+    number: 0
+    script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv"
 
 requirements:
   build:
+    - {{ compiler('c') }}
+  host:
     - python
-    - setuptools
+    - pip
     - numpy
     - msinttypes  # [win and py<35]
   run:
     - python
     - {{ pin_compatible('numpy') }}
+    - backports.lzma  # [py27]
+    - futures  # [py27]
+    - enum34  # [py27]
+    - pathlib  # [py27]
 
 test:
   imports:
