@@ -4,7 +4,7 @@
 
 package:
   name: 16-id-lix-analysis
-  version: {{ year }}{{ cycle }}.{{ version }}
+  version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
   number: 0
