@@ -20,7 +20,7 @@ requirements:
     - databroker >=0.13.0
     - datamuxer
     - distributed
-    - event-model 1.9.0
+    - event-model =1.9.0
     - fabio
     - ffmpeg
     - ffmpeg >=4.0
