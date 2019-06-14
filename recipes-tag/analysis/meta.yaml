@@ -7,7 +7,7 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
@@ -20,7 +20,6 @@ requirements:
     - databroker >=0.13.0
     - datamuxer
     - distributed
-    - event-model =1.9.0
     - fabio
     - ffmpeg
     - ffmpeg >=4.0

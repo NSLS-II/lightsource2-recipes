@@ -9,7 +9,7 @@ source:
     git_rev: v{{ version }}
 
 build:
-    number: 0
+    number: 1
     script: python setup.py install --single-version-externally-managed --record=record.txt
     skip: True  # [py2k]
 
@@ -20,10 +20,9 @@ requirements:
     run:
         - cycler
         - databroker
-        - event-model
+        - event-model >=1.10.0
         - historydict
         - ipython
-        - jsonschema <3
         - lmfit
         - matplotlib
         - numpy
