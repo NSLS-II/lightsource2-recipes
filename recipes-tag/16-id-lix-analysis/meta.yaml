@@ -1,6 +1,6 @@
-{% set year = "17" %}
-{% set cycle = "Q1" %}
-{% set version ="0" %}
+{% set year = "2019" %}
+{% set cycle = "3" %}
+{% set version = "0" %}
 
 package:
   name: 16-id-lix-analysis

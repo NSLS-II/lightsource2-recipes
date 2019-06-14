@@ -1,14 +1,14 @@
 {% set year = "2019" %}
-{% set cycle = "1" %}
-{% set version ="0" %}
+{% set cycle = "3" %}
+{% set version = "0" %}
 
 package:
   name: 18-id-fxi-collection
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   run:
-    - 18-id-fxi-analysis >=2019C1.0
+    - 18-id-fxi-analysis >=2019C3.0

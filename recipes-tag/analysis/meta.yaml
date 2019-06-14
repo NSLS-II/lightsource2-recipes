@@ -1,6 +1,6 @@
 {% set year = "2019" %}
 {% set cycle = "3" %}
-{% set version ="0" %}
+{% set version = "0rc1" %}
 
 package:
   name: analysis

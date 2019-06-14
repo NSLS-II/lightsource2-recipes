@@ -1,6 +1,6 @@
 {% set year = "2019" %}
-{% set cycle = "2" %}
-{% set version ="0" %}
+{% set cycle = "3" %}
+{% set version = "0" %}
 
 package:
   name: 05-id-srx-collection
