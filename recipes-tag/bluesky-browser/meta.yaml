@@ -1,0 +1,40 @@
+{% set version = "0.1.0a1" %}
+{% set setup_py = load_setup_py_data() %}
+
+package:
+    name: 'bluesky-browser'
+    version: {{ version }}
+
+source:
+    git_url: https://github.com/bluesky/bluesky-browser
+    git_rev: v{{ version }}
+
+build:
+    number: 0
+    script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+    skip: True  # [py2k]
+
+requirements:
+    build:
+        - python
+        - pip
+
+    run:
+        - bluesky
+        - event-model >=1.9.0a3
+        - intake-bluesky >=0.1.0a5
+        - jsonschema
+        - matplotlib
+        - ophyd  # for demo's example data generator -- maybe should be optional?
+        - pyqt >=5.8
+        - python
+        - pyzmq
+        - qtpy
+        - suitcase-jsonl
+        - tornado <5  # pinned for bluesky
+        - traitlets
+
+about:
+    license: {{ setup_py.get('license') }}
+    license_file: LICENSE
+    summary: {{ setup_py.get('description') }}
