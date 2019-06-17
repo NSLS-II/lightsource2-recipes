@@ -1,19 +1,20 @@
 {% set year = "2019" %}
 {% set cycle = "3" %}
-{% set version = "0rc1" %}
+{% set version = "0rc2" %}
 
 package:
   name: analysis
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   run:
     - amostra  # [py3k]
     - attrs >=18.0
     - bluesky >=1.5.3  # [py3k]
+    - bluesky-browser
     - bluesky-kafka  # [py3k]
     - controls-doctor
     - dask
@@ -27,6 +28,7 @@ requirements:
     - graphviz
     - grid-strategy
     - h5py >=2.9.0
+    - intake-bluesky
     - ipykernel
     - ipympl==0.1.1
     - ipython
