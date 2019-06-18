@@ -11,7 +11,7 @@ build:
 
 requirements:
   run:
-    - analysis >=2019C3.0
+    - analysis >=2019C3.0rc3
     - caproto >=0.4.0
     - python-confluent-kafka
     - nslsii >=0.0.10
