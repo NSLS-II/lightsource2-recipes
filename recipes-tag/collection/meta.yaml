@@ -1,6 +1,6 @@
 {% set year = "2019" %}
 {% set cycle = "3" %}
-{% set version = "0rc2" %}
+{% set version = "0rc3" %}
 
 package:
   name: collection
