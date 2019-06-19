@@ -9,10 +9,11 @@ source:
   git_rev: v{{ version }}
 
 build:
-  number: 0
+  number: 1
   entry_points:
     - pyxrf = pyxrf.gui:run
   script: python setup.py install --single-version-externally-managed --record=record.txt
+  noarch: python
 
 requirements:
   build:
