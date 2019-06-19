@@ -1,4 +1,4 @@
-#!/usr/bin/env conda-execute
+#!/usr/bin/env python3
 """
 CLI to build a folder full of recipes.
 
@@ -198,7 +198,7 @@ def remove_hash_string(name):
     if py_pos == -1:
         logger.debug('hash string can not be removed')
         return name
-    
+
     #standard format like "py36_1.tar.bz2", get loose bound, not 4+2+8
     len_limit = 4+2+4
     len_limit += hash_len # also consider hash_len
@@ -219,7 +219,7 @@ def group_packages(packages):
     pkgs = list(packages)
     pkgs_dict = {}
     for v in pkgs:
-        core_name = get_simplified_name(v) 
+        core_name = get_simplified_name(v)
         if core_name not in pkgs_dict:
             pkgs_dict[core_name] = [v]
         else:
@@ -294,21 +294,21 @@ def decide_what_to_build(recipes_path, python, packages, numpy):
                     name_on_anaconda = "Skipping {}".format(folder)
                 else:
                     name_on_anaconda = os.sep.join(pkg.split(os.sep)[-2:])
-                    
+
                     # choose which package to build without hash name
                     name_no_hashstring = remove_hash_string(name_on_anaconda)
-                    
+
                     # pdb.set_trace()
                     #on_anaconda_channel = name_on_anaconda in packages
                     #on_anaconda_channel = name_no_hashstring in packages_no_hash
-                    
+
                     # quick way to search packages
                     on_anaconda_channel = False
                     simple_name = get_simplified_name(name_no_hashstring)
                     if simple_name in pkgs_dict:
                         if name_no_hashstring in pkgs_dict[simple_name]:
                             on_anaconda_channel = True
-                    
+
                     meta.full_build_path = pkg
                     meta.build_name = name_on_anaconda
                     if on_anaconda_channel:
@@ -334,15 +334,15 @@ def get_deps_and_metadata(path, python=None, numpy=None):
         A list of python version strings, e.g ['3.6']
     numpy: list, optional
         A list of numpy version strings, e.g ['1.14']
-    
+
     Returns
     -------
     deps: list
         A list of MetaData
     """
     # this is how different python and numpy versions are supported internally
-    # in conda build. Note that actually "numpy" here can only be a version 
-    # string or a 1-element list, so was the old implementation (and also 
+    # in conda build. Note that actually "numpy" here can only be a version
+    # string or a 1-element list, so was the old implementation (and also
     # conda build --numpy ...)
     variants = {}
     if python is not None:
@@ -352,19 +352,19 @@ def get_deps_and_metadata(path, python=None, numpy=None):
     if variants == {}:
         variants = None
 
-    # we want "--old-build-string" for conda build 
+    # we want "--old-build-string" for conda build
     # this is how it's done internally
     config = get_or_merge_config(None)
     config.filename_hashing = False
 
     # Here we need to set allow_no_other_outputs so that the outputs section
-    # does not get expanded too early, which would otherwise cause the "bug 
+    # does not get expanded too early, which would otherwise cause the "bug
     # in conda-build" error!
     # result is a list of 3-tuple
     meta = MetaData(path, config=config)
     var = get_package_variants(meta, variants=variants)
     result = distribute_variants(meta, var, allow_no_other_outputs=True)
-   
+
     deps = []
     for meta, p, q in result: # p, q are unimportant bools
         deps.append(meta)
