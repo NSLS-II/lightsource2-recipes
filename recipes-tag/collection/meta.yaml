@@ -1,6 +1,6 @@
 {% set year = "2019" %}
 {% set cycle = "3" %}
-{% set version = "0rc3" %}
+{% set version = "0" %}
 
 package:
   name: collection
@@ -11,7 +11,7 @@ build:
 
 requirements:
   run:
-    - analysis >=2019C3.0rc3
+    - analysis >=2019C3.0
     - caproto >=0.4.0
     - python-confluent-kafka
     - nslsii >=0.0.10
