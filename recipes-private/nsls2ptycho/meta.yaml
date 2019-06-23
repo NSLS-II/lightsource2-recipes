@@ -2,15 +2,15 @@
 
 package:
   name: nsls2ptycho
-  version: "1.1.1"
+  version: "1.1.4"
 
 source:
-  git_rev: v1.1.1
+  git_rev: v1.1.4
   git_url: https://{{ token }}@github.com/leofang/ptycho_gui.git
 
 build:
   number: 1
-  skip: True # [not py36 or win]
+  skip: True # [(not py==36 and not py==37) or win]
 
 requirements:
   build:
@@ -25,7 +25,7 @@ requirements:
     - h5py
     - matplotlib
     - mpi4py 
-    - numba >=0.41.0
+    - numba >=0.41.0,!=0.44.0
     - numpy
     - openmpi
     - pillow
