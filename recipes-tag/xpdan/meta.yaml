@@ -8,12 +8,12 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://github.com/xpdAcq/{{ name }}/releases/download/{{ version }}/{{ version }}.tar.gz
+  url: https://github.com/xpdAcq/{{ name }}/releases/download/{{ version }}/xpdAn-{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
   noarch: python
-  number: 1 
+  number: 2 
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
@@ -28,6 +28,7 @@ requirements:
     - pyyaml
     - scikit-beam
     - pyfai
+    - pyxdameraulevenshtein
     - xray-vision
     - databroker
     - bluesky
