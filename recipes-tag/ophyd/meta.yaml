@@ -28,5 +28,5 @@ test:
         - ophyd
 
 about:
-    home: https://github.com/NSLS-II/ophyd
+    home: https://github.com/bluesky/ophyd
     license: BSD 3-Clause
