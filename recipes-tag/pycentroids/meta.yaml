@@ -1,0 +1,46 @@
+{% set version = "0.1.4" %}
+
+package:
+  name: pycentroids
+  version: {{ version }}
+
+source:
+  git_url: https://github.com/NSLS-II/centroids
+  git_rev: v{{ version }}
+
+build:
+  number: 0
+  script: python setup.py install
+
+requirements:
+  build:
+    - setuptools
+    - python
+    - numpy x.x
+    - pytest
+    - cmake
+    - pandas
+    - lmfit-c
+    - pybind11
+    - gxx_linux-64
+    - cpplint
+
+  run:
+    - lmfit-c
+    - pandas
+    - python
+    - numpy x.x
+
+test:
+  requires:
+    - pytest
+  imports:
+    - pycentroids
+
+about:
+  home: https://github.com/NSLS-II/centroids
+  license: BSD 3-clause
+
+extra:
+  recipe-maintainers:
+    - stuwilkins

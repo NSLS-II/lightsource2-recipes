@@ -12,3 +12,4 @@ build:
 requirements:
   run:
     - sixtools
+    - pycentroids

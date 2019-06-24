@@ -1,0 +1,23 @@
+package:
+  name: lmfit-c
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+
+source:
+  git_url: https://github.com/NSLS-II/lmfit
+  git_rev: master
+
+build:
+  number: 10
+
+requirements:
+  build:
+    - cmake
+    - gcc_linux-64
+
+about:
+  home: https://github.com/NSLS-II/lmfit
+  license: FreeBSD
+
+extra:
+  recipe-maintainers:
+    - stuwilkins
