@@ -1,0 +1,59 @@
+{% set name = "trackpy" %}
+{% set version = "0.4.1" %}
+{% set sha256 = "f682f75e99f6c29c65e8531899b957c67d9d5a027b28b44258fa2c4a18e851cd" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  noarch: python
+  number: 1
+  script: python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  host:
+    - pip
+    - python
+    - setuptools
+    - numpy >=1.8
+    - scipy >=0.12
+    - six >=1.8
+    - pandas >=0.13
+    - pyyaml
+    - matplotlib
+  run:
+    - python
+    - setuptools
+    - numpy >=1.8
+    - scipy >=0.12
+    - six >=1.8
+    - pandas >=0.13
+    - pyyaml
+    - matplotlib
+
+test:
+  imports:
+    - trackpy
+
+about:
+  home: https://github.com/soft-matter/trackpy
+  license: BSD-3-Clause
+  license_file: LICENSE
+  summary: 'Python particle tracking toolkit'
+  description: |
+    trackpy is a Python package for particle tracking in 2D, 3D,
+    and higher dimensions.
+  doc_url: http://soft-matter.github.io/trackpy
+
+extra:
+  recipe-maintainers:
+    - danielballan
+    - tacaswell
+    - nkeim
+    - caspervdw
