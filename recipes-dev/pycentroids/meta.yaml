@@ -15,7 +15,9 @@ requirements:
     - setuptools
     - python
     - numpy x.x
+    - scipy
     - pytest
+    - pytest-runner
     - cmake
     - pandas
     - lmfit-c
@@ -28,12 +30,15 @@ requirements:
     - pandas
     - python
     - numpy x.x
+    - scipy
 
 test:
   requires:
     - pytest
   imports:
     - pycentroids
+  commands:
+    - pytest --pyargs pycentroids.tests
 
 about:
   home: https://github.com/NSLS-II/centroids
