@@ -9,11 +9,11 @@ date -u
 : ${UPLOAD_CHANNEL?"Need to set UPLOAD_CHANNEL"}
 # Set up the environmental variables
 # Set the path to the condarc
-CONDARC_PATH="/root/.condarc"
+CONDARC_PATH="/opt/conda/.condarc"
 # set the location of the repo
 REPO_DIR="/repo"
 # define the docker container to use
-IMAGE_NAME="nsls2/debian-with-miniconda:latest"
+IMAGE_NAME="nsls2/debian-with-miniconda:v0.1.0"
 # Set the channel to upload the built packages to
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
@@ -34,48 +34,25 @@ for pkg_name in ${last_updated}; do
     echo ""
 
     cat << EOF | docker run -i --rm \
-                            -v $REPO_ROOT:/repo \
+                            -v $REPO_ROOT:$REPO_DIR \
                             -a stdin -a stdout -a stderr \
                             --name ${container_name} \
                             $IMAGE_NAME \
                             bash || exit $?
 
-echo "CONDARC_PATH=$CONDARC_PATH"
+echo -e "==============================================================================="
+echo -e "    Start of build: $pkg_name"
+echo -e "==============================================================================="
 
-# Create the condarc that we need
-echo "binstar_upload: false
-always_yes: true
-show_channel_urls: true
-channels:
-- $UPLOAD_CHANNEL
-- defaults" > $CONDARC_PATH
-
-# And set the correct environmental variable that lets us use it
-echo "Exporting CONDARC=$CONDARC_PATH"
-export CONDARC=$CONDARC_PATH
-
-# show the conda info and make sure that the $CONDARC_PATH is what is shown
-# under "config file:" in the output of "conda info"
-echo "showing conda info"
-conda info
-
-# show the contents of the condarc
-echo "contents of condarc at $CONDARC_PATH"
-cat $CONDARC_PATH
-
-# install some required dependencies
-echo "start installation"
-conda install python=3.7 -y
-conda install conda-build anaconda-client conda-env networkx slacker
-
-
-# not sure why this is here, but I'm reasonably certain it is important
-export PYTHONUNBUFFERED=1
-
-./repo/scripts/build.py /repo/recipes-tag/${pkg_name} -u $UPLOAD_CHANNEL --python 3.6 3.7 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
+/repo/scripts/build.py /repo/recipes-tag/${pkg_name} -u $UPLOAD_CHANNEL --python 3.6 3.7 --numpy 1.14 --token $BINSTAR_TOKEN --slack-channel $SLACK_CHANNEL --slack-token $SLACK_TOKEN  --allow-failures
 
 echo "Ending time :"
 date -u
+
+echo -e "==============================================================================="
+echo -e "    End of build: $pkg_name"
+echo -e "==============================================================================="
+
 
 EOF
 
