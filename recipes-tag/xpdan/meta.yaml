@@ -13,7 +13,7 @@ source:
 
 build:
   noarch: python
-  number: 2 
+  number: 3
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
@@ -28,7 +28,6 @@ requirements:
     - pyyaml
     - scikit-beam
     - pyfai
-    - pyxdameraulevenshtein
     - xray-vision
     - databroker
     - bluesky
