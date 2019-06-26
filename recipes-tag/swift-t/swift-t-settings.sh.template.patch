@@ -1,5 +1,5 @@
 diff --git a/dev/build/swift-t-settings.sh.template b/dev/build/swift-t-settings.sh.template
-index 7754e10cf..eff3cdbe3 100644
+index 076964f6c..a78f55dbc 100644
 --- a/dev/build/swift-t-settings.sh.template
 +++ b/dev/build/swift-t-settings.sh.template
 @@ -18,7 +18,7 @@
@@ -11,12 +11,12 @@ index 7754e10cf..eff3cdbe3 100644
  
  #+====================================+
  #|| Optional configuration variables ||
-@@ -77,10 +77,10 @@ SWIFT_T_DEBUG_BUILD=0
- SWIFT_T_TRACE_BUILD=0
- 
+@@ -79,10 +79,10 @@ SWIFT_T_TRACE_BUILD=0
+ # NOTE: Python detection may require PYTHONPATH and PYTHONHOME
+ # in the environment
  # Enable Python integration
--ENABLE_PYTHON=0 # Finds Python in PATH
-+ENABLE_PYTHON=1 # Finds Python in PATH
+-ENABLE_PYTHON=0
++ENABLE_PYTHON=1
  # Specify the Python interpreter executable below;
  # if empty, looks for python in PATH
 -PYTHON_EXE=""

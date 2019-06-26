@@ -31,6 +31,7 @@ cd $PREFIX/etc
 for file in stc-config.sh turbine-version.txt; do
     ln -sv ../swift-t/stc/etc/$file .
 done
+ln -sv ../swift-t/stc/etc/help .
 ln -sv ../swift-t/turbine/etc/version.txt .
 
 ### LIB ###
