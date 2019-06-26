@@ -9,14 +9,14 @@ source:
   git_rev: v{{ version }}
 
 build:
-  number: 0
+  number: 1
   script: python setup.py install
 
 requirements:
   build:
     - setuptools
     - python
-    - numpy x.x
+    - numpy
     - scipy
     - pytest
     - pytest-runner
@@ -31,7 +31,7 @@ requirements:
     - lmfit-c
     - pandas
     - python
-    - numpy x.x
+    - {{ pin_compatible('numpy') }}
     - scipy
 
 test:
