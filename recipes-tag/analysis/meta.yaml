@@ -1,6 +1,6 @@
 {% set year = "2019" %}
 {% set cycle = "3" %}
-{% set version = "0" %}
+{% set version = "1rc1" %}
 
 package:
   name: analysis
@@ -13,7 +13,7 @@ requirements:
   run:
     - amostra  # [py3k]
     - attrs >=18.0
-    - bluesky >=1.5.3  # [py3k]
+    - bluesky >=1.6.0rc1  # [py3k]
     - bluesky-browser
     - bluesky-kafka  # [py3k]
     - controls-doctor
@@ -37,7 +37,7 @@ requirements:
     - matplotlib >=3.1.0
     - numpy >=1.14.0
     - openpyxl
-    - ophyd >=1.3.3
+    - ophyd >=1.4.0rc1
     - oscars
     - peakutils
     - pyfftw
