@@ -1,52 +1,56 @@
-{% set version = "0.9.37" %}
+{% set version = "0.9.45" %}
 
 package:
-    name: xraylarch
-    version: {{ version }}
+  name: xraylarch
+  version: {{ version }}
 
 source:
-    git_url: https://github.com/xraypy/xraylarch
-    git_rev: {{ version }}
-
+  git_url: https://github.com/xraypy/xraylarch
+  git_rev: {{ version }}
+  patches:
+    - 0001-MNT-remove-the-desktop-shortcut-logic.patch
+    - 0002-MNT-remove-the-feff-wrappers-and-binaries.patch
 build:
-    number: 2
-    script: python setup.py install  # --single-version-externally-managed --record=record.txt
-    skip: True  # [py2k]
+  number: 0
+  script: |
+    # we do not have a license to distribute build FEFF binaries
+    # We may have one to deploy it to the floor, but definitly not to make them public
+    # so remove
+    rm -rf larch/bin
+    python setup.py install  # --single-version-externally-managed --record=record.txt
+  skip: True  # [py2k]
 
 requirements:
-    build:
-        - python
-        - asteval >=0.9.12
-        - h5py >=2.2
-        - lmfit >=0.9.9
-        - matplotlib >=1.5.1
-        - numpy >=1.7
-        - peakutils >=1.0.0
-        - psutil
-        - requests >=2.1
-        - scipy >=0.17
-        - six >=1.10
-        - sqlalchemy >=0.9
-        - termcolor
-    run:
-        - python
-        - asteval >=0.9.12
-        - h5py >=2.2
-        - lmfit >=0.9.9
-        - matplotlib >=1.5.1
-        - numpy >=1.7
-        - peakutils >=1.0.0
-        - pillow >=3.4
-        - psutil
-        - requests >=2.1
-        - scipy >=0.17
-        - six >=1.10
-        - sqlalchemy >=0.9
-        - termcolor
+  build:
+    - python
+    - setuptools
+  run:
+    - asteval >=0.9.12
+    - fabio
+    - h5py >=2.2
+    - lmfit >=0.9.9
+    - matplotlib >=1.5.1
+    - numpy >=1.7
+    - peakutils >=1.0.0
+    - pillow >=3.4
+    - psutil
+    - pyFAI
+    - python
+    - requests >=2.1
+    - scikit-image
+    - scikit-learn
+    - scipy >=0.17
+    - silx
+    - six >=1.10
+    - sqlalchemy >=0.9
+    - termcolor
+    - tomopy
+    - uncertainties
+
 
 test:
-    imports:
-        - larch
+  imports:
+    - larch
 
 about:
-    home: https://github.com/xraypy/xraylarch
+  home: https://github.com/xraypy/xraylarch

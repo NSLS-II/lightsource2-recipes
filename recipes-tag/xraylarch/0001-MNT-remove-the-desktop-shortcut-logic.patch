@@ -1,0 +1,104 @@
+From 3abf8ae5bcc200d23a71a0ca7e5834fe0c827863 Mon Sep 17 00:00:00 2001
+From: Thomas A Caswell <tcaswell@bnl.gov>
+Date: Tue, 2 Jul 2019 16:21:45 -0400
+Subject: [PATCH 1/2] MNT: remove the desktop shortcut logic
+
+---
+ larch/apps.py | 36 ++----------------------------------
+ setup.py      |  5 -----
+ 2 files changed, 2 insertions(+), 39 deletions(-)
+
+diff --git a/larch/apps.py b/larch/apps.py
+index 9b0c64cc..94397eaf 100644
+--- a/larch/apps.py
++++ b/larch/apps.py
+@@ -2,8 +2,6 @@ import os
+ import sys
+ import numpy
+ import time
+-from pyshortcuts import make_shortcut
+-from pyshortcuts.shortcut import Shortcut
+ 
+ from .site_config import icondir, home_dir, uname
+ from .shell import shell
+@@ -70,22 +68,7 @@ class LarchApp:
+         self.bindir = os.path.join(sys.prefix, bindir)
+ 
+     def create_shortcut(self):
+-        script =os.path.join(self.bindir, self.script)
+-        try:
+-            scut = Shortcut(script, name=self.name, folder='Larch')
+-            make_shortcut(script, name=self.name,
+-                          icon=os.path.join(icondir, self.icon),
+-                          terminal=self.terminal,
+-                          folder='Larch')
+-            if uname == 'linux':
+-                os.chmod(scut.target, 493)
+-        except:
+-            print("Warning: could not create shortcut to ", script)
+-        if uname == 'darwin':
+-            try:
+-                fix_darwin_shebang(script)
+-            except:
+-                print("Warning: could not fix Mac exe for ", script)
++        ...
+ 
+ 
+ APPS = (LarchApp('Larch CLI', 'larch', terminal=True),
+@@ -99,11 +82,6 @@ APPS = (LarchApp('Larch CLI', 'larch', terminal=True),
+         LarchApp('1D XRD Viewer', 'xrd1d_viewer') )
+ 
+ 
+-def make_desktop_shortcuts():
+-    """make desktop shortcuts for Larch apps"""
+-    for app in APPS:
+-        app.create_shortcut()
+-
+ # entry points:
+ def run_gse_mapviewer():
+     """GSE Mapviewer """
+@@ -155,16 +133,6 @@ def run_dioptas_larch():
+     from dioptas import main
+     main()
+ 
+-def run_feff6l():
+-    "run feff6l"
+-    from larch.xafs.feffrunner import feff6l_cli
+-    feff6l_cli()
+-
+-def run_feff8l():
+-    "run feff8l"
+-    from larch.xafs.feffrunner import feff8l_cli
+-    feff8l_cli()
+-
+ def run_larch_server():
+     "run larch XMLRPC server"
+     larch_server_cli()
+@@ -206,7 +174,7 @@ def run_larch():
+ 
+     # create desktop icons
+     if options.makeicons:
+-        make_desktop_shortcuts()
++        ...
+ 
+     # run in server mode
+     elif options.server_mode:
+diff --git a/setup.py b/setup.py
+index f64b52c4..b7bd2362 100644
+--- a/setup.py
++++ b/setup.py
+@@ -174,11 +174,6 @@ setup(name = 'xraylarch',
+                    'Topic :: Scientific/Engineering'],
+       )
+ 
+-# create desktop icons
+-if INSTALL or DEVELOP:
+-    subprocess.check_call((pjoin(sys.exec_prefix, pyexe),
+-                           pjoin(sys.exec_prefix, bindir, larchbin), '-m'))
+-
+ if len(missing) > 0:
+     dl = "#%s#" % ("="*75)
+     msg = """%s
+-- 
+2.20.1.390.gb5101f9297
+

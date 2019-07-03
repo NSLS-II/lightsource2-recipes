@@ -1,0 +1,41 @@
+From 27cef1f230244e0fa7d1820f79dd56888384b31b Mon Sep 17 00:00:00 2001
+From: Thomas A Caswell <tcaswell@bnl.gov>
+Date: Tue, 2 Jul 2019 16:22:12 -0400
+Subject: [PATCH 2/2] MNT: remove the feff wrappers and binaries
+
+Do not think we have a license to distribute these
+---
+ setup.py | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index b7bd2362..4cd94be3 100644
+--- a/setup.py
++++ b/setup.py
+@@ -104,20 +104,18 @@ if uname == 'win':
+     larchbin = 'larch-script.py'
+ 
+ # list of top level scripts to add to Python's bin/
+-scripts = ['larch', 'larch_server', 'feff6l', 'feff8l', 'xas_viewer',
++scripts = ['larch', 'larch_server', 'xas_viewer',
+            'gse_mapviewer', 'gse_dtcorrect', 'xrd1d_viewer','xrd2d_viewer',
+            'dioptas_larch', 'xrfdisplay', 'xrfdisplay_epics']
+ 
+ larch_apps = ['{0:s} = larch.apps:run_{0:s}'.format(n) for n in scripts]
+ 
+-packages = ['larch', 'larch.bin']
++packages = ['larch']
+ for pname in find_packages('larch'):
+     packages.append('larch.%s' % pname)
+ 
+ 
+-package_data = ['icons/*', 'xray/*.dat', 'xray/*.db', 'xrd/*.db',
+-                'bin/darwin64/*', 'bin/linux64/*', 'bin/win64/*',
+-                'bin/win32/*']
++package_data = ['icons/*', 'xray/*.dat', 'xray/*.db', 'xrd/*.db']
+ 
+ 
+ if INSTALL:
+-- 
+2.20.1.390.gb5101f9297
+
