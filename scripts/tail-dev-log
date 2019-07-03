@@ -1,4 +1,0 @@
-#!/bin/bash
-DIR="/home/edill/builds/`date +%Y`/`date +%m`/`date +%d`/"
-FILE="`ls -t -1 $DIR/*dev | head -n1`"
-tail -f $FILE

@@ -1,4 +1,0 @@
-#!/bin/bash
-DIR="/home/lili/builds/`date +%Y`/`date +%m`/`date +%d`/"
-FILE="`ls -t -1 $DIR/*tag | head -n1`"
-tail -f $FILE
