@@ -1,0 +1,16 @@
+{% set year = "2019" %}
+{% set cycle = "3" %}
+{% set version = "0" %}
+
+package:
+  name: 17-id-amx-collection
+  version: {{ year }}C{{ cycle }}.{{ version }}
+
+build:
+  number: 0
+
+requirements:
+  run:
+    - jupyterlab
+    - lmfit
+    - nodejs
