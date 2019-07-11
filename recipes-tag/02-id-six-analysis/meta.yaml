@@ -7,11 +7,11 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 2
+  number: 3
 
 requirements:
   run:
     - edrixs
     - pycentroids
     - scikit-learn
-    - sixtools
+    - sixtools >=0.0.2
