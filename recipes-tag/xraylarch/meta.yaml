@@ -11,11 +11,11 @@ source:
     - 0001-MNT-remove-the-desktop-shortcut-logic.patch
     - 0002-MNT-remove-the-feff-wrappers-and-binaries.patch
 build:
-  number: 0
+  number: 1
   script: |
-    # we do not have a license to distribute build FEFF binaries
-    # We may have one to deploy it to the floor, but definitly not to make them public
-    # so remove
+    # We do not have a license to distribute built FEFF binaries.
+    # We may have one to deploy it to the floor, but definitely not to make
+    # them public, so remove binaries.
     rm -rf larch/bin
     python setup.py install  # --single-version-externally-managed --record=record.txt
   skip: True  # [py2k]
@@ -46,7 +46,7 @@ requirements:
     - termcolor
     - tomopy
     - uncertainties
-
+    - wxpython
 
 test:
   imports:
