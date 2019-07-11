@@ -7,9 +7,11 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   run:
+    - edrixs
     - pycentroids
+    - scikit-learn
     - sixtools
