@@ -1,0 +1,40 @@
+{% set version = "0.9.36" %}
+
+package:
+  name: wxmplot
+  version: {{ version }}
+
+source:
+  git_rev: {{ version }}
+  git_url: https://github.com/newville/wxmplot.git
+
+build:
+  number: 1
+  script: python setup.py install
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - six
+    - numpy
+    - matplotlib>=3.0
+    - wxpython>=4.0.3
+
+  run:
+    - python
+    - setuptools
+    - six
+    - numpy
+    - matplotlib>=3.0
+    - wxpython>=4.0.3
+
+
+test:
+  imports:
+    - wxmplot
+
+about:
+  home: http://newville.github.io/wxmplot/
+  license: MIT
+  summary: 'A library for plotting in wxPython using matplotlib'

@@ -1,0 +1,33 @@
+{% set version = "0.2.3" %}
+
+package:
+  name: wxutils
+  version: {{ version }}
+
+source:
+  git_rev: {{ version }}
+  git_url: https://github.com/newville/wxutils.git
+
+build:
+  number: 0
+  script: python setup.py install
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - wxpython>=4.0.3
+
+  run:
+    - python
+    - setuptools
+    - wxpython>=4.0.3
+
+test:
+  imports:
+    - wxutils
+
+about:
+  home: http://newville.github.io/wxutils/
+  license: BSD
+  summary: A library of utilites for wxPython
