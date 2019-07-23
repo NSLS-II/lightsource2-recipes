@@ -1,4 +1,4 @@
-{% set version = "2017.12.20" %}
+{% set version = "2019.6.28.0" %}
 {% set name = "py4xs" %}
 
 package:
@@ -7,8 +7,7 @@ package:
 
 source:
     fn: {{ name }}-{{ version }}.tar.gz
-    url: https://pypi.python.org/packages/5a/dc/b5f5cf5a607f5de458b870863f3a65dfafaa12421b187619241f8fe4c6cc/{{ name }}-{{ version  }}.tar.gz
-    md5: 783ae4e853e09220e74ba9ebd5d8d1d8
+    url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
 
 build:
     number: 0
