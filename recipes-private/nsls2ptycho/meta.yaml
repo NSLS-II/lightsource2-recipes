@@ -2,14 +2,14 @@
 
 package:
   name: nsls2ptycho
-  version: "1.1.4"
+  version: "1.2.0"
 
 source:
-  git_rev: v1.1.4
+  git_rev: v1.2.0
   git_url: https://{{ token }}@github.com/leofang/ptycho_gui.git
 
 build:
-  number: 1
+  number: 0
   skip: True # [(not py==36 and not py==37) or win]
 
 requirements:
