@@ -2,11 +2,11 @@
 
 package:
   name: nsls2ptycho
-  version: "1.2.0"
+  version: "1.3.0"
 
 source:
-  git_rev: v1.2.0
-  git_url: https://{{ token }}@github.com/leofang/ptycho_gui.git
+  git_rev: v1.3.0
+  git_url: https://{{ token }}@github.com/NSLS-II/ptycho_gui.git
 
 build:
   number: 0
