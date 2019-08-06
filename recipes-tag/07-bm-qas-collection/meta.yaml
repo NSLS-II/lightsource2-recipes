@@ -1,6 +1,6 @@
 {% set year = "2019" %}
 {% set cycle = "3" %}
-{% set version = "0" %}
+{% set version = "1" %}
 
 package:
   name: 07-bm-qas-collection
@@ -11,5 +11,7 @@ build:
 
 requirements:
   run:
+    - hxntools
     - qastools
+    - suitcase-tiff
     - xraylarch
