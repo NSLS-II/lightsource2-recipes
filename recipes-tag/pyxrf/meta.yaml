@@ -1,4 +1,4 @@
-{% set version = "0.0.9.3" %}
+{% set version = "0.0.9.5" %}
 
 package:
   name: pyxrf
@@ -9,7 +9,7 @@ source:
   git_rev: v{{ version }}
 
 build:
-  number: 1
+  number: 0
   entry_points:
     - pyxrf = pyxrf.gui:run
   script: python setup.py install --single-version-externally-managed --record=record.txt
@@ -22,11 +22,11 @@ requirements:
 
   run:
     - atom
-    - enaml >=0.10.2
+    - enaml >=0.10.3
     - h5py
     - ipywidgets
     - jupyter
-    - lmfit 0.8.3
+    - lmfit ==0.8.3
     - matplotlib
     - numpy
     - pandas
