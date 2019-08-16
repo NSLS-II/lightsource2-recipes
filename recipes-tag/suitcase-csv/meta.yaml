@@ -1,5 +1,5 @@
 {% set name = "suitcase-csv" %}
-{% set version = "0.1.1" %}
+{% set version = "0.2.1" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,19 +7,17 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 21a24b763de39a621cb79a359954c7fff1956f5313870834bb3a0d895c382c29
+  sha256: 2f8eece9502084dcd81143e8ff95ad15ead43325f2fc063f0642789ffecd8a8f
 
 build:
+  noarch: python
   number: 0
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
   host:
-    - event-model >=1.8.0
-    - pandas
     - pip
     - python
-    - suitcase-utils
   run:
     - event-model >=1.8.0
     - pandas
