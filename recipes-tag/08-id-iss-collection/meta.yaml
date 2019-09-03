@@ -7,10 +7,10 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
-    - 08-id-iss-analysis
+    - 08-id-iss-analysis >=2019C3.0=1
     - pexpect
     - swift-t

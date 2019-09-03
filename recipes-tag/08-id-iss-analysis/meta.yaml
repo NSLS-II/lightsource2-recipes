@@ -7,7 +7,7 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
@@ -16,4 +16,5 @@ requirements:
     - netcdf4
     - numexpr
     - periodictable
-    - xraylarch
+    - pyzbar
+    - xraylarch >=0.9.45
