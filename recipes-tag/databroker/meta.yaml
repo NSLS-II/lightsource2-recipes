@@ -1,21 +1,24 @@
-{% set version = "0.13.2" %}
+{% set name = "databroker" %}
+{% set version = "0.13.3" %}
+{% set sha256 = "53c13a7843afeaf34ac9913330afaaaee30f13f869b652e04615772e090c039a" %}
 
 package:
-  name: databroker
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  git_url: https://github.com/NSLS-II/databroker
-  git_rev: v{{ version }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
-  number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  noarch: python
+  number: 1
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
-  build:
+  host:
     - python
-    - setuptools
+    - pip
   run:
     - attrs >=16.3.0
     - boltons
@@ -35,7 +38,6 @@ requirements:
     - pytz
     - pyyaml
     - requests
-    - singledispatch [py27]
     - six
     - tifffile
     - tornado
@@ -45,7 +47,15 @@ requirements:
 test:
   imports:
     - databroker
+    - databroker.core
+    - databroker.broker
 
 about:
-  home: https://github.com/NSLS-II/databroker
-  license: BSD
+  home: http://blueskyproject.io
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: LICENSE
+  summary: 'A unified interface to the various data sources at NSLS-II.'
+  description: 'A unified interface to the various data sources at NSLS-II.'
+  doc_url: http://blueskyproject.io/databroker
+  dev_url: https://github.com/bluesky/databroker
