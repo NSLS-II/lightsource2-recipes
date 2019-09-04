@@ -1,40 +1,39 @@
-{% set version = "1.11.1" %}
+{% set name = "event-model" %}
+{% set version = "1.11.2" %}
+{% set sha256 = "4f09bf0f20ca0ffe390f781a9a72dee38166f97155ca48a148cc739f2bcd29e8" %}
 
 package:
-  name: event-model
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  git_url: https://github.com/NSLS-II/event-model
-  git_rev: v{{ version }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
+  noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
-  skip: True  # [py<3.6]
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
   host:
-    - python
-
+    - python >=3.6
+    - pip
   run:
-    - jsonschema >=3.0.0
+    - python >=3.6
+    - jsonschema
     - numpy
-    - python
 
 test:
+  requires:
+    - pytest
   imports:
     - event_model
+  commands:
+    - pytest --pyargs event_model.tests
 
 about:
-  home: https://github.com/NSLS-II/event_model
+  home: https://github.com/bluesky/event-model
   license: BSD 3-Clause
-
-extra:
-  recipe-maintainers:
-    - CJ-Wright
-    - danielballan
-    - ericdill
-    - licode
-    - mrakitin
-    - tacaswell
+  license_file: LICENSE
+  summary: Data model for event-based data collection and analysis
