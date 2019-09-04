@@ -1,5 +1,6 @@
 {% set name = "suitcase-specfile" %}
 {% set version = "0.2.1" %}
+{% set sha256 = "dbced43d8531551541537bc6029702f76e69afcd01fbf356076411f67f3d30ce" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,24 +8,21 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: dbced43d8531551541537bc6029702f76e69afcd01fbf356076411f67f3d30ce
+  sha256: {{ sha256 }}
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
   host:
-    - event-model >=1.8.0
-    - jinja2
+    - python
     - pip
-    - python
-    - suitcase-utils >=0.1.0
   run:
+    - python
     - event-model >=1.8.0
     - jinja2
-    - python
     - suitcase-utils >=0.1.0
 
 test:
@@ -33,14 +31,10 @@ test:
     - suitcase.specfile.tests
 
 about:
-  home: https://nsls-ii.github.io/suitcase
+  home: https://blueskyproject.io/suitcase
   license: BSD (3-clause)
   license_family: BSD
-  license_file: 
+  license_file: LICENSE
   summary: Export bluesky documents to specfile
-  doc_url: https://nsls-ii.github.io/suitcase
-  dev_url: https://github.com/NSLS-II/suitcase-specfile
-
-extra:
-  recipe-maintainers:
-    - NSLS-II
+  doc_url: https://blueskyproject.io/suitcase
+  dev_url: https://github.com/bluesky/suitcase-specfile

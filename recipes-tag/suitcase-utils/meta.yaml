@@ -1,5 +1,6 @@
 {% set name = "suitcase-utils" %}
 {% set version = "0.5.0" %}
+{% set sha256 = "8264ee1dbafa105df78162205b3e71b6d637fa82dbd28507a91d6d0fd440365d" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,17 +8,17 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 8264ee1dbafa105df78162205b3e71b6d637fa82dbd28507a91d6d0fd440365d
+  sha256: {{ sha256 }}
 
 build:
   noarch: python
-  number: 1
+  number: 2
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
   host:
-    - pip
     - python
+    - pip
   run:
     - python
 
@@ -30,11 +31,7 @@ about:
   home: https://blueskyproject.io/suitcase
   license: BSD (3-clause)
   license_family: BSD
-  license_file: 
+  license_file: LICENSE
   summary: Utility functions and test fixtures for suitcase-* packages
   doc_url: https://blueskyproject.io/suitcase
-  dev_url: https://github.com/bluesky/{{ name }}
-
-extra:
-  recipe-maintainers:
-    - NSLS-II
+  dev_url: https://github.com/bluesky/suitcase-utils

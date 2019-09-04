@@ -1,10 +1,10 @@
-{% set name = "suitcase-csv" %}
-{% set version = "0.2.1" %}
-{% set sha256 = "2f8eece9502084dcd81143e8ff95ad15ead43325f2fc063f0642789ffecd8a8f" %}
+{% set name = "suitcase-mongo" %}
+{% set version = "0.1.0" %}
+{% set sha256 = "77fd633e00ae7aa8292e6d0e2ad5e84ff2f9a4a5568178a0865a0033166de63b" %}
 
 package:
-  name: "{{ name|lower }}"
-  version: "{{ version }}"
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
@@ -12,7 +12,7 @@ source:
 
 build:
   noarch: python
-  number: 2
+  number: 0
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
@@ -22,18 +22,20 @@ requirements:
   run:
     - python
     - event-model >=1.8.0
-    - pandas
-    - suitcase-utils
+    - pymongo
 
 test:
   imports:
-    - suitcase.csv
+    - suitcase.mongo_embedded
+    - suitcase.mongo_embedded.tests
+    - suitcase.mongo_normalized
+    - suitcase.mongo_normalized.tests
 
 about:
   home: https://blueskyproject.io/suitcase
   license: BSD (3-clause)
   license_family: BSD
   license_file: LICENSE
-  summary: Export bluesky documents to CSV
+  summary: A suitcase subpackage for inserting bluesky documents into MongoDB
   doc_url: https://blueskyproject.io/suitcase
-  dev_url: https://github.com/bluesky/suitcase-csv
+  dev_url: https://github.com/bluesky/suitcase-mongo

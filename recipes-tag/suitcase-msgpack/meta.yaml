@@ -1,5 +1,6 @@
 {% set name = "suitcase-msgpack" %}
 {% set version = "0.2.4" %}
+{% set sha256 = "c6209bf915972a3fdf50bd96ed858156526bb0e109a1e98b24b91b53636e9ff5" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,39 +8,33 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: c6209bf915972a3fdf50bd96ed858156526bb0e109a1e98b24b91b53636e9ff5
+  sha256: {{ sha256 }}
 
 build:
+  noarch: python
   number: 0
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
   host:
-    - event-model >=1.8.0
+    - python
     - pip
-    - python
-    - suitcase-utils
   run:
-    - event-model >=1.8.0
-    - msgpack-python
-    - msgpack-numpy
     - python
+    - event-model >=1.8.0
+    - msgpack-numpy
+    - msgpack-python
     - suitcase-utils
 
 test:
   imports:
     - suitcase.msgpack
-    - suitcase.msgpack.tests
 
 about:
-  home: https://nsls-ii.github.io/suitcase
+  home: https://blueskyproject.io/suitcase
   license: BSD (3-clause)
   license_family: BSD
-  license_file:
+  license_file: LICENSE
   summary: Export bluesky documents to msgpack
   doc_url: https://blueskyproject.io/suitcase
   dev_url: https://github.com/bluesky/suitcase-msgpack
-
-extra:
-  recipe-maintainers:
-    - bluesky
