@@ -1,28 +1,31 @@
+{% set name = "analysis" %}
 {% set year = "2019" %}
 {% set cycle = "3" %}
-{% set version = "1rc1" %}
+{% set version = "0" %}
+{% set micro = "1" %}
 
 package:
-  name: analysis
-  version: {{ year }}C{{ cycle }}.{{ version }}
+  name: {{ name }}
+  version: {{ year }}C{{ cycle }}.{{ version }}.{{ micro }}
 
 build:
-  number: 0
+  skip: True  # [py<36]
+  number: 2
 
 requirements:
+  host:
+    - python
   run:
-    - amostra  # [py3k]
+    - amostra <=1.0
     - attrs >=18.0
-    - bluesky >=1.6.0rc1  # [py3k]
+    - bluesky >=1.5.5,<1.6
     - bluesky-browser
-    - bluesky-kafka  # [py3k]
-    - controls-doctor
+    - bluesky-kafka
     - dask
-    - databroker >=0.13.0
-    - datamuxer
+    - databroker >=0.13.3,<1.0
     - distributed
+    - event-model >=1.11.2
     - fabio
-    - ffmpeg
     - ffmpeg >=4.0
     - flake8
     - graphviz
@@ -37,19 +40,68 @@ requirements:
     - matplotlib >=3.1.0
     - numpy >=1.14.0
     - openpyxl
-    - ophyd >=1.4.0rc1
+    - ophyd >=1.3.3,<1.4
     - oscars
     - peakutils
+    - pyepics <3.4.0
     - pyfftw
     - pymongo >=3.7
     - pyqt >=5.6.0
-    - python >=3.7.0
+    - python
     - python-graphviz
     - qt >=5.6.0
-    - scikit-beam
+    - scikit-beam >=0.0.18
+    - suitcase-csv
+    - suitcase-json-metadata
+    - suitcase-jsonl
+    - suitcase-mongo
+    - suitcase-msgpack
+    - suitcase-specfile
+    - suitcase-tiff
+    - suitcase-utils
     - sympy
     - tornado <5.0.0
     - tzlocal >=1.5
     - xlrd
     - xlwt
     - xray-vision
+
+test:
+  imports:
+    - bluesky
+    - bluesky_browser
+    - dask
+    - databroker
+    - event_model
+    - intake_bluesky
+    - lmfit
+    - matplotlib
+    - numpy
+    - ophyd
+    - oscars
+    - peakutils
+    - pymongo
+    - skbeam
+    - suitcase.csv
+    - suitcase.json_metadata
+    - suitcase.jsonl
+    - suitcase.mongo_embedded
+    - suitcase.mongo_normalized
+    - suitcase.msgpack
+    - suitcase.specfile
+    - suitcase.tiff_series
+    - suitcase.tiff_stack
+    - suitcase.utils
+    - xray_vision
+  commands:
+    - python -V
+    - ipython -V
+
+about:
+  home: https://nsls-ii.github.io/deployment_docs.html
+  license: BSD 3-Clause
+  license_file: LICENSE
+  summary: Analysis metapackage for NSLS-II deployments
+  description: |
+    Analysis metapackage for NSLS-II deployments. See the deployment
+    documentation at https://nsls-ii.github.io/deployment_docs.html.
