@@ -1,48 +1,45 @@
-{% set version = "0.2" %}
+{% set name = "amostra" %}
+{% set version = "1.0.0" %}
+{% set sha256 = "52a34cf993ddc1367832f263b417eb4ed4f88214792acf86a4bd98c6cd5c3173" %}
 
 package:
-    name: amostra
-    version: {{ version }}
+  name: {{ name }}
+  version: {{ version }}
 
 source:
-    git_url: https://github.com/nsls-ii/amostra
-    git_rev: v{{ version }}
+  url: https://github.com/NSLS-II/{{ name  }}/archive/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
-    number: 0
-    script: python setup.py install --single-version-externally-managed --record=record.txt
-    skip: True   # [py2k]
+  noarch: python
+  number: 1
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
-    build:
-        - python
-        - setuptools
+  host:
+    - python
+    - pip
+  run:
+    - python
+    - doct
+    - jsonschema
+    - mongoquery
+    - pymongo
+    - pyyaml
+    - requests
+    - tornado
+    - ujson
 
-    run:
-        - doct
-        - jsonschema
-        - mongoquery
-        - pymongo
-        - python
-        - requests
-        - tornado
-        - ujson
-        - pyyaml
 test:
-    imports:
-        - amostra
-        - amostra.test
-        - amostra.client
-        - amostra.server
-        - amostra.sample_data
+  imports:
+    - amostra
+    - amostra.client
+    - amostra.sample_data
+    - amostra.server
+    - amostra.test
 
 about:
-    home: https://nsls-ii.github.io/amostra
-    license: BSD 3-Clause
-    summary: "amostra is a collection of light-weight sample management classes"
-
-extra:
-    recipe-maintainers:
-        - ericdill
-        - tacaswell
-        - licode
+  home: https://nsls-ii.github.io/amostra
+  license: BSD 3-Clause
+  license_file: LICENSE
+  summary: "amostra is a collection of light-weight sample management classes"
