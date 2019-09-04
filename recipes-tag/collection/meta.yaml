@@ -1,21 +1,48 @@
+{% set name = "collection" %}
 {% set year = "2019" %}
 {% set cycle = "3" %}
-{% set version = "1rc1" %}
+{% set version = "0" %}
+{% set micro = "1" %}
 
 package:
-  name: collection
-  version: {{ year }}C{{ cycle }}.{{ version }}
+  name: {{ name }}
+  version: {{ year }}C{{ cycle }}.{{ version }}.{{ micro }}
 
 build:
-  number: 0
+  skip: True  # [py<36]
+  number: 2
 
 requirements:
+  host:
+    - python
   run:
-    - analysis >=2019C3.1rc1
-    - caproto >=0.4.0
-    - python-confluent-kafka
-    - nslsii >=0.0.10
-    - pyepics >=3.3.0
+    - analysis >=2019C3.0.1
+    - caproto <0.4.0
+    - nslsii >=0.0.11
+    - pyepics <3.4.0
     - pykafka
     - pyolog >=4.4.0
     - pyserial
+    - python
+    - python-confluent-kafka  # [not win]
+
+test:
+  imports:
+    - bluesky
+    - caproto
+    - databroker
+    - event_model
+    - nslsii
+    - ophyd
+  commands:
+    - python -V
+    - ipython -V
+
+about:
+  home: https://nsls-ii.github.io/deployment_docs.html
+  license: BSD 3-Clause
+  license_file: LICENSE
+  summary: Collection metapackage for NSLS-II deployments
+  description: |
+    Collection metapackage for NSLS-II deployments. See the deployment
+    documentation at https://nsls-ii.github.io/deployment_docs.html
