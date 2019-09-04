@@ -1,0 +1,42 @@
+{% set name = "lmfit" %}
+{% set version = "0.9.13" %}
+{% set sha256 = "aaabeb5276cebe7d7c4172c6b1ada5df95fd020e5a43070543961c60bd6f0ec1" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  noarch: python
+  number: 1
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+    - asteval>=0.9.11
+    - numpy
+    - scipy>=0.17
+    - six
+    - uncertainties>=3.0
+
+test:
+  imports:
+    - {{ name }}
+
+about:
+  home: http://lmfit.github.io/lmfit-py
+  license: lmfit
+  license_family: BSD
+  license_file: LICENSE
+  summary: >
+      Non-Linear Least Squares Minimization, with flexible Parameter
+      settings, based on scipy.optimize.leastsq, and with many additional
+      classes and methods for curve fitting http://lmfit.github.io/lmfit-py.
