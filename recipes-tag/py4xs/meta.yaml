@@ -1,35 +1,38 @@
-{% set version = "2019.6.28.0" %}
 {% set name = "py4xs" %}
+{% set version = "2019.6.28.0" %}
+{% set sha256 = "75c51a39618f52492a3b3b57465a4f20d1d56005deb53028cb051b8d4e6fbbd7" %}
 
 package:
-    name: {{ name }}
-    version: {{ version }}
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-    fn: {{ name }}-{{ version }}.tar.gz
-    url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
-    number: 0
-    script: python setup.py install --single-version-externally-managed --record=record.txt
-    skip: True  # [py2k]
+  noarch: python
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
-    build:
-        - python
-
-    run:
-        - scipy
-        - pillow
-        - numpy
-        - matplotlib
-        - fabio
-
+  host:
+    - python
+    - pip
+  run:
+    - python
+    - fabio
+    - matplotlib
+    - numpy
+    - pillow
+    - scipy
 
 test:
-    imports:
-        - py4xs
+  imports:
+    - py4xs
 
 about:
-    home: https://pypi.python.org/pypi/py4xs
-    license: MIT
+  home: https://github.com/NSLS-II-LIX/py4xs
+  license: MIT
+  license_file: LICENSE.txt
+  summary: py4xs - a python package for processing x-ray scattering data
