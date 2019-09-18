@@ -1,47 +1,51 @@
-{% set version = "0.0.9.5" %}
+{% set name = "pyxrf" %}
+{% set version = "0.0.11" %}
+{% set sha256 = "97730a4354914a0494557d1e3c8a299cc75347bb86ad128bb019ab340558a84c" %}
 
 package:
-  name: pyxrf
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  git_url: https://github.com/nsls-ii/pyxrf
-  git_rev: v{{ version }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
+  noarch: python
   number: 0
   entry_points:
     - pyxrf = pyxrf.gui:run
-  script: python setup.py install --single-version-externally-managed --record=record.txt
-  noarch: python
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
-  build:
+  host:
     - python
-    - setuptools
-
+    - pip
   run:
+    - python
     - atom
     - enaml >=0.10.3
     - h5py
     - ipywidgets
     - jupyter
-    - lmfit ==0.8.3
+    - lmfit >=0.8.3
     - matplotlib
     - numpy
     - pandas
     - pillow
     - pyqt >=5.9.2
-    - python
     - scipy
     - six
-    - scikit-beam >=0.0.14
+    - scikit-beam >=0.0.17
     - scikit-image
 
 test:
   imports:
-    - pyxrf
+    - {{ name }}
 
 about:
   home: https://github.com/NSLS-II/pyxrf
   license: 3-Clause BSD
+  license_family: BSD
+  license_file: LICENSE
+  summary: 'Python-based sophisticated fluorescence analysis package for fitting and visualizing X-ray fluorescence data'
