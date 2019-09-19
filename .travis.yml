@@ -1,0 +1,48 @@
+dist: xenial
+language: python
+services:
+  - docker
+sudo: false
+
+os:
+  - linux
+python:
+  - 3.6
+  - 3.7
+
+script:
+  - |
+    set -e
+
+    # Git status, etc.
+    git remote add upstream https://github.com/NSLS-II/lightsource2-recipes
+    git remote -v
+    git fetch upstream master
+    git status
+    git branch -avv
+    git log -n 3
+
+  - |
+    set -e
+
+    changed_files=$(git diff --name-only upstream/master -- | grep recipes-tag | grep meta.yaml || true)
+    echo -e "Changed files:\n$changed_files"
+
+  - |
+    set -e
+
+    if [ ! -z "$changed_files" ]; then
+        docker pull nsls2/debian-with-miniconda:v0.1.0
+        docker images
+
+        recipe_dirs=$(echo "$changed_files" | cut -d/ -f 1-2 | sort -u)
+
+        echo -e "Recipe dirs:\n$recipe_dirs"
+
+        for recipe_dir in $recipe_dirs; do
+            echo "Building ${recipe_dir}..."
+            docker run --rm -it -v $PWD/${recipe_dir}:/test nsls2/debian-with-miniconda:v0.1.0 bash -c "cd /test/ && conda build . --python=${TRAVIS_PYTHON_VERSION}"
+        done
+    else
+        echo "Nothing to do"
+    fi
