@@ -1,6 +1,6 @@
 {% set name = "bluesky" %}
-{% set version = "1.5.5" %}
-{% set sha256 = "fac72ddc54d97343fbead3233ddb131a84ee6379f257a5981ae4af85e6092501" %}
+{% set version = "1.6.0rc2" %}
+{% set sha256 = "e33265296e6782419468a753fdc0a36435e872a8377de48c690ec093759350a5" %}
 
 package:
   name: {{ name|lower }}
@@ -19,7 +19,6 @@ requirements:
   host:
     - python >=3.6
     - pip
-
   run:
     - python >=3.6
     - cycler
@@ -30,12 +29,15 @@ requirements:
     - ipython
     - lmfit
     - matplotlib
+    - msgpack-numpy
+    - msgpack-python
     - numpy
     - ophyd
     - pyzmq
     - super_state_machine
     - toolz
     - tqdm
+    - zict
 
 test:
   imports:
@@ -49,12 +51,6 @@ about:
   license_family: BSD
   license_file: LICENSE
   summary: 'A Python data collection interface for experimental science'
-
   description: 'A Python data collection interface for experimental science'
   doc_url: https://blueskyproject.io/bluesky
   dev_url: https://github.com/bluesky/bluesky
-
-extra:
-  recipe-maintainers:
-    - CJ-Wright
-    - conda-forge/event-model
