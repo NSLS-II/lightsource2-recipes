@@ -7,8 +7,9 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
+    - hxntools
     - pyxrf >=0.0.9
