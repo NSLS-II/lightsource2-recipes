@@ -4,6 +4,13 @@ services:
   - docker
 sudo: false
 
+env:
+  global:
+    - REMOTE_URL: https://github.com/NSLS-II/lightsource2-recipes
+    - RECIPES_DIR: recipes-tag
+    - DOCKER_IMAGE: nsls2/debian-with-miniconda:v0.1.0
+    - TEST_DIR: /test
+
 os:
   - linux
 python:
@@ -15,7 +22,7 @@ script:
     set -e
 
     # Git status, etc.
-    git remote add upstream https://github.com/NSLS-II/lightsource2-recipes
+    git remote add upstream ${REMOTE_URL}
     git remote -v
     git fetch upstream master
     git status
@@ -25,23 +32,26 @@ script:
   - |
     set -e
 
-    changed_files=$(git diff --name-only upstream/master -- | grep recipes-tag | grep meta.yaml || true)
-    echo -e "Changed files:\n$changed_files"
+    # See https://stackoverflow.com/a/7256391/4143531 for details:
+    all_changed_files=$(git diff --name-only upstream/master...HEAD)
+    echo -e "All changed files:\n${all_changed_files}"
+
+    changed_meta_yaml=$(echo "${all_changed_files}" | grep "${RECIPES_DIR}" | grep "meta.yaml" || true)
+    echo -e "Changed meta.yaml files:\n${changed_meta_yaml}"
 
   - |
     set -e
 
-    if [ ! -z "$changed_files" ]; then
-        docker pull nsls2/debian-with-miniconda:v0.1.0
+    if [ ! -z "${changed_meta_yaml}" ]; then
+        docker pull ${DOCKER_IMAGE}
         docker images
 
-        recipe_dirs=$(echo "$changed_files" | cut -d/ -f 1-2 | sort -u)
+        recipe_dirs=$(echo "${changed_meta_yaml}" | cut -d/ -f 1-2 | sort -u)
+        echo -e "Recipe dirs:\n${recipe_dirs}"
 
-        echo -e "Recipe dirs:\n$recipe_dirs"
-
-        for recipe_dir in $recipe_dirs; do
+        for recipe_dir in ${recipe_dirs}; do
             echo "Building ${recipe_dir}..."
-            docker run --rm -it -v $PWD/${recipe_dir}:/test nsls2/debian-with-miniconda:v0.1.0 bash -c "cd /test/ && conda build . --python=${TRAVIS_PYTHON_VERSION}"
+            docker run --rm -it -v $PWD/${recipe_dir}:${TEST_DIR} ${DOCKER_IMAGE} bash -c "cd ${TEST_DIR} && conda build . --python=${TRAVIS_PYTHON_VERSION}"
         done
     else
         echo "Nothing to do"
