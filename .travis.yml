@@ -6,7 +6,6 @@ sudo: false
 
 env:
   global:
-    - REMOTE_URL: https://github.com/NSLS-II/lightsource2-recipes
     - RECIPES_DIR: recipes-tag
     - DOCKER_IMAGE: nsls2/debian-with-miniconda:v0.1.0
     - TEST_DIR: /test
@@ -22,10 +21,8 @@ script:
     set -e
 
     # Git status, etc.
-    git remote add upstream ${REMOTE_URL}
-    git remote -v
-    git fetch upstream master
     git status
+    git remote -v
     git branch -avv
     git log -n 3
 
