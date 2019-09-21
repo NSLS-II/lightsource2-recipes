@@ -13,7 +13,7 @@ CONDARC_PATH="/opt/conda/.condarc"
 # set the location of the repo
 REPO_DIR="/repo"
 # define the docker container to use
-IMAGE_NAME="nsls2/debian-with-miniconda:v0.1.0"
+IMAGE_NAME="nsls2/debian-with-miniconda:v0.1.1"
 # Set the channel to upload the built packages to
 REPO_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 docker pull $IMAGE_NAME
