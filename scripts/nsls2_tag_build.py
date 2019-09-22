@@ -29,7 +29,7 @@ def run_container(*, pkg_name,
     # Hard-code it for now to avoid typing it every time.
     # See https://github.com/NSLS-II/lightsource2-recipes/pull/390
     # for the discussion.
-    docker_image='nsls2/debian-with-miniconda:v0.1.1'
+    docker_image='nsls2/debian-with-miniconda:v0.1.2'
 
     # Date-time vars
     start_time = datetime.datetime.now()

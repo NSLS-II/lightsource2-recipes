@@ -7,7 +7,7 @@ sudo: false
 env:
   global:
     - RECIPES_DIR: recipes-tag
-    - DOCKER_IMAGE: nsls2/debian-with-miniconda:v0.1.1
+    - DOCKER_IMAGE: nsls2/debian-with-miniconda:v0.1.2
     - TEST_DIR: /test
 
 os:
@@ -50,7 +50,7 @@ script:
 
         for recipe_dir in ${recipe_dirs}; do
             echo "Building ${recipe_dir}..."
-            docker run --rm -it -v $PWD/${recipe_dir}:${TEST_DIR} ${DOCKER_IMAGE} bash -c "cd ${TEST_DIR} && conda build . --python=${TRAVIS_PYTHON_VERSION}"
+            docker run --rm -it -v $PWD/${recipe_dir}:${TEST_DIR} ${DOCKER_IMAGE} bash -c "cp -rv ${TEST_DIR} ~/build/ && cd ~/build/ && conda build . --python=${TRAVIS_PYTHON_VERSION}"
         done
     else
         echo "Nothing to do"
