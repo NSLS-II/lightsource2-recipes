@@ -41,16 +41,16 @@ script:
   - |
     set -e
 
-    if [ ! -z "${changed_meta_yaml}" ]; then
-        docker pull ${DOCKER_IMAGE}
-        docker images
+    docker pull ${DOCKER_IMAGE}
+    docker images
 
+    if [ ! -z "${changed_meta_yaml}" ]; then
         recipe_dirs=$(echo "${changed_meta_yaml}" | cut -d/ -f 1-2 | sort -u)
         echo -e "Recipe dirs:\n${recipe_dirs}"
 
         for recipe_dir in ${recipe_dirs}; do
             echo "Building ${recipe_dir}..."
-            docker run --rm -it -v $PWD/${recipe_dir}:${TEST_DIR} ${DOCKER_IMAGE} bash -c "cp -rv ${TEST_DIR} ~/build/ && cd ~/build/ && conda build . --python=${TRAVIS_PYTHON_VERSION}"
+            docker run --rm -it -v $PWD/${recipe_dir}:${TEST_DIR} ${DOCKER_IMAGE} bash -c "conda build ${TEST_DIR} --python=${TRAVIS_PYTHON_VERSION}"
         done
     else
         echo "Nothing to do"
