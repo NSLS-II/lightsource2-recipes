@@ -6,6 +6,7 @@ sudo: false
 
 env:
   global:
+    - REMOTE_URL: https://github.com/NSLS-II/lightsource2-recipes
     - RECIPES_DIR: recipes-tag
     - DOCKER_IMAGE: nsls2/debian-with-miniconda:v0.1.2
     - TEST_DIR: /test
@@ -22,7 +23,9 @@ script:
 
     # Git status, etc.
     git status
+    git remote add upstream ${REMOTE_URL}
     git remote -v
+    git fetch upstream master
     git branch -avv
     git log -n 3
 
@@ -31,8 +34,14 @@ script:
   - |
     set -e
 
+    if [ "${TRAVIS_EVENT_TYPE}" == "pull_request" ]; then
+        commit_range="${TRAVIS_COMMIT_RANGE}"
+    else
+        commit_range="upstream/master...HEAD"
+    fi
+
     # See https://stackoverflow.com/a/7256391/4143531 for details:
-    all_changed_files=$(git diff --name-only ${TRAVIS_COMMIT_RANGE})
+    all_changed_files=$(git diff --name-only ${commit_range})
     echo -e "All changed files:\n${all_changed_files}"
 
     changed_meta_yaml=$(echo "${all_changed_files}" | grep "${RECIPES_DIR}" | grep "meta.yaml" || true)
