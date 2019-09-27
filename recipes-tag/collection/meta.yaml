@@ -10,13 +10,13 @@ package:
 
 build:
   skip: True  # [py<36]
-  number: 2
+  number: 4
 
 requirements:
   host:
     - python
   run:
-    - analysis >=2019C3.0.1
+    - analysis =2019C3.0.1=py{{ CONDA_PY }}*_3
     - caproto <0.4.0
     - nslsii >=0.0.11
     - pyepics <3.4.0
@@ -37,6 +37,10 @@ test:
   commands:
     - python -V
     - ipython -V
+    # Check versions (sys.exit(True) returns rc=1)
+    - python -c "import sys; from distutils.version import LooseVersion; import bluesky; sys.exit(not LooseVersion(bluesky.__version__) < '1.6')"
+    - python -c "import sys; from distutils.version import LooseVersion; import databroker; sys.exit(not LooseVersion(databroker.__version__) < '1.0')"
+    - python -c "import sys; from distutils.version import LooseVersion; import ophyd; sys.exit(not LooseVersion(ophyd.__version__) < '1.4')"
 
 about:
   home: https://nsls-ii.github.io/deployment_docs.html
