@@ -1,6 +1,6 @@
 {% set name = "hxnfly" %}
-{% set version = "0.0.4" %}
-{% set sha256 = "3b2beebc36a2dcf9128ea586c2b9a572cc51f99d9c9d3b2147a72244a078472b" %}
+{% set version = "0.0.5" %}
+{% set sha256 = "b6e1280e59929c6e0eabe4ad27a0b52d4bb0cc785ac7781b999e75643985b7f3" %}
 
 package:
   name: {{ name|lower }}
