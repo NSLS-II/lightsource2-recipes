@@ -1,30 +1,32 @@
-{% set version = "3.0.1" %}
+{% set name = "chxtools" %}
+{% set version = "3.0.2" %}
+{% set sha256 = "1d6bb5516c413f85f6502850b4e5563dc899d682adeb4aa242e1525ba59efce1" %}
 
 package:
-  name: chxtools
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  git_url: https://github.com/NSLS-II-CHX/chxtools
-  git_rev: v{{ version }}
+  url: https://github.com/NSLS-II-CHX/{{ name }}/archive/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
+  noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
-  build:
+  host:
     - python
-    - setuptools
-
+    - pip
   run:
+    - python
     - databroker
     - eiger-io
     - matplotlib
     - numpy
     - pyepics
     - pymongo
-    - python
     - scikit-beam
     - scikit-image
     - scipy
@@ -36,3 +38,7 @@ test:
 about:
   home: https://github.com/NSLS-II-CHX/chxtools
   license: BSD
+  license_file: LICENSE
+  summary: |
+      Repository for data collection and analysis scripts that are useful at
+      the CHX beamline at NSLS-II (11-id).
