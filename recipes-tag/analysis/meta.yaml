@@ -1,28 +1,29 @@
 {% set name = "analysis" %}
 {% set year = "2019" %}
 {% set cycle = "3" %}
-{% set version = "0" %}
-{% set micro = "1" %}
+{% set version = "1" %}
+{% set micro = "1rc3" %}
 
 package:
-  name: {{ name }}
+  name: {{ name|lower }}
   version: {{ year }}C{{ cycle }}.{{ version }}.{{ micro }}
 
 build:
   skip: True  # [py<36]
-  number: 3
+  number: 0
 
 requirements:
   host:
     - python
   run:
+    - python
     - amostra <=1.0
     - attrs >=18.0
-    - bluesky >=1.5.5,<1.6rc
+    - bluesky >=1.6.0rc3
     - bluesky-browser
     - bluesky-kafka
     - dask
-    - databroker >=0.13.3,<1.0rc
+    - databroker >=1.0.0b2
     - distributed
     - event-model >=1.11.2
     - fabio
@@ -31,7 +32,6 @@ requirements:
     - graphviz
     - grid-strategy
     - h5py >=2.9.0
-    - intake-bluesky
     - ipykernel
     - ipympl==0.1.1
     - ipython
@@ -40,14 +40,13 @@ requirements:
     - matplotlib >=3.1.0
     - numpy >=1.14.0
     - openpyxl
-    - ophyd >=1.3.3,<1.4rc
+    - ophyd >=1.4.0rc3
     - oscars
     - peakutils
-    - pyepics <3.4.0
+    - pyepics >=3.4.0
     - pyfftw
     - pymongo >=3.7
     - pyqt >=5.6.0
-    - python
     - python-graphviz
     - qt >=5.6.0
     - scikit-beam >=0.0.18
@@ -60,7 +59,7 @@ requirements:
     - suitcase-tiff
     - suitcase-utils
     - sympy
-    - tornado <5.0.0
+    - tornado
     - tzlocal >=1.5
     - xlrd
     - xlwt
@@ -73,7 +72,6 @@ test:
     - dask
     - databroker
     - event_model
-    - intake_bluesky
     - lmfit
     - matplotlib
     - numpy
@@ -96,10 +94,9 @@ test:
   commands:
     - python -V
     - ipython -V
-    # Check versions (sys.exit(True) returns rc=1)
-    - python -c "import sys; from distutils.version import LooseVersion; import bluesky; sys.exit(not LooseVersion(bluesky.__version__) < '1.6')"
-    - python -c "import sys; from distutils.version import LooseVersion; import databroker; sys.exit(not LooseVersion(databroker.__version__) < '1.0')"
-    - python -c "import sys; from distutils.version import LooseVersion; import ophyd; sys.exit(not LooseVersion(ophyd.__version__) < '1.4')"
+    - python -c "from distutils.version import LooseVersion; import bluesky; assert LooseVersion(bluesky.__version__) >= '1.6'"
+    - python -c "from distutils.version import LooseVersion; import databroker; assert LooseVersion(databroker.__version__) >= '1.0'"
+    - python -c "from distutils.version import LooseVersion; import ophyd; assert LooseVersion(ophyd.__version__) >= '1.4'"
 
 about:
   home: https://nsls-ii.github.io/deployment_docs.html
