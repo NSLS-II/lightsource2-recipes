@@ -7,7 +7,7 @@ package:
   version: {{ year }}C{{ cycle }}.{{ version }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   run:
@@ -18,4 +18,3 @@ requirements:
     - memory_profiler
     - modestimage
     - papermill
-    - pychx

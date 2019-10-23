@@ -5,7 +5,7 @@ package:
     version: {{ version }}
 
 source:
-    git_url: https://github.com/NSLS-II-CHX/pyCHX
+    git_url: https://github.com/NSLS-II/pyCHX
     git_rev: v{{ version }}
 
 build:
@@ -47,7 +47,7 @@ test:
         - pyCHX
 
 about:
-    home: https://github.com/NSLS-II-CHX/pyCHX
+    home: https://github.com/NSLS-II/pyCHX
     license: BSD
 
 
