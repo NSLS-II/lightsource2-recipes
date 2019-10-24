@@ -1,39 +1,40 @@
-{% set version = "0.1.14" %}
+{% set name = "csxtools" %}
+{% set version = "0.1.15" %}
+{% set sha256 = "df9c1a87a9f01fd3c48d2531d05d9cccfdd7353433b920b54fbb4f5c18961000" %}
 
 package:
-  name: csxtools
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  git_url: https://github.com/NSLS-II-CSX/csxtools/
-  git_rev: v{{ version }}
+  url: https://github.com/NSLS-II-CSX/{{ name }}/archive/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
-  skip: True  # [py2k]
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+  skip: True  # [py<36]
 
 requirements:
   build:
-    - pytest
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - llvm-openmp  # [osx]
+  host:
     - python
+    - pip
     - numpy
-    - setuptools
-
   run:
+    - python
     - databroker
     - ipython
     - ipywidgets
     - matplotlib
-    - numpy
     - pims >=0.3.3
-    - python
     - tzlocal
+    - {{ pin_compatible('numpy') }}
 
 test:
-  requires:
-    - nslsii_dev_configuration
-    - pytest
   imports:
     - csxtools
     - csxtools.ext
@@ -44,3 +45,7 @@ test:
 about:
   home: https://github.com/NSLS-II-CSX/csxtools
   license: BSD 3-clause
+  license_file: LICENSE.txt
+  summary: Useful python tools for NSLS-II CSX (23-ID)
+  doc_url: http://nsls-ii-csx.github.io/csxtools
+  dev_url: https://github.com/NSLS-II-CSX/csxtools
