@@ -1,0 +1,16 @@
+diff --git a/modest_image/modest_image.py b/modest_image/modest_image.py
+index ef257b9..ab4d614 100644
+--- a/modest_image/modest_image.py
++++ b/modest_image/modest_image.py
+@@ -210,8 +210,9 @@ def imshow(axes, X, cmap=None, norm=None, aspect=None,
+ 
+     Unlike matplotlib version, must explicitly specify axes
+     """
+-    if not axes._hold:
+-        axes.cla()
++    # This does not work with the latest matplotlib 3.1+, comenting it out:
++    # if not axes._hold:
++    #     axes.cla()
+     if norm is not None:
+         assert(isinstance(norm, mcolors.Normalize))
+     if aspect is None:
