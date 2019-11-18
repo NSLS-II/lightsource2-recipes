@@ -1,53 +1,53 @@
-{% set version = "4.0.6" %}
+{% set name = "pyCHX" %}
+{% set version = "4.0.7" %}
+{% set token = environ.get('GH_TOKEN') %}
 
 package:
-    name: pychx
-    version: {{ version }}
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-    git_url: https://github.com/NSLS-II/pyCHX
-    git_rev: v{{ version }}
+  git_url: https://{{ token }}@github.com/NSLS-II/{{ name }}.git
+  git_rev: v{{ version }}
 
 build:
-    number: 0
-    script: python setup.py install --single-version-externally-managed --record=record.txt
-    skip: True  # [py2k]
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  skip: True  # [py2k]
 
 requirements:
-    build:
-        - python
+  build:
+    - python
 
-    run:
-        - cython
-        - dask
-        - databroker
-        - dill
-        - eiger-io
-        - h5py
-        - lmfit
-        - matplotlib
-        - modestimage
-        - numpy
-        - pandas
-        - pillow
-        - pyolog
-        - python
-        - pyyaml
-        - reportlab
-        - scikit-beam
-        - scikit-image
-        - scipy
-        - theano
-        - tifffile
-        - tqdm
-        - xray-vision
+  run:
+    - python
+    - cython
+    - dask
+    - databroker
+    - dill
+    - eiger-io
+    - h5py
+    - lmfit
+    - matplotlib
+    - modestimage
+    - numpy
+    - pandas
+    - pillow
+    - pyolog
+    - pyyaml
+    - reportlab
+    - scikit-beam
+    - scikit-image
+    - scipy
+    - theano
+    - tifffile
+    - tqdm
+    - xray-vision
 
 test:
-    imports:
-        - pyCHX
+  imports:
+    - pyCHX
 
 about:
-    home: https://github.com/NSLS-II/pyCHX
-    license: BSD
-
-
+  home: https://github.com/NSLS-II/pyCHX
+  license: BSD
