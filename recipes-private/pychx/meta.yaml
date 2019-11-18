@@ -1,5 +1,5 @@
 {% set name = "pyCHX" %}
-{% set version = "4.0.7" %}
+{% set version = "4.0.8" %}
 {% set token = environ.get('GH_TOKEN') %}
 
 package:
@@ -11,14 +11,14 @@ source:
   git_rev: v{{ version }}
 
 build:
+  noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
-  skip: True  # [py2k]
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
-  build:
+  host:
     - python
-
+    - pip
   run:
     - python
     - cython
@@ -34,6 +34,7 @@ requirements:
     - pandas
     - pillow
     - pyolog
+    - pytables
     - pyyaml
     - reportlab
     - scikit-beam
