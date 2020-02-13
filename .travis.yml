@@ -2,7 +2,6 @@ dist: xenial
 language: python
 services:
   - docker
-sudo: false
 
 env:
   global:
