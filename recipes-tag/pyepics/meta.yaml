@@ -1,46 +1,44 @@
-{% set version = "3.4.0" %}
+{% set name = "pyepics" %}
+{% set version = "3.4.1" %}
+{% set sha256 = "a995685638c01a9326d3414de9b5471fb7b0bf6b1c60de1efae778c25dedaabf" %}
+
 package:
-    name: pyepics
-    version: {{ version }}
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-    url: https://github.com/pyepics/pyepics/archive/{{ version }}.tar.gz
-    fn: pyepics-{{ version }}.tar.gz
-    patches:
-      - libca.patch
+   url: https://github.com/pyepics/{{ name }}/archive/{{ version }}.tar.gz
+   sha256: {{ sha256 }}
+   patches:
+     - libca.patch
+
 build:
-    number: 1
-    script: |
-      export NOLIBCA=1
-      echo "Using LIBCA from $PYEPICS_LIBCA"
-      rm -rf epics/clibs
-      python setup.py install --single-version-externally-managed --record=record.txt
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  skip: True  # [py<36]
 
 requirements:
-    build:
-        - python
-        - setuptools
-        - numpy
-    run:
-        - python
-        - numpy
-        - epics-base
+  build:
+      - python
+      - setuptools
+  run:
+      - python
+      - setuptools
+      - numpy
+      - pyparsing
 
 test:
-    imports:
-        - epics
-        - epics.ca
-
-    commands:
-      - python -c "import epics.ca; libca = epics.ca.find_libca(); assert 'lib' in libca; import os; assert epics.ca.find_libca().startswith(os.environ['CONDA_PREFIX']); assert 'clibs' not in epics.ca.find_libca()"
+  imports:
+    - epics
+    - epics.autosave
+    - epics.compat
+    - epics.devices
 
 about:
-    home: http://pyepics.github.io/pyepics/
-    license: Epics Open License
-    summary: Python interface to Epics Channel Access
-
-extra:
-  recipe-maintainers:
-    - ericdill
-    - licode
-    - tacaswell
+  home: http://pyepics.github.io/pyepics/
+  license: Epics Open
+  summary: Python interface to Epics Channel Access
+  # https://github.com/pyepics/pyepics/pull/108
+  license_file: '{{ environ["RECIPE_DIR"] }}/LICENSE'
+  dev_url: https://github.com/pyepics/pyepics
+  doc_url: http://pyepics.github.io/pyepics
