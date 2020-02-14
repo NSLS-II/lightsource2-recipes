@@ -1,10 +1,10 @@
 package:
   name: lmfit-c
-  version: "8.2.2.post27"
+  version: "8.2.2.post30"
 
 source:
   git_url: https://github.com/NSLS-II/lmfit
-  git_rev: 5f540ec733489970d1a190e51be2ded9e413e61a
+  git_rev: b261b7e7bea0279e1c0549b6f857df92fa24f0d2
 
 build:
   number: 10
