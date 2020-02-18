@@ -1,12 +1,12 @@
 {% set name = "analysis" %}
-{% set year = "2019" %}
-{% set cycle = "3" %}
-{% set version = "1" %}
-{% set micro = "1rc3" %}
+{% set year = "2020" %}
+{% set cycle = "1" %}
+{% set version = "0" %}
+{% set micro = "rc1" %}
 
 package:
   name: {{ name|lower }}
-  version: {{ year }}C{{ cycle }}.{{ version }}.{{ micro }}
+  version: {{ year }}C{{ cycle }}.{{ version }}{{ micro }}
 
 build:
   skip: True  # [py<36]
@@ -19,13 +19,12 @@ requirements:
     - python
     - amostra <=1.0
     - attrs >=18.0
-    - bluesky >=1.6.0rc3
-    - bluesky-browser
+    - bluesky >=1.6.0rc4
     - bluesky-kafka
     - dask
-    - databroker >=1.0.0b2
+    - databroker <1.0.0a
     - distributed
-    - event-model >=1.11.2
+    - event-model >=1.13.2
     - fabio
     - ffmpeg >=4.0
     - flake8
@@ -40,10 +39,10 @@ requirements:
     - matplotlib >=3.1.0
     - numpy >=1.14.0
     - openpyxl
-    - ophyd >=1.4.0rc3
+    - ophyd >=1.4.0rc4
     - oscars
     - peakutils
-    - pyepics >=3.4.0
+    - pyepics >=3.4.1
     - pyfftw
     - pymongo >=3.7
     - pyqt >=5.6.0
@@ -68,7 +67,6 @@ requirements:
 test:
   imports:
     - bluesky
-    - bluesky_browser
     - dask
     - databroker
     - event_model
@@ -95,7 +93,7 @@ test:
     - python -V
     - ipython -V
     - python -c "from distutils.version import LooseVersion; import bluesky; assert LooseVersion(bluesky.__version__) >= '1.6'"
-    - python -c "from distutils.version import LooseVersion; import databroker; assert LooseVersion(databroker.__version__) >= '1.0'"
+    - python -c "from distutils.version import LooseVersion; import databroker; assert LooseVersion(databroker.__version__) < '1.0'"
     - python -c "from distutils.version import LooseVersion; import ophyd; assert LooseVersion(ophyd.__version__) >= '1.4'"
 
 about:
