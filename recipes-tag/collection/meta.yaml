@@ -1,12 +1,12 @@
 {% set name = "collection" %}
-{% set year = "2019" %}
-{% set cycle = "3" %}
-{% set version = "1" %}
-{% set micro = "1rc3" %}
+{% set year = "2020" %}
+{% set cycle = "1" %}
+{% set version = "0" %}
+{% set micro = "rc1" %}
 
 package:
   name: {{ name }}
-  version: {{ year }}C{{ cycle }}.{{ version }}.{{ micro }}
+  version: {{ year }}C{{ cycle }}.{{ version }}{{ micro }}
 
 build:
   skip: True  # [py<36]
@@ -17,10 +17,10 @@ requirements:
     - python
   run:
     - python
-    - analysis >=2019C3.1.1rc3
-    - caproto <0.4.0
+    - analysis >=2020C1.0rc1
+    - caproto
     - nslsii >=0.0.12
-    - pyepics >=3.4.0
+    - pyepics >=3.4.1
     - pykafka
     - pyolog >=4.4.0
     - pyserial
@@ -37,10 +37,9 @@ test:
   commands:
     - python -V
     - ipython -V
-    # Check versions (sys.exit(True) returns rc=1)
-    - python -c "import sys; from distutils.version import LooseVersion; import bluesky; sys.exit(not LooseVersion(bluesky.__version__) >= '1.6')"
-    - python -c "import sys; from distutils.version import LooseVersion; import databroker; sys.exit(not LooseVersion(databroker.__version__) >= '1.0')"
-    - python -c "import sys; from distutils.version import LooseVersion; import ophyd; sys.exit(not LooseVersion(ophyd.__version__) >= '1.4')"
+    - python -c "from distutils.version import LooseVersion; import bluesky; assert LooseVersion(bluesky.__version__) >= '1.6'"
+    - python -c "from distutils.version import LooseVersion; import databroker; assert LooseVersion(databroker.__version__) < '1.0'"
+    - python -c "from distutils.version import LooseVersion; import ophyd; assert LooseVersion(ophyd.__version__) >= '1.4'"
 
 about:
   home: https://nsls-ii.github.io/deployment_docs.html
