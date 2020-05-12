@@ -1,4 +1,4 @@
-{% set version = "0.1.8" %}
+{% set version = "0.1.9" %}
 
 package:
   name: pycentroids
@@ -22,13 +22,11 @@ requirements:
     - pytest-runner
     - cmake
     - pandas
-    - lmfit-c
     - pybind11
     - gxx_linux-64
     - cpplint
 
   run:
-    - lmfit-c
     - pandas
     - python
     - {{ pin_compatible('numpy') }}
